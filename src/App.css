@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,284 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+/* ================================================================== */ 
+
+/* Navbar */
+@media screen and (min-width: 900px) {
+  .carousel-mobile{
+    display: none;
+  }
 }
+
+@media screen and (max-width: 576px) {
+  .carousel-desktop{
+    display: none;
+  }
+}
+
+/* Layout */
+  .navbar {
+    position: relative;
+    width: 100%;
+    height: 325px;
+    box-shadow: 0px 22px 2px 0px rgba(138, 138, 138, 0.25);
+    background-color: #EB3D00;
+    border-radius: 0px 0px 150px 0px;
+    display: flex;
+    padding: 50px 0px 0px 0px;
+    margin-bottom: 25px;
+  }
+
+  .footer {
+    width: 100%;
+    min-height: 80px;
+    overflow: hidden;
+    background-color: #EB3D00;
+    transition: 0.4s;
+    position: relative;
+    z-index: 99;
+  }
+
+  .navmenu{
+    min-width: 100%;
+    height: 100px;
+    background-color: #EB3D00;
+    border-radius: 0px 0px 70px 0px;
+    box-shadow: 0px 10px 2px 0px rgba(138, 138, 138, 0.25);
+    position: fixed;
+    transition: 0.4s;
+    z-index: 99;
+  }
+
+  .layout-home{
+    width: 100%;
+    min-height: 600px;
+    height: 100%;
+    align-items: center;
+    background-color: #ffffff;
+    justify-content: center;
+    padding-top: 140px;
+    padding-left: 20px;
+  }
+
+  .layout-content{
+    width: 100%;
+    min-height: 600px;
+    height: 100%;
+    align-items: center;
+    background-color: #072A6F;
+    justify-content: center;
+    margin-top: 120px;
+  }
+
+  .frame {
+    width: 335px;
+    height: 298px;
+    overflow: hidden;
+    background-color: #c2c2c2;
+    border-radius: 30px;
+  }
+/* End of Layout */
+
+/* Input Form */
+  .input-form{
+    width: 100%;
+    background-color: #ffffff;
+    border-color: #00A303;
+    border-width: 1px;
+    border-radius: 10px;
+    color: #000;
+  }
+
+  .ant-input.input-form:hover, .ant-input.input-form:focus{
+    background-color: #ffffff;
+  }
+
+/* End of Input Form */
+
+/* Title */
+.title{
+  color: #FFFFFF;
+  letter-spacing: 0px;
+  text-align: left;
+  font-size: 1.1em;
+}
+
+.title-home:hover, .title-home:focus, .title-home:active{
+  color: #FFE600;
+}
+
+.title-navmenu, .title-navicon{
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1.25em;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+@media screen and (min-width: 900px) {
+  .title-navicon-mobile, .title-navmenu-mobile, .title-home-mobile{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .title-navmenu, .title-home, .login-button{
+    display: none;
+  }
+
+  .title-navicon-mobile, .title-navmenu-mobile, .title-home-mobile{
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 1.25em;
+    letter-spacing: 0px;
+    text-align: center;
+  }
+}
+
+.title-navmenu:hover, .title-navicon:hover, .title-navicon-mobile:hover, .title-navmenu-mobile:hover, .title-home-mobile:hover{
+  color: #FFE600;
+}
+
+.title-footer{
+  color: #00A303;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+  .title-footer{
+    font-size: 0.1em;
+  }
+}
+
+.title-footer{
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+.title-fb, .title-yt, .title-ig,  .title-fb:focus, .title-yt:focus, .title-ig:focus{
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0px;
+  text-align: center;
+  padding: 0px 15px;
+}
+
+.title-wa, .title-wa:focus{
+  height: 50px;
+  width: 50px;
+  color: #CECECE;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0px;
+  text-align: center;
+  padding: 0px 15px;
+}
+
+.title-icon.like:hover{
+  color: #ff00a2;
+}
+
+.title-icon.comment:hover{
+  color: #0051ff;
+}
+
+
+.title-wa:hover{
+  color: #25D366;
+}
+
+.title-fb:hover{
+  color: #0051ff;
+}
+
+.title-yt:hover{
+  color: #ed1800;
+}
+
+.title-ig:hover{
+  color: #bc2a8d;
+  /* linear-gradient(#8a3ab9, #bc2a8d, #fccc63, #fbad50); */
+}
+
+.title-product{
+  font-family: cursive;
+  color: #000;
+  letter-spacing: 0px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.image-product{
+  width: 160px;
+  height: 140px;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  .image-product{
+    width: 120px;
+    height: 105px;
+    border-radius: 20px;
+  }
+}
+
+/* End of Title */
+
+/* Card */
+.product-card{
+  width: 215px;
+  height: 215px;
+  position: relative;
+  background: #FFF;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+}
+
+/* End of Card */
+
+
+/* Buttons */
+.app-btn {
+  width: auto;
+  height: auto;
+  transition: .3s;
+  border: 1px solid  #d9d9d9;
+  border-radius: 10px;
+}
+
+.app-btn.primary:not([disabled]){
+    background-color: #FFFFFF;
+    color: #00A303;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.app-btn.primary:not([disabled]):hover{
+    color: #072A6F;
+    background-color: #FFE600;
+    border-color: #FFE600;
+}
+
+.app-btn.secondary:not([disabled]){
+    background-color: #00A303;
+    color: #FFF;
+    font-size: 1em;
+}
+
+.app-btn.secondary:not([disabled]):hover{
+    color: #072A6F;
+    background-color: #FFE600;
+    border-color: #FFE600;
+}
+/* End of Buttons */
