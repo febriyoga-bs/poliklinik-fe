@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Layout, Typography, Row, Col, Button, Image, Badge} from "antd";
+import { Layout, Typography, Row, Col, Button, Image, Badge, message} from "antd";
 import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { withRouter, NavLink, useHistory } from "react-router-dom";
 import Auth from "../service/auth"

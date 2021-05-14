@@ -7,6 +7,11 @@ import HeaderLayout from './app/layouts/header';
 import FooterLayout from './app/layouts/footer';
 import LandingPage from "./app/views/page/landing_page";
 import LoginUser from "./app/views/page/user_login";
+import Register from "./app/views/page/pasien_register";
+import Informasi from "./app/views/page/informasi";
+
+
+import Template from "./app/views/page/template";
 // import ManageArticle from "./app/views/page/managearticle";
 // import ManageProduct from "./app/views/page/manageproduct";
 // import ManageOrder from "./app/views/page/manageorder";
@@ -48,6 +53,10 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <HeaderLayout/>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={LoginUser} />
+            <Route exact path="/registrasi" component={Register} />
+            <Route exact path="/layanan" component={Template} />
+            <Route exact path="/informasi" component={Informasi} />
+            <Route exact path="/bantuan" component={Template} />
             {/* <PrivateRoute exact path="/my-account" component={MyAccount} />
             <PrivateRouteAdmin exact path="/manage-article" component={ManageArticle} />
             <PrivateRouteAdmin exact path="/manage-product" component={ManageProduct} />
