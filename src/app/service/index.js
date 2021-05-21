@@ -90,6 +90,15 @@ const APIServices = {
             {crossdomain: true }
         )
     },
+    getDataStaf(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getStafById`,
+            },
+            {crossdomain: true }
+        )
+    },
 }
 
 export { APIServices }

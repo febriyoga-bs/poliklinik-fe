@@ -3,22 +3,23 @@ import Fade from 'react-reveal/Fade';
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
 import { APIServices }  from '../../service';
+import UserImage from "../../../assets/logo.jpg";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
 
-const ProfilDokter = () => {
-    const [dokterInfo, setDokterInfo] = useState([]);
+const ProfilStaf = () => {
+    const [stafInfo, setStafInfo] = useState([]);
 
     useEffect(()=>{
-        getDataDokter();
+        getDataStaf();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataDokter = () => {
-        APIServices.getDataDokter().then(res => {
+    const getDataStaf = () => {
+        APIServices.getDataStaf().then(res => {
             if(res.data){
-            setDokterInfo(res.data.data);
+            setStafInfo(res.data.data);
             //setLoading(false)
             }
         }).catch(err => {
@@ -36,7 +37,7 @@ const ProfilDokter = () => {
                 <Fade top>
                 <Row style={{marginLeft: 30}}>
                     <Title style={{ color: '#FFFFFF' }} level={4} className="title-frame">
-                        Informasi Dokter
+                        Informasi Staf
                     </Title>
                 </Row>
                 <Row style={{marginLeft: 30}}>
@@ -44,7 +45,7 @@ const ProfilDokter = () => {
                         <Row>
                             <Image
                                 style={{width: 200, height: 200, borderRadius: 20}}
-                                alt={dokterInfo.avatar}
+                                alt={stafInfo.avatar}
                             />
                         </Row>
                         <Row>
@@ -61,7 +62,7 @@ const ProfilDokter = () => {
                         <Row>
                             <Col span={8} lg={4}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    ID Dokter
+                                    ID Staf
                                 </Title>
                             </Col>
                             <Col span={1}>
@@ -71,7 +72,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   Masih manual{/* {{dokterInfo.nama_user ? userInfo.nama_user : "-"}} */}
+                                   Masih manual{/* {{stafInfo.nama_user ? userInfo.nama_user : "-"}} */}
                                 </Title>
                             </Col>
                         </Row>
@@ -88,7 +89,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {dokterInfo.no_telepon ? dokterInfo.no_telepon : "-"}
+                                    {stafInfo.no_telepon ? stafInfo.no_telepon : "-"}
                                 </Title>
                             </Col>
                         </Row>  
@@ -105,7 +106,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {dokterInfo.nama ? dokterInfo.nama : "-"}
+                                    {stafInfo.nama ? stafInfo.nama : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -122,7 +123,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {dokterInfo.spesialisasi ? dokterInfo.spesialisasi : "-"}
+                                    {stafInfo.jabatan ? stafInfo.jabatan : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -132,21 +133,21 @@ const ProfilDokter = () => {
                     <Col>
                         <Card className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA DATA REKAM MEDIS</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA INFORMASI POLIKLINIK</Text>
                             </Row>
                         </Card>
                     </Col>
                     <Col>
                         <Card className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>Antrean Poliklinik</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA DATA PASIEN</Text>
                             </Row>
                         </Card>
                     </Col>
                     <Col>
                         <Card className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>Konsultasi Online</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA AKUN DOKTER DAN STAF POLIKLINIK</Text>
                             </Row>
                         </Card>
                     </Col>
@@ -157,4 +158,4 @@ const ProfilDokter = () => {
     );
 }
 
-export default withRouter(ProfilDokter)
+export default withRouter(ProfilStaf)
