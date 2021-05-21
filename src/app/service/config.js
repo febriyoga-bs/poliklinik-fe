@@ -4,7 +4,7 @@
 //---- please insert server your developer BE in here and set
 const FE_NAME = "Satria"
 const BE_NAME = "Widianto"
-const BASE_URL_BE = "https://fahmi.had3ae.team/"
+const BASE_URL_BE = "http://localhost:8000/"
 //const BASE_URL_LOGIN_BE = "http://25.30.225.211:9015"  //api pakai login
 //const BASE_URL_NOAUTH_BE = "http://25.30.225.211:9012" //api pakai no auth
 
@@ -17,7 +17,7 @@ const isServerBE = true
 const testMode = false
 
 //---- only for TECH LEAD
-const isProd = true
+const isProd = false
 // const isProd = true
 
 export default  {

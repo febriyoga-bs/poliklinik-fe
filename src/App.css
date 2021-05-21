@@ -369,3 +369,22 @@
     border-color: #FFE600;
 }
 /* End of Buttons */
+
+/*  */
+.featured-card {
+  background-color: #0051ff;
+  border-radius: 20px;
+  width: 300px;
+  height: 200px;
+  padding: 10px;
+  margin: 40px;
+}
+.featured-row {
+  padding: 20px;
+  margin-top: 30px;
+}
+.featured-card:hover {
+  border-width: 4px;
+  box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.10);
+}
+/*  */
