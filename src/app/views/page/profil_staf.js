@@ -72,7 +72,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   Masih manual{/* {{stafInfo.nama_user ? userInfo.nama_user : "-"}} */}
+                                   ADM00001{/* {{stafInfo.nama_user ? userInfo.nama_user : "-"}} */}
                                 </Title>
                             </Col>
                         </Row>

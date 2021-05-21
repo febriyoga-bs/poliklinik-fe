@@ -71,7 +71,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   Masih manual{/* {{dokterInfo.nama_user ? userInfo.nama_user : "-"}} */}
+                                   DK00001{/* {{dokterInfo.nama_user ? userInfo.nama_user : "-"}} */}
                                 </Title>
                             </Col>
                         </Row>
