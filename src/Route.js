@@ -9,13 +9,10 @@ import LandingPage from "./app/views/page/landing_page";
 import LoginUser from "./app/views/page/user_login";
 import Register from "./app/views/page/pasien_register";
 import Informasi from "./app/views/page/informasi";
-<<<<<<< HEAD
 import ProfilDokter from "./app/views/page/profil_dokter";
 import ProfilStaf from "./app/views/page/profil_staf";
-=======
 import UbahDataPasien from "./app/views/page/ubah_data_pasien";
 import UbahDataLayanan from "./app/views/page/ubah_data_layanan";
->>>>>>> ropik
 
 
 import Template from "./app/views/page/template";
