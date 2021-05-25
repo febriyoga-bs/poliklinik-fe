@@ -61,13 +61,10 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/layanan" component={Template} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
-<<<<<<< HEAD
             <Route exact path="/profil-dokter" component={ProfilDokter} />
             <Route exact path="/profil-staf" component={ProfilStaf} />
-=======
             <Route exact path="/ubah-data-pasien" component={UbahDataPasien} />
             <Route exact path="/ubah-data-layanan" component={UbahDataLayanan} />
->>>>>>> ropik
             {/* <PrivateRoute exact path="/my-account" component={MyAccount} />
             <PrivateRouteAdmin exact path="/manage-article" component={ManageArticle} />
             <PrivateRouteAdmin exact path="/manage-product" component={ManageProduct} />
