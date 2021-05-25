@@ -13,7 +13,7 @@ const UbahDataPasien = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
+        <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
                 <Breadcrumb.Item href="/">
                     <Text className="title">
                         Admin
@@ -21,7 +21,7 @@ const UbahDataPasien = () => {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="/informasi">
                     <Text className="title">
-                        Kelola data Passien
+                        Kelola data Pasien
                     </Text>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="/informasi">
@@ -30,62 +30,67 @@ const UbahDataPasien = () => {
                     </Text>
                 </Breadcrumb.Item>
             </Breadcrumb>
-            <Row justify="center" align="middle" style={{marginBottom:20}}>
-                <Card className="form-card">
-                    <Row>
+            <Card className="form-card">
+                <Row>
                         <Text>
                             Ubah Data Pasien
                         </Text>
                     </Row>
-                    <Row style={{width:1000}}>
-                        <Form form={form} name="control-hooks" onFinish={onFinish}>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="ID Pasien" rules={[{ required: true }]}>
+                <Row >
+                <Form form={form} name="control-hooks" onFinish={onFinish}></Form>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="ID Pasien" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Kategori Pasien" rules={[{ required: true }]}>
+                            </Form.Item>
+                        </Col>
+                    </Col>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="Nama Pasien" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Nomor Telepon" rules={[{ required: true }]}>
+                            </Form.Item>
+                    </Col>
+                    </Col>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="Kategori Pasien" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Nama Pasien" rules={[{ required: true }]}>
+                            </Form.Item>
+                    </Col>
+                    </Col>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="Nomor Telepon" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Nomor identitas" rules={[{ required: true }]}>
+                            </Form.Item>
+                    </Col>
+                    </Col>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="Tanggal Lahir" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Tanggal Lahir" rules={[{ required: true }]}>
+                            </Form.Item>
+                    </Col>
+                    </Col>
+                    <Col span={12}>
+                    <Col lg={15}>
+                            <Form.Item name="note" label="Alamat" rules={[{ required: true }]}>
                                     <Input />
-                                </Form.Item>
-                            </Col>
-                            <Col lg={10}>
-                                <Form.Item name="note" label="Alamat" rules={[{ required: true }]}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Form>
-                    </Row>
-                    <Button>Cancel</Button>
-                    &nbsp;
-                    <Button type="primary">Submit</Button>
-                    
-                </Card>
-            </Row>
-            </Content>
-            
+                            </Form.Item>
+                    </Col>
+                    </Col>
+                </Row>
+                <Button type="grey" shape="round" >
+                    Cancel
+                </Button>
+                &nbsp;
+                <Button type="primary" shape="round" >
+                    Submit
+                </Button>
+            </Card>
+        </Content>
         </Layout>
-        
     );
     
 }

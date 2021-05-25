@@ -11,6 +11,7 @@ import Register from "./app/views/page/pasien_register";
 import Informasi from "./app/views/page/informasi";
 import ProfilDokter from "./app/views/page/profil_dokter";
 import ProfilStaf from "./app/views/page/profil_staf";
+import ProfilPasien from "./app/views/page/profil_pasien";
 import UbahDataPasien from "./app/views/page/ubah_data_pasien";
 import UbahDataLayanan from "./app/views/page/ubah_data_layanan";
 
@@ -63,6 +64,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/bantuan" component={Template} />
             <Route exact path="/profil-dokter" component={ProfilDokter} />
             <Route exact path="/profil-staf" component={ProfilStaf} />
+            <Route exact path="/profil-pasien" component={ProfilPasien} />
             <Route exact path="/ubah-data-pasien" component={UbahDataPasien} />
             <Route exact path="/ubah-data-layanan" component={UbahDataLayanan} />
             {/* <PrivateRoute exact path="/my-account" component={MyAccount} />

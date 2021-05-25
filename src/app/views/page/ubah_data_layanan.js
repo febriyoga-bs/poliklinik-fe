@@ -31,13 +31,13 @@ const UbahDataLayanan = () => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center" align="middle" style={{marginBottom:20}}>
-                <Card className="form-card">
+                <Card style={{alignContent: "center"}} className="form-card">
                     <Row>
                         <Text>
                             Tambah Data Pelayanan
                         </Text>
                     </Row>
-                    <Row style={{width:1000}}>
+                   
                         <Form form={form} name="control-hooks" onFinish={onFinish}>
                             <Col lg={10}>
                                 <Form.Item name="note" label="Nama Pelayanan" rules={[{ required: true }]}>
@@ -70,10 +70,14 @@ const UbahDataLayanan = () => {
                                 </Form.Item>
                             </Col>
                         </Form>
-                    </Row>
-                    <Button>Cancel</Button>
-                    &nbsp;
-                    <Button type="primary">Submit</Button>
+                    
+                    <Button type="grey" shape="round" >
+                    Cancel
+                </Button>
+                &nbsp;
+                <Button type="primary" shape="round" >
+                    Submit
+                </Button>
                     
                 </Card>
             </Row>

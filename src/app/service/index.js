@@ -99,6 +99,15 @@ const APIServices = {
             {crossdomain: true }
         )
     },
+    getDataPasien(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getPasienById`,
+            },
+            {crossdomain: true }
+        )
+    },
 }
 
 export { APIServices }
