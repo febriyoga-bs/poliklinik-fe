@@ -9,6 +9,8 @@ import LandingPage from "./app/views/page/landing_page";
 import LoginUser from "./app/views/page/user_login";
 import Register from "./app/views/page/pasien_register";
 import Informasi from "./app/views/page/informasi";
+import UbahDataPasien from "./app/views/page/ubah_data_pasien";
+import UbahDataLayanan from "./app/views/page/ubah_data_layanan";
 
 
 import Template from "./app/views/page/template";
@@ -57,6 +59,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/layanan" component={Template} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
+            <Route exact path="/ubah-data-pasien" component={UbahDataPasien} />
+            <Route exact path="/ubah-data-layanan" component={UbahDataLayanan} />
             {/* <PrivateRoute exact path="/my-account" component={MyAccount} />
             <PrivateRouteAdmin exact path="/manage-article" component={ManageArticle} />
             <PrivateRouteAdmin exact path="/manage-product" component={ManageProduct} />
