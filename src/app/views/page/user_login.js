@@ -13,7 +13,8 @@ const LoginUser = () => {
     const [isLoading, setLoading] = useState(false);
 
     //
-    const [fieldActive, setFieldActive] = useState(false);
+    const [fieldPhoneActive, setFieldPhoneActive] = useState(false);
+    const [fieldPasswordActive, setFieldPasswordActive] = useState(false);
     //
 
     const gotoForgotPassword = () => {
@@ -26,26 +27,42 @@ const LoginUser = () => {
         history.push(loc);
     }
 
-    const onFinish = () => {
+    const onFinish = (values) => {
         setLoading(true)
         let loginData = {
-
+            no_telepon: values.no_telepon,
+            password: values.password
         }
+        console.log(loginData);
+
+        // Login Test
+            if(values.no_telepon === "1" && values.password === "1"){
+                localStorage.setItem('role', JSON.stringify("123"));
+                const loc = 'profil-staf';
+                history.push(loc);
+            } else if (values.no_telepon === "2" && values.password === "2"){
+                localStorage.setItem('role', JSON.stringify("234"));
+                const loc = 'profil-dokter';
+                history.push(loc);
+            } else if(values.no_telepon === "3" && values.password === "3"){
+                localStorage.setItem('role', JSON.stringify("pasien"));
+                const loc = 'profil-pasien';
+                history.push(loc);
+            }
+        //
 
         Auth.login(loginData).then((response) => {
             var res = response.data
         
             setLoading(false);
-            if(res.status=== 3){
-                localStorage.setItem('email', JSON.stringify(res.session.email));
+            if(res.status===3){
                 localStorage.setItem('role', JSON.stringify(res.session.role));
-                localStorage.setItem('token', JSON.stringify(res.session.__ci_last_regenerate));
             } else if(res.status === 6){
                 message.error("Nomor Telepon tidak terdaftar");
             } 
         
             if(Auth.isLogin()){
-                const loc = '/my-account';
+                const loc = '/profil-pasien';
                 history.push(loc);
             }
         }).catch(err => {
@@ -82,7 +99,7 @@ const LoginUser = () => {
                                 <Row>
                                     <Form form={form} onFinish={onFinish}>
                                         <Col span={24}>
-                                            <Text className={fieldActive ? "form-label active" : "form-label"}>No. Telepon</Text>
+                                            <Text className={fieldPhoneActive ? "form-label active" : "form-label"}>No. Telepon</Text>
                                             <Form.Item
                                                 name="no_telepon"
                                                 required
@@ -92,21 +109,22 @@ const LoginUser = () => {
                                                     message: 'Harap masukkan Nomor Telepon Anda!'
                                                 },
                                                 {
-                                                    type:'email', 
+                                                    pattern: new RegExp('^[0-9]+$'),  
                                                     message: 'Harap hanya masukkan angka!',
                                                 }]}
                                                 style={{marginBottom:30}}
                                                 >
                                                 
                                                 <Input className="input-form" 
+                                                    placeholder={fieldPhoneActive ? "" : "No. Telepon"}
                                                     prefix={<UserOutlined />}
-                                                    onFocus={() => setFieldActive(true)}
-                                                    onBlur={(e) => {if(e.target.value === ""){setFieldActive(false)} }}
+                                                    onFocus={() => setFieldPhoneActive(true)}
+                                                    onBlur={(e) => {if(e.target.value === ""){setFieldPhoneActive(false)} }}
                                                 />
                                             </Form.Item>
                                         </Col>
                                         <Col span={24}>
-                                            <Text className={fieldActive ? "form-label active" : "form-label"}>Password</Text>
+                                            <Text className={fieldPasswordActive ? "form-label active" : "form-label"}>Password</Text>
                                             <Form.Item
                                                 name="password"
                                                 required
@@ -117,13 +135,16 @@ const LoginUser = () => {
                                                 >
                                                 <Input className="input-form" 
                                                     prefix={<LockOutlined />}
+                                                    placeholder={fieldPasswordActive ? "" : "Password"}
+                                                    onFocus={() => setFieldPasswordActive(true)}
+                                                    onBlur={(e) => {if(e.target.value === ""){setFieldPasswordActive(false)} }}
                                                 />
                                             </Form.Item>
                                         </Col>
                                         <Col span={24}>
                                             <Row justify="end" style={{marginBottom:10}}>
                                                 <Button type="text" onClick={gotoForgotPassword}>
-                                                    <Text className="title-button" style={{color: "#777"}}>
+                                                    <Text className="title-button" style={{color: "#FFE600"}}>
                                                         Lupa Password?
                                                     </Text>
                                                 </Button>
@@ -150,7 +171,7 @@ const LoginUser = () => {
                                             </Row>
                                             <Row justify="center">
                                                 <Button type="text" onClick={gotoRegistrasi}>
-                                                    <Text className="title-button" style={{color: "#777", marginBottom:20}}>
+                                                    <Text className="title-button" style={{color: "#FFE600", marginBottom:20}}>
                                                         Registrasi
                                                     </Text>
                                                 </Button>

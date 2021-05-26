@@ -67,7 +67,7 @@
 
   .footer {
     width: 100%;
-    min-height: 80px;
+    min-height: 50px;
     overflow: hidden;
     background-color: #EB3D00;
     transition: 0.4s;
@@ -93,8 +93,7 @@
     align-items: center;
     background-color: #ffffff;
     justify-content: center;
-    padding-top: 140px;
-    padding-left: 20px;
+    padding-top: 40px;
   }
 
   .layout-content{
@@ -133,7 +132,6 @@
     top: 10px;
     color: #777777;
     background-color: transparent;
-    z-index: 10;
     transition: transform 150ms ease-out, font-size 150ms ease-out;
   }
 
@@ -248,15 +246,6 @@
   text-align: center;
   padding: 0px 15px;
 }
-
-.title-icon.like:hover{
-  color: #ff00a2;
-}
-
-.title-icon.comment:hover{
-  color: #0051ff;
-}
-
 
 .title-wa:hover{
   color: #25D366;

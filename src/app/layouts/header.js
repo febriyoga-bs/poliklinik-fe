@@ -17,9 +17,20 @@ const HeaderLayout = (props) => {
         setVisibleMenu(!visibleMenu);
     };
 
-    const gotoMyAccount= () => {
-        const loc = '/my-account';
-        history.push(loc);
+    const gotoProfil= () => {
+        let role = JSON.parse(localStorage.getItem('role'));
+        console.log(role);
+
+        if(role === "123"){
+            const loc = '/profil-staf';
+            history.push(loc);
+        } else if(role === "234"){
+            const loc = '/profil-dokter';
+            history.push(loc);
+        } else{
+            const loc = '/profil-pasien';
+            history.push(loc);
+        }
     }
 
     const gotoLogin= () => {
@@ -80,8 +91,8 @@ const HeaderLayout = (props) => {
                 <Col md={2.5} lg={3} style={{marginRight:25}}>
                     <div className="login-button">
                     {Auth.isLogin()? 
-                        <Button type='primary' className="app-btn primary" onClick={gotoMyAccount}>
-                            <UserOutlined style={{fontSize:20}}/> MY ACCOUNT
+                        <Button type='primary' className="app-btn primary" onClick={gotoProfil}>
+                            <UserOutlined style={{fontSize:20}}/> PROFIL
                         </Button>
                         :
                         <Button type='primary' className="app-btn primary" onClick={gotoLogin}>
@@ -94,7 +105,7 @@ const HeaderLayout = (props) => {
             <Menu
                 buttonCancel={handleDrawerMenu}
                 visible={visibleMenu}
-                handleMyAccount={() => {handleDrawerMenu(); gotoMyAccount()}}
+                handleProfil={() => {handleDrawerMenu(); gotoProfil()}}
             />
         </Layout>
     );

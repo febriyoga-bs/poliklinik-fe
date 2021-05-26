@@ -12,14 +12,13 @@ import Informasi from "./app/views/page/informasi";
 import ProfilDokter from "./app/views/page/profil_dokter";
 import ProfilStaf from "./app/views/page/profil_staf";
 import ProfilPasien from "./app/views/page/profil_pasien";
+import KelolaInformasi from "./app/views/page/kelola_informasi";
+import KelolaPasien from "./app/views/page/kelola_data_pasien";
+import KelolaPetugas from "./app/views/page/kelola_data_dokterstaf";
 import UbahDataPasien from "./app/views/page/ubah_data_pasien";
 import UbahDataLayanan from "./app/views/page/ubah_data_layanan";
 
-
 import Template from "./app/views/page/template";
-// import ManageArticle from "./app/views/page/managearticle";
-// import ManageProduct from "./app/views/page/manageproduct";
-// import ManageOrder from "./app/views/page/manageorder";
 
 function PrivateRoute({ component: Component, path, ...rest }) {
     return (
@@ -38,13 +37,25 @@ function PrivateRoute({ component: Component, path, ...rest }) {
       <Route
         path={path}
         render={({ location }) =>
-          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === "2140483647") ? ( <Component {...rest} /> ) : 
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === "123") ? ( <Component {...rest} /> ) : 
           ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
         }
       />
     );
   }
   
+  function PrivateRouteDokter({ component: Component, path, ...rest }) {
+    return (
+      <Route
+        path={path}
+        render={({ location }) =>
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === "234") ? ( <Component {...rest} /> ) : 
+          ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
+        }
+      />
+    );
+  }
+
   function Routes() {
 
     useEffect(() => {
@@ -62,16 +73,14 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/layanan" component={Template} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
-            <Route exact path="/profil-dokter" component={ProfilDokter} />
-            <Route exact path="/profil-staf" component={ProfilStaf} />
-            <Route exact path="/profil-pasien" component={ProfilPasien} />
             <Route exact path="/ubah-data-pasien" component={UbahDataPasien} />
             <Route exact path="/ubah-data-layanan" component={UbahDataLayanan} />
-            {/* <PrivateRoute exact path="/my-account" component={MyAccount} />
-            <PrivateRouteAdmin exact path="/manage-article" component={ManageArticle} />
-            <PrivateRouteAdmin exact path="/manage-product" component={ManageProduct} />
-            <PrivateRouteAdmin exact path="/manage-order" component={ManageOrder} />
-             */}
+            <PrivateRoute exact path="/profil-pasien" component={ProfilPasien} />
+            <PrivateRouteAdmin exact path="/profil-staf" component={ProfilStaf} />
+            <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
+            <PrivateRouteAdmin exact path="/kelola-data-pasien" component={KelolaPasien} />
+            <PrivateRouteAdmin exact path="/kelola-data-petugas" component={KelolaPetugas} />
+            <PrivateRouteDokter exact path="/profil-dokter" component={ProfilDokter} />
             <FooterLayout/>
           </React.Fragment>
         </HashRouter>

@@ -1,15 +1,33 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
 import { APIServices }  from '../../service';
+import Auth from '../../service/auth'
 import UserImage from "../../../assets/logo.jpg";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
 
 const ProfilStaf = () => {
+    const history = useHistory();
     const [stafInfo, setStafInfo] = useState([]);
+
+    const gotoKelolaInformasi = () => {
+        const loc = '/kelola-informasi';
+        history.push(loc);
+    }
+
+    const gotoKelolaDataPengguna = () => {
+        const loc = '/kelola-data-pasien';
+        history.push(loc);
+    }
+
+    const gotoRiwayatKunjungan = () => {
+        message.info("Laman Riwayat Kunjungan Belum Tersedia");
+        // const loc = '/riwayat-kunjungan';
+        // history.push(loc);
+    }
 
     useEffect(()=>{
         getDataStaf();
@@ -53,7 +71,7 @@ const ProfilStaf = () => {
                                 >
                                 Edit Profile
                             </Button>
-                            <Button type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
+                            <Button onClick={Auth.logout} type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
                                 LOGOUT
                             </Button>
                         </Row>
@@ -113,7 +131,7 @@ const ProfilStaf = () => {
                         <Row>
                             <Col span={8} lg={4}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    Spealisasi
+                                    Jabatan
                                 </Title>
                             </Col>
                             <Col span={1}>
@@ -131,23 +149,23 @@ const ProfilStaf = () => {
                 </Row>
                 <Row justify="center">
                     <Col>
-                        <Card className="featured-card">
+                        <Card onClick={gotoKelolaInformasi} className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
                                 <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA INFORMASI POLIKLINIK</Text>
                             </Row>
                         </Card>
                     </Col>
                     <Col>
-                        <Card className="featured-card">
+                        <Card onClick={gotoKelolaDataPengguna} className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA DATA PASIEN</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA DATA PENGGUNA <br></br> (PASIEN, DOKTER, STAF)</Text>
                             </Row>
                         </Card>
                     </Col>
                     <Col>
-                        <Card className="featured-card">
+                        <Card onClick={gotoRiwayatKunjungan} className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>KELOLA AKUN DOKTER DAN STAF POLIKLINIK</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>RIWAYAT KUNJUNGAN PASIEN</Text>
                             </Row>
                         </Card>
                     </Col>

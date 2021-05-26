@@ -17,21 +17,19 @@ export default class Auth {
   }
   
   static logout() {
-    let email = JSON.parse(localStorage.getItem('email'));
-    APIServices.logout(email).then(res => {
-    }).catch(err => {
-      console.log(err);
-    })
+    // let email = JSON.parse(localStorage.getItem('email'));
+    // APIServices.logout(email).then(res => {
+    // }).catch(err => {
+    //   console.log(err);
+    // })
 
     // sessionStorage.clear();
     localStorage.removeItem('token')
-    localStorage.removeItem('user');
-    localStorage.removeItem('email');
     localStorage.removeItem('role');
     window.location.reload();
   }
   
   static isLogin() {
-    return !!localStorage.getItem('role') && !!localStorage.getItem('email');
+    return !!localStorage.getItem('role');
   }
 }

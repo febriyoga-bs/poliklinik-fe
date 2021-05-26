@@ -3,6 +3,7 @@ import Fade from 'react-reveal/Fade';
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
 import { APIServices }  from '../../service';
+import Auth from '../../service/auth'
 import UserImage from "../../../assets/logo.jpg";
 
 const { Content } = Layout;
@@ -53,7 +54,7 @@ const ProfilPasien = () => {
                                 >
                                 Edit Profile
                             </Button>
-                            <Button type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
+                            <Button onClick={Auth.logout} type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
                                 LOGOUT
                             </Button>
                         </Row>

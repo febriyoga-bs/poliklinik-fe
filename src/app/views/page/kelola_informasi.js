@@ -6,7 +6,7 @@ import { HomeOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const Informasi = () => {
+const KelolaInformasi = () => {
     const test = "PROFIL POLIKLINIK"
     const test2 = "GAMBAR"
 
@@ -19,9 +19,14 @@ const Informasi = () => {
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/informasi">
+                    <Breadcrumb.Item href="/#/profil-staf">
                         <Text className="title">
-                            <span>Informasi</span>
+                            <span>Profil Staf</span>
+                        </Text>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href="/#/kelola-informasi">
+                        <Text className="title">
+                            <span>Kelola Informasi Poliklinik</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
@@ -29,7 +34,7 @@ const Informasi = () => {
                     <Card className="informasi-card">
                         <Row>
                             <Text>
-                                Jadwal Poliklinik
+                                Profil Poliklinik
                             </Text>
                         </Row>
                     </Card>
@@ -38,7 +43,7 @@ const Informasi = () => {
                     <Card className="informasi-card">
                         <Row>
                             <Text>
-                                Layanan Poliklinik
+                                Jadwal Pelayanan Poliklinik
                             </Text>
                         </Row>
                     </Card>
@@ -47,7 +52,7 @@ const Informasi = () => {
                     <Card className="informasi-card">
                         <Row>
                             <Text>
-                                Profil Dokter dan Staf Poliklinik
+                                Data Pelayanan Poliklinik
                             </Text>
                         </Row>
                     </Card>
@@ -57,4 +62,4 @@ const Informasi = () => {
     );
 }
 
-export default withRouter(Informasi)
+export default withRouter(KelolaInformasi)

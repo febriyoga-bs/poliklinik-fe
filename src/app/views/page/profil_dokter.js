@@ -3,6 +3,7 @@ import Fade from 'react-reveal/Fade';
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
 import { APIServices }  from '../../service';
+import Auth from '../../service/auth'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -52,7 +53,7 @@ const ProfilDokter = () => {
                                 >
                                 Edit Profile
                             </Button>
-                            <Button type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
+                            <Button onClick={Auth.logout} type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
                                 LOGOUT
                             </Button>
                         </Row>
@@ -139,14 +140,14 @@ const ProfilDokter = () => {
                     <Col>
                         <Card className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>Antrean Poliklinik</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>ANTREAN POLIKLINIK</Text>
                             </Row>
                         </Card>
                     </Col>
                     <Col>
                         <Card className="featured-card">
                             <Row className="featured-row" justify="center" align="middle">
-                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>Konsultasi Online</Text>
+                                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center'}}>RUANG OBROLAN (KONSULTASI)</Text>
                             </Row>
                         </Card>
                     </Col>

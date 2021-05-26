@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Layout, Typography, Row, Col, Button} from "antd";
-import { InstagramFilled, FacebookFilled, YoutubeFilled } from '@ant-design/icons';
+//import { InstagramFilled, FacebookFilled, YoutubeFilled } from '@ant-design/icons';
 import { withRouter} from "react-router-dom";
 
 const { Text } = Typography;
@@ -13,36 +13,31 @@ const FooterLayout = (props) => {
 
     return(
         <Layout className="footer" style={{width:'100%'}}>
-            <Row align='middle' justify="space-between" style={{minHeight:'100%', padding:10}}>
-                <Col xs={24} lg={8} style={{marginBottom: 5}}>
-                    <Row justify="center">
-                        <Text className="title-footer">
-                            Follow Candraplants:
-                        </Text>
-                    </Row>
-                    <Row justify="center">
-                        <Button type="text" className="title-ig" onClick={()=> openURL("https://www.instagram.com/putracandraade/")}>
+            <Row align='middle' justify="space-between" style={{minHeight:'100%', padding:15}}>
+                <Col xs={24} lg={8}>
+                    {/* <Row justify="center">
+                        <Button type="text" className="title-ig" onClick={()=> openURL("https://www.polban.ac.id/")}>
                             <InstagramFilled  style={{fontSize:30}}/>
                         </Button>
-                        <Button type="text" className="title-yt" onClick={()=> openURL("https://www.youtube.com/channel/UCEsQyW5qLhBUlKe5rjAeAzg/")}>
+                        <Button type="text" className="title-yt" onClick={()=> openURL("https://www.polban.ac.id")}>
                             <YoutubeFilled  style={{fontSize:30}}/>
                         </Button>
-                        <Button type="text" className="title-fb" onClick={()=> openURL("https://web.facebook.com/candra.adeputra.395")}>
+                        <Button type="text" className="title-fb" onClick={()=> openURL("https://www.polban.ac.id")}>
                             <FacebookFilled style={{fontSize:30}}/>
                         </Button>
-                    </Row>
+                    </Row> */}
                 </Col>
-                <Col xs={24} lg={8} style={{marginBottom: 5}}>
+                <Col xs={24} lg={8}>
                     <Row justify="center">
                         <Text className="title-footer">
-                            © 2021 | CV. Putera Candra Plants | All Rights Reserved
+                            © 2021 | Poliklinik Politeknik Negeri Bandung
                         </Text>
                     </Row>
                 </Col>
-                <Col xs={24} lg={8} style={{marginBottom: 5}}>
-                    <Row justify="center">
+                <Col xs={24} lg={8}>
+                    {/* <Row justify="center">
                         <Text className="title-footer">
-                            Jl. Cigugur Girang No.14 (Cihideung), Parongpong
+                            Jl. Gegerkalong Hilir, Ciwaruga
                         </Text>
                     </Row>
                     <Row justify="center">
@@ -52,9 +47,9 @@ const FooterLayout = (props) => {
                     </Row>
                     <Row justify="center"> 
                         <Text className="title-footer">
-                            +62 896 6216 5579 | +62 895 6007 84269
+                            (022) 2013789
                         </Text>
-                    </Row>
+                    </Row> */}
                 </Col>
             </Row>
         </Layout>
