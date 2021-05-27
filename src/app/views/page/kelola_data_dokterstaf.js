@@ -49,18 +49,18 @@ const KelolaDokterStaf = () => {
                 </Row>
 
                 <Row style={{marginBottom:20}}>
-                    <Card className="informasi-card">
+                    <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
-                            <Text>
+                            <Text className="title-tabel">
                                 Data Dokter
                             </Text>
                         </Row>
                     </Card>
                 </Row>
                 <Row style={{marginBottom:20}}>
-                    <Card className="informasi-card">
+                    <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
-                            <Text>
+                            <Text className="title-tabel">
                                 Data Staf
                             </Text>
                         </Row>

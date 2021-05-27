@@ -15,8 +15,8 @@ import ProfilPasien from "./app/views/page/profil_pasien";
 import KelolaInformasi from "./app/views/page/kelola_informasi";
 import KelolaPasien from "./app/views/page/kelola_data_pasien";
 import KelolaPetugas from "./app/views/page/kelola_data_dokterstaf";
-import UbahDataPasien from "./app/views/page/ubah_data_pasien";
-import UbahDataLayanan from "./app/views/page/ubah_data_layanan";
+import FormDataPasien from "./app/views/page/form_data_pasien";
+import FormDataPelayanan from "./app/views/page/form_data_pelayanan";
 
 import Template from "./app/views/page/template";
 
@@ -73,11 +73,11 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/layanan" component={Template} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
-            <Route exact path="/ubah-data-pasien" component={UbahDataPasien} />
-            <Route exact path="/ubah-data-layanan" component={UbahDataLayanan} />
             <PrivateRoute exact path="/profil-pasien" component={ProfilPasien} />
             <PrivateRouteAdmin exact path="/profil-staf" component={ProfilStaf} />
             <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
+            <PrivateRouteAdmin exact path="/kelola-informasi/data-pasien" component={FormDataPasien} />
+            <PrivateRouteAdmin exact path="/kelola-informasi/data-pelayanan" component={FormDataPelayanan} />
             <PrivateRouteAdmin exact path="/kelola-data-pasien" component={KelolaPasien} />
             <PrivateRouteAdmin exact path="/kelola-data-petugas" component={KelolaPetugas} />
             <PrivateRouteDokter exact path="/profil-dokter" component={ProfilDokter} />
