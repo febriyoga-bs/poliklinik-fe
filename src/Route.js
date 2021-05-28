@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Redirect, HashRouter } from "react-router-dom";
+import { Route, Redirect, HashRouter, Switch } from "react-router-dom";
 import './App.css';
 import { Layout } from "antd";
 import Auth from "./app/service/auth";
@@ -75,9 +75,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/bantuan" component={Template} />
             <PrivateRoute exact path="/profil-pasien" component={ProfilPasien} />
             <PrivateRouteAdmin exact path="/profil-staf" component={ProfilStaf} />
-            <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
-            <PrivateRouteAdmin exact path="/kelola-informasi/data-pasien" component={FormDataPasien} />
-            <PrivateRouteAdmin exact path="/kelola-informasi/data-pelayanan" component={FormDataPelayanan} />
+            <PrivateRouteAdmin exact path="/kelola-informasi" component={RouteKelolaInformasi} />
             <PrivateRouteAdmin exact path="/kelola-data-pasien" component={KelolaPasien} />
             <PrivateRouteAdmin exact path="/kelola-data-petugas" component={KelolaPetugas} />
             <PrivateRouteDokter exact path="/profil-dokter" component={ProfilDokter} />
@@ -89,3 +87,13 @@ function PrivateRoute({ component: Component, path, ...rest }) {
   }
   
   export default Routes;
+
+  function RouteKelolaInformasi () {
+    return(
+      <Switch>
+        <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
+        <PrivateRouteAdmin exact path="/kelola-informasi/data-pasien" component={FormDataPasien} />
+        <PrivateRouteAdmin exact path="/kelola-informasi/data-pelayanan" component={FormDataPelayanan} />
+      </Switch>
+    )
+  }

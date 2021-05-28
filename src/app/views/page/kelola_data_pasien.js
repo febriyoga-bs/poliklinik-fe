@@ -83,7 +83,7 @@ const KelolaPasien = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/profil-staf">
                         <Text className="title">
-                            <span>Profil Staf</span>
+                            <span>Admin</span>
                         </Text>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/kelola-data-pasien">

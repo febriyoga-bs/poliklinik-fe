@@ -63,9 +63,12 @@ const HeaderLayout = (props) => {
                     </NavLink>
                 </Col>
                 <Col md={2.5} lg={3}>
-                    <NavLink to="/layanan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
+                    {/* <NavLink to="/layanan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
                         LAYANAN
-                    </NavLink>
+                    </NavLink> */}
+                    <Text onClick={()=>message.info("Laman Layanan belum tersedia")} className="title-navmenu">
+                        LAYANAN
+                    </Text>
                 </Col>
                 <Col md={2.5} lg={3}>
                     <NavLink to="/informasi" className="title-navmenu" activeStyle={{color: '#fff279'}}>
@@ -73,9 +76,12 @@ const HeaderLayout = (props) => {
                     </NavLink>
                 </Col>
                 <Col md={2.5} lg={3}>
-                    <NavLink to="/bantuan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
+                    {/* <NavLink to="/bantuan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
                         BANTUAN
-                    </NavLink>
+                    </NavLink> */}
+                    <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-navmenu">
+                        BANTUAN
+                    </Text>
                 </Col>
                 <Col>
                     <Row>

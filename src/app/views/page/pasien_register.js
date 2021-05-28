@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Card, Form, Input, Button, message } from 'antd';
+import { Layout, Row, Col, Typography, Card, Form, Input, Button, Select, DatePicker, message } from 'antd';
+import moment from 'moment';
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const Register = () => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [isLoading, setLoading] = useState(false);
+    const [regisStep, setRegisStep] = useState(1);
+    const dateFormat = 'DD/MM/YYYY';
 
     //
     const [fieldActive, setFieldActive] = useState(false);
@@ -16,6 +20,241 @@ const Register = () => {
 
     const onFinish = () => {
 
+    }
+
+    const regisForm = () =>{
+        if (regisStep === 1){
+            return(
+                <Row>
+                    <Col span={24}>
+                        <Text className="form-label active">Kategori Pasien</Text>
+                        <Form.Item
+                            name="kategori"
+                            required
+                            initialValue="Umum"
+                            rules={[{
+                                required: true,
+                                message: 'Harap pilih kategori pasien!'
+                            }]}
+                            style={{marginBottom:30}}
+                            >
+                            <Select defaultValue="Umum" className="input-form">
+                                <Option value="Umum">Umum</Option>
+                                <Option value="Mahasiswa">Mahasiswa</Option>
+                                <Option value="Staf/Dosen">Staf/Dosen</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">No. Telepon</Text>
+                        <Form.Item
+                            name="no_telepon"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Nomor Telepon Anda!'
+                            },
+                            {
+                                pattern: new RegExp('^[0-9]+$'), 
+                                message: 'Harap hanya masukkan angka!',
+                            }]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Password</Text>
+                        <Form.Item
+                            name="password"
+                            required
+                            rules={[{
+                                required: true,
+                                message: 'Harap masukkan password Anda!'
+                            }]}
+                            style={{marginBottom:30}}
+                            >
+                            <Input.Password className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Konfirmasi Password</Text>
+                        <Form.Item
+                            name="confirmPassword"
+                            required
+                            dependencies={['password']}
+                            rules={[
+                                { 
+                                    required: true, message: 'Harap konfirmasi password Anda!' 
+                                },
+                                ({ getFieldValue }) => ({
+                                    validator(rule, value) {
+                                        if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                        }
+                        
+                                        return Promise.reject('Password tidak cocok!');
+                                    },
+                                }),
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            <Input.Password className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}> 
+                        <Row justify="center" style={{marginBottom:10}}>
+                            <Button
+                                block
+                                type="primary"
+                                //htmlType="submit"
+                                className="app-btn lg block secondary"
+                                style={{width:290}}
+                                onClick={()=> {
+                                    form.validateFields().then(() => {
+                                        setRegisStep(2)
+                                    })
+                                }}
+                            >
+                                Selanjutnya
+                            </Button>
+                        </Row>
+                    </Col>
+                </Row>
+            )
+        } else if (regisStep === 2){
+            return(
+                <Row>
+                    <Col span={24}>
+                        <Text className="form-label active">Nama Lengkap</Text>
+                        <Form.Item
+                            name="nama"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Nama Lengkap Anda!'
+                            },
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Nomor Identitas 
+                            { (form.getFieldValue("kategori")==="Umum") ? " (NIK)" : 
+                              (form.getFieldValue("kategori")==="Mahasiswa") ? " (NIM)" : " (NIP)"}
+                        </Text>
+                        <Form.Item
+                            name="nomor_identitas"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Nomor Identitas Anda!'
+                            },
+                            {
+                                pattern: new RegExp('^[0-9]+$'), 
+                                message: 'Harap hanya masukkan angka!',
+                            }]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Tanggal Lahir</Text>
+                        <Form.Item
+                            name="tanggal_lahir"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Tanggal Lahir Anda!'
+                            },]}
+                            style={{marginBottom:30}}
+                            >
+                            <DatePicker className="input-form" format={dateFormat} placeholder=""/>
+    
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Alamat</Text>
+                        <Form.Item
+                            name="alamat"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Alamat Anda!'
+                            },
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" 
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Jenis Kelamin</Text>
+                        <Form.Item
+                            name="jenis_kelamin"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap pilih Jenis Kelamin Anda!'
+                            },
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Select className="input-form">
+                                <Option value="Laki-laki">Laki-laki</Option>
+                                <Option value="Perempuan">Perempuan</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}> 
+                        <Row justify="center" style={{marginBottom:10}}>
+                            <Button
+                                block
+                                type="primary"
+                                className="app-btn lg block tertiary"
+                                style={{width:290, marginRight:5}}
+                                onClick={()=> setRegisStep(1)}
+                            >
+                                Sebelumnya
+                            </Button>
+                        </Row>
+                    </Col>
+                    <Col span={12}>
+                        <Row justify="center" style={{marginBottom:10}}>
+                            <Button
+                                block
+                                type="primary"
+                                htmlType="submit"
+                                className="app-btn lg block secondary"
+                                style={{width:290, marginLeft:5}}
+                            >
+                                Daftar
+                            </Button>
+                        </Row>
+                    </Col>
+                </Row>
+            )
+        }
     }
 
     return(
@@ -34,64 +273,15 @@ const Register = () => {
                     <Col md={10} lg={10}>
                     <Row justify="center">
                             <Card className="registrasi-card">
-                                <Row justify="center" style={{marginBottom:30}}>
-                                    <Text className="title bold">
-                                        REGISTRASI
+                                <Row justify="center" style={{marginBottom:40}}>
+                                    <Text className="title bold" style={{textAlign:"center"}}>
+                                        REGISTRASI PASIEN POLIKLINIK <br></br>
+                                        {(regisStep===2) ? "("+form.getFieldValue("kategori")+")" : ""}
                                     </Text>
                                 </Row>
                                 <Row>
                                     <Form form={form} onFinish={onFinish}>
-                                        <Col span={24}>
-                                            <Text className={fieldActive ? "form-label active" : "form-label"}>No. Telepon</Text>
-                                            <Form.Item
-                                                name="no_telepon"
-                                                required
-                                                rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Harap masukkan Nomor Telepon Anda!'
-                                                },
-                                                {
-                                                    type:'email', 
-                                                    message: 'Harap hanya masukkan angka!',
-                                                }]}
-                                                style={{marginBottom:30}}
-                                                >
-                                                
-                                                <Input className="input-form" 
-                                                    onFocus={() => setFieldActive(true)}
-                                                    onBlur={(e) => {if(e.target.value === ""){setFieldActive(false)} }}
-                                                />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={24}>
-                                            <Text className={fieldActive ? "form-label active" : "form-label"}>Password</Text>
-                                            <Form.Item
-                                                name="password"
-                                                required
-                                                rules={[{
-                                                    required: true,
-                                                    message: 'Harap masukkan password Anda!'
-                                                }]}
-                                                >
-                                                <Input className="input-form" 
-                                                />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={24}> 
-                                            <Row justify="center" style={{marginBottom:10}}>
-                                                <Button
-                                                    block
-                                                    type="primary"
-                                                    htmlType="submit"
-                                                    className="app-btn lg block secondary"
-                                                    style={{width:290}}
-                                                    disabled={isLoading}
-                                                >
-                                                    Konfirmasi
-                                                </Button>
-                                            </Row>
-                                        </Col>
+                                        {regisForm}
                                     </Form>
                                 </Row>
                             </Card>

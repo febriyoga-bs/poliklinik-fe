@@ -39,6 +39,15 @@
 
 /* ================================================================== */ 
 
+/* ANTD Override */
+.ant-select-selector{
+  height: 40px!important;
+  border-radius: 10px!important;
+  padding: 4px 11px!important;
+}
+
+/* */
+
 /* Navbar */
 @media screen and (min-width: 900px) {
   .carousel-mobile{
@@ -224,6 +233,7 @@
 
 .title-navmenu:hover, .title-navicon:hover, .title-navicon-mobile:hover, .title-navmenu-mobile:hover, .title-home-mobile:hover{
   color: #FFE600;
+  cursor: pointer;
 }
 
 .title-footer{
@@ -285,8 +295,7 @@
   /* linear-gradient(#8a3ab9, #bc2a8d, #fccc63, #fbad50); */
 }
 
-.title-product{
-  font-family: cursive;
+.title-profil{
   color: #000;
   letter-spacing: 0px;
   text-align: center;
@@ -294,14 +303,14 @@
   font-weight: bold;
 }
 
-.image-product{
-  width: 160px;
-  height: 140px;
+.image-profil{
+  width: 140px;
+  height: 120px;
   border-radius: 20px;
 }
 
 @media screen and (max-width: 576px) {
-  .image-product{
+  .image-profil{
     width: 120px;
     height: 105px;
     border-radius: 20px;
@@ -323,7 +332,7 @@
 
 .registrasi-card{
   width: 350px;
-  height: 500px;
+  min-height: 450px;
   background-color: transparent;
   position: relative;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
@@ -356,7 +365,7 @@
 }
 
 .profil-card{
-  width: 215px;
+  width: 190px;
   height: 215px;
   position: relative;
   background: #FFF;
@@ -365,10 +374,6 @@
 }
 
 .profil-card:hover{
-  width: 220px;
-  height: 215px;
-  position: relative;
-  background: #FFF;
   border: 4px;
   cursor: pointer;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
@@ -409,6 +414,18 @@
     color: #072A6F;
     background-color: #FFE600;
     border-color: #FFE600;
+}
+
+.app-btn.tertiary:not([disabled]){
+  background-color: #6E6E6E;
+  color: #FFF;
+  font-size: 1em;
+}
+
+.app-btn.tertiary:not([disabled]):hover{
+  color: #072A6F;
+  background-color: #FFE600;
+  border-color: #FFE600;
 }
 /* End of Buttons */
 

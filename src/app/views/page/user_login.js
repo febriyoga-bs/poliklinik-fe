@@ -18,8 +18,9 @@ const LoginUser = () => {
     //
 
     const gotoForgotPassword = () => {
-        const loc = '/lupa-password';
-        history.push(loc);
+        message.info("Laman Lupa Password belum tersedia");
+        // const loc = '/lupa-password';
+        // history.push(loc);
     }
 
     const gotoRegistrasi = () => {
@@ -133,7 +134,7 @@ const LoginUser = () => {
                                                     message: 'Harap masukkan password Anda!'
                                                 }]}
                                                 >
-                                                <Input className="input-form" 
+                                                <Input.Password className="input-form" 
                                                     prefix={<LockOutlined />}
                                                     placeholder={fieldPasswordActive ? "" : "Password"}
                                                     onFocus={() => setFieldPasswordActive(true)}

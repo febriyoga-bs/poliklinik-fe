@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -9,11 +9,17 @@ const { Content } = Layout;
 const { Text } = Typography;
 
 const KelolaInformasi = () => {
+    const history = useHistory();
     const [dataProfil, setDataProfil] = useState([]);
     const [dataJadwal, setDataJadwal] = useState([]);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [loading, setLoading] = useState(false);
     const [record, setRecord] = useState([]);
+
+    const gotoUbahPelayanan = () => {
+        const loc = '/kelola-informasi/data-pelayanan';
+        history.push(loc);
+    }
 
     const columnsProfil = [
         {
@@ -67,7 +73,7 @@ const KelolaInformasi = () => {
             title: "Hari",
             dataIndex: 'hari',
             key: 'hari',
-            width: '20%',
+            width: '10%',
             align: 'center',
         },
         {
@@ -81,23 +87,23 @@ const KelolaInformasi = () => {
             title: "Poli",
             dataIndex: 'jenis_poli',
             key: 'jenis_poli',
-            width: '20%',
+            width: '10%',
             align: 'center',
         },
         {
             title: "Dokter",
             dataIndex: 'dokter',
             key: 'dokter',
-            width: '20%',
+            width: '15%',
             align: 'center',
         },
         {
             title: 'Kelola',
-            width: '20%',
+            width: '25%',
             align: 'center',
             render: (record) => {
                 return (
-                <Row justify="center" gutter={[20,0]}>
+                <Row justify="center" gutter={[10,0]}>
                   <Col>
                     <Button
                         onClick={() => {
@@ -189,7 +195,7 @@ const KelolaInformasi = () => {
                     <Button
                         onClick={() => {
                             setRecord(record);
-                            console.log(record);
+                            gotoUbahPelayanan();
                         }
                     }>
                         <Text style={{color: "#000"}}>
@@ -221,7 +227,7 @@ const KelolaInformasi = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/profil-staf">
                         <Text className="title">
-                            <span>Profil Staf</span>
+                            <span>Admin</span>
                         </Text>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/kelola-informasi">
@@ -244,13 +250,14 @@ const KelolaInformasi = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={Dummy.dataProfil}
+                            pagination={false}
                             // onChange={handleTableChange}
                         />
                     </Card>
                     </Col>
 
                     <Col lg={12}>
-                    <Card className="informasi-card">
+                    <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Jadwal Pelayanan Poliklinik
@@ -262,6 +269,7 @@ const KelolaInformasi = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={Dummy.dataJadwal}
+                            pagination={false}
                             // onChange={handleTableChange}
                         />
                     </Card>

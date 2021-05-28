@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -14,6 +15,11 @@ const UbahDataPasien = () => {
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
         <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
+                <Breadcrumb.Item href="/">
+                    <Text className="title">
+                        <HomeOutlined />
+                    </Text>
+                </Breadcrumb.Item>
                 <Breadcrumb.Item href="/">
                     <Text className="title">
                         Admin
