@@ -14,8 +14,11 @@ import ProfilStaf from "./app/views/page/profil_staf";
 import ProfilPasien from "./app/views/page/profil_pasien";
 import KelolaInformasi from "./app/views/page/kelola_informasi";
 import KelolaPasien from "./app/views/page/kelola_data_pasien";
-import KelolaPetugas from "./app/views/page/kelola_data_dokterstaf";
+import KelolaDokter from "./app/views/page/kelola_data_dokter";
+import KelolaStaf from "./app/views/page/kelola_data_staf";
 import FormDataPasien from "./app/views/page/form_data_pasien";
+import FormDataDokter from "./app/views/page/form_data_dokter";
+import FormDataStaf from "./app/views/page/form_data_dokter";
 import FormDataPelayanan from "./app/views/page/form_data_pelayanan";
 
 import Template from "./app/views/page/template";
@@ -75,9 +78,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/bantuan" component={Template} />
             <PrivateRoute exact path="/profil-pasien" component={ProfilPasien} />
             <PrivateRouteAdmin exact path="/profil-staf" component={ProfilStaf} />
-            <PrivateRouteAdmin exact path="/kelola-informasi" component={RouteKelolaInformasi} />
-            <PrivateRouteAdmin exact path="/kelola-data-pasien" component={KelolaPasien} />
-            <PrivateRouteAdmin exact path="/kelola-data-petugas" component={KelolaPetugas} />
+            <PrivateRouteAdmin exact path="/kelola-informasi" component={RouteKelola} />
+            <PrivateRouteAdmin exact path="/kelola-data-pengguna" component={RouteKelola} />
             <PrivateRouteDokter exact path="/profil-dokter" component={ProfilDokter} />
             <FooterLayout/>
           </React.Fragment>
@@ -88,9 +90,15 @@ function PrivateRoute({ component: Component, path, ...rest }) {
   
   export default Routes;
 
-  function RouteKelolaInformasi () {
+  function RouteKelola () {
     return(
       <Switch>
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/pasien" component={KelolaPasien} />
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/pasien/:aksi" component={FormDataPasien} />
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/dokter" component={KelolaDokter} />
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/dokter/:aksi" component={FormDataDokter} />
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/staf" component={KelolaStaf} />
+        <PrivateRouteAdmin exact path="/kelola-data-pengguna/staf/:aksi" component={FormDataStaf} />
         <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
         <PrivateRouteAdmin exact path="/kelola-informasi/data-pasien" component={FormDataPasien} />
         <PrivateRouteAdmin exact path="/kelola-informasi/data-pelayanan" component={FormDataPelayanan} />

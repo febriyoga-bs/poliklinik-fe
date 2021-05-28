@@ -402,6 +402,7 @@
     color: #072A6F;
     font-size: 1.25em;
     font-weight: bold;
+    
 }
 
 .app-btn.primary:not([disabled]):hover{
@@ -414,6 +415,7 @@
     background-color: #0077FF;
     color: #FFF;
     font-size: 1em;
+    border-width: 0px;
 }
 
 .app-btn.secondary:not([disabled]):hover{

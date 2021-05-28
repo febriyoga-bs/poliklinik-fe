@@ -58,11 +58,13 @@ const Register = () => {
                             {
                                 pattern: new RegExp('^[0-9]+$'), 
                                 message: 'Harap hanya masukkan angka!',
-                            }]}
+                            },
+                            ]}
                             style={{marginBottom:30}}
                             >
                             
                             <Input className="input-form" 
+                                placeholder="Contoh: 081234567890"
                             />
                         </Form.Item>
                     </Col>
@@ -71,13 +73,20 @@ const Register = () => {
                         <Form.Item
                             name="password"
                             required
-                            rules={[{
-                                required: true,
-                                message: 'Harap masukkan password Anda!'
-                            }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Harap masukkan password Anda!'
+                                },
+                                {
+                                    pattern: new RegExp('[a-zA-Z0-9]{8,}$'),
+                                    message: "Harap masukkan 8 karakter atau lebih"
+                                }
+                            ]}
                             style={{marginBottom:30}}
                             >
-                            <Input.Password className="input-form" 
+                            <Input.Password className="input-form"
+                                placeholder="Masukkan 8 karakter atau lebih" 
                             />
                         </Form.Item>
                     </Col>
@@ -104,6 +113,7 @@ const Register = () => {
                             style={{marginBottom:30}}
                             >
                             <Input.Password className="input-form" 
+                                placeholder="Masukkan ulang password"
                             />
                         </Form.Item>
                     </Col>
@@ -145,6 +155,7 @@ const Register = () => {
                             >
                             
                             <Input className="input-form" 
+                                placeholder="Masukkan nama lengkap"
                             />
                         </Form.Item>
                     </Col>
@@ -168,7 +179,10 @@ const Register = () => {
                             style={{marginBottom:30}}
                             >
                             
-                            <Input className="input-form" 
+                            <Input className="input-form"
+                                placeholder={
+                                    (form.getFieldValue("kategori")==="Umum") ? ("Masukkan nomor induk kependudukan") :
+                                    (form.getFieldValue("kategori")==="Mahasiswa") ? "Masukkan nomor induk mahasiswa" : "Masukkan nomor induk pegawai" }
                             />
                         </Form.Item>
                     </Col>
@@ -184,7 +198,7 @@ const Register = () => {
                             },]}
                             style={{marginBottom:30}}
                             >
-                            <DatePicker className="input-form" format={dateFormat} placeholder=""/>
+                            <DatePicker className="input-form" format={dateFormat} placeholder="01/01/2021"/>
     
                         </Form.Item>
                     </Col>
@@ -203,6 +217,7 @@ const Register = () => {
                             >
                             
                             <Input className="input-form" 
+                                placeholder="Masukkan alamat"
                             />
                         </Form.Item>
                     </Col>
@@ -220,7 +235,7 @@ const Register = () => {
                             style={{marginBottom:30}}
                             >
                             
-                            <Select className="input-form">
+                            <Select className="input-form" placeholder="Pilih jenis kelamin">
                                 <Option value="Laki-laki">Laki-laki</Option>
                                 <Option value="Perempuan">Perempuan</Option>
                             </Select>

@@ -19,7 +19,7 @@ const ProfilStaf = () => {
     }
 
     const gotoKelolaDataPengguna = () => {
-        const loc = '/kelola-data-pasien';
+        const loc = '/kelola-data-pengguna/pasien';
         history.push(loc);
     }
 
@@ -67,11 +67,11 @@ const ProfilStaf = () => {
                             />
                         </Row>
                         <Row>
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, backgroundColor:"#FFA500"}} 
+                            <Button className="app-btn secondary" style={{marginTop: 10, backgroundColor:"#FFA500"}} 
                                 >
-                                Edit Profile
+                                Edit Profil
                             </Button>
-                            <Button onClick={Auth.logout} type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
+                            <Button onClick={Auth.logout} className="app-btn secondary" style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
                                 LOGOUT
                             </Button>
                         </Row>

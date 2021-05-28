@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Layout, Typography, Row, Col, Button, Image, Badge, message} from "antd";
+import { Layout, Typography, Row, Col, Button, Image, message} from "antd";
 import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { withRouter, NavLink, useHistory } from "react-router-dom";
 import Auth from "../service/auth"
@@ -41,7 +41,7 @@ const HeaderLayout = (props) => {
     return (
         <Layout align="middle" className="navmenu" style={{maxWidth:'100%'}}>
             <Row justify='space-between' align='middle' style={{marginTop:7}}>
-                <Col lg={6} style={{paddingLeft:10}}>
+                <Col lg={5} style={{paddingLeft:10}}>
                     <Row>
                         <Col>
                             <Image src={Logo} alt="Candra Plants" 
@@ -57,12 +57,12 @@ const HeaderLayout = (props) => {
                         </Col>
                     </Row>
                 </Col>
-                <Col md={2.5} lg={3}>
+                <Col md={3} lg={3}>
                     <NavLink to="/" className="title-navmenu">
                         BERANDA
                     </NavLink>
                 </Col>
-                <Col md={2.5} lg={3}>
+                <Col md={3} lg={3}>
                     {/* <NavLink to="/layanan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
                         LAYANAN
                     </NavLink> */}
@@ -70,7 +70,7 @@ const HeaderLayout = (props) => {
                         LAYANAN
                     </Text>
                 </Col>
-                <Col md={2.5} lg={3}>
+                <Col md={3} lg={3}>
                     <NavLink to="/informasi" className="title-navmenu" activeStyle={{color: '#fff279'}}>
                         INFORMASI
                     </NavLink>
@@ -85,12 +85,10 @@ const HeaderLayout = (props) => {
                 </Col>
                 <Col>
                     <Row>
-                        <Button type="text" onClick={handleDrawerMenu} >
-                            <Badge count={0}>
-                            <Text className="title-navmenu-mobile">
+                        <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerMenu} >
+                            <Text>
                                 <MenuOutlined style={{fontSize:30}}/>
                             </Text>
-                            </Badge>
                         </Button>
                     </Row>
                 </Col>

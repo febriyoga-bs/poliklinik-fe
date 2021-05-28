@@ -6,8 +6,7 @@ import { HomeOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const UbahDataPasien = () => {
-    const test = "UBAH DATA PASIEN"
+const FormDataDokter = () => {
     const [form] = Form.useForm();
     const onFinish= () => {}
     
@@ -25,28 +24,28 @@ const UbahDataPasien = () => {
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-data-pengguna/pasien">
+                <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
                     <Text className="title">
-                        Kelola data Pasien
+                        Kelola data Dokter
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item >
+                <Breadcrumb.Item>
                     <Text className="title">
-                        ID Pasien
+                        ID Dokter
                     </Text>
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Card className="form-card">
                 <Row>
                         <Text className="title-tabel">
-                            Ubah Data Pasien
+                            Ubah Data Dokter
                         </Text>
                     </Row>
                 <Row >
                 <Form form={form} name="control-hooks" onFinish={onFinish}></Form>
                     <Col span={12}>
                     <Col lg={15}>
-                            <Text className="title-label">ID Pasien</Text>
+                            <Text className="title-label">ID Dokter</Text>
                             <Form.Item name="id_pasien" >
                                     <Input className="input-form secondary" />
                             </Form.Item>
@@ -54,7 +53,7 @@ const UbahDataPasien = () => {
                     </Col>
                     <Col span={12}>
                     <Col lg={15}>
-                        <Text className="title-label">Nama Pasien</Text>
+                        <Text className="title-label">Nama Dokter</Text>
                             <Form.Item name="nama_pasien" rules={[{ required: true }]}>
                                     <Input className="input-form secondary" />
                             </Form.Item>
@@ -107,4 +106,4 @@ const UbahDataPasien = () => {
     
 }
 
-export default withRouter(UbahDataPasien)
+export default withRouter(FormDataDokter)

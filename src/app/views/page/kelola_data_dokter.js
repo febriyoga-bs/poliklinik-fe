@@ -8,44 +8,42 @@ import Dummy from '../../dummy/dummy'
 const { Content } = Layout;
 const { Text, Title } = Typography;
 
-const KelolaPasien = () => {
+const KelolaDokter = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [record, setRecord] = useState(false);
+    const [record, setRecord] = useState([]);
 
-    const gotoUbahDataPasien = () => {
-        const loc = '/kelola-data-pengguna/pasien/ubah-data';
+    const gotoTambahDataDokter= () => {
+        const loc = '/kelola-data-pengguna/dokter/tambah-data';
         history.push(loc);
     }
 
-    const columnsPasien = [
+    const gotoUbahDataDokter = () => {
+        const loc = '/kelola-data-pengguna/dokter/ubah-data';
+        history.push(loc);
+    }
+
+    const columnsDokter = [
         {
-            title: "ID Pasien",
-            dataIndex: 'id_pasien',
-            key: 'id_pasien',
-            width: '20',
+            title: "ID Dokter",
+            dataIndex: 'id_dokter',
+            key: 'id_dokter',
+            width: '25%',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
         },
         {
-            title: "Nama Pasien",
+            title: "Nama Dokter",
             dataIndex: 'nama',
             key: 'nama',
-            width: '20',
+            width: '25%',
             sorter: (a, b) => a.nama - b.nama,
         },
         {
-            title: "Kategori",
-            dataIndex: 'kategori',
-            key: 'kategori',
-            width: '20',
+            title: "Spesialisasi",
+            dataIndex: 'spesialisasi',
+            key: 'spesialisasi',
+            width: '25%',
             sorter: (a, b) => a.nama - b.nama,
-        },
-        {
-            title: "Usia",
-            dataIndex: 'usia',
-            key: 'usia',
-            width: '20',
-            sorter: (a, b) => a.usia - b.usia,
         },
         {
             title: 'Kelola',
@@ -58,9 +56,9 @@ const KelolaPasien = () => {
                     <Button
                         onClick={() => {
                             setRecord(record);
-                            gotoUbahDataPasien();
-                        }}
-                    >
+                            gotoUbahDataDokter();
+                        }
+                    }>
                         <Text style={{color: "#000"}}>
                             <EditOutlined style={{fontSize:20}}/>
                         </Text>
@@ -69,7 +67,7 @@ const KelolaPasien = () => {
                   <Col>
                     <Button 
                         onClick={() => {
-                            dialog({icon: "info", title:"Hapus Data Pasien", text: "Apakah Anda yakin akan menghapus data pasien ini?"}).then(()=>{
+                            dialog({icon: "info", title:"Hapus Data Dokter", text: "Apakah Anda yakin akan menghapus data dokter ini?"}).then(()=>{
                                 console.log("deleted");
                             })
                         }}
@@ -99,24 +97,24 @@ const KelolaPasien = () => {
                             <span>Admin</span>
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/kelola-data-pengguna/pasien">
+                    <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
                         <Text className="title">
-                            <span>Kelola Data Pasien</span>
+                            <span>Kelola Data Dokter Poliklinik</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Row style={{marginLeft:40}}>
-                <Col>
-                        <NavLink to="/kelola-data-pengguna/pasien" className="text-heading" activeStyle={{color: '#EB3D00'}}>
-                            <Title level={1} style={{color: '#EB3D00'}}>
+                    <Col>
+                        <NavLink to="/kelola-data-pengguna/pasien" className="text-heading">
+                            <Title level={1} style={{color: '#FFF'}}>
                                 DATA PASIEN
                             </Title>
                         </NavLink>
                     </Col>
                     <Col style={{marginLeft:48}}>
-                        <NavLink to="/kelola-data-pengguna/dokter" className="text-heading">
-                            <Title level={1} style={{color: '#FFF'}}>
+                        <NavLink to="/kelola-data-pengguna/dokter" className="text-heading" activeStyle={{color: '#EB3D00'}}>
+                            <Title level={1} style={{color: '#EB3D00'}}>
                                 DATA DOKTER 
                             </Title>
                         </NavLink>
@@ -134,15 +132,15 @@ const KelolaPasien = () => {
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">
-                                Data Pasien
+                                Data Dokter
                             </Text>
                         </Row>
                         <Table
-                            columns={columnsPasien}
+                            columns={columnsDokter}
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataPasien}
+                            dataSource={Dummy.dataDokter}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -152,4 +150,4 @@ const KelolaPasien = () => {
     );
 }
 
-export default withRouter(KelolaPasien)
+export default withRouter(KelolaDokter)
