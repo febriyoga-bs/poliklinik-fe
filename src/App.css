@@ -215,6 +215,7 @@
   .title-navicon-mobile, .title-navmenu-mobile, .title-home-mobile{
     display: none;
   }
+
 }
 
 @media screen and (max-width: 900px) {
@@ -229,9 +230,14 @@
     letter-spacing: 0px;
     text-align: center;
   }
+
+  .title-navicon-mobile:hover, .title-navmenu-mobile:hover, .title-home-mobile:hover{
+    color: #FFE600;
+    cursor: pointer;
+  }
 }
 
-.title-navmenu:hover, .title-navicon:hover, .title-navicon-mobile:hover, .title-navmenu-mobile:hover, .title-home-mobile:hover{
+.title-navmenu:hover, .title-navicon:hover{
   color: #FFE600;
   cursor: pointer;
 }

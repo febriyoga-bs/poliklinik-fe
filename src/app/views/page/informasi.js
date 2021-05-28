@@ -349,8 +349,9 @@ const Informasi = () => {
                                 Profil Dokter Poliklinik
                             </Text>
                         </Row>
+                        <Row>
                         <List 
-                            grid={{ gutter: 5, 
+                            grid={{ gutter: 20, 
                                 xl: (dataDokter.length < 5) ? dataDokter.length : 5, 
                                 lg: (dataDokter.length < 4) ? dataDokter.length : 4, 
                                 md: (dataDokter.length < 3) ? dataDokter.length : 3, 
@@ -381,14 +382,15 @@ const Informasi = () => {
                                 </List.Item>
                             )}
                         />
-
+                        </Row>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Profil Staf Poliklinik
                             </Text>
                         </Row>
+                        <Row>
                         <List 
-                            grid={{ gutter: 25, 
+                            grid={{ gutter: 20, 
                                 xl: (dataStaf.length < 5) ? dataStaf.length : 5, 
                                 lg: (dataStaf.length < 4) ? dataStaf.length : 4, 
                                 md: (dataStaf.length < 3) ? dataStaf.length : 3, 
@@ -419,6 +421,7 @@ const Informasi = () => {
                                 </List.Item>
                             )}
                         />
+                        </Row>
                     </Card>
                 </Row>
             </Content>
