@@ -277,10 +277,16 @@ const KelolaInformasi = () => {
                 </Row>
                 <Row style={{marginBottom:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
-                        <Row style={{marginBottom:20}}>
+                        <Row>
                             <Text className="title-tabel">
                                 Data Pelayanan Poliklinik
                             </Text>
+                        </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                >
+                                Tambah Data Pelayanan
+                            </Button>
                         </Row>
                         <Table
                             columns={columnsPelayanan}

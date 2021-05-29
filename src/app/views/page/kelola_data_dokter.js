@@ -135,6 +135,12 @@ const KelolaDokter = () => {
                                 Data Dokter
                             </Text>
                         </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                >
+                                Tambah Data Dokter
+                            </Button>
+                        </Row>
                         <Table
                             columns={columnsDokter}
                             size="middle"
