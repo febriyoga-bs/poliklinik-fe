@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, List, Image, Tooltip } from 'antd';
 import { HomeOutlined, SendOutlined } from '@ant-design/icons';
 import CONFIG_INITIAL_STATE  from '../../service/config';
+import { APIServices }  from '../../service';
 
 import Dummy from '../../dummy/dummy'
 
@@ -11,10 +12,90 @@ const { Text } = Typography;
 
 const Informasi = () => {
     const [dataPelayanan, setDataPelayanan] = useState([]);
-    const [dataDokter, setDataDokter] = useState(Dummy.dataDokter);
+    const [dataDokter, setDataDokter] = useState([]);
     const [dataStaf, setDataStaf] = useState([]);
+    const [_dataJadwal, _setDataJadwal] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    useEffect(()=>{
+        getDataPelayanan();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataPelayanan = () => {
+        APIServices.getDataPelayanan().then(res => {
+                if(res.data){
+                setDataPelayanan(res.data.data);
+                //setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                console.log(err.response)
+                //("Internal Server Error (Refresh the Page!");
+                //setLoading(false)
+                }
+            })
+        }
+    
+    useEffect(()=>{
+        getDataDokter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataDokter = () => {
+        APIServices.getAllDataDokter().then(res => {
+                if(res.data){
+                setDataDokter(res.data.data);
+                //setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                console.log(err.response)
+                //("Internal Server Error (Refresh the Page!");
+                //setLoading(false)
+                }
+            })
+        }
+    
+    useEffect(()=>{
+        getDataStaf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
+    const getDataStaf = () => {
+        APIServices.getAllDataStaf().then(res => {
+                if(res.data){
+                setDataStaf(res.data.data);
+                //setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                console.log(err.response)
+                //("Internal Server Error (Refresh the Page!");
+                //setLoading(false)
+                }
+            })
+        }
+    useEffect(()=>{
+        getDataJadwal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataJadwal = () => {
+        APIServices.getDataJadwal().then(res => {
+                if(res.data){
+                _setDataJadwal(res.data.data);
+                //setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                console.log(err.response)
+                //("Internal Server Error (Refresh the Page!");
+                //setLoading(false)
+                }
+            })
+        }
+    
     const dataJadwal = [
         {
             poli: "Umum",
@@ -177,24 +258,12 @@ const Informasi = () => {
         },
         {
             title: "Jenis Poli",
-            dataIndex: 'id_poli',
-            key: 'id_poli',
+            dataIndex: 'poli',
+            key: 'poli',
             width: '15%',
             align: 'center',
             showSorterTooltip: false,
-            sorter: (a, b) => a.id_poli - b.id_poli,
-            render: (value) => {
-                let poli = "";
-
-                if(value === 1){
-                    poli = "Poli Umum";
-                } else {
-                    poli = "Poli Gigi";
-                }
-                return (
-                    <Text>{poli}</Text>
-                )
-            } 
+            sorter: (a, b) => a.poli - b.poli, 
         },
         {
             title: "Tarif",
@@ -337,7 +406,7 @@ const Informasi = () => {
                                 size="middle"
                                 bordered
                                 loading={loading}
-                                dataSource={Dummy.dataPelayanan}
+                                dataSource={dataPelayanan}
                                 // onChange={handleTableChange}
                             />
                     </Card>
@@ -363,7 +432,7 @@ const Informasi = () => {
                                 <List.Item>
                                     <Row>
                                       <Card className="profil-card" >
-                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+"/uploaded/upload_items/" + item.gmbr_barang}  
+                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
                                               preview={false}
                                               className="image-profil"
                                           />
@@ -374,7 +443,7 @@ const Informasi = () => {
                                           </Row>
                                           <Row justify="center">
                                             <Text className="title-profil">
-                                                {item.spesialisasi}
+                                                Dokter {item.spesialisasi}
                                             </Text>
                                           </Row>
                                       </Card>
@@ -397,23 +466,23 @@ const Informasi = () => {
                                 sm: (dataStaf.length < 2) ? dataStaf.length : 2, 
                                 xs: (dataStaf.length < 2) ? dataStaf.length : 2
                             }}
-                            dataSource={Dummy.dataStaf}
+                            dataSource={dataStaf}
                             renderItem={item => (
                                 <List.Item>
                                     <Row justify="center">
                                       <Card className="profil-card" >
-                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+"/uploaded/upload_items/" + item.gmbr_barang}  
+                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
                                               preview={false}
                                               className="image-profil"
                                           />
                                           <Row justify="center">
                                               <Text className="title-profil" ellipsis={{ rows: 1}}>
-                                                Edwin
+                                                {item.nama}
                                               </Text>
                                           </Row>
                                           <Row justify="center">
                                             <Text className="title-profil">
-                                                Petugas Administrasi
+                                                {item.jabatan}
                                             </Text>
                                           </Row>
                                       </Card>

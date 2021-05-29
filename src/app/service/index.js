@@ -90,6 +90,17 @@ const APIServices = {
             {crossdomain: true }
         )
     },
+
+    getAllDataDokter(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDokter`,
+            },
+            {crossdomain: true }
+        )
+    },
+
     getDataStaf(){
         return client.request(
             {
@@ -99,11 +110,42 @@ const APIServices = {
             {crossdomain: true }
         )
     },
+
+    getAllDataStaf(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getAllStaf`,
+            },
+            {crossdomain: true }
+        )
+    },
+
     getDataPasien(){
         return client.request(
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getPasienById`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getDataPelayanan(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getPelayanan`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getDataJadwal(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getJadwal`,
             },
             {crossdomain: true }
         )
