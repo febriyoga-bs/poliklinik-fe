@@ -90,7 +90,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   ADM00001{/* {{stafInfo.nama_user ? userInfo.nama_user : "-"}} */}
+                                   ADM0000{stafInfo.id_staf ? stafInfo.id_staf: "-"}
                                 </Title>
                             </Col>
                         </Row>

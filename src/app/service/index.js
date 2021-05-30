@@ -150,6 +150,16 @@ const APIServices = {
             {crossdomain: true }
         )
     },
+
+    getDataProfil(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getProfil`,
+            },
+            {crossdomain: true }
+        )    
+    },
 }
 
 export { APIServices }

@@ -73,7 +73,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   P00001{/* {{stafInfo.nama_user ? userInfo.nama_user : "-"}} */}
+                                   P0000{pasienInfo.id_pasien ? pasienInfo.id_pasien : "-"}
                                 </Title>
                             </Col>
                         </Row>

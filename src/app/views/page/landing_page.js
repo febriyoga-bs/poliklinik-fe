@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Image, Typography } from 'antd';
 import Fade from 'react-reveal/Fade';
 import poli from "../../../assets/poli.jpg"
+import { APIServices }  from '../../service';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -11,9 +12,24 @@ const LandingPage = () => {
     const [dataProfil, setDataProfil] = useState([]);
 
     useEffect(()=>{
-        setDataProfil({deskripsi: "Poliklinik POLBAN merupakan Unit Pelayanan Kesehatan bagi civitas akademika POLBAN dan masyarakat umum di sekitarnya. Terdiri dari dua poli yaitu, Poli Umum dan Poli Gigi."})
+        getDataProfil()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const getDataProfil = () => {
+        APIServices.getDataProfil().then(res => {
+            if(res.data){
+            setDataProfil(res.data.data[0]);
+            //setLoading(false)
+            }
+        }).catch(err => {
+            if(err){
+            console.log(err.response)
+            //("Internal Server Error (Refresh the Page!");
+            //setLoading(false)
+            }
+        })
+    }
 
     return(
         <Layout>
