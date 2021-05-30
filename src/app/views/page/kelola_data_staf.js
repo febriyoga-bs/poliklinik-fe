@@ -124,6 +124,12 @@ const KelolaStaf = () => {
                                 Data Staf
                             </Text>
                         </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                >
+                                Tambah Data Staf
+                            </Button>
+                        </Row>
                         <Table
                             columns={columnsStaf}
                             size="middle"
