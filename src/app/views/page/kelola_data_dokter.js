@@ -11,16 +11,15 @@ const { Text, Title } = Typography;
 const KelolaDokter = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [record, setRecord] = useState([]);
 
     const gotoTambahDataDokter= () => {
         const loc = '/kelola-data-pengguna/dokter/tambah-data';
         history.push(loc);
     }
 
-    const gotoUbahDataDokter = () => {
+    const gotoUbahDataDokter = (data) => {
         const loc = '/kelola-data-pengguna/dokter/ubah-data';
-        history.push(loc);
+        history.push({pathname:loc, state:data});
     }
 
     const columnsDokter = [
@@ -30,6 +29,12 @@ const KelolaDokter = () => {
             key: 'id_dokter',
             width: '25%',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
+        },
+        {
+            title: "Foto",
+            dataIndex: 'avatar',
+            key: 'avatar',
+            width: '25%',
         },
         {
             title: "Nama Dokter",
@@ -55,8 +60,7 @@ const KelolaDokter = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
-                            gotoUbahDataDokter();
+                            gotoUbahDataDokter(record);
                         }
                     }>
                         <Text style={{color: "#000"}}>
@@ -99,7 +103,7 @@ const KelolaDokter = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
                         <Text className="title">
-                            <span>Kelola Data Dokter Poliklinik</span>
+                            <span>Kelola Data Dokter</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
@@ -128,7 +132,7 @@ const KelolaDokter = () => {
                     </Col>
                 </Row>
 
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">
@@ -137,7 +141,10 @@ const KelolaDokter = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                >
+                                onClick={() => {
+                                    gotoTambahDataDokter();
+                                }}
+                            >
                                 Tambah Data Dokter
                             </Button>
                         </Row>

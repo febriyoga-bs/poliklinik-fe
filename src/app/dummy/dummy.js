@@ -10,11 +10,35 @@ const dataPasien = [
         id_pasien: "P01001",
         no_telepon: "081212341234",
         nama: "Andi Fauzy",
-        tanggal_lahir: "2000-01-11",
+        tanggal_lahir: "2000/01/11",
         jenis_kelamin: "Laki-laki",
         kategori: "Mahasiswa",
         nomor_identitas: "181511007",
         alamat: "GBI, Bojongsoang",
+        jurusan: "Jurusan Teknik Komputer",
+        prodi: "D3 - Teknik Informatika"
+    },
+    {
+        id_pasien: "P01002",
+        no_telepon: "081212345678",
+        nama: "Rofiq Suhay",
+        tanggal_lahir: "Punteun, teu terang :(",
+        jenis_kelamin: "Laki-laki",
+        kategori: "Mahasiswa",
+        nomor_identitas: "181511031",
+        alamat: "Pangalengan",
+        jurusan: "Jurusan Teknik Komputer",
+        prodi: "D3 - Teknik Informatika"
+    },
+    {
+        id_pasien: "P01003",
+        no_telepon: "081212345678",
+        nama: "Fahmi Widia",
+        tanggal_lahir: "20/10/1999",
+        jenis_kelamin: "Laki-laki",
+        kategori: "Mahasiswa",
+        nomor_identitas: "181511012",
+        alamat: "Banjaran",
         jurusan: "Jurusan Teknik Komputer",
         prodi: "D3 - Teknik Informatika"
     }
@@ -47,6 +71,13 @@ const dataDokter = [
 const dataStaf = [
     {
         id_staf: "S01001",
+        no_telepon: "081243214321",
+        nama: "Wastu K. Purbandini",
+        jabatan: "Ketua UPT Kesehatan",
+        avatar: "gambar.jpg"
+    },
+    {
+        id_staf: "S02001",
         no_telepon: "081243214321",
         nama: "Edwin",
         jabatan: "Petugas Administrasi",

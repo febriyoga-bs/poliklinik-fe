@@ -29,6 +29,7 @@ const Informasi = () => {
                 //setLoading(false)
                 }
             }).catch(err => {
+                setDataPelayanan(Dummy.dataPelayanan);
                 if(err){
                 console.log(err.response)
                 //("Internal Server Error (Refresh the Page!");
@@ -50,6 +51,7 @@ const Informasi = () => {
                 }
             }).catch(err => {
                 if(err){
+                    setDataDokter(Dummy.dataDokter);
                 console.log(err.response)
                 //("Internal Server Error (Refresh the Page!");
                 //setLoading(false)
@@ -69,6 +71,7 @@ const Informasi = () => {
                 //setLoading(false)
                 }
             }).catch(err => {
+                setDataStaf(Dummy.dataStaf);
                 if(err){
                 console.log(err.response)
                 //("Internal Server Error (Refresh the Page!");
@@ -377,7 +380,7 @@ const Informasi = () => {
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -394,7 +397,7 @@ const Informasi = () => {
                         />
                     </Card>
                 </Row>
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -411,7 +414,7 @@ const Informasi = () => {
                             />
                     </Card>
                 </Row>
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -420,7 +423,7 @@ const Informasi = () => {
                         </Row>
                         <Row>
                         <List 
-                            grid={{ gutter: 20, 
+                            grid={{ gutter: 30, 
                                 xl: (dataDokter.length < 5) ? dataDokter.length : 5, 
                                 lg: (dataDokter.length < 4) ? dataDokter.length : 4, 
                                 md: (dataDokter.length < 3) ? dataDokter.length : 3, 
@@ -432,10 +435,12 @@ const Informasi = () => {
                                 <List.Item>
                                     <Row>
                                       <Card className="profil-card" >
-                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
-                                              preview={false}
-                                              className="image-profil"
-                                          />
+                                          <Row justify="center">
+                                            <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
+                                                preview={false}
+                                                className="image-profil"
+                                            />
+                                          </Row>
                                           <Row justify="center">
                                               <Text className="title-profil" ellipsis={{ rows: 1}}>
                                                 {item.nama}
@@ -443,7 +448,7 @@ const Informasi = () => {
                                           </Row>
                                           <Row justify="center">
                                             <Text className="title-profil">
-                                                Dokter {item.spesialisasi}
+                                                {item.spesialisasi}
                                             </Text>
                                           </Row>
                                       </Card>
@@ -459,7 +464,7 @@ const Informasi = () => {
                         </Row>
                         <Row>
                         <List 
-                            grid={{ gutter: 20, 
+                            grid={{ gutter: 30, 
                                 xl: (dataStaf.length < 5) ? dataStaf.length : 5, 
                                 lg: (dataStaf.length < 4) ? dataStaf.length : 4, 
                                 md: (dataStaf.length < 3) ? dataStaf.length : 3, 
@@ -471,10 +476,12 @@ const Informasi = () => {
                                 <List.Item>
                                     <Row justify="center">
                                       <Card className="profil-card" >
-                                          <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
-                                              preview={false}
-                                              className="image-profil"
-                                          />
+                                          <Row justify="center">
+                                            <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
+                                                preview={false}
+                                                className="image-profil"
+                                            />
+                                          </Row>
                                           <Row justify="center">
                                               <Text className="title-profil" ellipsis={{ rows: 1}}>
                                                 {item.nama}

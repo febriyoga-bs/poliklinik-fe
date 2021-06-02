@@ -4,6 +4,7 @@ import { Layout, Row, Col, Image, Typography } from 'antd';
 import Fade from 'react-reveal/Fade';
 import poli from "../../../assets/poli.jpg"
 import { APIServices }  from '../../service';
+import dummy from "../../dummy/dummy";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -24,6 +25,7 @@ const LandingPage = () => {
             }
         }).catch(err => {
             if(err){
+            setDataProfil(dummy.dataProfil);
             console.log(err.response)
             //("Internal Server Error (Refresh the Page!");
             //setLoading(false)
@@ -34,7 +36,7 @@ const LandingPage = () => {
     return(
         <Layout>
             <Content className="layout-home">
-                <Image src={poli} style={{position:"fixed", width:"100%"}} preview={false}>
+                <Image src={poli} style={{position:"fixed", width:"100%", minHeight:600}} preview={false}>
                 </Image>
                 <Row style={{marginLeft:20, marginTop:80, minHeight:600}}>
                     <Col offset={10} xs={12} md={12} lg={12}>

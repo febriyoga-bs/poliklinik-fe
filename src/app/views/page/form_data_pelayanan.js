@@ -1,15 +1,30 @@
-import React, { useEffect } from "react";
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useHistory, withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
 
-const UbahDataPelayanan = () => {
-    const test = "UBAH DATA LAYANAN"
+const UbahDataPelayanan = (props) => {
+    const history = useHistory();
     const [form] = Form.useForm();
-    const onFinish= () => {}
+    const [loading, setLoading] = useState(false);
+
+    useEffect(()=>{
+        console.log(props.location)
+        if(props.location.state){
+          form.setFieldsValue(props.location.state);
+        }else{
+          form.resetFields()
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onFinish= (values) => {
+        setLoading(true);
+
+    }
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
@@ -32,7 +47,7 @@ const UbahDataPelayanan = () => {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="/#/kelola-informasi/data-pelayanan">
                     <Text className="title">
-                        Tambah data Pelayanan
+                        {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
                     </Text>
                 </Breadcrumb.Item>
             </Breadcrumb>
@@ -40,15 +55,15 @@ const UbahDataPelayanan = () => {
                 <Card className="form-card" style={{textAlign:"left"}}>
                     <Row style={{marginBottom:20}}>
                         <Text className="title-tabel">
-                            Tambah Data Pelayanan
+                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
                         </Text>
                     </Row>
                    
                         <Form form={form} onFinish={onFinish}>
-                            <Row justify="space-between">
+                            <Row justify="space-between" gutter={20}>
                                 <Col span={12}>
                                     <Text className="title-label">Nama Pelayanan</Text>
-                                    <Form.Item name="nama_pelayanan" rules={[{ required: true }]}>
+                                    <Form.Item name="nama" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" />
                                     </Form.Item>
                                     
@@ -65,7 +80,7 @@ const UbahDataPelayanan = () => {
                                     </Form.Item>
 
                                     <Text className="title-label">Tarif Staf/Dosen</Text>
-                                    <Form.Item name="tarif_staf_dosen" rules={[{ required: true }]}>
+                                    <Form.Item name="tarif_staf_kampus" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" />
                                     </Form.Item>
 
@@ -81,11 +96,16 @@ const UbahDataPelayanan = () => {
                                 </Col>
                             </Row>
                             <Row justify="center">
-                                <Button type="grey" shape="round" >
+                                <Button className="app-btn tertiary" onClick={()=> {history.goBack()}}>
                                     Cancel
                                 </Button>
                                 &nbsp;
-                                <Button type="primary" shape="round" >
+                                <Button className="app-btn secondary" 
+                                    type="primary"
+                                    htmlType="submit"
+                                    disabled={loading}
+                                >
+                                    {loading && <LoadingOutlined />}
                                     Submit
                                 </Button>
                             </Row>

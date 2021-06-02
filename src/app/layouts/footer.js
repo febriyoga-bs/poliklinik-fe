@@ -30,7 +30,7 @@ const FooterLayout = (props) => {
                 <Col xs={24} lg={8}>
                     <Row justify="center">
                         <Text className="title-footer">
-                            © 2021 | Poliklinik Politeknik Negeri Bandung
+                            © 2021 | KoTA 101 | Poliklinik Politeknik Negeri Bandung
                         </Text>
                     </Row>
                 </Col>

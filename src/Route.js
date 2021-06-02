@@ -8,6 +8,8 @@ import FooterLayout from './app/layouts/footer';
 import LandingPage from "./app/views/page/landing_page";
 import LoginUser from "./app/views/page/user_login";
 import Register from "./app/views/page/pasien_register";
+import Antrian from "./app/views/page/layanan_antrian";
+import Konsultasi from "./app/views/page/layanan_konsultasi";
 import Informasi from "./app/views/page/informasi";
 import ProfilDokter from "./app/views/page/profil_dokter";
 import ProfilStaf from "./app/views/page/profil_staf";
@@ -18,7 +20,9 @@ import KelolaDokter from "./app/views/page/kelola_data_dokter";
 import KelolaStaf from "./app/views/page/kelola_data_staf";
 import FormDataPasien from "./app/views/page/form_data_pasien";
 import FormDataDokter from "./app/views/page/form_data_dokter";
-import FormDataStaf from "./app/views/page/form_data_dokter";
+import FormDataStaf from "./app/views/page/form_data_staf";
+import FormProfilPoliklinik from "./app/views/page/form_profil_poliklinik";
+import FormDataJadwal from "./app/views/page/form_data_jadwal";
 import FormDataPelayanan from "./app/views/page/form_data_pelayanan";
 
 import Template from "./app/views/page/template";
@@ -73,7 +77,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={LoginUser} />
             <Route exact path="/registrasi" component={Register} />
-            <Route exact path="/layanan" component={Template} />
+            <Route exact path="/antrian-poliklinik" component={Antrian} />
+            <Route exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
             <PrivateRoute exact path="/profil-pasien" component={ProfilPasien} />
@@ -81,6 +86,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <PrivateRouteAdmin exact path="/kelola-informasi" component={RouteKelola} />
             <PrivateRouteAdmin exact path="/kelola-data-pengguna" component={RouteKelola} />
             <PrivateRouteDokter exact path="/profil-dokter" component={ProfilDokter} />
+            <Route exact path="!!" component={Template} />
             <FooterLayout/>
           </React.Fragment>
         </HashRouter>
@@ -100,8 +106,9 @@ function PrivateRoute({ component: Component, path, ...rest }) {
         <PrivateRouteAdmin exact path="/kelola-data-pengguna/staf" component={KelolaStaf} />
         <PrivateRouteAdmin exact path="/kelola-data-pengguna/staf/:aksi" component={FormDataStaf} />
         <PrivateRouteAdmin exact path="/kelola-informasi" component={KelolaInformasi} />
-        <PrivateRouteAdmin exact path="/kelola-informasi/data-pasien" component={FormDataPasien} />
-        <PrivateRouteAdmin exact path="/kelola-informasi/data-pelayanan" component={FormDataPelayanan} />
+        <PrivateRouteAdmin exact path="/kelola-informasi/profil-poliklinik" component={FormProfilPoliklinik} />
+        <PrivateRouteAdmin exact path="/kelola-informasi/jadwal" component={FormDataJadwal} />
+        <PrivateRouteAdmin exact path="/kelola-informasi/pelayanan/:aksi" component={FormDataPelayanan} />
       </Switch>
     )
   }

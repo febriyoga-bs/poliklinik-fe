@@ -18,6 +18,11 @@ const Register = () => {
     const [fieldActive, setFieldActive] = useState(false);
     //
 
+    const gotoLogin = () => {
+        const loc = '/login';
+        history.push(loc);
+    }
+
     const onFinish = () => {
 
     }
@@ -286,7 +291,7 @@ const Register = () => {
                         </Row>
                     </Col>
                     <Col md={10} lg={10}>
-                    <Row justify="center">
+                        <Row justify="center">
                             <Card className="registrasi-card">
                                 <Row justify="center" style={{marginBottom:40}}>
                                     <Text className="title bold" style={{textAlign:"center"}}>
@@ -299,6 +304,24 @@ const Register = () => {
                                         {regisForm}
                                     </Form>
                                 </Row>
+                                {(regisStep===1) ?
+                                    <div>
+                                    <Row justify="center">
+                                        <Text className="title bold">
+                                            Sudah Punya Akun?
+                                        </Text>
+                                    </Row>
+                                    <Row justify="center">
+                                        <Button type="text" onClick={gotoLogin}>
+                                            <Text className="title-button" style={{color: "#FFE600", marginBottom:20}}>
+                                                Login
+                                            </Text>
+                                        </Button>
+                                    </Row>
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
                             </Card>
                         </Row>
                     </Col>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
@@ -9,8 +9,18 @@ const { Content } = Layout;
 const { Text, Title } = Typography;
 
 const KelolaStaf = () => {
+    const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [record, setRecord] = useState([]);
+ 
+    const gotoTambahDataStaf= () => {
+        const loc = '/kelola-data-pengguna/staf/tambah-data';
+        history.push(loc);
+    }
+
+    const gotoUbahDataStaf = (data) => {
+        const loc = '/kelola-data-pengguna/staf/ubah-data';
+        history.push({pathname:loc, state:data});
+    }
 
     const columnsStaf = [
         {
@@ -19,6 +29,12 @@ const KelolaStaf = () => {
             key: 'id_staf',
             width: '25%',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
+        },
+        {
+            title: "Foto",
+            dataIndex: 'avatar',
+            key: 'avatar',
+            width: '25%',
         },
         {
             title: "Nama Staf",
@@ -44,8 +60,7 @@ const KelolaStaf = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
-                            console.log(record);
+                            gotoUbahDataStaf(record);
                         }
                     }>
                         <Text style={{color: "#000"}}>
@@ -88,7 +103,7 @@ const KelolaStaf = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/#/kelola-data-pengguna/staf">
                         <Text className="title">
-                            <span>Kelola Data Staf Poliklinik</span>
+                            <span>Kelola Data Staf</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
@@ -117,7 +132,7 @@ const KelolaStaf = () => {
                     </Col>
                 </Row>
 
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">
@@ -126,7 +141,10 @@ const KelolaStaf = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                >
+                                onClick={() => {
+                                    gotoTambahDataStaf();
+                                }}
+                            >
                                 Tambah Data Staf
                             </Button>
                         </Row>

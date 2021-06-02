@@ -6,7 +6,7 @@ import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const FormDataDokter = (props) => {
+const FormDataStaf = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -40,9 +40,9 @@ const FormDataDokter = (props) => {
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
+                <Breadcrumb.Item href="/#/kelola-data-pengguna/staf">
                     <Text className="title">
-                        Kelola Data Dokter
+                        Kelola Data Staf
                     </Text>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
@@ -61,8 +61,8 @@ const FormDataDokter = (props) => {
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                     <Row justify="center">
                         <Col span={24}>
-                                <Text className="title-label">ID Dokter</Text>
-                                <Form.Item name="id_dokter" >
+                                <Text className="title-label">ID Staf</Text>
+                                <Form.Item name="id_staf" >
                                         <Input className="input-form secondary" disabled/>
                                 </Form.Item>
 
@@ -76,13 +76,13 @@ const FormDataDokter = (props) => {
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
-                                <Text className="title-label">Nama Dokter</Text>
+                                <Text className="title-label">Nama Staf</Text>
                                 <Form.Item name="nama" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
-                                <Text className="title-label">Spesialisasi</Text>
-                                        <Form.Item name="spesialisasi" rules={[{ required: true }]}>
+                                <Text className="title-label">Jabatan</Text>
+                                        <Form.Item name="jabatan" rules={[{ required: true }]}>
                                             <Input className="input-form secondary" />
                                         </Form.Item>
                         </Col>
@@ -110,4 +110,4 @@ const FormDataDokter = (props) => {
     
 }
 
-export default withRouter(FormDataDokter)
+export default withRouter(FormDataStaf)

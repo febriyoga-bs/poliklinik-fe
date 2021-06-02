@@ -6,7 +6,7 @@ import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const FormDataDokter = (props) => {
+const FormDataJadwal = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -40,14 +40,14 @@ const FormDataDokter = (props) => {
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
+                <Breadcrumb.Item href="/#/kelola-informasi">
                     <Text className="title">
-                        Kelola Data Dokter
+                        Kelola Informasi
                     </Text>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                     <Text className="title">
-                        {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
+                        Ubah Jadwal Pelayanan
                     </Text>
                 </Breadcrumb.Item>
             </Breadcrumb>
@@ -55,34 +55,29 @@ const FormDataDokter = (props) => {
             <Card className="form-card" style={{textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
+                            Ubah Jadwal Pelayanan
                         </Text>
                     </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                     <Row justify="center">
                         <Col span={24}>
-                                <Text className="title-label">ID Dokter</Text>
-                                <Form.Item name="id_dokter" >
+                                <Text className="title-label">Hari</Text>
+                                <Form.Item name="hari" >
                                         <Input className="input-form secondary" disabled/>
                                 </Form.Item>
 
-                                <Text className="title-label">Nomor Telepon</Text>
-                                <Form.Item name="no_telepon">
-                                        <Input className="input-form secondary" disabled/>
-                                </Form.Item>
-
-                                <Text className="title-label">Foto</Text>
-                                <Form.Item name="avatar" rules={[{ required: true }]}>
+                                <Text className="title-label">Jam Operasional</Text>
+                                <Form.Item name="jam_operasional">
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
-                                <Text className="title-label">Nama Dokter</Text>
-                                <Form.Item name="nama" rules={[{ required: true }]}>
+                                <Text className="title-label">Poli</Text>
+                                <Form.Item name="poli" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
-                                <Text className="title-label">Spesialisasi</Text>
-                                        <Form.Item name="spesialisasi" rules={[{ required: true }]}>
+                                <Text className="title-label">Dokter</Text>
+                                        <Form.Item name="dokter" rules={[{ required: true }]}>
                                             <Input className="input-form secondary" />
                                         </Form.Item>
                         </Col>
@@ -110,4 +105,4 @@ const FormDataDokter = (props) => {
     
 }
 
-export default withRouter(FormDataDokter)
+export default withRouter(FormDataJadwal)

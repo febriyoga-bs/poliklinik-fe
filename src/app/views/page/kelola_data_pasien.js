@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
-import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import Dummy from '../../dummy/dummy'
 
@@ -13,9 +13,9 @@ const KelolaPasien = () => {
     const [loading, setLoading] = useState(false);
     const [record, setRecord] = useState(false);
 
-    const gotoUbahDataPasien = () => {
+    const gotoUbahDataPasien = (data) => {
         const loc = '/kelola-data-pengguna/pasien/ubah-data';
-        history.push(loc);
+        history.push({pathname:loc, state:data});
     }
 
     const columnsPasien = [
@@ -24,6 +24,7 @@ const KelolaPasien = () => {
             dataIndex: 'id_pasien',
             key: 'id_pasien',
             width: '20',
+            align: 'center',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
         },
         {
@@ -31,6 +32,7 @@ const KelolaPasien = () => {
             dataIndex: 'nama',
             key: 'nama',
             width: '20',
+            align: 'center',
             sorter: (a, b) => a.nama - b.nama,
         },
         {
@@ -38,14 +40,53 @@ const KelolaPasien = () => {
             dataIndex: 'kategori',
             key: 'kategori',
             width: '20',
+            align: 'center',
             sorter: (a, b) => a.nama - b.nama,
         },
         {
             title: "Usia",
             dataIndex: 'usia',
             key: 'usia',
-            width: '20',
+            align: 'center',
             sorter: (a, b) => a.usia - b.usia,
+        },
+        {
+            title: "Nomor Rekam Medis",
+            children: [
+                {
+                    title: "Poli Gigi",
+                    dataIndex: 'gigi',
+                    key: 'gigi',
+                    align: 'center',
+                    sorter: (a, b) => a.usia - b.usia,
+                },
+                {
+                    title: "Poli Umum",
+                    dataIndex: 'umum',
+                    key: 'umum',
+                    align: 'center',
+                    sorter: (a, b) => a.usia - b.usia,
+                }
+            ]
+        },
+        {
+            title: "Detail",
+            align: 'center',
+            render: (record) => {
+                return (
+                    <Row justify="center">
+                        <Button
+                            onClick={() => {
+                                console.log(record);
+                            }}
+                        >
+                            <Text style={{color: "#000"}}>
+                                <InfoOutlined style={{fontSize:20}}/>
+                            </Text>
+                        </Button>
+                    </Row>
+                )
+            }
         },
         {
             title: 'Kelola',
@@ -58,7 +99,8 @@ const KelolaPasien = () => {
                     <Button
                         onClick={() => {
                             setRecord(record);
-                            gotoUbahDataPasien();
+                            console.log(record);
+                            gotoUbahDataPasien(record);
                         }}
                     >
                         <Text style={{color: "#000"}}>
@@ -107,7 +149,7 @@ const KelolaPasien = () => {
                 </Breadcrumb>
 
                 <Row style={{marginLeft:40}}>
-                <Col>
+                    <Col>
                         <NavLink to="/kelola-data-pengguna/pasien" className="text-heading" activeStyle={{color: '#EB3D00'}}>
                             <Title level={1} style={{color: '#EB3D00'}}>
                                 DATA PASIEN
@@ -130,9 +172,9 @@ const KelolaPasien = () => {
                     </Col>
                 </Row>
 
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
-                        <Row>
+                        <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Data Pasien
                             </Text>

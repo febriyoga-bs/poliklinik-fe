@@ -14,11 +14,25 @@ const KelolaInformasi = () => {
     const [dataJadwal, setDataJadwal] = useState([]);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [record, setRecord] = useState([]);
 
-    const gotoUbahPelayanan = () => {
-        const loc = '/kelola-informasi/data-pelayanan';
+    const gotoTambahDataPelayanan= () => {
+        const loc = '/kelola-informasi/pelayanan/tambah-data';
         history.push(loc);
+    }
+
+    const gotoUbahDataPelayanan = (data) => {
+        const loc = '/kelola-informasi/pelayanan/ubah-data';
+        history.push({pathname:loc, state:data});
+    }
+
+    const gotoUbahProfilPoliklinik = (data) => {
+        const loc = '/kelola-informasi/profil-poliklinik';
+        history.push({pathname:loc, state:data});
+    }
+
+    const gotoUbahJadwal = (data) => {
+        const loc = '/kelola-informasi/jadwal';
+        history.push({pathname:loc, state:data});
     }
 
     const columnsProfil = [
@@ -46,19 +60,11 @@ const KelolaInformasi = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
-                            console.log(record);
+                            gotoUbahProfilPoliklinik(record);
                         }
                     }>
                         <Text style={{color: "#000"}}>
                             <EditOutlined style={{fontSize:20}}/>
-                        </Text>
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button >
-                        <Text style={{color: "#000"}}>
-                            <DeleteOutlined style={{fontSize:20}}/>
                         </Text>
                     </Button>
                   </Col>
@@ -107,19 +113,11 @@ const KelolaInformasi = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
-                            console.log(record);
+                            gotoUbahJadwal(record);
                         }
                     }>
                         <Text style={{color: "#000"}}>
                             <EditOutlined style={{fontSize:20}}/>
-                        </Text>
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button >
-                        <Text style={{color: "#000"}}>
-                            <DeleteOutlined style={{fontSize:20}}/>
                         </Text>
                     </Button>
                   </Col>
@@ -157,6 +155,16 @@ const KelolaInformasi = () => {
                     width: '15%',
                     align: 'center',
                     sorter: (a, b) => a.tarif_mahasiswa - b.tarif_mahasiswa, 
+                    render: (harga) => {
+                        if(harga === null){
+                            harga = 0
+                        }
+                        let currency = "";
+                        currency = "Rp. " + (Number(harga)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+                        return (
+                            <Text>{currency}</Text>
+                        )
+                    }
                 },
                 {
                     title: "Tarif Staf/Dosen",
@@ -164,7 +172,17 @@ const KelolaInformasi = () => {
                     key: 'tarif_staf_dosen',
                     width: '15%',
                     align: 'center',
-                    sorter: (a, b) => a.tarif_staf_dosen - b.tarif_staf_dosen, 
+                    sorter: (a, b) => a.tarif_staf_dosen - b.tarif_staf_dosen,
+                    render: (harga) => {
+                        if(harga === null){
+                            harga = 0
+                        }
+                        let currency = "";
+                        currency = "Rp. " + (Number(harga)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+                        return (
+                            <Text>{currency}</Text>
+                        )
+                    }
                 },
                 {
                     title: "Tarif Keluarga",
@@ -173,6 +191,16 @@ const KelolaInformasi = () => {
                     width: '15%',
                     align: 'center',
                     sorter: (a, b) => a.tarif_keluarga - b.tarif_keluarga, 
+                    render: (harga) => {
+                        if(harga === null){
+                            harga = 0
+                        }
+                        let currency = "";
+                        currency = "Rp. " + (Number(harga)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+                        return (
+                            <Text>{currency}</Text>
+                        )
+                    }
                 },
                 {
                     title: "Tarif Umum",
@@ -181,6 +209,16 @@ const KelolaInformasi = () => {
                     width: '15%',
                     align: 'center',
                     sorter: (a, b) => a.tarif_umum - b.tarif_umum, 
+                    render: (harga) => {
+                        if(harga === null){
+                            harga = 0
+                        }
+                        let currency = "";
+                        currency = "Rp. " + (Number(harga)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+                        return (
+                            <Text>{currency}</Text>
+                        )
+                    }
                 },
             ]
         },
@@ -194,8 +232,7 @@ const KelolaInformasi = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
-                            gotoUbahPelayanan();
+                            gotoUbahDataPelayanan(record);
                         }
                     }>
                         <Text style={{color: "#000"}}>
@@ -236,9 +273,9 @@ const KelolaInformasi = () => {
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Col lg={12}>
-                    <Card className="informasi-card">
+                    <Card className="informasi-card" style={{minHeight:450}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Profil Poliklinik
@@ -257,7 +294,7 @@ const KelolaInformasi = () => {
                     </Col>
 
                     <Col lg={12}>
-                    <Card className="informasi-card" style={{width:"100%"}}>
+                    <Card className="informasi-card" style={{minHeight:450}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Jadwal Pelayanan Poliklinik
@@ -275,7 +312,7 @@ const KelolaInformasi = () => {
                     </Card>
                     </Col>
                 </Row>
-                <Row style={{marginBottom:20}}>
+                <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">
@@ -283,8 +320,12 @@ const KelolaInformasi = () => {
                             </Text>
                         </Row>
                         <Row justify="end">
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                >
+                            <Button type='primary' className="app-btn secondary" info 
+                                style={{marginTop: 10, marginBottom:10}} 
+                                onClick={() => {
+                                    gotoTambahDataPelayanan();
+                                }}
+                            >
                                 Tambah Data Pelayanan
                             </Button>
                         </Row>
