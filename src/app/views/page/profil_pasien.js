@@ -5,6 +5,7 @@ import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd'
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/logo.jpg";
+import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -25,6 +26,7 @@ const ProfilPasien = () => {
             }
         }).catch(err => {
             if(err){
+                setPasienInfo(Dummy.dataPasien[0])
             console.log(err.response)
             //("Internal Server Error (Refresh the Page!");
             //setLoading(false)
@@ -73,7 +75,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   P0000{pasienInfo.id_pasien ? pasienInfo.id_pasien : "-"}
+                                   {pasienInfo.id_pasien ? pasienInfo.id_pasien : "-"}
                                 </Title>
                             </Col>
                         </Row>

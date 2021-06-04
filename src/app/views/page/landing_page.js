@@ -10,7 +10,8 @@ const { Content } = Layout;
 const { Text } = Typography;
 
 const LandingPage = () => {
-    const [dataProfil, setDataProfil] = useState([]);
+    const [dataProfil, setDataProfil] = useState(dummy.dataProfil[0]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
         getDataProfil()
@@ -18,17 +19,16 @@ const LandingPage = () => {
     }, []);
 
     const getDataProfil = () => {
+        setLoading(true)
         APIServices.getDataProfil().then(res => {
             if(res.data){
-            setDataProfil(res.data.data[0]);
-            //setLoading(false)
+                setDataProfil(res.data.data[0]);
+                setLoading(false)
             }
         }).catch(err => {
             if(err){
-            setDataProfil(dummy.dataProfil);
-            console.log(err.response)
-            //("Internal Server Error (Refresh the Page!");
-            //setLoading(false)
+                console.log(dataProfil)
+                setLoading(false)
             }
         })
     }

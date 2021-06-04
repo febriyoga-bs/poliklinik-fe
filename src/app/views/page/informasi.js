@@ -14,99 +14,89 @@ const Informasi = () => {
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [dataDokter, setDataDokter] = useState([]);
     const [dataStaf, setDataStaf] = useState([]);
-    const [_dataJadwal, _setDataJadwal] = useState([]);
+    const [dataJadwal, setDataJadwal] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
         getDataPelayanan();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const getDataPelayanan = () => {
-        APIServices.getDataPelayanan().then(res => {
-                if(res.data){
-                setDataPelayanan(res.data.data);
-                //setLoading(false)
-                }
-            }).catch(err => {
-                setDataPelayanan(Dummy.dataPelayanan);
-                if(err){
-                console.log(err.response)
-                //("Internal Server Error (Refresh the Page!");
-                //setLoading(false)
-                }
-            })
-        }
-    
-    useEffect(()=>{
+        getDataJadwal();
+        getDataStaf();
         getDataDokter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const getDataPelayanan = () => {
+        setLoading(true);
+        APIServices.getDataPelayanan().then(res => {
+                if(res.data){
+                    setDataPelayanan(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                setDataPelayanan(Dummy.dataPelayanan);
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+
     const getDataDokter = () => {
+        setLoading(true);
         APIServices.getAllDataDokter().then(res => {
                 if(res.data){
-                setDataDokter(res.data.data);
-                //setLoading(false)
+                    setDataDokter(res.data.data);
+                    setLoading(false)
                 }
             }).catch(err => {
                 if(err){
                     setDataDokter(Dummy.dataDokter);
-                console.log(err.response)
-                //("Internal Server Error (Refresh the Page!");
-                //setLoading(false)
+                    console.log(err.response)
+                    setLoading(false)
                 }
             })
         }
     
-    useEffect(()=>{
-        getDataStaf();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    
     const getDataStaf = () => {
+        setLoading(true);
         APIServices.getAllDataStaf().then(res => {
                 if(res.data){
-                setDataStaf(res.data.data);
-                //setLoading(false)
+                    setDataStaf(res.data.data);
+                    setLoading(false)
                 }
             }).catch(err => {
                 setDataStaf(Dummy.dataStaf);
                 if(err){
-                console.log(err.response)
-                //("Internal Server Error (Refresh the Page!");
-                //setLoading(false)
+                    console.log(err.response)
+                    setLoading(false)
                 }
             })
         }
-    useEffect(()=>{
-        getDataJadwal();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const getDataJadwal = () => {
+        setLoading(true);
         APIServices.getDataJadwal().then(res => {
                 if(res.data){
-                _setDataJadwal(res.data.data);
-                //setLoading(false)
+                    setDataJadwal(res.data.data);
+                    setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                console.log(err.response)
-                //("Internal Server Error (Refresh the Page!");
-                //setLoading(false)
+                    setDataJadwal(Dummy.dataJadwal)
+                    console.log(err.response)
+                    setLoading(false)
                 }
             })
         }
     
-    const dataJadwal = [
+    const _dataJadwal = [
         {
             poli: "Umum",
-            jadwal: Dummy.dataJadwal
+            jadwal: dataJadwal ? dataJadwal : [1,2,3,4,5]
         },
         {
             poli: "Gigi",
-            jadwal: Dummy.dataJadwal
+            jadwal: dataJadwal ? dataJadwal : [1,2,3,4,5]
         }
     ]
 
@@ -162,7 +152,7 @@ const Informasi = () => {
                                 record.jadwal[1].id_dokter.map((res1)=>{
                                     dataDokter.map((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = res2.nama;
+                                            dokter = dokter + " " + res2.nama;
                                         }
                                     })
                                 })
@@ -186,7 +176,7 @@ const Informasi = () => {
                                 record.jadwal[2].id_dokter.map((res1)=>{
                                     dataDokter.map((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = res2.nama;
+                                            dokter = dokter + " " + res2.nama;
                                         }
                                     })
                                 })
@@ -210,7 +200,7 @@ const Informasi = () => {
                                 record.jadwal[3].id_dokter.map((res1)=>{
                                     dataDokter.map((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = res2.nama;
+                                            dokter = dokter + " " + res2.nama;
                                         }
                                     })
                                 })
@@ -234,7 +224,7 @@ const Informasi = () => {
                                 record.jadwal[4].id_dokter.map((res1)=>{
                                     dataDokter.map((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = res2.nama;
+                                            dokter = dokter + " " + res2.nama;
                                         }
                                     })
                                 })
@@ -369,7 +359,7 @@ const Informasi = () => {
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
                 <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
+                    <Breadcrumb.Item href="/#/">
                         <Text className="title">
                             <HomeOutlined />
                         </Text>
@@ -392,7 +382,7 @@ const Informasi = () => {
                             size="middle"
                             bordered
                             loading={loading}
-                            dataSource={dataJadwal}
+                            dataSource={_dataJadwal}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -404,14 +394,14 @@ const Informasi = () => {
                                 Pelayanan Poliklinik
                             </Text>
                         </Row>
-                            <Table
-                                columns={columnsPelayanan}
-                                size="middle"
-                                bordered
-                                loading={loading}
-                                dataSource={dataPelayanan}
-                                // onChange={handleTableChange}
-                            />
+                        <Table
+                            columns={columnsPelayanan}
+                            size="middle"
+                            bordered
+                            loading={loading}
+                            dataSource={dataPelayanan}
+                            // onChange={handleTableChange}
+                        />
                     </Card>
                 </Row>
                 <Row style={{marginBottom:20, marginRight:40}}>

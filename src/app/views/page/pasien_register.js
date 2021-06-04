@@ -68,7 +68,7 @@ const Register = () => {
                             style={{marginBottom:30}}
                             >
                             
-                            <Input className="input-form" 
+                            <Input className="input-form" maxLength={15} minLength={10}
                                 placeholder="Contoh: 081234567890"
                             />
                         </Form.Item>

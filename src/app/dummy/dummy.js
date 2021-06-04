@@ -22,7 +22,7 @@ const dataPasien = [
         id_pasien: "P01002",
         no_telepon: "081212345678",
         nama: "Rofiq Suhay",
-        tanggal_lahir: "Punteun, teu terang :(",
+        tanggal_lahir: "06/11/1997",
         jenis_kelamin: "Laki-laki",
         kategori: "Mahasiswa",
         nomor_identitas: "181511031",
@@ -48,14 +48,14 @@ const dataDokter = [
     {
         id_dokter: "D01001",
         no_telepon: "081243214321",
-        nama: "dr. Iskandar",
+        nama: "dr. Eva Dianita",
         spesialisasi: "Dokter Umum",
         avatar: "gambar.jpg"
     },
     {
         id_dokter: "D01002",
         no_telepon: "081243214321",
-        nama: "dr. Eva Dianita",
+        nama: "dr. Iskandar",
         spesialisasi: "Dokter Umum",
         avatar: "gambar.jpg"
     },
@@ -63,6 +63,13 @@ const dataDokter = [
         id_dokter: "D02001",
         no_telepon: "081243214321",
         nama: "drg. Novianti",
+        spesialisasi: "Dokter Gigi",
+        avatar: "gambar.jpg"
+    },
+    {
+        id_dokter: "D02002",
+        no_telepon: "081243214321",
+        nama: "drg. Weni Fitriani",
         spesialisasi: "Dokter Gigi",
         avatar: "gambar.jpg"
     }
@@ -88,34 +95,34 @@ const dataStaf = [
 const dataJadwal = [
     {
         id_jadwal: 1,
-        id_dokter: ["D01001", "D01002"],
+        id_dokter: ["D01001", "D02001"],
         id_poli: 1,
         hari: "Senin",
         jam_operasional: "09.00 - 12.00"
     },
     {
-        id_jadwal: 1,
-        id_dokter: ["D01001"],
+        id_jadwal: 2,
+        id_dokter: ["D01002", "D02004"],
         id_poli: 1,
         hari: "Selasa",
         jam_operasional: "09.00 - 12.00"
     },
     {
-        id_jadwal: 1,
-        id_dokter: ["D02001"],
+        id_jadwal: 3,
+        id_dokter: ["D01001", "D02002"],
         id_poli: 2,
         hari: "Rabu",
         jam_operasional: "09.00 - 12.00"
     },
     {
-        id_jadwal: 1,
-        id_dokter: ["D02001"],
+        id_jadwal: 4,
+        id_dokter: ["D01002", "D02001"],
         id_poli: 2,
         hari: "Kamis",
         jam_operasional: "09.00 - 12.00"
     },
     {
-        id_jadwal: 1,
+        id_jadwal: 5,
         id_dokter: ["D01001"],
         id_poli: 1,
         hari: "Jumat",
@@ -127,6 +134,7 @@ const dataPelayanan = [
     {
         id_pelayanan: 1,
         id_poli: 1,
+        poli: "Umum",
         nama: "Cek Kesehatan",
         tarif_umum: 15000,
         tarif_mahasiswa: 0,
@@ -136,6 +144,7 @@ const dataPelayanan = [
     {
         id_pelayanan: 2,
         id_poli: 2,
+        poli: "Gigi",
         nama: "Pemeriksaan Gigi",
         tarif_umum: 25000,
         tarif_mahasiswa: 0,
@@ -145,6 +154,7 @@ const dataPelayanan = [
     {
         id_pelayanan: 3,
         id_poli: 2,
+        poli: "Gigi",
         nama: "Penambalan Amalgam",
         tarif_umum: 60000,
         tarif_mahasiswa: 0,
@@ -154,6 +164,7 @@ const dataPelayanan = [
     {
         id_pelayanan: 4,
         id_poli: 2,
+        poli: "Gigi",
         nama: "Pencabutan Gigi Tetap",
         tarif_umum: 60000,
         tarif_mahasiswa: 0,
@@ -163,6 +174,7 @@ const dataPelayanan = [
     {
         id_pelayanan: 5,
         id_poli: 2,
+        poli: "Gigi",
         nama: "Pembersihan Karang Gigi",
         tarif_umum: 60000,
         tarif_mahasiswa: 15000,

@@ -5,6 +5,7 @@ import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd'
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/logo.jpg";
+import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -42,9 +43,9 @@ const ProfilStaf = () => {
             }
         }).catch(err => {
             if(err){
-            console.log(err.response)
-            //("Internal Server Error (Refresh the Page!");
-            //setLoading(false)
+                setStafInfo(Dummy.dataStaf[1]);
+                console.log(err.response)
+                //setLoading(false)
             }
         })
     }
@@ -90,7 +91,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   ADM0000{stafInfo.id_staf ? stafInfo.id_staf: "-"}
+                                   {stafInfo.id_staf ? stafInfo.id_staf: "-"}
                                 </Title>
                             </Col>
                         </Row>

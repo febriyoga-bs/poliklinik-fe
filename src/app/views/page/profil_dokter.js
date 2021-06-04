@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
+import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -24,6 +25,7 @@ const ProfilDokter = () => {
             }
         }).catch(err => {
             if(err){
+                setDokterInfo(Dummy.dataDokter[1]);
             console.log(err.response)
             //("Internal Server Error (Refresh the Page!");
             //setLoading(false)
@@ -72,7 +74,7 @@ const ProfilDokter = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   DK0000{dokterInfo.id_dokter ? dokterInfo.nama_user : "-"}
+                                   {dokterInfo.id_dokter ? dokterInfo.id_dokter : "-"}
                                 </Title>
                             </Col>
                         </Row>
