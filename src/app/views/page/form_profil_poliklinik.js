@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
-import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
+import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -25,6 +25,24 @@ const FormProfilPoliklinik = (props) => {
         setLoading(true);
 
     }
+
+    const UploadProps = {
+        name: 'file',
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        headers: {
+          authorization: 'authorization-text',
+        },
+        onChange(info) {
+          if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+          } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+          }
+        },
+      };
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
@@ -35,12 +53,12 @@ const FormProfilPoliklinik = (props) => {
                         <HomeOutlined />
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/profil-staf">
+                <Breadcrumb.Item href="/profil-staf">
                     <Text className="title">
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-informasi">
+                <Breadcrumb.Item href="/kelola-informasi">
                     <Text className="title">
                         Kelola Informasi
                     </Text>
@@ -52,23 +70,27 @@ const FormProfilPoliklinik = (props) => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center">
-            <Card className="form-card" style={{textAlign:"left"}}>
-                <Row>
-                        <Text className="title-tabel">
-                            Ubah Profil Poliklinik
-                        </Text>
-                    </Row>
+            <Card className="form-card" style={{width:800, textAlign:"left"}}>
+                <Row style={{marginBottom:20}}>
+                    <Text className="title-tabel">
+                        Ubah Profil Poliklinik
+                    </Text>
+                </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                     <Row justify="center">
                         <Col span={24}>
                                 <Text className="title-label">Gambar</Text>
                                 <Form.Item name="gambar" >
-                                        <Input className="input-form secondary" />
+                                    <Upload {...UploadProps}>
+                                        <Button>
+                                            <UploadOutlined /> Unggah Gambar
+                                        </Button>
+                                    </Upload>
                                 </Form.Item>
 
                                 <Text className="title-label">Deskripsi</Text>
                                 <Form.Item name="deskripsi">
-                                        <Input className="input-form secondary" />
+                                    <Input.TextArea className="input-form secondary" />
                                 </Form.Item>
                         </Col>
                     </Row>

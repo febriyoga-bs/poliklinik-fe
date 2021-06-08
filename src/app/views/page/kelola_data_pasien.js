@@ -3,6 +3,8 @@ import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
+import { APIServices }  from '../../service';
+
 import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
@@ -11,12 +13,33 @@ const { Text, Title } = Typography;
 const KelolaPasien = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [record, setRecord] = useState(false);
+    const [dataPasien, setDataPasien] = useState([]);
 
     const gotoUbahDataPasien = (data) => {
         const loc = '/kelola-data-pengguna/pasien/ubah-data';
         history.push({pathname:loc, state:data});
     }
+
+    useEffect(()=>{
+        getDataPasien()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataPasien = () => {
+        setLoading(true);
+        APIServices.getAllDataPasien().then(res => {
+                if(res.data){
+                    setDataPasien(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    setDataPasien(Dummy.dataPasien);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
 
     const columnsPasien = [
         {
@@ -98,7 +121,6 @@ const KelolaPasien = () => {
                   <Col>
                     <Button
                         onClick={() => {
-                            setRecord(record);
                             console.log(record);
                             gotoUbahDataPasien(record);
                         }}
@@ -184,7 +206,7 @@ const KelolaPasien = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataPasien}
+                            dataSource={dataPasien}
                             // onChange={handleTableChange}
                         />
                     </Card>

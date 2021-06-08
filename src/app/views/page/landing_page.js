@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Image, Typography } from 'antd';
+import { Layout, Row, Col, Image, Typography, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import Fade from 'react-reveal/Fade';
 import poli from "../../../assets/poli.jpg"
 import { APIServices }  from '../../service';
@@ -8,6 +9,7 @@ import dummy from "../../dummy/dummy";
 
 const { Content } = Layout;
 const { Text } = Typography;
+const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const LandingPage = () => {
     const [dataProfil, setDataProfil] = useState(dummy.dataProfil[0]);
@@ -38,20 +40,29 @@ const LandingPage = () => {
             <Content className="layout-home">
                 <Image src={poli} style={{position:"fixed", width:"100%", minHeight:600}} preview={false}>
                 </Image>
-                <Row style={{marginLeft:20, marginTop:80, minHeight:600}}>
-                    <Col offset={10} xs={12} md={12} lg={12}>
-                        <Row style={{marginBottom:20}}>
-                            <Text className="title bold" style={{fontSize:"2em"}}>
-                                Profil Poliklinik
-                            </Text>
-                        </Row>
-                        <Row>
-                            <Text className="title bold">
-                                {dataProfil.deskripsi} 
-                            </Text>
-                        </Row>
-                    </Col>
-                </Row>
+                
+                {loading ?
+                    <Row justify="center" align="middle" style={{minHeight:600}}>
+                        <Spin indicator={antIcon} /> 
+                    </Row>
+                    :
+                    <Row style={{marginLeft:20, marginTop:80, minHeight:600}}>
+                        <Col offset={10} xs={12} md={12} lg={12}>
+                            <Fade>
+                                <Row style={{marginBottom:20}}>
+                                    <Text className="title bold" style={{fontSize:"2em"}}>
+                                        Profil Poliklinik
+                                    </Text>
+                                </Row>
+                                <Row>
+                                    <Text className="title bold">
+                                        {dataProfil.deskripsi} 
+                                    </Text>
+                                </Row>
+                            </Fade>
+                        </Col>
+                    </Row>
+                }
             </Content>
         </Layout>
     );

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Card, Form, Input, Button, Select, DatePicker, message } from 'antd';
-import moment from 'moment';
+import { Layout, Row, Col, Typography, Card, Form, Input, Button, Select, DatePicker} from 'antd';
+import { verifDialog, dialog } from '../../component/alert'
+import { APIServices } from '../../service'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -10,21 +11,51 @@ const { Option } = Select;
 const Register = () => {
     const history = useHistory();
     const [form] = Form.useForm();
-    const [isLoading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [regisStep, setRegisStep] = useState(1);
     const dateFormat = 'DD/MM/YYYY';
-
-    //
-    const [fieldActive, setFieldActive] = useState(false);
-    //
 
     const gotoLogin = () => {
         const loc = '/login';
         history.push(loc);
     }
 
-    const onFinish = () => {
+    const onFinish = (values) => {
+        setLoading(true);
 
+        APIServices.register(values).then(res => {
+            setLoading(false);
+            if(res.data){
+                verifDialog().then((kode_otp)=>{
+                    console.log("Testing Kode OTP: ", kode_otp);
+                    let body = [];
+                    body.no_telepon = values.no_telepon;
+                    body.kode_otp = kode_otp;
+                    APIServices.verifikasi(body).then(res => {
+                        setLoading(false);
+                        if(res.data){
+                            dialog({icon: "success", title:"Pendaftaran Berhasil"}).then(()=>{
+                                console.log("Berhasil");
+                            })
+                        }
+                      }).catch(err => {
+                        setLoading(false);
+                        if(err){
+                            dialog({icon: "error", title:"Pendaftaran Gagal"}).then(()=>{
+                                console.log("Gagal");
+                            })
+                        }
+                      })
+                })
+            }
+          }).catch(err => {
+            setLoading(false);
+            if(err){
+                verifDialog().then((val)=>{
+                    console.log("Testing Kode OTP: ", val);
+                })
+            }
+          })
     }
 
     const regisForm = () =>{
@@ -48,6 +79,25 @@ const Register = () => {
                                 <Option value="Mahasiswa">Mahasiswa</Option>
                                 <Option value="Staf/Dosen">Staf/Dosen</Option>
                             </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">Nama Lengkap</Text>
+                        <Form.Item
+                            name="nama"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Nama Lengkap Anda!'
+                            },
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" 
+                                placeholder="Masukkan nama lengkap"
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -127,16 +177,17 @@ const Register = () => {
                             <Button
                                 block
                                 type="primary"
-                                //htmlType="submit"
+                                htmlType="submit"
                                 className="app-btn lg block secondary"
                                 style={{width:290}}
-                                onClick={()=> {
-                                    form.validateFields().then(() => {
-                                        setRegisStep(2)
-                                    })
-                                }}
+                                loading={loading}
+                                // onClick={()=> {
+                                //     form.validateFields().then(() => {
+                                //         setRegisStep(2)
+                                //     })
+                                // }}
                             >
-                                Selanjutnya
+                                Daftar
                             </Button>
                         </Row>
                     </Col>
@@ -145,25 +196,7 @@ const Register = () => {
         } else if (regisStep === 2){
             return(
                 <Row>
-                    <Col span={24}>
-                        <Text className="form-label active">Nama Lengkap</Text>
-                        <Form.Item
-                            name="nama"
-                            required
-                            rules={[
-                            {
-                                required: true,
-                                message: 'Harap masukkan Nama Lengkap Anda!'
-                            },
-                            ]}
-                            style={{marginBottom:30}}
-                            >
-                            
-                            <Input className="input-form" 
-                                placeholder="Masukkan nama lengkap"
-                            />
-                        </Form.Item>
-                    </Col>
+                    
                     <Col span={24}>
                         <Text className="form-label active">Nomor Identitas 
                             { (form.getFieldValue("kategori")==="Umum") ? " (NIK)" : 
@@ -292,7 +325,7 @@ const Register = () => {
                     </Col>
                     <Col md={10} lg={10}>
                         <Row justify="center">
-                            <Card className="registrasi-card">
+                            <Card className="registrasi-card" style={{marginBottom:40}}>
                                 <Row justify="center" style={{marginBottom:40}}>
                                     <Text className="title bold" style={{textAlign:"center"}}>
                                         REGISTRASI PASIEN POLIKLINIK <br></br>

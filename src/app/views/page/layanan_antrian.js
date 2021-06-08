@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
@@ -17,7 +17,7 @@ const Antrian = () => {
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/antrian-poliklinik">
+                    <Breadcrumb.Item href="/antrian-poliklinik">
                         <Text className="title">
                             <span>Antrian Poliklinik</span>
                         </Text>

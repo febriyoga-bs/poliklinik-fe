@@ -127,7 +127,6 @@
 /* Input Form */
   .input-form{
     position: relative;
-    width: 290px;
     height: 40px;
     background-color: #ffffff;
     border-width: 1px;
@@ -135,10 +134,9 @@
     color: #072A6F;
   }
 
-  .input-form.secondary{
+  .input-form.secondary /deep/ .ant-select-single.ant-select-show-arrow .ant-select-selection-item{
     height: 30px;
-    max-width: 300px;
-    background-color: #EBEBEB;
+    background-color: #EBEBEB !important;
   }
 
   .form-label {

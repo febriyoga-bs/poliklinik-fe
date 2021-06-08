@@ -32,54 +32,33 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/user/pendaftaran`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/buatAkun`,
                 data: data
             },
             { crossdomain: true }
         )
     },
 
-    getDataUser(data) {
+    verifikasi(data){
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/user/viewProfile?email=${data}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/verifikasiAkun/${data.no_telepon}/${data.kode_otp}`,
             },
             { crossdomain: true }
         )
     },
 
-    getVerification(id, code) {
-        return client.request(
-            {
-                method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/user/verifikasiAkun?id=${id}&code=${code}`,
-            },
-            { crossdomain: true }
-        )
-    },
-
-    postEditProfile(data) {
-        return client.request(
-            {
-                method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/user/editProfile`,
-                data: data
-            },
-            { crossdomain: true }
-        )
-    },
-
-    postForgotPass(data){
-        return client.request(
-            {
-                method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/user/forgetPassword`,
-                data: data
-            },
-            { crossdomain: true }
-        )
-    },
+    // login(data){
+    //     return client.request(
+    //         {
+    //             method: "post",
+    //             url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/login`,
+    //             data: data
+    //         },
+    //         { crossdomain: true }
+    //     )
+    // },
 
     getDataDokter(){
         return client.request(
@@ -98,6 +77,17 @@ const APIServices = {
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDokter`,
             },
             {crossdomain: true }
+        )
+    },
+
+    putDataDokter(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilDokter/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
         )
     },
 
@@ -121,11 +111,32 @@ const APIServices = {
         )
     },
 
+    putDataStaf(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilStaf/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     getDataPasien(){
         return client.request(
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getPasienById`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getAllDataPasien(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien`,
             },
             {crossdomain: true }
         )
@@ -141,6 +152,28 @@ const APIServices = {
         )
     },
 
+    postDataPelayanan(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/tambahPelayanan`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    putDataPelayanan(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahPelayanan/${data.id_pelayanan}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     getDataJadwal(){
         return client.request(
             {
@@ -148,6 +181,17 @@ const APIServices = {
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getJadwal`,
             },
             {crossdomain: true }
+        )
+    },
+
+    putDataJadwal(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahJadwal/${data.hari}`,
+                data: data
+            },
+            { crossdomain: true }
         )
     },
 
@@ -159,6 +203,17 @@ const APIServices = {
             },
             {crossdomain: true }
         )    
+    },
+
+    putDataProfil(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updateProfil/`,
+                data: data
+            },
+            { crossdomain: true }
+        )
     },
 }
 

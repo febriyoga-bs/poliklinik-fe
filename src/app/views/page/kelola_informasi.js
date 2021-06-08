@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { APIServices }  from '../../service';
 
 import Dummy from '../../dummy/dummy'
 
@@ -10,7 +11,7 @@ const { Text } = Typography;
 
 const KelolaInformasi = () => {
     const history = useHistory();
-    const [dataProfil, setDataProfil] = useState([]);
+    const [dataProfil, setDataProfil] = useState(Dummy.dataProfil);
     const [dataJadwal, setDataJadwal] = useState([]);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,6 +35,60 @@ const KelolaInformasi = () => {
         const loc = '/kelola-informasi/jadwal';
         history.push({pathname:loc, state:data});
     }
+
+    useEffect(()=>{
+        getDataProfil();
+        getDataPelayanan();
+        getDataJadwal();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataProfil = () => {
+        setLoading(true)
+        APIServices.getDataProfil().then(res => {
+            if(res.data){
+                setDataProfil(res.data.data);
+                setLoading(false)
+            }
+        }).catch(err => {
+            if(err){
+                console.log(dataProfil)
+                setLoading(false)
+            }
+        })
+    }
+
+    const getDataPelayanan = () => {
+        setLoading(true);
+        APIServices.getDataPelayanan().then(res => {
+                if(res.data){
+                    setDataPelayanan(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                setDataPelayanan(Dummy.dataPelayanan);
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getDataJadwal = () => {
+        setLoading(true);
+        APIServices.getDataJadwal().then(res => {
+                if(res.data){
+                    setDataJadwal(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    setDataJadwal(Dummy.dataJadwal)
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
 
     const columnsProfil = [
         {
@@ -91,8 +146,8 @@ const KelolaInformasi = () => {
         },
         {
             title: "Poli",
-            dataIndex: 'jenis_poli',
-            key: 'jenis_poli',
+            dataIndex: 'poli',
+            key: 'poli',
             width: '10%',
             align: 'center',
         },
@@ -100,12 +155,12 @@ const KelolaInformasi = () => {
             title: "Dokter",
             dataIndex: 'dokter',
             key: 'dokter',
-            width: '15%',
+            width: '25%',
             align: 'center',
         },
         {
             title: 'Kelola',
-            width: '25%',
+            width: '10%',
             align: 'center',
             render: (record) => {
                 return (
@@ -138,7 +193,7 @@ const KelolaInformasi = () => {
         },
         {
             title: "Jenis Poli",
-            dataIndex: 'jenis_poli',
+            dataIndex: 'poli',
             key: 'jenis_poli',
             width: '15%',
             align: 'center',
@@ -262,14 +317,14 @@ const KelolaInformasi = () => {
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/profil-staf">
+                    <Breadcrumb.Item href="/profil-staf">
                         <Text className="title">
                             <span>Admin</span>
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/kelola-informasi">
+                    <Breadcrumb.Item href="/kelola-informasi">
                         <Text className="title">
-                            <span>Kelola Informasi Poliklinik</span>
+                            <span>Kelola Informasi</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
@@ -286,7 +341,7 @@ const KelolaInformasi = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataProfil}
+                            dataSource={dataProfil}
                             pagination={false}
                             // onChange={handleTableChange}
                         />
@@ -305,7 +360,7 @@ const KelolaInformasi = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataJadwal}
+                            dataSource={dataJadwal}
                             pagination={false}
                             // onChange={handleTableChange}
                         />
@@ -334,7 +389,7 @@ const KelolaInformasi = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataPelayanan}
+                            dataSource={dataPelayanan}
                             // onChange={handleTableChange}
                         />
                     </Card>

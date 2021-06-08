@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Button, Image, Card, message} from 'antd';
+import { Layout, Row, Col, Typography, Button, Image, Card, Spin} from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
+import UserImage from "../../../assets/userimage.jpg";
 import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
+const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const ProfilDokter = () => {
+    const [loading, setLoading] = useState(false);
     const [dokterInfo, setDokterInfo] = useState([]);
 
     useEffect(()=>{
@@ -18,17 +22,17 @@ const ProfilDokter = () => {
     }, []);
 
     const getDataDokter = () => {
+        setLoading(true)
         APIServices.getDataDokter().then(res => {
             if(res.data){
             setDokterInfo(res.data.data);
-            //setLoading(false)
+            setLoading(false)
             }
         }).catch(err => {
             if(err){
                 setDokterInfo(Dummy.dataDokter[1]);
             console.log(err.response)
-            //("Internal Server Error (Refresh the Page!");
-            //setLoading(false)
+            setLoading(false)
             }
         })
     }
@@ -36,21 +40,27 @@ const ProfilDokter = () => {
     return(
         <Layout style={{backgroundColor: '#072A6F'}}>
             <Content className="layout-content">
-                <Fade top>
+            {loading ?
+                <Row justify="center" align="middle" style={{minHeight:580}}>
+                    <Spin indicator={antIcon} /> 
+                </Row>
+            :
+                <Fade>
                 <Row style={{marginLeft: 30}}>
                     <Title style={{ color: '#FFFFFF' }} level={4} className="title-frame">
                         Informasi Dokter
                     </Title>
                 </Row>
                 <Row style={{marginLeft: 30}}>
-                    <Col xs={8} md={5} lg={4}>
+                    <Col xs={12} sm={12} md={8} lg={6} xl={4}>
                         <Row>
                             <Image
                                 style={{width: 200, height: 200, borderRadius: 20}}
                                 alt={dokterInfo.avatar}
+                                src={UserImage}
                             />
                         </Row>
-                        <Row>
+                        <Row style={{marginRight:10}}>
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, backgroundColor:"#FFA500"}} 
                                 >
                                 Edit Profile
@@ -155,6 +165,7 @@ const ProfilDokter = () => {
                     </Col>
                 </Row>
                 </Fade>
+            }
             </Content>
         </Layout>
     );

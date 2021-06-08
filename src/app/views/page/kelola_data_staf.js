@@ -3,6 +3,8 @@ import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
+import { APIServices }  from '../../service';
+
 import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
@@ -11,6 +13,7 @@ const { Text, Title } = Typography;
 const KelolaStaf = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [dataStaf, setDataStaf] = useState([]);
  
     const gotoTambahDataStaf= () => {
         const loc = '/kelola-data-pengguna/staf/tambah-data';
@@ -21,6 +24,27 @@ const KelolaStaf = () => {
         const loc = '/kelola-data-pengguna/staf/ubah-data';
         history.push({pathname:loc, state:data});
     }
+
+    useEffect(()=>{
+        getDataStaf()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataStaf = () => {
+        setLoading(true);
+        APIServices.getAllDataStaf().then(res => {
+                if(res.data){
+                    setDataStaf(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                setDataStaf(Dummy.dataStaf);
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
 
     const columnsStaf = [
         {
@@ -153,7 +177,7 @@ const KelolaStaf = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataStaf}
+                            dataSource={dataStaf}
                             // onChange={handleTableChange}
                         />
                     </Card>

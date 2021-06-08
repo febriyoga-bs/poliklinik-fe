@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button, DatePicker } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const UbahDataPasien = (props) => {
     const history = useHistory();
@@ -15,6 +17,8 @@ const UbahDataPasien = (props) => {
         console.log(props.location)
         if(props.location.state){
           form.setFieldsValue(props.location.state);
+          let tanggal = props.location.state.tanggal_lahir;
+          form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'DD/MM/YYYY')) });
         }else{
           form.resetFields()
         }
@@ -23,7 +27,13 @@ const UbahDataPasien = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-
+        let postBody ={
+            hari: values.hari,
+            jam_operasional: values.jam_buka.format('HH:mm')+"-"+values.jam_tutup.format('HH:mm'),
+            poli: values.poli,
+            dokter: values.dokter
+        }
+        console.log(postBody);
     }
     
     return(
@@ -35,12 +45,12 @@ const UbahDataPasien = (props) => {
                         <HomeOutlined />
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/profil-staf">
+                <Breadcrumb.Item href="/profil-staf">
                     <Text className="title">
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-data-pengguna/pasien">
+                <Breadcrumb.Item href="/kelola-data-pengguna/pasien">
                     <Text className="title">
                         Kelola Data Pasien
                     </Text>
@@ -52,7 +62,7 @@ const UbahDataPasien = (props) => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center">
-            <Card className="form-card" style={{textAlign:"left"}}>
+            <Card className="form-card" style={{width: 600, textAlign:"left"}}>
                 <Row>
                     <Text className="title-tabel">
                         Ubah Data Pasien
@@ -65,18 +75,22 @@ const UbahDataPasien = (props) => {
                         <Form.Item name="id_pasien" >
                                 <Input className="input-form secondary" disabled/>
                         </Form.Item>
-
+                        
+                        <Text className="title-label">Nomor Telepon</Text>
+                            <Form.Item name="no_telepon" rules={[{ required: true }]}>
+                                    <Input className="input-form secondary" disabled/>
+                            </Form.Item>
                             
                         <Text className="title-label">Kategori Pasien</Text>
                             <Form.Item name="kategori" rules={[{ required: true }]}>
-                                    <Input className="input-form secondary" />
+                                <Select defaultValue="Umum" className="input-form">
+                                    <Option value="Umum">Umum</Option>
+                                    <Option value="Mahasiswa">Mahasiswa</Option>
+                                    <Option value="Staf/Dosen">Staf/Dosen</Option>
+                                    <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
+                                </Select>
                             </Form.Item>
-
-                            
-                        <Text className="title-label">Nomor Telepon</Text>
-                            <Form.Item name="no_telepon" rules={[{ required: true }]}>
-                                    <Input className="input-form secondary" />
-                            </Form.Item>
+                        
                     </Col>
                     <Col span={12}>
                         <Text className="title-label">Nama Pasien</Text>
@@ -91,7 +105,8 @@ const UbahDataPasien = (props) => {
                             
                         <Text className="title-label">Tanggal Lahir</Text>
                             <Form.Item name="tanggal_lahir" rules={[{ required: true }]}>
-                                    <Input className="input-form secondary" />
+                                    <DatePicker className="input-form secondary" format='DD/MM/YYYY' placeholder="" style={{width:256}}/>
+
                             </Form.Item>
                             
                         <Text className="title-label">Alamat</Text>

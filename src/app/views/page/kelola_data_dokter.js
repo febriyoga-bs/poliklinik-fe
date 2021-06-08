@@ -3,6 +3,8 @@ import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
+import { APIServices }  from '../../service';
+
 import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
@@ -11,6 +13,7 @@ const { Text, Title } = Typography;
 const KelolaDokter = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [dataDokter, setDataDokter] = useState([]);
 
     const gotoTambahDataDokter= () => {
         const loc = '/kelola-data-pengguna/dokter/tambah-data';
@@ -21,6 +24,27 @@ const KelolaDokter = () => {
         const loc = '/kelola-data-pengguna/dokter/ubah-data';
         history.push({pathname:loc, state:data});
     }
+
+    useEffect(()=>{
+        getDataDokter()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getDataDokter = () => {
+        setLoading(true);
+        APIServices.getAllDataDokter().then(res => {
+                if(res.data){
+                    setDataDokter(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    setDataDokter(Dummy.dataDokter);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
 
     const columnsDokter = [
         {
@@ -153,7 +177,7 @@ const KelolaDokter = () => {
                             size="middle"
                             bordered={false}
                             loading={loading}
-                            dataSource={Dummy.dataDokter}
+                            dataSource={dataDokter}
                             // onChange={handleTableChange}
                         />
                     </Card>

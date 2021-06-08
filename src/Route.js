@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Route, Redirect, HashRouter, Switch } from "react-router-dom";
+import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
+import ScrollToTop from "./app/component/scroll-to-top"
 import './App.css';
 import { Layout } from "antd";
 import Auth from "./app/service/auth";
@@ -71,7 +72,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
   
     return (
       <Layout>
-        <HashRouter>
+        <BrowserRouter>
+          <ScrollToTop />
           <React.Fragment>
             <HeaderLayout/>
             <Route exact path="/" component={LandingPage} />
@@ -89,7 +91,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="!!" component={Template} />
             <FooterLayout/>
           </React.Fragment>
-        </HashRouter>
+        </BrowserRouter>
       </Layout>
     )
   }

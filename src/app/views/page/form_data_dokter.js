@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
-import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
+import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -25,6 +25,24 @@ const FormDataDokter = (props) => {
         setLoading(true);
 
     }
+
+    const UploadProps = {
+        name: 'file',
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        headers: {
+          authorization: 'authorization-text',
+        },
+        onChange(info) {
+          if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+          } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+          }
+        },
+      };
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
@@ -35,12 +53,12 @@ const FormDataDokter = (props) => {
                         <HomeOutlined />
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/profil-staf">
+                <Breadcrumb.Item href="/profil-staf">
                     <Text className="title">
                         Admin
                     </Text>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-data-pengguna/dokter">
+                <Breadcrumb.Item href="/kelola-data-pengguna/dokter">
                     <Text className="title">
                         Kelola Data Dokter
                     </Text>
@@ -52,7 +70,7 @@ const FormDataDokter = (props) => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center">
-            <Card className="form-card" style={{textAlign:"left"}}>
+            <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
                             {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
@@ -73,7 +91,11 @@ const FormDataDokter = (props) => {
 
                                 <Text className="title-label">Foto</Text>
                                 <Form.Item name="avatar" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" />
+                                    <Upload {...UploadProps}>
+                                        <Button>
+                                            <UploadOutlined /> Unggah Foto
+                                        </Button>
+                                    </Upload>
                                 </Form.Item>
 
                                 <Text className="title-label">Nama Dokter</Text>

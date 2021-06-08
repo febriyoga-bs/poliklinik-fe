@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
@@ -17,7 +17,7 @@ const Konsultasi = () => {
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/konsultasi-online">
+                    <Breadcrumb.Item href="/konsultasi-online">
                         <Text className="title">
                             <span>Konsultasi Online</span>
                         </Text>

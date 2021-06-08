@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Button } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const UbahDataPelayanan = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+
+    const dataPoli = [
+        {
+            id: 1,
+            nama: "Umum"
+        }, 
+        {
+            id: 2,
+            nama: "Gigi"
+        }
+    ]
 
     useEffect(()=>{
         console.log(props.location)
@@ -52,7 +64,7 @@ const UbahDataPelayanan = (props) => {
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center" align="middle" style={{marginBottom:20}}>
-                <Card className="form-card" style={{textAlign:"left"}}>
+                <Card className="form-card" style={{width:600, textAlign:"left"}}>
                     <Row style={{marginBottom:20}}>
                         <Text className="title-tabel">
                             {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
@@ -68,30 +80,39 @@ const UbahDataPelayanan = (props) => {
                                     </Form.Item>
                                     
                                     <Text className="title-label">Jenis Poli</Text>
-                                    <Form.Item name="jenis_poli" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" />
+                                    <Form.Item name="poli" rules={[{ required: true }]}>
+                                        
+                                        <div className="input-form secondary">
+                                        <Select defaultValue={props.location.state ? props.location.state.poli : ""}>
+                                            {dataPoli.map(item => (
+                                                <Option key={item.id} value={item.id}>
+                                                    {item.nama}
+                                                </Option>
+                                            ))}
+                                        </Select>
+                                        </div>
                                     </Form.Item>
                                 </Col>
 
                                 <Col span={12} style={{justifyContent:"center"}}>
                                     <Text className="title-label">Tarif Mahasiswa</Text>
                                     <Form.Item name="tarif_mahasiswa" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary"/>
+                                        <Input className="input-form secondary" prefix="Rp."/>
                                     </Form.Item>
 
                                     <Text className="title-label">Tarif Staf/Dosen</Text>
                                     <Form.Item name="tarif_staf_kampus" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" />
+                                        <Input prefix="Rp." className="input-form secondary" />
                                     </Form.Item>
 
                                     <Text className="title-label">Tarif Keluarga Staf/Dosen</Text>
                                     <Form.Item name="tarif_keluarga_staf" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" />
+                                        <Input className="input-form secondary" prefix="Rp."/>
                                     </Form.Item>
 
                                     <Text className="title-label">Tarif Umum</Text>
                                     <Form.Item name="tarif_umum" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" />
+                                        <Input className="input-form secondary" prefix="Rp."/>
                                     </Form.Item>
                                 </Col>
                             </Row>

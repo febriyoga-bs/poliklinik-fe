@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 const dataProfil = [
     {
         gambar: "gambar.jpg",
@@ -96,37 +97,47 @@ const dataJadwal = [
     {
         id_jadwal: 1,
         id_dokter: ["D01001", "D02001"],
-        id_poli: 1,
+        id_poli: [1],
+        dokter: "dr. Eva Dianita, drg. Novianti",
+        poli: "Umum, Gigi",
         hari: "Senin",
-        jam_operasional: "09.00 - 12.00"
+        jam_operasional: "09.00-12.00"
     },
     {
         id_jadwal: 2,
-        id_dokter: ["D01002", "D02004"],
-        id_poli: 1,
+        id_dokter: ["D01002", "D02002"],
+        id_poli: [1],
+        dokter: "dr. Iskandar, drg. Weni Fitriani",
+        poli: "Umum",
         hari: "Selasa",
-        jam_operasional: "09.00 - 12.00"
+        jam_operasional: "09.00-12.00"
     },
     {
         id_jadwal: 3,
         id_dokter: ["D01001", "D02002"],
-        id_poli: 2,
+        id_poli: [2],
+        dokter: "dr. Eva Dianita, drg. Weni Fitriani",
+        poli: "Gigi",
         hari: "Rabu",
-        jam_operasional: "09.00 - 12.00"
+        jam_operasional: "09.00-12.00"
     },
     {
         id_jadwal: 4,
         id_dokter: ["D01002", "D02001"],
-        id_poli: 2,
+        id_poli: [2],
+        dokter: "dr. Iskandar, drg. Novianti",
+        poli: "Umum",
         hari: "Kamis",
-        jam_operasional: "09.00 - 12.00"
+        jam_operasional: "09.00-12.00"
     },
     {
         id_jadwal: 5,
         id_dokter: ["D01001"],
-        id_poli: 1,
+        id_poli: [1],
+        dokter: "dr. Eva Dianita",
+        poli: "Umum",
         hari: "Jumat",
-        jam_operasional: "09.00 - 12.00"
+        jam_operasional: "09.00-12.00"
     }
 ]
 

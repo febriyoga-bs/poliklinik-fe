@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, List, Image, Tooltip } from 'antd';
-import { HomeOutlined, SendOutlined } from '@ant-design/icons';
+import { Layout, Breadcrumb, Row, Card, Typography, Table, List, Image } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import CONFIG_INITIAL_STATE  from '../../service/config';
 import { APIServices }  from '../../service';
 
@@ -123,8 +123,8 @@ const Informasi = () => {
                         if(record.jadwal[0] !== null){
                             if((record.jadwal[0].id_poli - rowIndex) === 1){
                                 jam = record.jadwal[0].jam_operasional;
-                                record.jadwal[0].id_dokter.map((res1)=>{
-                                    dataDokter.map((res2)=>{
+                                record.jadwal[0].id_dokter.forEach((res1)=>{
+                                    dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             //dokter.push(res2.nama);
                                             dokter = dokter + " " + res2.nama;
@@ -149,8 +149,8 @@ const Informasi = () => {
                         if(record.jadwal[1] !== null){
                             if((record.jadwal[1].id_poli - rowIndex) === 1){
                                 jam = record.jadwal[1].jam_operasional;
-                                record.jadwal[1].id_dokter.map((res1)=>{
-                                    dataDokter.map((res2)=>{
+                                record.jadwal[1].id_dokter.forEach((res1)=>{
+                                    dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             dokter = dokter + " " + res2.nama;
                                         }
@@ -173,8 +173,8 @@ const Informasi = () => {
                         if(record.jadwal[2] !== null){
                             if((record.jadwal[2].id_poli - rowIndex) === 1){
                                 jam = record.jadwal[2].jam_operasional;
-                                record.jadwal[2].id_dokter.map((res1)=>{
-                                    dataDokter.map((res2)=>{
+                                record.jadwal[2].id_dokter.forEach((res1)=>{
+                                    dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             dokter = dokter + " " + res2.nama;
                                         }
@@ -197,8 +197,8 @@ const Informasi = () => {
                         if(record.jadwal[3] !== null){
                             if((record.jadwal[3].id_poli - rowIndex) === 1){
                                 jam = record.jadwal[3].jam_operasional;
-                                record.jadwal[3].id_dokter.map((res1)=>{
-                                    dataDokter.map((res2)=>{
+                                record.jadwal[3].id_dokter.forEach((res1)=>{
+                                    dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             dokter = dokter + " " + res2.nama;
                                         }
@@ -221,8 +221,8 @@ const Informasi = () => {
                         if(record.jadwal[4] !== null){
                             if((record.jadwal[4].id_poli - rowIndex) === 1){
                                 jam = record.jadwal[4].jam_operasional;
-                                record.jadwal[4].id_dokter.map((res1)=>{
-                                    dataDokter.map((res2)=>{
+                                record.jadwal[4].id_dokter.forEach((res1)=>{
+                                    dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             dokter = dokter + " " + res2.nama;
                                         }
@@ -359,12 +359,12 @@ const Informasi = () => {
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
                 <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/#/">
+                    <Breadcrumb.Item href="/">
                         <Text className="title">
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/informasi">
+                    <Breadcrumb.Item href="/informasi">
                         <Text className="title">
                             <span>Informasi</span>
                         </Text>

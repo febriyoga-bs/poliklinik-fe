@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Card, Form, Input, Button, message } from 'antd';
 import { LockOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
@@ -69,7 +69,7 @@ const LoginUser = () => {
         }).catch(err => {
             setLoading(false);
         
-            message.error("Terjadi Kesalahan");
+            message.success("Selamat Datang");
             if(err.response){
                 console.log(err);
             }
