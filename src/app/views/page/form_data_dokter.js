@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
 import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
+import { APIServices } from '../../service'
+import CONFIG from '../../service/config';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -10,6 +13,7 @@ const FormDataDokter = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [uploadInfo, setUploadInfo] = useState("");
 
     useEffect(()=>{
         console.log(props.location)
@@ -21,14 +25,61 @@ const FormDataDokter = (props) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+   
     const onFinish= (values) => {
         setLoading(true);
+        let body ={
+            avatar: uploadInfo.response ? uploadInfo.response.url : "",
+            nama: values.nama,
+            spesialisasi: values.spesialisasi,
+            role: 2
+        }
+        console.log("Body: ", body);
+        console.log("Tes: ", UploadProps)
 
+        //
+        if(props.location.state){
+            body.id_staf = props.location.state.id_staf;
+            APIServices.putDataStaf(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    history.goBack();
+                    dialog({icon: "success", title:"Ubah Data Dokter Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Ubah Data Dokter Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+              })
+        } else {
+            APIServices.postDataStaf(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    history.goBack();
+                    dialog({icon: "success", title:"Tambah Data Dokter Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Tambah Data Dokter Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+              })
+        }
+        
     }
 
     const UploadProps = {
         name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         headers: {
           authorization: 'authorization-text',
         },
@@ -37,6 +88,7 @@ const FormDataDokter = (props) => {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
+            setUploadInfo(info.file);
             message.success(`${info.file.name} file uploaded successfully`);
           } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
