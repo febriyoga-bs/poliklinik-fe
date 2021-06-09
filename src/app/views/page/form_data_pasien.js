@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button, DatePicker } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
+import { APIServices } from '../../service'
 import moment from 'moment';
 
 const { Content } = Layout;
@@ -27,14 +29,31 @@ const UbahDataPasien = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let postBody ={
+        let body ={
             kategori: values.kategori,
+            jurusan: values.jurusan,
+            prodi: values.prodi,
             nama: values.nama,
             nomor_identitas: values.nomor_identitas,
             tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
             alamat: values.alamat
         }
-        console.log(postBody);
+        APIServices.putDataPasien(body).then(res => {
+            setLoading(false);
+            if(res.data){
+                history.goBack();
+                dialog({icon: "success", title:"Ubah Data Pasien Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+          }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Ubah Data Pasien Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+          })
     }
     
     return(
@@ -91,6 +110,20 @@ const UbahDataPasien = (props) => {
                                     <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
                                 </Select>
                             </Form.Item>
+                        
+                        {form.getFieldValue('kategori')==="Mahasiswa" &&
+                            <div>
+                                <Text className="title-label">Jurusan</Text>
+                                <Form.Item name="no_telepon" rules={[{ required: true }]}>
+                                        <Input className="input-form secondary" disabled/>
+                                </Form.Item>
+
+                                <Text className="title-label">Program Studi</Text>
+                                <Form.Item name="no_telepon" rules={[{ required: true }]}>
+                                        <Input className="input-form secondary" disabled/>
+                                </Form.Item>
+                            </div>
+                        }
                         
                     </Col>
                     <Col span={12}>

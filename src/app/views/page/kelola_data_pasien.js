@@ -81,7 +81,7 @@ const KelolaPasien = () => {
             align: 'center',
             sorter: (a, b) => a.tanggal_lahir - b.tanggal_lahir,
             render: (value) => {
-                let usia = moment().diff(value, 'years');;
+                let usia = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');;
 
                 return (
                     <Text>{usia}</Text>

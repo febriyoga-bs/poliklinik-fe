@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Row, Col, Typography, Modal, Form, Input, Button, message } from 'antd';
+import { Row, Typography, Modal, Form, Input, Button, message } from 'antd';
 import { NumberOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 

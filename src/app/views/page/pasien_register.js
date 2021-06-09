@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Card, Form, Input, Button, Select, DatePicker} from 'antd';
-import { verifDialog, dialog } from '../../component/alert'
+import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
 
 const { Content } = Layout;

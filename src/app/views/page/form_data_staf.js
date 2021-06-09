@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
 import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
+import { APIServices } from '../../service'
+import CONFIG from '../../service/config';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -10,6 +13,7 @@ const FormDataStaf = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [uploadInfo, setUploadInfo] = useState("");
 
     useEffect(()=>{
         console.log(props.location)
@@ -23,12 +27,58 @@ const FormDataStaf = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
+        let body ={
+            avatar: uploadInfo.response ? uploadInfo.response.url : "",
+            nama: values.nama,
+            jabatan: values.jabatan,
+            role: 1
+        }
+        console.log("Body: ", body);
+        console.log("Tes: ", UploadProps)
 
+        //
+        if(props.location.state){
+            body.id_staf = props.location.state.id_staf;
+            APIServices.putDataStaf(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    history.goBack();
+                    dialog({icon: "success", title:"Ubah Data Staf Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Ubah Data Staf Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+              })
+        } else {
+            APIServices.postDataStaf(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    history.goBack();
+                    dialog({icon: "success", title:"Tambah Data Staf Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Tambah Data Staf Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+              })
+        }
+        
     }
 
     const UploadProps = {
         name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         headers: {
           authorization: 'authorization-text',
         },
@@ -37,6 +87,7 @@ const FormDataStaf = (props) => {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
+            setUploadInfo(info.file);
             message.success(`${info.file.name} file uploaded successfully`);
           } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
@@ -85,12 +136,16 @@ const FormDataStaf = (props) => {
                                 </Form.Item>
 
                                 <Text className="title-label">Nomor Telepon</Text>
-                                <Form.Item name="no_telepon">
-                                        <Input className="input-form secondary" disabled/>
+                                <Form.Item name="no_telepon"
+                                    rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
+                                >
+                                        <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
 
                                 <Text className="title-label">Foto</Text>
-                                <Form.Item name="avatar" rules={[{ required: true }]}>
+                                <Form.Item name="avatar" 
+                                    rules={[{ required: true, message: "Harap unggah foto"  }]}
+                                >
                                     <Upload {...UploadProps}>
                                         <Button>
                                             <UploadOutlined /> Unggah Foto
@@ -99,12 +154,16 @@ const FormDataStaf = (props) => {
                                 </Form.Item>
 
                                 <Text className="title-label">Nama Staf</Text>
-                                <Form.Item name="nama" rules={[{ required: true }]}>
+                                <Form.Item name="nama" 
+                                    rules={[{ required: true, message: "Harap masukkan nama" }]}
+                                >
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
                                 <Text className="title-label">Jabatan</Text>
-                                        <Form.Item name="jabatan" rules={[{ required: true }]}>
+                                        <Form.Item name="jabatan" 
+                                            rules={[{ required: true, message: "Harap masukkan jabatan" }]}
+                                        >
                                             <Input className="input-form secondary" />
                                         </Form.Item>
                         </Col>

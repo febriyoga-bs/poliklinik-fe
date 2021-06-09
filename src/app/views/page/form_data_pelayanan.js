@@ -37,15 +37,14 @@ const UbahDataPelayanan = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let body = {
-            gambar : values.gambar,
-            deskripsi : values.deskripsi
-        }
+        let body = values;
 
         if(props.location.state){
+            body.id_pelayanan=props.location.state.id_pelayanan;
             APIServices.putDataPelayanan(body).then(res => {
                 setLoading(false);
                 if(res.data){
+                    history.goBack();
                     dialog({icon: "success", title:"Ubah Data Pelayanan Berhasil!"}).then(()=>{
                         console.log("Berhasil");
                     })
@@ -62,6 +61,7 @@ const UbahDataPelayanan = (props) => {
             APIServices.postDataPelayanan(body).then(res => {
                 setLoading(false);
                 if(res.data){
+                    history.goBack();
                     dialog({icon: "success", title:"Tambah Data Pelayanan Berhasil!"}).then(()=>{
                         console.log("Berhasil");
                     })
