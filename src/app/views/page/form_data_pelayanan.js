@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter,NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
@@ -82,26 +82,35 @@ const UbahDataPelayanan = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item href="/">
-                    <Text className="title">
-                        <HomeOutlined />
-                    </Text>
+        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb.Item >
+                    <NavLink to="/"> 
+                        <Text className="title">
+                            <HomeOutlined />
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/">
-                    <Text className="title">
+                <Breadcrumb.Item >
+                    <NavLink to="/profil-staf">  
+                        <Text className="title">
                         Admin
-                    </Text>
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-informasi">
-                    <Text className="title">
-                        Kelola Data Pelayanan
-                    </Text>
+                <Breadcrumb.Item>
+                    <NavLink to="/kelola-informasi"> 
+                        <Text className="title">
+                            Kelola Data Pelayanan
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/#/kelola-informasi/data-pelayanan">
-                    <Text className="title">
-                        {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
-                    </Text>
+	            <Breadcrumb.Item>
+                    <NavLink to="/kelola-informasi/data-pelayanan"> 
+                        <Text className="title">
+                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
+                        </Text>
+                    </NavLink>
+             
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center" align="middle" style={{marginBottom:20}}>
