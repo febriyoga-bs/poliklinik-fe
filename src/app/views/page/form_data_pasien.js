@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, NavLink} from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button, DatePicker } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
@@ -60,25 +60,26 @@ const UbahDataPasien = (props) => {
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
         <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item href="/">
-                    <Text className="title">
-                        <HomeOutlined />
-                    </Text>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href="/profil-staf">
-                    <Text className="title">
-                        Admin
-                    </Text>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href="/kelola-data-pengguna/pasien">
-                    <Text className="title">
-                        Kelola Data Pasien
-                    </Text>
+                <Breadcrumb.Item >
+                    <NavLink to="/"> 
+                        <Text className="title">
+                            <HomeOutlined />
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item >
-                    <Text className="title">
-                        {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
-                    </Text>
+                    <NavLink to="/profil-staf">  
+                        <Text className="title">
+                        Admin
+                        </Text>
+                    </NavLink>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                    <NavLink to="/kelola-data-pengguna/pasien"> 
+                        <Text className="title">
+                            Kelola Data Pasien
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
             </Breadcrumb>
             <Row justify="center">

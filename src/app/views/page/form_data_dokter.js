@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
 import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 
@@ -48,20 +48,26 @@ const FormDataDokter = (props) => {
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
         <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item href="/">
-                    <Text className="title">
-                        <HomeOutlined />
-                    </Text>
+                <Breadcrumb.Item >
+                    <NavLink to="/"> 
+                        <Text className="title">
+                            <HomeOutlined />
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/profil-staf">
-                    <Text className="title">
+                <Breadcrumb.Item >
+                    <NavLink to="/profil-staf">  
+                        <Text className="title">
                         Admin
-                    </Text>
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/kelola-data-pengguna/dokter">
-                    <Text className="title">
-                        Kelola Data Dokter
-                    </Text>
+                <Breadcrumb.Item>
+                    <NavLink to="/kelola-data-pengguna/dokter"> 
+                        <Text className="title">
+                            Kelola Data Dokter
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                     <Text className="title">
