@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
+import { APIServices } from '../../service'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -35,13 +37,50 @@ const UbahDataPelayanan = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
+        let body = {
+            gambar : values.gambar,
+            deskripsi : values.deskripsi
+        }
 
+        if(props.location.state){
+            APIServices.putDataPelayanan(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    dialog({icon: "success", title:"Ubah Data Pelayanan Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Ubah Data Pelayanan Gagal!"}).then(()=>{
+                        console.log(err);
+                    })
+                }
+              })
+        } else {
+            APIServices.postDataPelayanan(body).then(res => {
+                setLoading(false);
+                if(res.data){
+                    dialog({icon: "success", title:"Tambah Data Pelayanan Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
+              }).catch(err => {
+                setLoading(false);
+                if(err){
+                    dialog({icon: "error", title:"Tambah Data Pelayanan Gagal!"}).then(()=>{
+                        console.log(err);
+                    })
+                }
+              })
+        }
     }
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
+            <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                 <Breadcrumb.Item href="/">
                     <Text className="title">
                         <HomeOutlined />

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
 import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
+import { APIServices } from '../../service'
+import CONFIG from '../../service/config';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -23,12 +26,30 @@ const FormProfilPoliklinik = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-
+        let body = {
+            gambar : values.gambar,
+            deskripsi : values.deskripsi
+        }
+        APIServices.putDataProfil(body).then(res => {
+            setLoading(false);
+            if(res.data){
+                dialog({icon: "success", title:"Perubahan Profil Poliklinik Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+          }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Perubahan Profil Poliklinik Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+          })
     }
 
     const UploadProps = {
         name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         headers: {
           authorization: 'authorization-text',
         },
@@ -37,6 +58,7 @@ const FormProfilPoliklinik = (props) => {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
+            form.setFieldsValue({ gambar : info.file.name})
             message.success(`${info.file.name} file uploaded successfully`);
           } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
@@ -47,21 +69,27 @@ const FormProfilPoliklinik = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
-                <Breadcrumb.Item href="/">
-                    <Text className="title">
-                        <HomeOutlined />
-                    </Text>
+        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb.Item>
+                    <NavLink to="/">  
+                        <Text className="title">
+                            <HomeOutlined />
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/profil-staf">
-                    <Text className="title">
-                        Admin
-                    </Text>
+                <Breadcrumb.Item>
+                    <NavLink to="/profil-staf">  
+                        <Text className="title">
+                            Admin
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item href="/kelola-informasi">
-                    <Text className="title">
-                        Kelola Informasi
-                    </Text>
+                <Breadcrumb.Item>
+                    <NavLink to="/kelola-informasi">  
+                        <Text className="title">
+                            Kelola Informasi
+                        </Text>
+                    </NavLink>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                     <Text className="title">

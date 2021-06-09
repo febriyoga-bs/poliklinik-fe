@@ -46,6 +46,10 @@
   padding: 4px 11px!important;
 }
 
+.ant-breadcrumb-separator{
+  color: #FFF;
+}
+
 /* */
 
 /* Navbar */

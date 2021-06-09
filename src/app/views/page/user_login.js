@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Card, Form, Input, Button, message } from 'antd';
 import { LockOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
+import VerifikasiOTP from '../modal/verifikasi_otp'
 import Auth from '../../service/auth'
 
 const { Content } = Layout;
@@ -11,6 +12,12 @@ const LoginUser = () => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [isLoading, setLoading] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [record, setRecord] = useState([]);
+    
+    const handleModal = () => {
+        setVisibleModal(!visibleModal);
+    };
 
     //
     const [fieldPhoneActive, setFieldPhoneActive] = useState(false);
@@ -34,44 +41,53 @@ const LoginUser = () => {
             no_telepon: values.no_telepon,
             password: values.password
         }
-        console.log(loginData);
 
-        // Login Test
-            if(values.no_telepon === "1" && values.password === "1"){
-                localStorage.setItem('role', JSON.stringify("123"));
-                const loc = 'profil-staf';
-                history.push(loc);
-            } else if (values.no_telepon === "2" && values.password === "2"){
-                localStorage.setItem('role', JSON.stringify("234"));
-                const loc = 'profil-dokter';
-                history.push(loc);
-            } else if(values.no_telepon === "3" && values.password === "3"){
-                localStorage.setItem('role', JSON.stringify("pasien"));
-                const loc = 'profil-pasien';
-                history.push(loc);
-            }
-        //
+        // // Login Test
+        //     if(values.no_telepon === "1" && values.password === "1"){
+        //         localStorage.setItem('role', JSON.stringify("123"));
+        //         const loc = 'profil-staf';
+        //         history.push(loc);
+        //     } else if (values.no_telepon === "2" && values.password === "2"){
+        //         localStorage.setItem('role', JSON.stringify("234"));
+        //         const loc = 'profil-dokter';
+        //         history.push(loc);
+        //     } else if(values.no_telepon === "3" && values.password === "3"){
+        //         localStorage.setItem('role', JSON.stringify("pasien"));
+        //         const loc = 'profil-pasien';
+        //         history.push(loc);
+        //     }
+        // //
 
         Auth.login(loginData).then((response) => {
-            var res = response.data
-        
             setLoading(false);
-            if(res.status===3){
-                localStorage.setItem('role', JSON.stringify(res.session.role));
-            } else if(res.status === 6){
-                message.error("Nomor Telepon tidak terdaftar");
+            let res = response.data;
+            let status = JSON.parse(res.data.status);
+            if(res && status === 1){
+                localStorage.setItem('no_telepon', JSON.stringify(res.data.no_telepon));
+                localStorage.setItem('role', JSON.stringify(res.meta.role));
+                localStorage.setItem('token', JSON.stringify(res.meta.api_token));
+            } else if(status === 0){
+                message.info("Akun Belum Terverifikasi");
+                setRecord({no_telepon: res.data.no_telepon})
+                handleModal();
             } 
         
             if(Auth.isLogin()){
-                const loc = '/profil-pasien';
-                history.push(loc);
+                let role = JSON.parse(localStorage.getItem('role'));
+                if (role === 1){
+                    history.push('/profil-staf');
+                } else if (role === 2){
+                    history.push('/profil-dokter');
+                } else if (role === 3){
+                    history.push('/profil-pasien');
+                }
             }
         }).catch(err => {
             setLoading(false);
-        
-            message.success("Selamat Datang");
             if(err.response){
-                console.log(err);
+                message.error("Nomor Telepon atau Password yang Anda masukkan salah!");
+            } else {
+                message.error("Terjadi kesalahan, periksa koneksi Anda!");
             }
         });
     }
@@ -79,6 +95,11 @@ const LoginUser = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
+                <VerifikasiOTP
+                    data={record}
+                    buttonCancel={handleModal}
+                    visible={visibleModal}
+                />
                 <Row justify="center" align="middle" style={{minHeight: 540}}>
                     <Col md={14} lg={14}>
                         <Row justify="center">

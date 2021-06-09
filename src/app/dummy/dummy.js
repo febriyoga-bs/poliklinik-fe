@@ -42,7 +42,17 @@ const dataPasien = [
         alamat: "Banjaran",
         jurusan: "Jurusan Teknik Komputer",
         prodi: "D3 - Teknik Informatika"
-    }
+    },
+    {
+        id_pasien: "P02004",
+        no_telepon: "081212340000",
+        nama: "Steven Rangga",
+        tanggal_lahir: "1995/12/12",
+        jenis_kelamin: "Laki-laki",
+        kategori: "Umum",
+        nomor_identitas: "181511007",
+        alamat: "Bandung",
+    },
 ]
 
 const dataDokter = [
@@ -194,11 +204,118 @@ const dataPelayanan = [
     }
 ]
 
+const listJurusan = [
+    {
+        id: 1,
+        nama: "Akuntansi"
+    },
+    {
+        id: 2,
+        nama: "Administrasi Niaga"
+    },
+    {
+        id: 3,
+        nama: "Bahasa Inggris"
+    },
+    {
+        id: 4,
+        nama: "Teknik Elektro"
+    },
+    {
+        id: 5,
+        nama: "Teknik Kimia"
+    },
+    {
+        id: 6,
+        nama: "Teknik Komputer"
+    },
+    {
+        id: 7,
+        nama: "Teknik Konversi Energi"
+    },
+    {
+        id: 8,
+        nama: "Teknik Mesin"
+    },
+    {
+        id: 9,
+        nama: "Teknik Refrigerasi dan Tata Udara"
+    },
+    {
+        id: 10,
+        nama: "Teknik Sipil"
+    },
+    {
+        id: 11,
+        nama: "Program Magister Terapan"
+    },
+]
+
+const listProdi = [
+    {
+        id: 1,
+        id_jurusan: 1,
+        nama: "D3 Akuntansi"
+    },
+    {
+        id: 2,
+        id_jurusan: 1,
+        nama: "D3 Keuangan dan Perbankan"
+    },
+    {
+        id: 3,
+        id_jurusan: 1,
+        nama: "D4 Akuntansi Manajemen Pemerintahan"
+    },
+    {
+        id: 4,
+        id_jurusan: 1,
+        nama: "D4 Keuangan Syariah"
+    },
+    {
+        id: 5,
+        id_jurusan: 1,
+        nama: "D4 Akuntansi"
+    },
+    {
+        id: 6,
+        id_jurusan: 2,
+        nama: "D3 Administrasi Bisnis"
+    },
+    {
+        id: 7,
+        id_jurusan: 2,
+        nama: "D3 Manajemen Pemasaran"
+    },
+    {
+        id: 8,
+        id_jurusan: 2,
+        nama: "D3 Usaha Perjalanan Wisata"
+    },
+    {
+        id: 9,
+        id_jurusan: 2,
+        nama: "D4 Administrasi Bisnis"
+    },
+    {
+        id: 10,
+        id_jurusan: 2,
+        nama: "D4 Manajemen Pemasaran"
+    },
+    {
+        id: 11,
+        id_jurusan: 2,
+        nama: "D4 Manajemen Aset"
+    },
+]
+
 export default {
     dataProfil,
     dataPasien,
     dataDokter,
     dataStaf,
     dataJadwal,
-    dataPelayanan
+    dataPelayanan,
+    listJurusan,
+    listProdi,
 }

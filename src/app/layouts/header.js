@@ -40,13 +40,13 @@ const HeaderLayout = (props) => {
         let role = JSON.parse(localStorage.getItem('role'));
         console.log(role);
 
-        if(role === "123"){
+        if(role === 1){
             const loc = '/profil-staf';
             history.push(loc);
-        } else if(role === "234"){
+        } else if(role === 2){
             const loc = '/profil-dokter';
             history.push(loc);
-        } else{
+        } else if(role === 3){
             const loc = '/profil-pasien';
             history.push(loc);
         }

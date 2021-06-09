@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
 
 const KelolaInformasi = () => {
     const history = useHistory();
-    const [dataProfil, setDataProfil] = useState(Dummy.dataProfil);
+    const [dataProfil, setDataProfil] = useState([]);
     const [dataJadwal, setDataJadwal] = useState([]);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ const KelolaInformasi = () => {
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataPelayanan(Dummy.dataPelayanan);
+                //setDataPelayanan(Dummy.dataPelayanan);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -82,8 +82,8 @@ const KelolaInformasi = () => {
                     setLoading(false)
                 }
             }).catch(err => {
+                //setDataJadwal(Dummy.dataJadwal)
                 if(err){
-                    setDataJadwal(Dummy.dataJadwal)
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -311,21 +311,27 @@ const KelolaInformasi = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item>
+                        <NavLink to="/">  
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/profil-staf">
-                        <Text className="title">
-                            <span>Admin</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                                Admin
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/kelola-informasi">
-                        <Text className="title">
-                            <span>Kelola Informasi</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="kelola-informasi">  
+                            <Text className="title">
+                                Kelola Informasi
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row style={{marginBottom:20, marginRight:40}}>

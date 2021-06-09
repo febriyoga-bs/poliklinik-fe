@@ -22,37 +22,44 @@ const Register = () => {
 
     const onFinish = (values) => {
         setLoading(true);
+        values.role = 3;
 
         APIServices.register(values).then(res => {
+            console.log(res);
             setLoading(false);
             if(res.data){
-                verifDialog().then((kode_otp)=>{
-                    console.log("Testing Kode OTP: ", kode_otp);
-                    let body = [];
-                    body.no_telepon = values.no_telepon;
-                    body.kode_otp = kode_otp;
-                    APIServices.verifikasi(body).then(res => {
-                        setLoading(false);
-                        if(res.data){
-                            dialog({icon: "success", title:"Pendaftaran Berhasil"}).then(()=>{
-                                console.log("Berhasil");
-                            })
-                        }
-                      }).catch(err => {
-                        setLoading(false);
-                        if(err){
-                            dialog({icon: "error", title:"Pendaftaran Gagal"}).then(()=>{
-                                console.log("Gagal");
-                            })
-                        }
-                      })
+                gotoLogin()
+                dialog({icon: "success", title:"Pendaftaran Berhasil", text:"Anda dapat login menggunakan akun yang telah terdaftar"}).then(()=>{
+                    console.log("Berhasil");
                 })
+                // verifDialog().then((kode_otp)=>{
+                //     console.log("Testing Kode OTP: ", kode_otp);
+                //     let body = [];
+                //     body.no_telepon = values.no_telepon;
+                //     body.kode_otp = kode_otp;
+                //     APIServices.verifikasi(body).then(res => {
+                //         setLoading(false);
+                //         if(res.data){
+                //             dialog({icon: "success", title:"Verifikasi Berhasil"}).then(()=>{
+                //                 console.log("Berhasil");
+                //             })
+                //         }
+                //       }).catch(err => {
+                //         setLoading(false);
+                //         if(err){
+                //             dialog({icon: "error", title:"Verifikasi Gagal"}).then(()=>{
+                //                 console.log("Gagal");
+                //             })
+                //         }
+                //       })
+                // })
             }
           }).catch(err => {
             setLoading(false);
+            console.log(err);
             if(err){
-                verifDialog().then((val)=>{
-                    console.log("Testing Kode OTP: ", val);
+                dialog({icon: "error", title:"Pendaftaran Gagal", text:"Nomor Telepon sudah digunakan!"}).then(()=>{
+                    console.log("Gagal");
                 })
             }
           })
@@ -62,7 +69,7 @@ const Register = () => {
         if (regisStep === 1){
             return(
                 <Row>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <Text className="form-label active">Kategori Pasien</Text>
                         <Form.Item
                             name="kategori"
@@ -99,7 +106,7 @@ const Register = () => {
                                 placeholder="Masukkan nama lengkap"
                             />
                         </Form.Item>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
                         <Text className="form-label active">No. Telepon</Text>
                         <Form.Item

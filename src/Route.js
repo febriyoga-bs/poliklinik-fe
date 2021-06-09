@@ -45,7 +45,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
       <Route
         path={path}
         render={({ location }) =>
-          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === "123") ? ( <Component {...rest} /> ) : 
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 1) ? ( <Component {...rest} /> ) : 
           ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
         }
       />
@@ -57,7 +57,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
       <Route
         path={path}
         render={({ location }) =>
-          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === "234") ? ( <Component {...rest} /> ) : 
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2) ? ( <Component {...rest} /> ) : 
           ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
         }
       />

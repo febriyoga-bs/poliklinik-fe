@@ -77,7 +77,8 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getDataJadwal().then(res => {
                 if(res.data){
-                    setDataJadwal(res.data.data);
+                    //setDataJadwal(res.data.data);
+                    setDataJadwal(Dummy.dataJadwal)
                     setLoading(false)
                 }
             }).catch(err => {
@@ -91,10 +92,12 @@ const Informasi = () => {
     
     const _dataJadwal = [
         {
+            id_poli: 1,
             poli: "Umum",
             jadwal: dataJadwal ? dataJadwal : [1,2,3,4,5]
         },
         {
+            id_poli: 2,
             poli: "Gigi",
             jadwal: dataJadwal ? dataJadwal : [1,2,3,4,5]
         }
@@ -105,29 +108,39 @@ const Informasi = () => {
             title: "Poli",
             dataIndex: 'poli',
             key: 'poli',
-            width: '15%',
+            width: '10%',
             align: 'center',
         },
         {
             title: "Hari",
-            width: '85%',
+            width: '90%',
             align: 'center',
             children: [
                 {
                     title: "Senin",
+                    width: '18%',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
-                        let dokter = "";
+                        let dokter = [];
 
                         if(record.jadwal[0] !== null){
-                            if((record.jadwal[0].id_poli - rowIndex) === 1){
+                            let isPoli = 0;
+                            if(record.jadwal[0].id_poli){
+                                record.jadwal[0].id_poli.forEach((res)=>{
+                                    if(res === record.id_poli){
+                                        isPoli++;
+                                    }
+                                })
+                            }
+                            
+                            if(isPoli>0){
                                 jam = record.jadwal[0].jam_operasional;
                                 record.jadwal[0].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
                                             //dokter.push(res2.nama);
-                                            dokter = dokter + " " + res2.nama;
+                                            dokter.push(res2.nama);
                                         }
                                     })
                                 })
@@ -135,103 +148,179 @@ const Informasi = () => {
                         }
 
                         return (
-                            <Text>{jam} <br></br> {dokter}</Text>
+                            <Text>
+                                {jam}
+                                {dokter.length>1 ? 
+                                    dokter.map(res=>{
+                                        return(<span><br></br>{res}</span>)
+                                    }) 
+                                    : <span><br></br>{dokter}</span>
+                                }
+                            </Text>
                         )
                     } 
                 },
                 {
                     title: "Selasa",
+                    width: '18%',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
-                        let dokter = "";
+                        let dokter = [];
 
                         if(record.jadwal[1] !== null){
-                            if((record.jadwal[1].id_poli - rowIndex) === 1){
+                            let isPoli = 0;
+                            if(record.jadwal[1].id_poli){
+                                record.jadwal[1].id_poli.forEach((res)=>{
+                                    if(res === record.id_poli){
+                                        isPoli++;
+                                    }
+                                })
+                            }
+                            if(isPoli>0){
                                 jam = record.jadwal[1].jam_operasional;
                                 record.jadwal[1].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = dokter + " " + res2.nama;
+                                            dokter.push(res2.nama);
                                         }
                                     })
                                 })
                             }
                         }
                         return (
-                            <Text>{jam} <br></br> {dokter}</Text>
+                            <Text>
+                                {jam}
+                                {dokter.length>1 ? 
+                                    dokter.map(res=>{
+                                        return(<span><br></br>{res}</span>)
+                                    }) 
+                                    : <span><br></br>{dokter}</span>
+                                }
+                            </Text>
                         )
                     } 
                 },
                 {
                     title: "Rabu",
+                    width: '18%',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
-                        let dokter = "";
+                        let dokter = [];
 
                         if(record.jadwal[2] !== null){
-                            if((record.jadwal[2].id_poli - rowIndex) === 1){
+                            let isPoli = 0;
+                            if(record.jadwal[2].id_poli){
+                                record.jadwal[2].id_poli.forEach((res)=>{
+                                    if(res === record.id_poli){
+                                        isPoli++;
+                                    }
+                                })
+                            }
+                            if(isPoli>0){
                                 jam = record.jadwal[2].jam_operasional;
                                 record.jadwal[2].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = dokter + " " + res2.nama;
+                                            dokter.push(res2.nama);
                                         }
                                     })
                                 })
                             }
                         }
                         return (
-                            <Text>{jam} <br></br> {dokter}</Text>
+                            <Text>
+                                {jam}
+                                {dokter.length>1 ? 
+                                    dokter.map(res=>{
+                                        return(<span><br></br>{res}</span>)
+                                    }) 
+                                    : <span><br></br>{dokter}</span>
+                                }
+                            </Text>
                         )
                     } 
                 },
                 {
                     title: "Kamis",
+                    width: '18%',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
-                        let dokter = "";
+                        let dokter = [];
 
                         if(record.jadwal[3] !== null){
-                            if((record.jadwal[3].id_poli - rowIndex) === 1){
+                            let isPoli = 0;
+                            if(record.jadwal[3].id_poli){
+                                record.jadwal[3].id_poli.forEach((res)=>{
+                                    if(res === record.id_poli){
+                                        isPoli++;
+                                    }
+                                })
+                            }
+                            if(isPoli>0){
                                 jam = record.jadwal[3].jam_operasional;
                                 record.jadwal[3].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = dokter + " " + res2.nama;
+                                            dokter.push(res2.nama);
                                         }
                                     })
                                 })
                             }
                         }
                         return (
-                            <Text>{jam} <br></br> {dokter}</Text>
+                            <Text>
+                                {jam}
+                                {dokter.length>1 ? 
+                                    dokter.map(res=>{
+                                        return(<span><br></br>{res}</span>)
+                                    }) 
+                                    : <span><br></br>{dokter}</span>
+                                }
+                            </Text>
                         )
                     } 
                 },
                 {
                     title: "Jumat",
+                    width: '18%',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
-                        let dokter = "";
+                        let dokter = [];
 
                         if(record.jadwal[4] !== null){
-                            if((record.jadwal[4].id_poli - rowIndex) === 1){
+                            let isPoli = 0;
+                            if(record.jadwal[4].id_poli){
+                                record.jadwal[4].id_poli.forEach((res)=>{
+                                    if(res === record.id_poli){
+                                        isPoli++;
+                                    }
+                                })
+                            }
+                            if(isPoli>0){
                                 jam = record.jadwal[4].jam_operasional;
                                 record.jadwal[4].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            dokter = dokter + " " + res2.nama;
+                                            dokter.push(res2.nama);
                                         }
                                     })
                                 })
                             }
                         }
                         return (
-                            <Text>{jam} <br></br> {dokter}</Text>
+                            <Text>
+                                {jam}
+                                {dokter.length>1 ? 
+                                    dokter.map(res=>{
+                                        return(<span><br></br>{res}</span>)
+                                    }) 
+                                    : <span><br></br>{dokter}</span>
+                                }
+                            </Text>
                         )
                     } 
                 },

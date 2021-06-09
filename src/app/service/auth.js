@@ -30,6 +30,6 @@ export default class Auth {
   }
   
   static isLogin() {
-    return !!localStorage.getItem('role');
+    return !!localStorage.getItem('role') && !!localStorage.getItem('token') && !!localStorage.getItem('no_telepon');
   }
 }

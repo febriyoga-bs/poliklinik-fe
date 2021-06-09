@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/userimage.jpg";
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -15,7 +15,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 const ProfilStaf = () => {
     const [loading, setLoading] = useState(false);
     const history = useHistory();
-    const [stafInfo, setStafInfo] = useState([]);
+    const [dataStaf, setDataStaf] = useState([]);
 
     const gotoKelolaInformasi = () => {
         const loc = '/kelola-informasi';
@@ -42,12 +42,13 @@ const ProfilStaf = () => {
         setLoading(true)
         APIServices.getDataStaf().then(res => {
             if(res.data){
-                setStafInfo(res.data.data);
+                setDataStaf(res.data.data);
                 setLoading(false)
             }
         }).catch(err => {
             if(err){
-                setStafInfo(Dummy.dataStaf[1]);
+                //setdataStaf(Dummy.dataStaf[1]);
+                message.error("Gagal memuat informasi profil!");
                 console.log(err.response)
                 setLoading(false)
             }
@@ -73,7 +74,7 @@ const ProfilStaf = () => {
                         <Row>
                             <Image
                                 style={{width: 200, height: 200, borderRadius: 20}}
-                                alt={stafInfo.avatar}
+                                alt={dataStaf.avatar}
                                 src={UserImage}
                             />
                         </Row>
@@ -101,7 +102,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   {stafInfo.id_staf ? stafInfo.id_staf: "-"}
+                                   {dataStaf.id_staf ? dataStaf.id_staf: "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -118,7 +119,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {stafInfo.no_telepon ? stafInfo.no_telepon : "-"}
+                                    {dataStaf.no_telepon ? dataStaf.no_telepon : "-"}
                                 </Title>
                             </Col>
                         </Row>  
@@ -135,7 +136,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {stafInfo.nama ? stafInfo.nama : "-"}
+                                    {dataStaf.nama ? dataStaf.nama : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -152,7 +153,7 @@ const ProfilStaf = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {stafInfo.jabatan ? stafInfo.jabatan : "-"}
+                                    {dataStaf.jabatan ? dataStaf.jabatan : "-"}
                                 </Title>
                             </Col>
                         </Row>

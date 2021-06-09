@@ -15,7 +15,8 @@ client.interceptors.request.use(
         // if (cookies.get('ci_session')!==undefined) {
         //     config.headers['ci_session']= cookies.get('ci_session');
         //}
-        let token = '$2y$10$ZTCNdFS0558IJGVOOBbR7u1VqVtibwRza3dQajGJYG5KF1TOCaO.6';
+        let token = JSON.parse(localStorage.getItem('token'));
+        console.log("token: ", token)
         if (token !== null) {
             config.headers.Authorization = `Bearer ${token}`;
         }

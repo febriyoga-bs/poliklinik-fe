@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Button, Image, Card, Spin} from 'antd';
+import { Layout, Row, Col, Typography, Button, Image, Card, Spin, message} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/userimage.jpg";
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -14,7 +14,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const ProfilPasien = () => {
     const [loading, setLoading] = useState(false);
-    const [pasienInfo, setPasienInfo] = useState([]);
+    const [dataPasien, setDataPasien] = useState([]);
 
     useEffect(()=>{
         getDataPasien();
@@ -25,12 +25,13 @@ const ProfilPasien = () => {
         setLoading(true);
         APIServices.getDataPasien().then(res => {
             if(res.data){
-                setPasienInfo(res.data.data);
+                setDataPasien(res.data.data);
                 setLoading(false)
             }
         }).catch(err => {
             if(err){
-                setPasienInfo(Dummy.dataPasien[0])
+                //setdataPasien(Dummy.dataPasien[0])
+                message.error("Gagal memuat informasi profil!");
                 console.log(err.response)
                 setLoading(false)
             }
@@ -56,7 +57,7 @@ const ProfilPasien = () => {
                         <Row>
                             <Image
                                 style={{width: 200, height: 200, borderRadius: 20}}
-                                alt={pasienInfo.avatar}
+                                alt={dataPasien.avatar}
                                 src={UserImage}
                             />
                         </Row>
@@ -84,7 +85,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                   {pasienInfo.id_pasien ? pasienInfo.id_pasien : "-"}
+                                   {dataPasien.id_pasien ? dataPasien.id_pasien : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -101,7 +102,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.no_telepon ? pasienInfo.no_telepon : "-"}
+                                    {dataPasien.no_telepon ? dataPasien.no_telepon : "-"}
                                 </Title>
                             </Col>
                         </Row>  
@@ -118,7 +119,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.nama ? pasienInfo.nama : "-"}
+                                    {dataPasien.nama ? dataPasien.nama : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -135,7 +136,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.kategori ? pasienInfo.kategori : "-"}
+                                    {dataPasien.kategori ? dataPasien.kategori : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -152,7 +153,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.nomor_identitas ? pasienInfo.nomor_identitas : "-"}
+                                    {dataPasien.nomor_identitas ? dataPasien.nomor_identitas : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -169,7 +170,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.tanggal_lahir ? pasienInfo.tanggal_lahir : "-"}
+                                    {dataPasien.tanggal_lahir ? dataPasien.tanggal_lahir : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -186,7 +187,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.jenis_kelamin ? pasienInfo.jenis_kelamin : "-"}
+                                    {dataPasien.jenis_kelamin ? dataPasien.jenis_kelamin : "-"}
                                 </Title>
                             </Col>
                         </Row>
@@ -203,7 +204,7 @@ const ProfilPasien = () => {
                             </Col>
                             <Col lg={10}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                                    {pasienInfo.alamat ? pasienInfo.alamat : "-"}
+                                    {dataPasien.alamat ? dataPasien.alamat : "-"}
                                 </Title>
                             </Col>
                         </Row>

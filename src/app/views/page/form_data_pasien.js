@@ -18,7 +18,7 @@ const UbahDataPasien = (props) => {
         if(props.location.state){
           form.setFieldsValue(props.location.state);
           let tanggal = props.location.state.tanggal_lahir;
-          form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'DD/MM/YYYY')) });
+          form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
         }else{
           form.resetFields()
         }
@@ -28,10 +28,11 @@ const UbahDataPasien = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let postBody ={
-            hari: values.hari,
-            jam_operasional: values.jam_buka.format('HH:mm')+"-"+values.jam_tutup.format('HH:mm'),
-            poli: values.poli,
-            dokter: values.dokter
+            kategori: values.kategori,
+            nama: values.nama,
+            nomor_identitas: values.nomor_identitas,
+            tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
+            alamat: values.alamat
         }
         console.log(postBody);
     }
@@ -39,7 +40,7 @@ const UbahDataPasien = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
+        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                 <Breadcrumb.Item href="/">
                     <Text className="title">
                         <HomeOutlined />

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Image, Typography, Spin } from 'antd';
+import { Layout, Row, Col, Image, Typography, Spin, message } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Fade from 'react-reveal/Fade';
 import poli from "../../../assets/poli.jpg"
 import { APIServices }  from '../../service';
-import dummy from "../../dummy/dummy";
+//import dummy from "../../dummy/dummy";
 
 const { Content } = Layout;
 const { Text } = Typography;
 const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const LandingPage = () => {
-    const [dataProfil, setDataProfil] = useState(dummy.dataProfil[0]);
+    const [dataProfil, setDataProfil] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
@@ -29,7 +29,7 @@ const LandingPage = () => {
             }
         }).catch(err => {
             if(err){
-                console.log(dataProfil)
+                message.error("Gagal memuat profil poliklinik")
                 setLoading(false)
             }
         })

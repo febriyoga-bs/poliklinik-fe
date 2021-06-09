@@ -6,6 +6,27 @@ export function dialog (config) {
       
       confirm: true,
       buttons: {
+        confirm: {
+          text: "OK",
+          value: false,
+          visible: true,
+          className: 'app-btn'
+        },
+      },
+      ...config
+    });
+
+
+    result ? resolve(result) : reject(result);
+  })
+}
+
+export function deleteDialog (config) {
+  return new Promise( async(resolve, reject) => {
+    const result = await swal({
+      
+      confirm: true,
+      buttons: {
         cancel: {
           text: "Batal",
           value: false,
@@ -22,7 +43,7 @@ export function dialog (config) {
       ...config
     });
 
-    
+
     result ? resolve(result) : reject(result);
   })
 }

@@ -47,7 +47,7 @@ const FormDataDokter = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}}>
+        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                 <Breadcrumb.Item href="/">
                     <Text className="title">
                         <HomeOutlined />

@@ -4,6 +4,8 @@ import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'a
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import { APIServices }  from '../../service';
+import DetailPasien from '../modal/detail_pasien'
+import moment from 'moment';
 
 import Dummy from '../../dummy/dummy'
 
@@ -14,11 +16,17 @@ const KelolaPasien = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [record, setRecord] = useState([]);
 
     const gotoUbahDataPasien = (data) => {
         const loc = '/kelola-data-pengguna/pasien/ubah-data';
         history.push({pathname:loc, state:data});
     }
+
+    const handleModal = () => {
+        setVisibleModal(!visibleModal);
+    };
 
     useEffect(()=>{
         getDataPasien()
@@ -68,10 +76,17 @@ const KelolaPasien = () => {
         },
         {
             title: "Usia",
-            dataIndex: 'usia',
-            key: 'usia',
+            dataIndex: 'tanggal_lahir',
+            key: 'tanggal_lahir',
             align: 'center',
-            sorter: (a, b) => a.usia - b.usia,
+            sorter: (a, b) => a.tanggal_lahir - b.tanggal_lahir,
+            render: (value) => {
+                let usia = moment().diff(value, 'years');;
+
+                return (
+                    <Text>{usia}</Text>
+                )
+            } 
         },
         {
             title: "Nomor Rekam Medis",
@@ -100,7 +115,8 @@ const KelolaPasien = () => {
                     <Row justify="center">
                         <Button
                             onClick={() => {
-                                console.log(record);
+                                setRecord(record)
+                                handleModal();
                             }}
                         >
                             <Text style={{color: "#000"}}>
@@ -152,21 +168,27 @@ const KelolaPasien = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item>
+                        <NavLink to="/">  
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/profil-staf">
-                        <Text className="title">
-                            <span>Admin</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                                Admin
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/kelola-data-pengguna/pasien">
-                        <Text className="title">
-                            <span>Kelola Data Pasien</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/kelola-data-pengguna/pasien">  
+                            <Text className="title">
+                                Kelola Data Pasien
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
@@ -193,6 +215,12 @@ const KelolaPasien = () => {
                         </NavLink>
                     </Col>
                 </Row>
+
+                <DetailPasien
+                    dataPasien={record}
+                    buttonCancel={handleModal}
+                    visible={visibleModal}
+                />
 
                 <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
