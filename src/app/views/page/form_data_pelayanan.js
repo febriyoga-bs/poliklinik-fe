@@ -17,11 +17,11 @@ const UbahDataPelayanan = (props) => {
     const dataPoli = [
         {
             id: 1,
-            nama: "Umum"
+            nama: "Gigi"
         }, 
         {
             id: 2,
-            nama: "Gigi"
+            nama: "Umum"
         }
     ]
 
@@ -38,6 +38,8 @@ const UbahDataPelayanan = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let body = values;
+        body.id_poli = values.poli;
+        console.log(body)
 
         if(props.location.state){
             body.id_pelayanan=props.location.state.id_pelayanan;
@@ -122,7 +124,7 @@ const UbahDataPelayanan = (props) => {
                                     <Form.Item name="poli" rules={[{ required: true }]}>
                                         
                                         <div className="input-form secondary">
-                                        <Select defaultValue={props.location.state ? props.location.state.poli : ""}>
+                                        <Select defaultValue={props.location.state ? props.location.state.poli : ""} onChange={(e)=> form.setFieldsValue({ poli: e})}>
                                             {dataPoli.map(item => (
                                                 <Option key={item.id} value={item.id}>
                                                     {item.nama}

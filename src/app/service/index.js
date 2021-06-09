@@ -2,6 +2,7 @@ import axios from "axios";
 import CONFIG_INITIAL_STATE  from '../service/config';
 
 const client = axios.create({baseURL: CONFIG_INITIAL_STATE.BASE_URL});
+axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
 //axios.defaults.withCredentials = true
 
 //Request interceptor
@@ -116,7 +117,18 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilStaf/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/ubahProfilStaf/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    postDataStaf(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/createStaf`,
                 data: data
             },
             { crossdomain: true }
@@ -140,6 +152,17 @@ const APIServices = {
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien`,
             },
             {crossdomain: true }
+        )
+    },
+
+    putDataPasien(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/ubahProfilPasien/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
         )
     },
 

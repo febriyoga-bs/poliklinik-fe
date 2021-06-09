@@ -30,6 +30,7 @@ const UbahDataPasien = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let body ={
+            no_telepon: props.location.state.no_telepon,
             kategori: values.kategori,
             jurusan: values.jurusan,
             prodi: values.prodi,
@@ -114,12 +115,12 @@ const UbahDataPasien = (props) => {
                         {form.getFieldValue('kategori')==="Mahasiswa" &&
                             <div>
                                 <Text className="title-label">Jurusan</Text>
-                                <Form.Item name="no_telepon" rules={[{ required: true }]}>
+                                <Form.Item name="jurusan" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" disabled/>
                                 </Form.Item>
 
                                 <Text className="title-label">Program Studi</Text>
-                                <Form.Item name="no_telepon" rules={[{ required: true }]}>
+                                <Form.Item name="prodi" rules={[{ required: true }]}>
                                         <Input className="input-form secondary" disabled/>
                                 </Form.Item>
                             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
-import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { HomeOutlined, LoadingOutlined, UploadOutlined, CheckCircleFilled } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
 import CONFIG from '../../service/config';
@@ -27,18 +27,23 @@ const FormDataStaf = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
+        let createBody ={
+            no_telepon: values.no_telepon,
+            password: "admin123",
+            role: 1
+        }
+
         let body ={
-            avatar: uploadInfo.response ? uploadInfo.response.url : "",
+            avatar: uploadInfo.response ? uploadInfo.response.url : "aaa.jpg",
             nama: values.nama,
             jabatan: values.jabatan,
-            role: 1
         }
         console.log("Body: ", body);
         console.log("Tes: ", UploadProps)
 
         //
         if(props.location.state){
-            body.id_staf = props.location.state.id_staf;
+            body.no_telepon = "081285051111";
             APIServices.putDataStaf(body).then(res => {
                 setLoading(false);
                 if(res.data){
@@ -56,13 +61,25 @@ const FormDataStaf = (props) => {
                 }
               })
         } else {
-            APIServices.postDataStaf(body).then(res => {
+            APIServices.register(createBody).then(res => {
                 setLoading(false);
                 if(res.data){
-                    history.goBack();
-                    dialog({icon: "success", title:"Tambah Data Staf Berhasil!"}).then(()=>{
-                        console.log("Berhasil");
-                    })
+                    APIServices.postDataStaf(body).then(res => {
+                        setLoading(false);
+                        if(res.data){
+                            history.goBack();
+                            dialog({icon: "success", title:"Tambah Data Staf Berhasil!"}).then(()=>{
+                                console.log("Berhasil");
+                            })
+                        }
+                      }).catch(err => {
+                        setLoading(false);
+                        if(err){
+                            dialog({icon: "error", title:"Tambah Data Staf Gagal!"}).then(()=>{
+                                console.log("Gagal");
+                            })
+                        }
+                      })
                 }
               }).catch(err => {
                 setLoading(false);
@@ -72,6 +89,7 @@ const FormDataStaf = (props) => {
                     })
                 }
               })
+            
         }
         
     }
@@ -79,9 +97,10 @@ const FormDataStaf = (props) => {
     const UploadProps = {
         name: 'file',
         action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
+        enctype: "multipart/form-data",
         headers: {
-          authorization: 'authorization-text',
-        },
+            authorization: 'authorization-text',
+          },
         onChange(info) {
           if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
@@ -137,7 +156,7 @@ const FormDataStaf = (props) => {
 
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon"
-                                    rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
+                                    //rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
                                 >
                                         <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
@@ -149,6 +168,7 @@ const FormDataStaf = (props) => {
                                     <Upload {...UploadProps}>
                                         <Button>
                                             <UploadOutlined /> Unggah Foto
+                                            {!!form.getFieldValue(['avatar']) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
                                         </Button>
                                     </Upload>
                                 </Form.Item>
