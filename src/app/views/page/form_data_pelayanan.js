@@ -17,11 +17,11 @@ const UbahDataPelayanan = (props) => {
     const dataPoli = [
         {
             id: 1,
-            nama: "Gigi"
+            nama: "Umum"
         }, 
         {
             id: 2,
-            nama: "Umum"
+            nama: "Gigi"
         }
     ]
 
@@ -29,6 +29,8 @@ const UbahDataPelayanan = (props) => {
         console.log(props.location)
         if(props.location.state){
           form.setFieldsValue(props.location.state);
+          let id_poli = props.location.state.poli==="Umum" ? {id_poli: 1} : {id_poli: 2};
+          form.setFieldsValue(id_poli);
         }else{
           form.resetFields()
         }
@@ -38,7 +40,6 @@ const UbahDataPelayanan = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let body = values;
-        body.id_poli = values.poli;
         console.log(body)
 
         if(props.location.state){
@@ -130,10 +131,13 @@ const UbahDataPelayanan = (props) => {
                                     </Form.Item>
                                     
                                     <Text className="title-label">Jenis Poli</Text>
-                                    <Form.Item name="poli" rules={[{ required: true }]}>
+                                    <Form.Item name="id_poli" rules={[{ required: true }]}>
                                         
                                         <div className="input-form secondary">
-                                        <Select defaultValue={props.location.state ? props.location.state.poli : ""} onChange={(e)=> form.setFieldsValue({ poli: e})}>
+                                        <Select 
+                                        defaultValue={props.location.state ? props.location.state.poli : ""} 
+                                        onChange={(e)=> form.setFieldsValue({ id_poli: e})}
+                                        >
                                             {dataPoli.map(item => (
                                                 <Option key={item.id} value={item.id}>
                                                     {item.nama}

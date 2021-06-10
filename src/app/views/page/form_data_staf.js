@@ -30,20 +30,20 @@ const FormDataStaf = (props) => {
         let createBody ={
             no_telepon: values.no_telepon,
             password: "admin123",
-            role: 1
+            role: 1,
+            status: 1
         }
 
         let body ={
-            avatar: uploadInfo.response ? uploadInfo.response.url : "aaa.jpg",
+            avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
             jabatan: values.jabatan,
         }
         console.log("Body: ", body);
-        console.log("Tes: ", UploadProps)
 
         //
         if(props.location.state){
-            body.no_telepon = "081285051111";
+            body.no_telepon = props.location.state.no_telepon;
             APIServices.putDataStaf(body).then(res => {
                 setLoading(false);
                 if(res.data){
@@ -84,7 +84,8 @@ const FormDataStaf = (props) => {
               }).catch(err => {
                 setLoading(false);
                 if(err){
-                    dialog({icon: "error", title:"Tambah Data Staf Gagal!"}).then(()=>{
+                    console.log(err);
+                    dialog({icon: "error", title:"Buat Akun Staf Gagal!"}).then(()=>{
                         console.log("Gagal");
                     })
                 }
@@ -95,7 +96,7 @@ const FormDataStaf = (props) => {
     }
 
     const UploadProps = {
-        name: 'file',
+        name: 'image',
         action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         enctype: "multipart/form-data",
         headers: {
@@ -161,6 +162,51 @@ const FormDataStaf = (props) => {
                                 >
                                         <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
+
+                                {!props.location.state &&
+                                    <div>
+                                    <Text className="title-label">Password</Text>
+                                    <Form.Item name="password"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Harap masukkan password Anda!'
+                                            },
+                                            {
+                                                pattern: new RegExp('[a-zA-Z0-9]{8,}$'),
+                                                message: "Harap masukkan 8 karakter atau lebih"
+                                            }
+                                        ]}
+                                    >
+                                        <Input.Password className="input-form secondary"
+                                            placeholder="Masukkan 8 karakter atau lebih" 
+                                        />
+                                    </Form.Item>
+
+                                    <Text className="title-label">Konfirmasi Password</Text>
+                                    <Form.Item name="confirmPassword"
+                                        dependencies={['password']}
+                                        rules={[
+                                            { 
+                                                required: true, message: 'Harap konfirmasi password!' 
+                                            },
+                                            ({ getFieldValue }) => ({
+                                                validator(rule, value) {
+                                                    if (!value || getFieldValue('password') === value) {
+                                                    return Promise.resolve();
+                                                    }
+                                    
+                                                    return Promise.reject('Password tidak cocok!');
+                                                },
+                                            }),
+                                        ]}
+                                        >
+                                        <Input.Password className="input-form secondary" 
+                                            placeholder="Masukkan ulang password"
+                                        />
+                                    </Form.Item>
+                                    </div>
+                                }
 
                                 <Text className="title-label">Foto</Text>
                                 <Form.Item name="avatar" 

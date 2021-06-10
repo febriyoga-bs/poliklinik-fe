@@ -30,6 +30,7 @@ const FormProfilPoliklinik = (props) => {
             gambar : values.gambar,
             deskripsi : values.deskripsi
         }
+        console.log("body: ", body)
         APIServices.putDataProfil(body).then(res => {
             setLoading(false);
             if(res.data){
@@ -48,7 +49,7 @@ const FormProfilPoliklinik = (props) => {
     }
 
     const UploadProps = {
-        name: 'file',
+        name: 'image',
         action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         headers: {
           authorization: 'authorization-text',
@@ -58,7 +59,7 @@ const FormProfilPoliklinik = (props) => {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
-            form.setFieldsValue({ gambar : info.file.name})
+            form.setFieldsValue({ gambar : info.file.response.url})
             message.success(`${info.file.name} file uploaded successfully`);
           } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);

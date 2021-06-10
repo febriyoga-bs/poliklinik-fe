@@ -28,19 +28,24 @@ const FormDataDokter = (props) => {
    
     const onFinish= (values) => {
         setLoading(true);
+        let registerBody ={
+            no_telepon: values.no_telepon,
+            password: values.password,
+            role: 2,
+            status: 1
+        }
+
         let body ={
-            avatar: uploadInfo.response ? uploadInfo.response.url : "",
+            avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
             spesialisasi: values.spesialisasi,
-            role: 2
         }
         console.log("Body: ", body);
-        console.log("Tes: ", UploadProps)
 
         //
         if(props.location.state){
-            body.id_staf = props.location.state.id_staf;
-            APIServices.putDataStaf(body).then(res => {
+            body.no_telepon = props.location.state.no_telepon;
+            APIServices.putDataDokter(body).then(res => {
                 setLoading(false);
                 if(res.data){
                     history.goBack();
@@ -57,28 +62,40 @@ const FormDataDokter = (props) => {
                 }
               })
         } else {
-            APIServices.postDataStaf(body).then(res => {
+            APIServices.register(registerBody).then(res => {
                 setLoading(false);
                 if(res.data){
-                    history.goBack();
-                    dialog({icon: "success", title:"Tambah Data Dokter Berhasil!"}).then(()=>{
-                        console.log("Berhasil");
+                    APIServices.postDataDokter(body).then(res => {
+                        setLoading(false);
+                        if(res.data){
+                            history.goBack();
+                            dialog({icon: "success", title:"Tambah Data Dokter Berhasil!"}).then(()=>{
+                                console.log("Berhasil");
+                            })
+                        }
+                    }).catch(err => {
+                        setLoading(false);
+                        if(err){
+                            dialog({icon: "error", title:"Tambah Data Dokter Gagal!"}).then(()=>{
+                                console.log("Gagal");
+                            })
+                        }
                     })
                 }
-              }).catch(err => {
+            }).catch(err => {
                 setLoading(false);
                 if(err){
-                    dialog({icon: "error", title:"Tambah Data Dokter Gagal!"}).then(()=>{
+                    console.log(err);
+                    dialog({icon: "error", title:"Buat Akun Dokter Gagal!"}).then(()=>{
                         console.log("Gagal");
                     })
                 }
-              })
+            })
         }
-        
     }
 
     const UploadProps = {
-        name: 'file',
+        name: 'image',
         action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
         headers: {
           authorization: 'authorization-text',
@@ -137,15 +154,64 @@ const FormDataDokter = (props) => {
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                     <Row justify="center">
                         <Col span={24}>
-                                <Text className="title-label">ID Dokter</Text>
-                                <Form.Item name="id_dokter" >
-                                        <Input className="input-form secondary" disabled/>
-                                </Form.Item>
+                                {props.location.state &&
+                                    <div>
+                                    <Text className="title-label">ID Dokter</Text>
+                                    <Form.Item name="id_dokter" >
+                                            <Input className="input-form secondary" disabled/>
+                                    </Form.Item>
+                                    </div>
+                                }
 
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon">
-                                        <Input className="input-form secondary" disabled/>
+                                        <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
+
+                                {!props.location.state &&
+                                    <div>
+                                    <Text className="title-label">Password</Text>
+                                    <Form.Item name="password"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Harap masukkan password Anda!'
+                                            },
+                                            {
+                                                pattern: new RegExp('[a-zA-Z0-9]{8,}$'),
+                                                message: "Harap masukkan 8 karakter atau lebih"
+                                            }
+                                        ]}
+                                    >
+                                        <Input.Password className="input-form secondary"
+                                            placeholder="Masukkan 8 karakter atau lebih" 
+                                        />
+                                    </Form.Item>
+
+                                    <Text className="title-label">Konfirmasi Password</Text>
+                                    <Form.Item name="confirmPassword"
+                                        dependencies={['password']}
+                                        rules={[
+                                            { 
+                                                required: true, message: 'Harap konfirmasi password!' 
+                                            },
+                                            ({ getFieldValue }) => ({
+                                                validator(rule, value) {
+                                                    if (!value || getFieldValue('password') === value) {
+                                                    return Promise.resolve();
+                                                    }
+                                    
+                                                    return Promise.reject('Password tidak cocok!');
+                                                },
+                                            }),
+                                        ]}
+                                        >
+                                        <Input.Password className="input-form secondary" 
+                                            placeholder="Masukkan ulang password"
+                                        />
+                                    </Form.Item>
+                                    </div>
+                                }
 
                                 <Text className="title-label">Foto</Text>
                                 <Form.Item name="avatar" rules={[{ required: true }]}>

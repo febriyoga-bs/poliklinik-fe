@@ -139,7 +139,6 @@ const Informasi = () => {
                                 record.jadwal[0].id_dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1 === res2.id_dokter){
-                                            //dokter.push(res2.nama);
                                             dokter.push(res2.nama);
                                         }
                                     })

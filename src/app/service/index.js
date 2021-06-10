@@ -2,7 +2,6 @@ import axios from "axios";
 import CONFIG_INITIAL_STATE  from '../service/config';
 
 const client = axios.create({baseURL: CONFIG_INITIAL_STATE.BASE_URL});
-axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
 //axios.defaults.withCredentials = true
 
 //Request interceptor
@@ -87,6 +86,17 @@ const APIServices = {
             {
                 method: "put",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilDokter/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    postDataDokter(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/createDokter`,
                 data: data
             },
             { crossdomain: true }

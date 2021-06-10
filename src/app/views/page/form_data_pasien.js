@@ -6,6 +6,8 @@ import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
 import moment from 'moment';
 
+import Dummy from '../../dummy/dummy'
+
 const { Content } = Layout;
 const { Text } = Typography;
 const { Option } = Select;
@@ -14,6 +16,11 @@ const UbahDataPasien = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [kategori, setKategori] = useState("");
+    const [jurusan, setJurusan] = useState(0);
+
+    const dataJurusan = Dummy.listJurusan;
+    const dataProdi = Dummy.listProdi;
 
     useEffect(()=>{
         console.log(props.location)
@@ -21,6 +28,7 @@ const UbahDataPasien = (props) => {
           form.setFieldsValue(props.location.state);
           let tanggal = props.location.state.tanggal_lahir;
           form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
+          setKategori(props.location.state.kategori)
         }else{
           form.resetFields()
         }
@@ -105,7 +113,7 @@ const UbahDataPasien = (props) => {
                             
                         <Text className="title-label">Kategori Pasien</Text>
                             <Form.Item name="kategori" rules={[{ required: true }]}>
-                                <Select defaultValue="Umum" className="input-form">
+                                <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}>
                                     <Option value="Umum">Umum</Option>
                                     <Option value="Mahasiswa">Mahasiswa</Option>
                                     <Option value="Staf/Dosen">Staf/Dosen</Option>
@@ -113,16 +121,36 @@ const UbahDataPasien = (props) => {
                                 </Select>
                             </Form.Item>
                         
-                        {form.getFieldValue('kategori')==="Mahasiswa" &&
+                        {kategori==="Mahasiswa" &&
                             <div>
                                 <Text className="title-label">Jurusan</Text>
                                 <Form.Item name="jurusan" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" disabled/>
+                                    <Select defaultValue="Pilih Jurusan" className="input-form" 
+                                        onChange={(e, a)=>{setJurusan(a.key); form.setFieldsValue({ prodi: ""})}}
+                                    >
+                                        {dataJurusan.map(item => (
+                                            <Option key={item.id} value={item.nama}>
+                                                {item.nama}
+                                            </Option>
+                                        ))}
+                                    </Select>
                                 </Form.Item>
 
                                 <Text className="title-label">Program Studi</Text>
                                 <Form.Item name="prodi" rules={[{ required: true }]}>
-                                        <Input className="input-form secondary" disabled/>
+                                    <Select defaultValue="Pilih Prodi" className="input-form">
+                                        {dataProdi.map((item) => {
+                                            if (item.id_jurusan===Number(jurusan)){
+                                                return(
+                                                    <Option key={item.id} value={item.nama}>
+                                                        {item.nama}
+                                                    </Option>
+                                                )
+                                            }else {
+                                                return("");
+                                            }
+                                        })}
+                                    </Select>
                                 </Form.Item>
                             </div>
                         }
