@@ -37,7 +37,8 @@ const KelolaPasien = () => {
         setLoading(true);
         APIServices.getAllDataPasien().then(res => {
                 if(res.data){
-                    setDataPasien(res.data.data);
+                    //setDataPasien(res.data.data);
+                    setDataPasien(Dummy.dataPasien);
                     setLoading(false)
                 }
             }).catch(err => {

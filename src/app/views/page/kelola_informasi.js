@@ -4,7 +4,7 @@ import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'a
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 
-//import Dummy from '../../dummy/dummy'
+import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -62,11 +62,12 @@ const KelolaInformasi = () => {
         setLoading(true);
         APIServices.getDataPelayanan().then(res => {
                 if(res.data){
-                    setDataPelayanan(res.data.data);
+                    //setDataPelayanan(res.data.data);
+                    setDataJadwal(Dummy.dataJadwal)
                     setLoading(false)
                 }
             }).catch(err => {
-                //setDataPelayanan(Dummy.dataPelayanan);
+                setDataPelayanan(Dummy.dataPelayanan);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -78,11 +79,12 @@ const KelolaInformasi = () => {
         setLoading(true);
         APIServices.getDataJadwal().then(res => {
                 if(res.data){
-                    setDataJadwal(res.data.data);
+                    //setDataJadwal(res.data.data);
+                    setDataJadwal(Dummy.dataJadwal)
                     setLoading(false)
                 }
             }).catch(err => {
-                //setDataJadwal(Dummy.dataJadwal)
+                setDataJadwal(Dummy.dataJadwal)
                 if(err){
                     console.log(err.response)
                     setLoading(false)

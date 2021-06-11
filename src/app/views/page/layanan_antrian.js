@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
  
 const Antrian = () => {
+    const {loading, setLoading} = useState(false);
+    const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
+    const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
+
+    const columnsAntrean = [
+        {
+            title: "Nomor Antrean",
+            dataIndex: 'nomor',
+            key: 'nomor',
+            width: '25',
+            align: 'center',
+            
+        },
+        {
+            title: "Nama Pasien",
+            dataIndex: 'nama',
+            key: 'nama',
+            width: '25',
+            align: 'center',
+        },
+    ]
 
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
@@ -23,9 +44,9 @@ const Antrian = () => {
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{minHeight:600, marginRight:40}} justify="space-between">
+                <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
                     <Col xs={12} md={8} lg={12}>
-                        <Card className="button-card">
+                        <Card className="button-card" style={{width:"100%"}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI UMUM
@@ -33,13 +54,21 @@ const Antrian = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    PASIEN DALAM ANTRIAN: 14
+                                    SEDANG DIPERIKSA: --
                                 </Text>
                             </Row>
+                            <Table
+                                columns={columnsAntrean}
+                                size="middle"
+                                bordered={false}
+                                loading={loading}
+                                dataSource={dataAntreanUmum}
+                                // onChange={handleTableChange}
+                            />
                         </Card>
                     </Col>
                     <Col xs={12} md={8} lg={12}>
-                        <Card className="button-card">
+                        <Card className="button-card" style={{width:"100%"}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI GIGI
@@ -47,9 +76,17 @@ const Antrian = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    PASIEN DALAM ANTRIAN: --
+                                    SEDANG DIPERIKSA: --
                                 </Text>
                             </Row>
+                            <Table
+                                columns={columnsAntrean}
+                                size="middle"
+                                bordered={false}
+                                loading={loading}
+                                dataSource={dataAntreanGigi}
+                                // onChange={handleTableChange}
+                            />
                         </Card>
                     </Col>
                 </Row>

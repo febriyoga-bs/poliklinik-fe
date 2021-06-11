@@ -34,7 +34,8 @@ const KelolaStaf = () => {
         setLoading(true);
         APIServices.getAllDataStaf().then(res => {
                 if(res.data){
-                    setDataStaf(res.data.data);
+                    //setDataStaf(res.data.data);
+                    setDataStaf(Dummy.dataStaf);
                     setLoading(false)
                 }
             }).catch(err => {

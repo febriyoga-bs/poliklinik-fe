@@ -29,7 +29,8 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getDataPelayanan().then(res => {
                 if(res.data){
-                    setDataPelayanan(res.data.data);
+                    //setDataPelayanan(res.data.data);
+                    setDataPelayanan(Dummy.dataPelayanan);
                     setLoading(false)
                 }
             }).catch(err => {
@@ -45,7 +46,8 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getAllDataDokter().then(res => {
                 if(res.data){
-                    setDataDokter(res.data.data);
+                    //setDataDokter(res.data.data);
+                    setDataDokter(Dummy.dataDokter);
                     setLoading(false)
                 }
             }).catch(err => {
@@ -61,7 +63,8 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getAllDataStaf().then(res => {
                 if(res.data){
-                    setDataStaf(res.data.data);
+                    //setDataStaf(res.data.data);
+                    setDataStaf(Dummy.dataStaf);
                     setLoading(false)
                 }
             }).catch(err => {

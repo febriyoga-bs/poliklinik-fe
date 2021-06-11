@@ -34,7 +34,8 @@ const KelolaDokter = () => {
         setLoading(true);
         APIServices.getAllDataDokter().then(res => {
                 if(res.data){
-                    setDataDokter(res.data.data);
+                    //setDataDokter(res.data.data);
+                    setDataDokter(Dummy.dataDokter);
                     setLoading(false)
                 }
             }).catch(err => {
