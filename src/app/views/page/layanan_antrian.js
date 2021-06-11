@@ -46,7 +46,7 @@ const Antrian = () => {
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
                     <Col xs={12} md={8} lg={12}>
-                        <Card className="button-card" style={{width:"100%"}}>
+                        <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI UMUM
@@ -68,7 +68,7 @@ const Antrian = () => {
                         </Card>
                     </Col>
                     <Col xs={12} md={8} lg={12}>
-                        <Card className="button-card" style={{width:"100%"}}>
+                        <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI GIGI
