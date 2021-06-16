@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Button, Image, Card, Spin} from 'antd';
+import { Layout, Row, Col, Typography, Button, Image, Card, Spin, message} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/userimage.jpg";
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -31,14 +31,15 @@ const ProfilDokter = () => {
         setLoading(true)
         APIServices.getDataDokter().then(res => {
             if(res.data){
-            setDataDokter(res.data.data);
-            setLoading(false)
+                setDataDokter(res.data.data);
+                setLoading(false)
             }
         }).catch(err => {
             if(err){
-                setDataDokter(Dummy.dataDokter[1]);
-            console.log(err.response)
-            setLoading(false)
+                //setDataDokter(Dummy.dataDokter[1]);
+                message.error("Gagal memuat informasi profil!");
+                console.log(err.response)
+                setLoading(false)
             }
         })
     }

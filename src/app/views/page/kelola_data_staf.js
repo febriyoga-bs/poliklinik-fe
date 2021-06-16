@@ -149,21 +149,27 @@ const KelolaStaf = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item>
+                        <NavLink to="/">  
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/profil-staf">
-                        <Text className="title">
-                            <span>Admin</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                                Admin
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/#/kelola-data-pengguna/staf">
-                        <Text className="title">
-                            <span>Kelola Data Staf</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/kelola-data-pengguna/staf">  
+                            <Text className="title">
+                                Kelola Data Staf
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
