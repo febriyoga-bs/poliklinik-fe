@@ -14,6 +14,7 @@ const KelolaInformasi = () => {
     const [dataProfil, setDataProfil] = useState([]);
     const [dataJadwal, setDataJadwal] = useState([]);
     const [dataPelayanan, setDataPelayanan] = useState([]);
+    const [dataDokter, setDataDokter] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const gotoTambahDataPelayanan= () => {
@@ -40,6 +41,7 @@ const KelolaInformasi = () => {
         getDataProfil();
         getDataPelayanan();
         getDataJadwal();
+        getDataDokter();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -62,12 +64,11 @@ const KelolaInformasi = () => {
         setLoading(true);
         APIServices.getDataPelayanan().then(res => {
                 if(res.data){
-                    //setDataPelayanan(res.data.data);
-                    setDataJadwal(Dummy.dataJadwal)
+                    setDataPelayanan(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataPelayanan(Dummy.dataPelayanan);
+                //setDataPelayanan(Dummy.dataPelayanan);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -79,13 +80,28 @@ const KelolaInformasi = () => {
         setLoading(true);
         APIServices.getDataJadwal().then(res => {
                 if(res.data){
-                    //setDataJadwal(res.data.data);
-                    setDataJadwal(Dummy.dataJadwal)
+                    setDataJadwal(res.data.data)
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataJadwal(Dummy.dataJadwal)
+                //setDataJadwal(Dummy.dataJadwal)
                 if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+    
+    const getDataDokter = () => {
+        setLoading(true);
+        APIServices.getAllDokter().then(res => {
+                if(res.data){
+                    setDataDokter(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataDokter(Dummy.dataDokter);
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -148,17 +164,47 @@ const KelolaInformasi = () => {
         },
         {
             title: "Poli",
-            dataIndex: 'poli',
-            key: 'poli',
             width: '10%',
             align: 'center',
+            render: (value, record, rowIndex) => {
+                let poli = [];
+                record.poli.forEach(res => {
+                    if(res.id_poli === 1){
+                        poli.push("Umum")
+                    } else if(res.id_poli === 2){
+                        poli.push("Gigi")
+                    }
+                })          
+                return (
+                    <Text>
+                        {poli.map(res=>{
+                            return(<span>{res}<br></br></span>)
+                        })}
+                    </Text>
+                )
+            } 
         },
         {
             title: "Dokter",
-            dataIndex: 'dokter',
-            key: 'dokter',
             width: '25%',
             align: 'center',
+            render: (value, record, rowIndex) => {
+                let dokter = [];
+                record.dokter.forEach(res => {
+                    dataDokter.forEach(res2 =>{
+                        if(res.id_dokter === res2.id_dokter){
+                            dokter.push(res2.nama)
+                        }
+                    })
+                })          
+                return (
+                    <Text>
+                        {dokter.map(res=>{
+                            return(<span>{res}<br></br></span>)
+                        })}
+                    </Text>
+                )
+            } 
         },
         {
             title: 'Kelola',

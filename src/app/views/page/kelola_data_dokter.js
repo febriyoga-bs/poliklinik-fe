@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Image } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { dialog } from '../../component/alert'
+import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
+import CONFIG from '../../service/config';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -14,6 +15,7 @@ const KelolaDokter = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataDokter, setDataDokter] = useState([]);
+    const [pagination, setPagination] = useState([]);
 
     const gotoTambahDataDokter= () => {
         const loc = '/kelola-data-pengguna/dokter/tambah-data';
@@ -34,15 +36,36 @@ const KelolaDokter = () => {
         setLoading(true);
         APIServices.getAllDataDokter().then(res => {
                 if(res.data){
-                    //setDataDokter(res.data.data);
-                    setDataDokter(Dummy.dataDokter);
+                    let _data = Object.values(res.data.data)
+                    let pagination = _data.pop()
+                    setDataDokter(_data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataDokter(Dummy.dataDokter);
+                    //setDataDokter(Dummy.dataDokter);
                     console.log(err.response)
                     setLoading(false)
+                }
+            })
+        }
+    
+    const deleteDokter = (no_telepon) => {
+        setLoading(true);
+        APIServices.deleteDataDokter(no_telepon).then(res => {
+                if(res.data){
+                    dialog({icon: "success", title:"Hapus Data Dokter Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                        getDataDokter()
+                    })
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                    dialog({icon: "error", title:"Hapus Data Dokter Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
                 }
             })
         }
@@ -60,6 +83,14 @@ const KelolaDokter = () => {
             dataIndex: 'avatar',
             key: 'avatar',
             width: '25%',
+            render: (record) => {
+                return (
+                    <Image src={CONFIG.BASE_URL+"/"+record}  
+                        preview={false}
+                        className="image-profil"
+                    />
+                )
+            }
         },
         {
             title: "Nama Dokter",
@@ -96,8 +127,8 @@ const KelolaDokter = () => {
                   <Col>
                     <Button 
                         onClick={() => {
-                            dialog({icon: "info", title:"Hapus Data Dokter", text: "Apakah Anda yakin akan menghapus data dokter ini?"}).then(()=>{
-                                console.log("deleted");
+                            deleteDialog({icon: "info", title:"Hapus Data Dokter", text: "Apakah Anda yakin akan menghapus data dokter ini?"}).then(()=>{
+                                deleteDokter(record.no_telepon);
                             })
                         }}
                     >

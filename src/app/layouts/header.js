@@ -59,10 +59,10 @@ const HeaderLayout = (props) => {
 
     return (
         <Layout align="middle" className="navmenu" style={{maxWidth:'100%'}}>
-            <Row justify='space-between' align='middle' style={{height:'100%'}}>
+            <Row justify='center' align='middle' style={{height:'100%'}}>
                 <Col lg={5} style={{paddingLeft:10}}>
                     <Row align='middle'>
-                        <Image src={Logo} alt="Candra Plants" 
+                        <Image src={Logo} alt="Poliklinik POLBAN" 
                             style={{width: 60, height: 60, borderRadius: 20}}
                             preview={false}
                             onClick={()=> props.history.push("/")} 
@@ -89,8 +89,8 @@ const HeaderLayout = (props) => {
                         </Text>
                     </Dropdown>
                 </Col>
-                <Col md={3} lg={3}>
-                    <NavLink to="/informasi" className="title-navmenu" activeStyle={{color: '#fff279'}}>
+                <Col md={3} lg={3} onMouseEnter={{color:"#072A6F", backgroundColor:"072a6f"}} style={{}}>
+                    <NavLink to="/informasi" className="title-navmenu">
                         INFORMASI
                     </NavLink>
                 </Col>

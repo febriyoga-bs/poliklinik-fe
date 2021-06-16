@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Button, Image, Card, Spin, message} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { APIServices }  from '../../service';
-import Auth from '../../service/auth'
-import UserImage from "../../../assets/userimage.jpg";
-//import Dummy from '../../dummy/dummy'
+import { APIServices }  from '../../../service';
+import Auth from '../../../service/auth'
+import UserImage from "../../../../assets/userimage.jpg";
+//import Dummy from '../../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
 const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const ProfilPasien = () => {
+    const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
+
+    const gotoEditProfil = (data) => {
+        const loc = '/profil-pasien/edit-profil';
+        history.push({pathname:loc, state:data});
+    }
 
     useEffect(()=>{
         getDataPasien();
@@ -29,11 +35,15 @@ const ProfilPasien = () => {
                 setLoading(false)
             }
         }).catch(err => {
-            if(err){
+            if(err.response){
                 //setdataPasien(Dummy.dataPasien[0])
-                message.error("Gagal memuat informasi profil!");
-                console.log(err.response)
+                let loc = '/profil-pasien/data-diri';
+                let data = {no_telepon: JSON.parse(localStorage.getItem('no_telepon'))}
+                history.push({pathname:loc, state:data});
+                message.info("Harap lengkapi data diri Anda!");
                 setLoading(false)
+            } else {
+                message.error("Gagal memuat informasi profil. Periksa koneksi internet Anda!");
             }
         })
     }
@@ -63,7 +73,8 @@ const ProfilPasien = () => {
                         </Row>
                         <Row style={{marginLeft:10}}>
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, backgroundColor:"#FFA500"}} 
-                                >
+                                onClick={()=> gotoEditProfil(dataPasien)}
+                            >
                                 Edit Profile
                             </Button>
                             <Button onClick={Auth.logout} type='primary' className="app-btn secondary" danger style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >

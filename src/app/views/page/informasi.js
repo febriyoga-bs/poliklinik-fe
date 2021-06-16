@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Card, Typography, Table, List, Image } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import CONFIG_INITIAL_STATE  from '../../service/config';
+import CONFIG from '../../service/config';
 import { APIServices }  from '../../service';
 
 import Dummy from '../../dummy/dummy'
@@ -29,12 +29,11 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getDataPelayanan().then(res => {
                 if(res.data){
-                    //setDataPelayanan(res.data.data);
-                    setDataPelayanan(Dummy.dataPelayanan);
+                    setDataPelayanan(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataPelayanan(Dummy.dataPelayanan);
+                //setDataPelayanan(Dummy.dataPelayanan);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -44,15 +43,14 @@ const Informasi = () => {
 
     const getDataDokter = () => {
         setLoading(true);
-        APIServices.getAllDataDokter().then(res => {
+        APIServices.getAllDokter().then(res => {
                 if(res.data){
-                    //setDataDokter(res.data.data);
-                    setDataDokter(Dummy.dataDokter);
+                    setDataDokter(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataDokter(Dummy.dataDokter);
+                    //setDataDokter(Dummy.dataDokter);
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -61,14 +59,13 @@ const Informasi = () => {
     
     const getDataStaf = () => {
         setLoading(true);
-        APIServices.getAllDataStaf().then(res => {
+        APIServices.getAllStaf().then(res => {
                 if(res.data){
-                    //setDataStaf(res.data.data);
-                    setDataStaf(Dummy.dataStaf);
+                    setDataStaf(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataStaf(Dummy.dataStaf);
+                //setDataStaf(Dummy.dataStaf);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -80,13 +77,12 @@ const Informasi = () => {
         setLoading(true);
         APIServices.getDataJadwal().then(res => {
                 if(res.data){
-                    //setDataJadwal(res.data.data);
-                    setDataJadwal(Dummy.dataJadwal)
+                    setDataJadwal(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataJadwal(Dummy.dataJadwal)
+                    //setDataJadwal(Dummy.dataJadwal)
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -129,9 +125,9 @@ const Informasi = () => {
 
                         if(record.jadwal[0] !== null){
                             let isPoli = 0;
-                            if(record.jadwal[0].id_poli){
-                                record.jadwal[0].id_poli.forEach((res)=>{
-                                    if(res === record.id_poli){
+                            if(record.jadwal[0].poli){
+                                record.jadwal[0].poli.forEach((res)=>{
+                                    if(res.id_poli === record.id_poli){
                                         isPoli++;
                                     }
                                 })
@@ -139,9 +135,9 @@ const Informasi = () => {
                             
                             if(isPoli>0){
                                 jam = record.jadwal[0].jam_operasional;
-                                record.jadwal[0].id_dokter.forEach((res1)=>{
+                                record.jadwal[0].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
-                                        if(res1 === res2.id_dokter){
+                                        if(res1.id_dokter === res2.id_dokter){
                                             dokter.push(res2.nama);
                                         }
                                     })
@@ -172,18 +168,18 @@ const Informasi = () => {
 
                         if(record.jadwal[1] !== null){
                             let isPoli = 0;
-                            if(record.jadwal[1].id_poli){
-                                record.jadwal[1].id_poli.forEach((res)=>{
-                                    if(res === record.id_poli){
+                            if(record.jadwal[1].poli){
+                                record.jadwal[1].poli.forEach((res)=>{
+                                    if(res.id_poli === record.id_poli){
                                         isPoli++;
                                     }
                                 })
                             }
                             if(isPoli>0){
                                 jam = record.jadwal[1].jam_operasional;
-                                record.jadwal[1].id_dokter.forEach((res1)=>{
+                                record.jadwal[1].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
-                                        if(res1 === res2.id_dokter){
+                                        if(res1.id_dokter === res2.id_dokter){
                                             dokter.push(res2.nama);
                                         }
                                     })
@@ -213,18 +209,18 @@ const Informasi = () => {
 
                         if(record.jadwal[2] !== null){
                             let isPoli = 0;
-                            if(record.jadwal[2].id_poli){
-                                record.jadwal[2].id_poli.forEach((res)=>{
-                                    if(res === record.id_poli){
+                            if(record.jadwal[2].poli){
+                                record.jadwal[2].poli.forEach((res)=>{
+                                    if(res.id_poli === record.id_poli){
                                         isPoli++;
                                     }
                                 })
                             }
                             if(isPoli>0){
                                 jam = record.jadwal[2].jam_operasional;
-                                record.jadwal[2].id_dokter.forEach((res1)=>{
+                                record.jadwal[2].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
-                                        if(res1 === res2.id_dokter){
+                                        if(res1.id_dokter === res2.id_dokter){
                                             dokter.push(res2.nama);
                                         }
                                     })
@@ -254,18 +250,18 @@ const Informasi = () => {
 
                         if(record.jadwal[3] !== null){
                             let isPoli = 0;
-                            if(record.jadwal[3].id_poli){
-                                record.jadwal[3].id_poli.forEach((res)=>{
-                                    if(res === record.id_poli){
+                            if(record.jadwal[3].poli){
+                                record.jadwal[3].poli.forEach((res)=>{
+                                    if(res.id_poli === record.id_poli){
                                         isPoli++;
                                     }
                                 })
                             }
                             if(isPoli>0){
                                 jam = record.jadwal[3].jam_operasional;
-                                record.jadwal[3].id_dokter.forEach((res1)=>{
+                                record.jadwal[3].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
-                                        if(res1 === res2.id_dokter){
+                                        if(res1.id_dokter === res2.id_dokter){
                                             dokter.push(res2.nama);
                                         }
                                     })
@@ -295,18 +291,18 @@ const Informasi = () => {
 
                         if(record.jadwal[4] !== null){
                             let isPoli = 0;
-                            if(record.jadwal[4].id_poli){
-                                record.jadwal[4].id_poli.forEach((res)=>{
-                                    if(res === record.id_poli){
+                            if(record.jadwal[4].poli){
+                                record.jadwal[4].poli.forEach((res)=>{
+                                    if(res.id_poli === record.id_poli){
                                         isPoli++;
                                     }
                                 })
                             }
                             if(isPoli>0){
                                 jam = record.jadwal[4].jam_operasional;
-                                record.jadwal[4].id_dokter.forEach((res1)=>{
+                                record.jadwal[4].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
-                                        if(res1 === res2.id_dokter){
+                                        if(res1.id_dokter === res2.id_dokter){
                                             dokter.push(res2.nama);
                                         }
                                     })
@@ -517,7 +513,7 @@ const Informasi = () => {
                                     <Row>
                                       <Card className="profil-card" >
                                           <Row justify="center">
-                                            <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
+                                            <Image src={CONFIG.BASE_URL+"/"+item.avatar}  
                                                 preview={false}
                                                 className="image-profil"
                                             />
@@ -529,7 +525,7 @@ const Informasi = () => {
                                           </Row>
                                           <Row justify="center">
                                             <Text className="title-profil">
-                                                {item.spesialisasi}
+                                                Dokter {item.spesialisasi}
                                             </Text>
                                           </Row>
                                       </Card>
@@ -558,7 +554,7 @@ const Informasi = () => {
                                     <Row justify="center">
                                       <Card className="profil-card" >
                                           <Row justify="center">
-                                            <Image src={CONFIG_INITIAL_STATE.BASE_URL+ item.avatar}  
+                                            <Image src={CONFIG.BASE_URL+"/"+item.avatar}  
                                                 preview={false}
                                                 className="image-profil"
                                             />

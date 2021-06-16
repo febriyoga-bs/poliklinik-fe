@@ -68,7 +68,12 @@ const LoginUser = () => {
                 localStorage.setItem('token', JSON.stringify(res.meta.api_token));
             } else if(status === 0){
                 message.info("Akun Belum Terverifikasi");
-                setRecord({no_telepon: res.data.no_telepon})
+                let record = {
+                    no_telepon: res.data.no_telepon,
+                    role: res.meta.role,
+                    token: res.meta.api_token
+                }
+                setRecord(record)
                 handleModal();
             } 
         

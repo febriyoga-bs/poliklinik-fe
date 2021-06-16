@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Fade from 'react-reveal/Fade';
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Button, Image, Card, message, Spin} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Typography, Button, Image, Card, message, Spin, Tabs, Menu} from 'antd';
+import { LoadingOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined,
+         MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import Auth from '../../service/auth'
 import UserImage from "../../../assets/userimage.jpg";
+import kelola_data_pasien from "./kelola_data_pasien";
 //import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
+const { TabPane } = Tabs;
 const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
 const ProfilStaf = () => {
     const [loading, setLoading] = useState(false);
     const history = useHistory();
     const [dataStaf, setDataStaf] = useState([]);
+
+    const gotoEditProfil = (data) => {
+        const loc = '/profil-staf/edit-profil';
+        history.push({pathname:loc, state:data});
+    }
 
     const gotoKelolaInformasi = () => {
         const loc = '/kelola-informasi';
@@ -55,21 +63,56 @@ const ProfilStaf = () => {
         })
     }
 
+    const [collapsed, setCollapsed] = useState(false);
+    const toggleCollapsed = () => {
+        setCollapsed(!collapsed);
+    };
+
     return(
         <Layout style={{backgroundColor: '#072A6F'}}>
             <Content className="layout-content">
-            {loading ?
+            <Tabs defaultActiveKey="1" style={{marginRight:30, color:"#FFF"}}>
+                <TabPane tab="Informasi Staf" key="1">
+                {loading ?
                 <Row justify="center" align="middle" style={{minHeight:580}}>
                     <Spin indicator={antIcon} /> 
                 </Row>
             :
+                
                 <Fade>
-                <Row style={{marginLeft: 30}}>
+                {/* <Row style={{marginLeft: 30}}>
                     <Title style={{ color: '#FFFFFF' }} level={4} className="title-frame">
                         Informasi Staf
                     </Title>
-                </Row>
-                <Row style={{marginLeft: 30}}>
+                </Row> */}
+                
+
+                <Row style={{marginTop: 30}}>
+                    <Col xs={12} sm={12} md={8} lg={6} xl={5} style={{paddingRight:20}}>
+                        <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
+                            {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                        </Button>
+
+                        <Menu
+                            defaultSelectedKeys={['1']}
+                            mode="inline"
+                            theme="dark"
+                            inlineCollapsed={collapsed}
+                        >
+                            <Menu.Item key="1" icon={<PieChartOutlined />}>
+                                Informasi Staf
+                            </Menu.Item>
+                            <Menu.Item key="2" icon={<ContainerOutlined />}>
+                                Kelola Informasi
+                            </Menu.Item>
+                            <Menu.Item key="3" icon={<ContainerOutlined />}>
+                                Kelola Data Pengguna
+                            </Menu.Item>
+                            <Menu.Item key="4" icon={<DesktopOutlined />}>
+                                Riwayat Pelayanan Pasien
+                            </Menu.Item>
+                        </Menu>
+                    </Col>
                     <Col xs={12} sm={12} md={8} lg={6} xl={4}>
                         <Row>
                             <Image
@@ -80,7 +123,8 @@ const ProfilStaf = () => {
                         </Row>
                         <Row style={{marginLeft:10}}>
                             <Button className="app-btn secondary" style={{marginTop: 10, backgroundColor:"#FFA500"}} 
-                                >
+                                 onClick={()=> gotoEditProfil(dataStaf)}
+                            >
                                 Edit Profil
                             </Button>
                             <Button onClick={Auth.logout} className="app-btn secondary" style={{marginLeft: 10, marginTop: 10, backgroundColor:"#FF0000"}} >
@@ -88,7 +132,7 @@ const ProfilStaf = () => {
                             </Button>
                         </Row>
                     </Col>
-                    <Col xs={16} md={14} lg={18}>
+                    <Col xs={16} md={8} lg={12} xl={12}>
                         <Row>
                             <Col span={8} lg={4}>
                                 <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
@@ -184,6 +228,18 @@ const ProfilStaf = () => {
                 </Row>
                 </Fade>
             }
+                </TabPane>
+                <TabPane tab="Kelola Informasi" key="2">
+                    {kelola_data_pasien}
+                </TabPane>
+                <TabPane tab="Kelola Data Pengguna" key="3">
+                
+                </TabPane>
+                <TabPane tab="Riwayat Pelayanan Pasien" key="4">
+                
+                </TabPane>
+            </Tabs>
+            
             </Content>
         </Layout>
     );

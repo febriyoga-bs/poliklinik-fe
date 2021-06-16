@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
+import { useHistory } from 'react-router-dom';
 import { Row, Typography, Modal, Form, Input, Button, message } from 'antd';
 import { NumberOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
+import Auth from '../../service/auth'
 
 const { Title, Text } = Typography;
 
 const VerifikasiOTP = (props) => {
+    const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -19,6 +22,16 @@ const VerifikasiOTP = (props) => {
             setLoading(false);
             if(res.data){
                 message.success("Verifikasi Berhasil")
+                localStorage.setItem('no_telepon', JSON.stringify(props.data.no_telepon));
+                localStorage.setItem('role', JSON.stringify(props.data.role));
+                localStorage.setItem('token', JSON.stringify(props.data.token));
+            }
+
+            if(Auth.isLogin()){
+                let role = JSON.parse(localStorage.getItem('role'));
+                if (role === 3){
+                    history.push('/profil-pasien');
+                }
             }
           }).catch(err => {
             setLoading(false);

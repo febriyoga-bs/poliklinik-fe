@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
-import { HomeOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Select, Button, message } from 'antd';
+import { HomeOutlined, LoadingOutlined, UploadOutlined, CheckCircleFilled } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
 import CONFIG from '../../service/config';
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const FormDataDokter = (props) => {
     const history = useHistory();
@@ -36,6 +37,7 @@ const FormDataDokter = (props) => {
         }
 
         let body ={
+            no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
             spesialisasi: values.spesialisasi,
@@ -63,7 +65,7 @@ const FormDataDokter = (props) => {
               })
         } else {
             APIServices.register(registerBody).then(res => {
-                setLoading(false);
+                console.log("Akun Created")
                 if(res.data){
                     APIServices.postDataDokter(body).then(res => {
                         setLoading(false);
@@ -116,39 +118,46 @@ const FormDataDokter = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item >
-                    <NavLink to="/"> 
+            {props.location.pathname !== "/profil-dokter/edit-profil" &&
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item >
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item >
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                            Admin
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/kelola-data-pengguna/dokter"> 
+                            <Text className="title">
+                                Kelola Data Dokter
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
                         <Text className="title">
-                            <HomeOutlined />
+                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
                         </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item >
-                    <NavLink to="/profil-staf">  
-                        <Text className="title">
-                        Admin
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <NavLink to="/kelola-data-pengguna/dokter"> 
-                        <Text className="title">
-                            Kelola Data Dokter
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Text className="title">
-                        {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
-                    </Text>
-                </Breadcrumb.Item>
-            </Breadcrumb>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+            }
+
+
             <Row justify="center">
             <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
+                            {   props.location.pathname === "/profil-dokter/edit-profil"  ? "Edit Profil" 
+                                :
+                                props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"
+                            }
                         </Text>
                     </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
@@ -164,7 +173,9 @@ const FormDataDokter = (props) => {
                                 }
 
                                 <Text className="title-label">Nomor Telepon</Text>
-                                <Form.Item name="no_telepon">
+                                <Form.Item name="no_telepon"
+                                    rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
+                                >
                                         <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
 
@@ -214,24 +225,34 @@ const FormDataDokter = (props) => {
                                 }
 
                                 <Text className="title-label">Foto</Text>
-                                <Form.Item name="avatar" rules={[{ required: true }]}>
+                                <Form.Item name="avatar" 
+                                    rules={[{ required: true, message: "Harap unggah foto" }]}
+                                >
                                     <Upload {...UploadProps}>
                                         <Button>
-                                            <UploadOutlined /> Unggah Foto
+                                            <UploadOutlined /> {(!!form.getFieldValue(['avatar']) || props.location.state) ? "Ubah Foto" : "Unggah Foto"}
+                                            {(!!form.getFieldValue(['avatar']) || props.location.state) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
                                         </Button>
                                     </Upload>
                                 </Form.Item>
 
                                 <Text className="title-label">Nama Dokter</Text>
-                                <Form.Item name="nama" rules={[{ required: true }]}>
+                                <Form.Item name="nama" 
+                                    rules={[{ required: true, message: "Harap masukkan nama"  }]}
+                                >
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
                                 <Text className="title-label">Spesialisasi</Text>
-                                        <Form.Item name="spesialisasi" rules={[{ required: true }]}>
-                                            <Input className="input-form secondary" />
-                                        </Form.Item>
-                        </Col>
+                                    <Form.Item name="spesialisasi" 
+                                        rules={[{ required: true, message: "Harap masukkan spesialisasi"  }]}
+                                    >
+                                        <Select defaultValue="Pilih Spesialisasi" className="input-form" >
+                                            <Option key={1} value="Umum">Umum</Option>
+                                            <Option key={2} value="Gigi">Gigi</Option>
+                                        </Select>
+                                    </Form.Item>
+                    </Col>
                     </Row>
                     <Row justify="center">
                         <Button className="app-btn tertiary" onClick={()=> {history.goBack()}}>

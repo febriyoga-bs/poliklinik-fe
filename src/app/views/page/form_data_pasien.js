@@ -16,18 +16,25 @@ const UbahDataPasien = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [dataJurusan, setDataJurusan] = useState([]);
+    const [dataProdi, setDataProdi] = useState([]);
     const [kategori, setKategori] = useState("");
     const [jurusan, setJurusan] = useState(0);
 
-    const dataJurusan = Dummy.listJurusan;
-    const dataProdi = Dummy.listProdi;
+    //const dataJurusan = Dummy.listJurusan;
+    //const dataProdi = Dummy.listProdi;
 
     useEffect(()=>{
         console.log(props.location)
+        getDataJurusan();
         if(props.location.state){
+            console.log(props.location)
           form.setFieldsValue(props.location.state);
-          let tanggal = props.location.state.tanggal_lahir;
-          form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
+
+          if(props.location.state.tanggal_lahir){
+            let tanggal = props.location.state.tanggal_lahir;
+            form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
+          }
           setKategori(props.location.state.kategori)
         }else{
           form.resetFields()
@@ -37,74 +44,183 @@ const UbahDataPasien = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let body ={
+        let registerBody ={
+            no_telepon: values.no_telepon,
+            password: values.password,
+            role: 3,
+            status: 1
+        }
+
+        let body = {
             no_telepon: props.location.state.no_telepon,
             kategori: values.kategori,
             jurusan: values.jurusan,
             prodi: values.prodi,
             nama: values.nama,
             nomor_identitas: values.nomor_identitas,
+            jenis_kelamin: values.jenis_kelamin,
             tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
             alamat: values.alamat
         }
-        APIServices.putDataPasien(body).then(res => {
-            setLoading(false);
-            if(res.data){
-                history.goBack();
-                dialog({icon: "success", title:"Ubah Data Pasien Berhasil!"}).then(()=>{
-                    console.log("Berhasil");
+
+        if(props.location.state){
+            if (props.location.pathname === "/profil-pasien/data-diri"){
+                APIServices.postDataPasien(body).then(res => {
+                    setLoading(false);
+                    if(res.data){
+                        history.push('/profil-pasien');
+                        dialog({icon: "success", title:"Lengkapi Data Diri Berhasil!"}).then(()=>{
+                            console.log("Berhasil");
+                        })
+                    }
+                }).catch(err => {
+                    setLoading(false);
+                    if(err){
+                        dialog({icon: "error", title:"Lengkapi Data Diri Gagal!"}).then(()=>{
+                            console.log("Gagal");
+                        })
+                    }
+                })
+            } else {
+                body.no_telepon = props.location.state.no_telepon;
+                APIServices.putDataPasien(body).then(res => {
+                    setLoading(false);
+                    if(res.data){
+                        history.goBack();
+                        dialog({icon: "success", title:"Ubah Data Pasien Berhasil!"}).then(()=>{
+                            console.log("Berhasil");
+                        })
+                    }
+                }).catch(err => {
+                    setLoading(false);
+                    if(err){
+                        dialog({icon: "error", title:"Ubah Data Pasien Gagal!"}).then(()=>{
+                            console.log("Gagal");
+                        })
+                    }
                 })
             }
-          }).catch(err => {
-            setLoading(false);
-            if(err){
-                dialog({icon: "error", title:"Ubah Data Pasien Gagal!"}).then(()=>{
-                    console.log("Gagal");
-                })
-            }
-          })
+        } else {
+            APIServices.register(registerBody).then(res => {
+                console.log("Akun Created")
+                if(res.data){
+                    APIServices.postDataPasien(body).then(res => {
+                        setLoading(false);
+                        if(res.data){
+                            history.goBack();
+                            dialog({icon: "success", title:"Tambah Data Pasien Berhasil!"}).then(()=>{
+                                console.log("Berhasil");
+                            })
+                        }
+                    }).catch(err => {
+                        setLoading(false);
+                        if(err){
+                            dialog({icon: "error", title:"Tambah Data Pasien Gagal!"}).then(()=>{
+                                console.log("Gagal");
+                            })
+                        }
+                    })
+                }
+            }).catch(err => {
+                setLoading(false);
+                if(err){
+                    console.log(err);
+                    dialog({icon: "error", title:"Buat Akun Pasien Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+            })
+        }
     }
+
+    const getDataJurusan = () => {
+        setLoading(true);
+        APIServices.getJurusan().then(res => {
+                if(res.data){
+                    setDataJurusan(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                //setDataStaf(Dummy.dataStaf);
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getDataProdi = (id_jurusan) => {
+        setLoading(true);
+        APIServices.getProdi(id_jurusan).then(res => {
+                if(res.data){
+                    setDataProdi(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                //setDataStaf(Dummy.dataStaf);
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item >
-                    <NavLink to="/"> 
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item >
-                    <NavLink to="/profil-staf">  
-                        <Text className="title">
-                        Admin
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <NavLink to="/kelola-data-pengguna/pasien"> 
-                        <Text className="title">
-                            Kelola Data Pasien
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-            </Breadcrumb>
+            { (props.location.pathname !== "/profil-pasien/data-diri" &&
+                props.location.pathname !== "/profil-pasien/edit-profil") 
+                &&
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item >
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item >
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                            Admin
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/kelola-data-pengguna/pasien"> 
+                            <Text className="title">
+                                Kelola Data Pasien
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+            }
+
             <Row justify="center">
             <Card className="form-card" style={{width: 600, textAlign:"left"}}>
                 <Row>
                     <Text className="title-tabel">
-                        Ubah Data Pasien
+                        { props.location.state === undefined ?
+                            "Tambah Data Pasien"
+                            :
+                            (props.location.pathname !== "/profil-pasien/data-diri") ?
+                            "Ubah Data Pasien"
+                            :
+                            "Lengkapi Data Diri"
+                        }
                     </Text>
                 </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                 <Row justify="space-between" gutter={30}>
                     <Col span={12}>
-                        <Text className="title-label">ID Pasien</Text>
-                        <Form.Item name="id_pasien" >
-                                <Input className="input-form secondary" disabled/>
-                        </Form.Item>
+                        {!!props.location.state.id_pasien &&
+                            <div>
+                            <Text className="title-label">ID Pasien</Text>
+                                <Form.Item name="id_pasien" >
+                                        <Input className="input-form secondary" disabled/>
+                                </Form.Item>
+                            </div>
+                        }
                         
                         <Text className="title-label">Nomor Telepon</Text>
                             <Form.Item name="no_telepon" rules={[{ required: true }]}>
@@ -112,7 +228,7 @@ const UbahDataPasien = (props) => {
                             </Form.Item>
                             
                         <Text className="title-label">Kategori Pasien</Text>
-                            <Form.Item name="kategori" rules={[{ required: true }]}>
+                            <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
                                 <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}>
                                     <Option value="Umum">Umum</Option>
                                     <Option value="Mahasiswa">Mahasiswa</Option>
@@ -124,12 +240,16 @@ const UbahDataPasien = (props) => {
                         {kategori==="Mahasiswa" &&
                             <div>
                                 <Text className="title-label">Jurusan</Text>
-                                <Form.Item name="jurusan" rules={[{ required: true }]}>
+                                <Form.Item name="jurusan" rules={[{ required: true, message: "Harap pilih jurusan!" }]}>
                                     <Select defaultValue="Pilih Jurusan" className="input-form" 
-                                        onChange={(e, a)=>{setJurusan(a.key); form.setFieldsValue({ prodi: ""})}}
+                                        onChange={(e, a)=>{
+                                            setJurusan(a.key); 
+                                            form.setFieldsValue({ prodi: ""})
+                                            getDataProdi(a.key);
+                                        }}
                                     >
                                         {dataJurusan.map(item => (
-                                            <Option key={item.id} value={item.nama}>
+                                            <Option key={item.id_jurusan} value={item.nama}>
                                                 {item.nama}
                                             </Option>
                                         ))}
@@ -137,18 +257,14 @@ const UbahDataPasien = (props) => {
                                 </Form.Item>
 
                                 <Text className="title-label">Program Studi</Text>
-                                <Form.Item name="prodi" rules={[{ required: true }]}>
-                                    <Select defaultValue="Pilih Prodi" className="input-form">
+                                <Form.Item name="prodi" rules={[{ required: true, message: "Harap pilih program studi!" }]}>
+                                    <Select defaultValue="Pilih Prodi" className="input-form" disabled={loading}>
                                         {dataProdi.map((item) => {
-                                            if (item.id_jurusan===Number(jurusan)){
-                                                return(
-                                                    <Option key={item.id} value={item.nama}>
-                                                        {item.nama}
-                                                    </Option>
-                                                )
-                                            }else {
-                                                return("");
-                                            }
+                                            return(
+                                                <Option key={item.id_prodi} value={item.nama}>
+                                                    {item.nama}
+                                                </Option>
+                                            )
                                         })}
                                     </Select>
                                 </Form.Item>
@@ -157,24 +273,34 @@ const UbahDataPasien = (props) => {
                         
                     </Col>
                     <Col span={12}>
+                        
                         <Text className="title-label">Nama Pasien</Text>
-                            <Form.Item name="nama" rules={[{ required: true }]}>
+                            <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan nama!" }]}>
+                                    <Input className="input-form secondary" />
+                            </Form.Item>
+                        
+
+                        <Text className="title-label">Nomor Identitas</Text>
+                            <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
                                     <Input className="input-form secondary" />
                             </Form.Item>
 
-                        <Text className="title-label">Nomor Identitas</Text>
-                            <Form.Item name="nomor_identitas" rules={[{ required: true }]}>
-                                    <Input className="input-form secondary" />
+                        <Text className="title-label">Jenis Kelamin</Text>
+                            <Form.Item name="jenis_kelamin" rules={[{ required: true, message: "Harap pilih jenis kelamin!" }]}>
+                                <Select defaultValue="Pilih Jenis Kelamin" className="input-form" >
+                                    <Option key={1} value="Laki-laki">Laki-laki</Option>
+                                    <Option key={2} value="Perempuan">Perempuan</Option>
+                                </Select>
                             </Form.Item>
                             
                         <Text className="title-label">Tanggal Lahir</Text>
-                            <Form.Item name="tanggal_lahir" rules={[{ required: true }]}>
+                            <Form.Item name="tanggal_lahir" rules={[{ required: true, message: "Harap masukkan tanggal lahir!" }]}>
                                     <DatePicker className="input-form secondary" format='DD/MM/YYYY' placeholder="" style={{width:256}}/>
 
                             </Form.Item>
                             
                         <Text className="title-label">Alamat</Text>
-                            <Form.Item name="alamat" rules={[{ required: true }]}>
+                            <Form.Item name="alamat" rules={[{ required: true, message: "Harap masukkan alamat sesuai KTP!" }]}>
                                     <Input className="input-form secondary" />
                             </Form.Item>
                     </Col>

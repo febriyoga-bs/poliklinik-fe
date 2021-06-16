@@ -8,7 +8,7 @@ export function dialog (config) {
       buttons: {
         confirm: {
           text: "OK",
-          value: false,
+          value: true,
           visible: true,
           className: 'app-btn'
         },
@@ -35,14 +35,13 @@ export function deleteDialog (config) {
         },
         confirm: {
           text: "Hapus",
-          value: false,
+          value: true,
           visible: true,
           className: 'app-btn'
         },
       },
       ...config
     });
-
 
     result ? resolve(result) : reject(result);
   })

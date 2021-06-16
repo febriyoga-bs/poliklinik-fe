@@ -61,6 +61,26 @@ const APIServices = {
     //     )
     // },
 
+    getJurusan(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getJurusan`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getProdi(id_jurusan){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getProdi/${id_jurusan}`,
+            },
+            {crossdomain: true }
+        )
+    },
+
     getDataDokter(){
         return client.request(
             {
@@ -71,11 +91,23 @@ const APIServices = {
         )
     },
 
-    getAllDataDokter(){
+    getAllDokter(){
         return client.request(
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDokter`,
+            },
+            {crossdomain: true }
+        )
+    },
+    
+    getAllDataDokter(){
+        return client.request(
+            {
+                method: "get",
+                //need changes
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDataDokter/limit10`,
+                //url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDokterWithPN`,
             },
             {crossdomain: true }
         )
@@ -103,6 +135,17 @@ const APIServices = {
         )
     },
 
+    deleteDataDokter(data){
+        return client.request(
+            {
+                method: "delete",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/deleteDokter/${data}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     getDataStaf(){
         return client.request(
             {
@@ -113,11 +156,21 @@ const APIServices = {
         )
     },
 
-    getAllDataStaf(){
+    getAllStaf(){
         return client.request(
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getAllStaf`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getAllDataStaf(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getAllDataStaf/limit10`,
             },
             {crossdomain: true }
         )
@@ -145,6 +198,17 @@ const APIServices = {
         )
     },
 
+    deleteDataStaf(data){
+        return client.request(
+            {
+                method: "delete",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/deleteStaf/${data}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     getDataPasien(){
         return client.request(
             {
@@ -155,11 +219,23 @@ const APIServices = {
         )
     },
 
-    getAllDataPasien(){
+    getAllPasien(){
         return client.request(
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getAllDataPasien(nama, kategori, cursor, prev, limit){
+        return client.request(
+            {
+                method: "get",
+                //need changes
+                //url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien/${nama}/kategori${kategori}/cursor${cursor}/prev${prev}/limit${limit}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien/limit${limit}`,
             },
             {crossdomain: true }
         )
@@ -170,6 +246,17 @@ const APIServices = {
             {
                 method: "put",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/ubahProfilPasien/${data.no_telepon}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    postDataPasien(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/createPasien`,
                 data: data
             },
             { crossdomain: true }
@@ -222,7 +309,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahJadwal/${data.hari}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahJadwal/${data.id_jadwal}`,
                 data: data
             },
             { crossdomain: true }

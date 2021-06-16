@@ -3,9 +3,10 @@ import { withRouter, useHistory, NavLink} from 'react-router-dom';
 import { Layout, Row, Col, Select, Breadcrumb, Card, Typography, Form, Input, Button, TimePicker } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { dialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -18,11 +19,11 @@ const FormDataJadwal = (props) => {
 
     const dataPoli = [
         {
-            id: 1,
+            id_poli: 1,
             nama: "Umum"
         }, 
         {
-            id: 2,
+            id_poli: 2,
             nama: "Gigi"
         }
     ]
@@ -38,11 +39,18 @@ const FormDataJadwal = (props) => {
           form.setFieldsValue({jam_buka: (moment(jam[0], 'HH:mm')) });
           form.setFieldsValue({jam_tutup: (moment(jam[1], 'HH:mm')) });
 
-          let _poli = props.location.state.poli.split(', ');
+          let _poli = []
+          props.location.state.poli.map(res =>{
+            return _poli.push(res.id_poli)
+          })
           console.log(_poli)
           form.setFieldsValue({ poli: _poli });
 
-          let _dokter = props.location.state.dokter.split(', ');
+          let _dokter = []
+          props.location.state.dokter.map(res =>{
+            return _dokter.push(res.id_dokter)
+          })
+          console.log(_dokter)
           form.setFieldsValue({ dokter: _dokter });
         }else{
           form.resetFields();
@@ -52,14 +60,14 @@ const FormDataJadwal = (props) => {
 
     const getDataDokter = () => {
         setLoading(true);
-        APIServices.getAllDataDokter().then(res => {
+        APIServices.getAllDokter().then(res => {
                 if(res.data){
                     setDataDokter(res.data.data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataDokter(Dummy.dataDokter);
+                    //setDataDokter(Dummy.dataDokter);
                     console.log(err)
                     setLoading(false)
                 }
@@ -68,13 +76,31 @@ const FormDataJadwal = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let postBody ={
+        let body ={
+            id_jadwal: props.location.state.id_jadwal,
             hari: values.hari,
             jam_operasional: values.jam_buka.format('HH:mm')+"-"+values.jam_tutup.format('HH:mm'),
             poli: values.poli,
             dokter: values.dokter
         }
-        console.log(postBody);
+        console.log(body);
+
+        APIServices.putDataJadwal(body).then(res => {
+            setLoading(false);
+            if(res.data){
+                history.goBack();
+                dialog({icon: "success", title:"Ubah Data Jadwal Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+          }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Ubah Data Jadwal Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+          })
     }
     
     return(
@@ -148,7 +174,7 @@ const FormDataJadwal = (props) => {
                                 <Form.Item name="poli" rules={[{ required: true, message: "Harap pilih poli" }]}>
                                         <Select className="input-form secondary" mode="multiple" allowClear>
                                             {dataPoli.map(item => (
-                                                <Option key={item.nama} value={item.nama}>
+                                                <Option key={item.id_poli} value={item.id_poli}>
                                                     {item.nama}
                                                 </Option>
                                             ))}
@@ -177,7 +203,7 @@ const FormDataJadwal = (props) => {
                                             <Form.Item name="dokter" rules={[{ required: true, message: "Harap pilih dokter" }]}>
                                                 <Select className="input-form secondary" mode="multiple" allowClear style={{minHeight:"100%"}}>
                                                 {dataDokter.map(item => (
-                                                    <Option key={item.nama} value={item.nama}>
+                                                    <Option key={item.id_dokter} value={item.id_dokter}>
                                                         {item.nama}
                                                     </Option>
                                                 ))}

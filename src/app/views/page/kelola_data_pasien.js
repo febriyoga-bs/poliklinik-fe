@@ -7,7 +7,7 @@ import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -18,6 +18,7 @@ const KelolaPasien = () => {
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
+    const [pagination, setPagination] = useState({current:1, pageSize:2, total:10});
 
     const gotoUbahDataPasien = (data) => {
         const loc = '/kelola-data-pengguna/pasien/ubah-data';
@@ -29,26 +30,38 @@ const KelolaPasien = () => {
     };
 
     useEffect(()=>{
-        getDataPasien()
+        getDataPasien("", "Umum", 1, null, 4);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataPasien = () => {
+    const getDataPasien = (nama, kategori, cursor, prev, limit) => {
         setLoading(true);
-        APIServices.getAllDataPasien().then(res => {
+        APIServices.getAllDataPasien(nama, kategori, cursor, prev, limit).then(res => {
                 if(res.data){
-                    //setDataPasien(res.data.data);
-                    setDataPasien(Dummy.dataPasien);
+                    let _data = Object.values(res.data.data)
+                    let _pagination = _data.pop()
+                    console.log("Pagination: ", _pagination)
+                    setDataPasien(_data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataPasien(Dummy.dataPasien);
+                    //setDataPasien(Dummy.dataPasien);
                     console.log(err.response)
                     setLoading(false)
                 }
             })
         }
+    
+    const handleTableChange = (_pagination) =>{
+        console.log("TES1: ", _pagination)
+        let search = "";
+        let kategori = ""
+
+        setPagination(_pagination)
+
+        //getDataPasien(search, kategori, pagination.current, null, pagination.pageSize)
+    }
 
     const columnsPasien = [
         {
@@ -236,7 +249,8 @@ const KelolaPasien = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={dataPasien}
-                            // onChange={handleTableChange}
+                            pagination={pagination}
+                            onChange={handleTableChange}
                         />
                     </Card>
                 </Row>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Image } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { dialog } from '../../component/alert'
+import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
+import CONFIG from '../../service/config';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
@@ -14,6 +15,7 @@ const KelolaStaf = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataStaf, setDataStaf] = useState([]);
+    const [pagination, setPagination] = useState([]);
  
     const gotoTambahDataStaf= () => {
         const loc = '/kelola-data-pengguna/staf/tambah-data';
@@ -33,16 +35,38 @@ const KelolaStaf = () => {
     const getDataStaf = () => {
         setLoading(true);
         APIServices.getAllDataStaf().then(res => {
+                console.log(res.data.data)
                 if(res.data){
-                    //setDataStaf(res.data.data);
-                    setDataStaf(Dummy.dataStaf);
+                    let _data = Object.values(res.data.data)
+                    let pagination = _data.pop()
+                    setDataStaf(_data);
                     setLoading(false)
                 }
             }).catch(err => {
-                setDataStaf(Dummy.dataStaf);
+                //setDataStaf(Dummy.dataStaf);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
+                }
+            })
+        }
+
+    const deleteStaf = (no_telepon) => {
+        setLoading(true);
+        APIServices.deleteDataStaf(no_telepon).then(res => {
+                if(res.data){
+                    dialog({icon: "success", title:"Hapus Data Staf Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                        getDataStaf()
+                    })
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                    dialog({icon: "error", title:"Hapus Data Staf Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
                 }
             })
         }
@@ -60,6 +84,15 @@ const KelolaStaf = () => {
             dataIndex: 'avatar',
             key: 'avatar',
             width: '25%',
+            render: (record) => {
+                return (
+                    <Image src={CONFIG.BASE_URL+"/"+record}  
+                        preview={false}
+                        alt={record}
+                        className="image-profil"
+                    />
+                )
+            }
         },
         {
             title: "Nama Staf",
@@ -96,8 +129,9 @@ const KelolaStaf = () => {
                   <Col>
                     <Button 
                         onClick={() => {
-                            dialog({icon: "info", title:"Hapus Data Staf", text: "Apakah Anda yakin akan menghapus data staf ini?"}).then(()=>{
-                                console.log("deleted");
+                            deleteDialog({icon: "info", title:"Hapus Data Staf", text: "Apakah Anda yakin akan menghapus data staf ini?"})
+                            .then(()=>{
+                                deleteStaf(record.no_telepon);
                             })
                         }}
                     >

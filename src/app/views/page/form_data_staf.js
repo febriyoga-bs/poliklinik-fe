@@ -23,7 +23,7 @@ const FormDataStaf = (props) => {
           form.resetFields()
         }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.location]);
 
     const onFinish= (values) => {
         setLoading(true);
@@ -118,47 +118,57 @@ const FormDataStaf = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-        <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
-                <Breadcrumb.Item >
-                    <NavLink to="/"> 
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item >
-                    <NavLink to="/profil-staf">  
-                        <Text className="title">
-                        Admin
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <NavLink to="/kelola-data-pengguna/staf"> 
-                        <Text className="title">
-                            Kelola Data Staf
-                        </Text>
-                    </NavLink>
-                </Breadcrumb.Item>
-            </Breadcrumb>
+            {props.location.pathname !== "/profil-staf/edit-profil" &&
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                    <Breadcrumb.Item >
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item >
+                        <NavLink to="/profil-staf">  
+                            <Text className="title">
+                            Admin
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/kelola-data-pengguna/staf"> 
+                            <Text className="title">
+                                Kelola Data Staf
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                </Breadcrumb> 
+            }
+
             <Row justify="center">
             <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"}
+                            {   props.location.pathname === "/profil-staf/edit-profil"  ? "Edit Profil" 
+                                :
+                                props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"
+                            }
                         </Text>
                     </Row>
-                <Form form={form} name="control-hooks" onFinish={onFinish}>
+                <Form form={form} initialValues={props.location.state} name="control-hooks" onFinish={onFinish}>
                     <Row justify="center">
                         <Col span={24}>
-                                <Text className="title-label">ID Staf</Text>
-                                <Form.Item name="id_staf" >
-                                        <Input className="input-form secondary" disabled/>
-                                </Form.Item>
+                                {props.location.state &&
+                                    <div>
+                                    <Text className="title-label">ID Staf</Text>
+                                    <Form.Item name="id_staf" >
+                                            <Input className="input-form secondary" disabled/>
+                                    </Form.Item>
+                                    </div>
+                                } 
 
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon"
-                                    //rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
+                                    rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
                                 >
                                         <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
@@ -209,13 +219,22 @@ const FormDataStaf = (props) => {
                                 }
 
                                 <Text className="title-label">Foto</Text>
+                                {/* {props.location.state && 
+                                    <div>
+                                    <Image src={CONFIG.BASE_URL+"/"+(form.getFieldValue(['avatar'] || props.location.state.avatar))}  
+                                        preview={false}
+                                        alt={form.getFieldValue(['avatar'] || props.location.state.avatar)}
+                                        className="image-profil"
+                                    />
+                                    </div>
+                                } */}
                                 <Form.Item name="avatar" 
                                     rules={[{ required: true, message: "Harap unggah foto"  }]}
                                 >
                                     <Upload {...UploadProps}>
                                         <Button>
-                                            <UploadOutlined /> Unggah Foto
-                                            {!!form.getFieldValue(['avatar']) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
+                                            <UploadOutlined /> {(!!form.getFieldValue(['avatar']) || props.location.state) ? "Ubah Foto" : "Unggah Foto"}
+                                            {(!!form.getFieldValue(['avatar']) || props.location.state) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
                                         </Button>
                                     </Upload>
                                 </Form.Item>
