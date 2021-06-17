@@ -34,8 +34,9 @@ const FormProfilPoliklinik = (props) => {
         APIServices.putDataProfil(body).then(res => {
             setLoading(false);
             if(res.data){
+                history.goBack();
                 dialog({icon: "success", title:"Perubahan Profil Poliklinik Berhasil!"}).then(()=>{
-                    console.log("Berhasil");
+                    console.log("Berhasil"); 
                 })
             }
           }).catch(err => {

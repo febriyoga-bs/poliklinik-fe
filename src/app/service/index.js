@@ -322,7 +322,6 @@ const APIServices = {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/getProfil`,
             },
-            {crossdomain: true }
         )    
     },
 
@@ -330,7 +329,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updateProfil/`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updateProfil`,
                 data: data
             },
             { crossdomain: true }
