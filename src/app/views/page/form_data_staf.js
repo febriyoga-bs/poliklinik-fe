@@ -35,6 +35,7 @@ const FormDataStaf = (props) => {
         }
 
         let body ={
+            no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
             jabatan: values.jabatan,
