@@ -18,7 +18,14 @@ const KelolaPasien = () => {
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
-    const [pagination, setPagination] = useState({current:1, pageSize:2, total:10});
+    const [searchKey, setSearchKey] = useState("");
+    const [filterKey, setFilterKey] = useState("");
+    const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
+
+    const gotoTambahDataPasien= () => {
+        const loc = '/kelola-data-pengguna/pasien/tambah-data';
+        history.push(loc);
+    }
 
     const gotoUbahDataPasien = (data) => {
         const loc = '/kelola-data-pengguna/pasien/ubah-data';
@@ -30,17 +37,22 @@ const KelolaPasien = () => {
     };
 
     useEffect(()=>{
-        getDataPasien("", "Umum", 1, null, 4);
+        getDataPasien("", "", pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataPasien = (nama, kategori, cursor, prev, limit) => {
+    const getDataPasien = (nama, kategori, current, limit) => {
         setLoading(true);
-        APIServices.getAllDataPasien(nama, kategori, cursor, prev, limit).then(res => {
+        APIServices.getAllDataPasien(nama, kategori, current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
-                    let _pagination = _data.pop()
-                    console.log("Pagination: ", _pagination)
+                    let _meta = _data.pop()
+                    console.log("Pagination: ", _meta)
+                    setPagination({
+                        current: _meta.pagination.current_page,
+                        pageSize: _meta.pagination.per_page,
+                        total: _meta.pagination.total
+                    })
                     setDataPasien(_data);
                     setLoading(false)
                 }
@@ -54,13 +66,11 @@ const KelolaPasien = () => {
         }
     
     const handleTableChange = (_pagination) =>{
-        console.log("TES1: ", _pagination)
         let search = "";
         let kategori = ""
+        console.log("Pagination: ", _pagination)
 
-        setPagination(_pagination)
-
-        //getDataPasien(search, kategori, pagination.current, null, pagination.pageSize)
+        getDataPasien(search, kategori, _pagination.current, _pagination.pageSize)
     }
 
     const columnsPasien = [
@@ -193,7 +203,7 @@ const KelolaPasien = () => {
                     <Breadcrumb.Item>
                         <NavLink to="/profil-staf">  
                             <Text className="title">
-                                Admin
+                                Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
@@ -243,6 +253,22 @@ const KelolaPasien = () => {
                                 Data Pasien
                             </Text>
                         </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
+                                onClick={() => {
+                                    //gotoTambahDataPasien();
+                                }}
+                            >
+                                Ekspor Data Pasien
+                            </Button>
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                onClick={() => {
+                                    gotoTambahDataPasien();
+                                }}
+                            >
+                                Tambah Data Pasien
+                            </Button>
+                        </Row>
                         <Table
                             columns={columnsPasien}
                             size="middle"
@@ -251,6 +277,7 @@ const KelolaPasien = () => {
                             dataSource={dataPasien}
                             pagination={pagination}
                             onChange={handleTableChange}
+                            scroll={{ x: "100%" }}
                         />
                     </Card>
                 </Row>

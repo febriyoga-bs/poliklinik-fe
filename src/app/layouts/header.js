@@ -59,8 +59,8 @@ const HeaderLayout = (props) => {
 
     return (
         <Layout align="middle" className="navmenu" style={{maxWidth:'100%'}}>
-            <Row justify='center' align='middle' style={{height:'100%'}}>
-                <Col lg={5} style={{paddingLeft:10}}>
+            <Row align='middle' style={{height:'100%'}}>
+                <Col md={6} lg={8} xl={10} style={{paddingLeft:10}}>
                     <Row align='middle'>
                         <Image src={Logo} alt="Poliklinik POLBAN" 
                             style={{width: 60, height: 60, borderRadius: 20}}
@@ -74,55 +74,55 @@ const HeaderLayout = (props) => {
                         </Col>
                     </Row>
                 </Col>
-                <Col md={3} lg={3}>
-                    <NavLink to="/" className="title-navmenu">
-                        BERANDA
-                    </NavLink>
-                </Col>
-                <Col md={3} lg={3}>
-                    {/* <NavLink to="/layanan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
-                        LAYANAN
-                    </NavLink> */}
-                    <Dropdown overlay={menuLayanan} placement="bottomCenter">
-                        <Text className="title-navmenu">
-                            LAYANAN
-                        </Text>
-                    </Dropdown>
-                </Col>
-                <Col md={3} lg={3} onMouseEnter={{color:"#072A6F", backgroundColor:"072a6f"}} style={{}}>
-                    <NavLink to="/informasi" className="title-navmenu">
-                        INFORMASI
-                    </NavLink>
-                </Col>
-                <Col md={2.5} lg={3}>
-                    {/* <NavLink to="/bantuan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
-                        BANTUAN
-                    </NavLink> */}
-                    <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-navmenu">
-                        BANTUAN
-                    </Text>
-                </Col>
-                <Col>
-                    <Row>
-                        <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerMenu} >
-                            <Text>
-                                <MenuOutlined style={{fontSize:30}}/>
+                <Col md={14} lg={16} xl={14}>
+                <Menu mode="horizontal" style={{backgroundColor: "#EB3D00", borderRadius: "0px 0px 150px 0px"}}>
+                    <Menu.Item key="1">
+                        <NavLink to="/" className="title-navmenu">
+                            BERANDA
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        <Dropdown overlay={menuLayanan} placement="bottomCenter">
+                            <Text className="title-navmenu">
+                                LAYANAN
                             </Text>
-                        </Button>
-                    </Row>
+                        </Dropdown>
+                    </Menu.Item>
+                    <Menu.Item key="3">
+                        <NavLink to="/informasi" className="title-navmenu">
+                            INFORMASI
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item key="4">
+                        {/* <NavLink to="/bantuan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
+                            BANTUAN
+                        </NavLink> */}
+                        <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-navmenu">
+                            BANTUAN
+                        </Text>
+                    </Menu.Item>
+                    <Menu.Item key="5">
+                        <div className="login-button">
+                        {Auth.isLogin()? 
+                            <Button type='primary' className="app-btn primary" onClick={gotoProfil}>
+                                <UserOutlined style={{fontSize:20}}/> DASHBOARD
+                            </Button>
+                            :
+                            <Button type='primary' className="app-btn primary" onClick={gotoLogin}>
+                                <UserOutlined style={{fontSize:20}}/> LOGIN
+                            </Button>
+                        }
+                        </div>
+                    </Menu.Item>
+                    
+                    </Menu>
                 </Col>
-                <Col md={2.5} lg={3} style={{marginRight:25}}>
-                    <div className="login-button">
-                    {Auth.isLogin()? 
-                        <Button type='primary' className="app-btn primary" onClick={gotoProfil}>
-                            <UserOutlined style={{fontSize:20}}/> PROFIL
-                        </Button>
-                        :
-                        <Button type='primary' className="app-btn primary" onClick={gotoLogin}>
-                            <UserOutlined style={{fontSize:20}}/> LOGIN
-                        </Button>
-                    }
-                    </div>
+                <Col md={4} span={2}>
+                    <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerMenu} >
+                        <Text>
+                            <MenuOutlined style={{fontSize:30}}/>
+                        </Text>
+                    </Button>
                 </Col>
             </Row>
             <NavbarMenu

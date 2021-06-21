@@ -160,7 +160,7 @@ const KelolaStaf = () => {
                     <Breadcrumb.Item>
                         <NavLink to="/profil-staf">  
                             <Text className="title">
-                                Admin
+                                Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

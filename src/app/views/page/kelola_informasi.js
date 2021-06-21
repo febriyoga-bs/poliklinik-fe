@@ -237,7 +237,6 @@ const KelolaInformasi = () => {
             key: 'nama',
             width: '25%',
             align: 'center',
-            sorter: (a, b) => a.nama - b.nama,
         },
         {
             title: "Jenis Poli",
@@ -245,7 +244,6 @@ const KelolaInformasi = () => {
             key: 'jenis_poli',
             width: '15%',
             align: 'center',
-            sorter: (a, b) => a.jenis_poli - b.jenis_poli,
         },
         {
             title: "Tarif",
@@ -257,7 +255,6 @@ const KelolaInformasi = () => {
                     key: 'tarif_mahasiswa',
                     width: '15%',
                     align: 'center',
-                    sorter: (a, b) => a.tarif_mahasiswa - b.tarif_mahasiswa, 
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -275,7 +272,6 @@ const KelolaInformasi = () => {
                     key: 'tarif_staf_dosen',
                     width: '15%',
                     align: 'center',
-                    sorter: (a, b) => a.tarif_staf_dosen - b.tarif_staf_dosen,
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -293,7 +289,6 @@ const KelolaInformasi = () => {
                     key: 'tarif_keluarga_staf',
                     width: '15%',
                     align: 'center',
-                    sorter: (a, b) => a.tarif_keluarga - b.tarif_keluarga, 
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -311,7 +306,6 @@ const KelolaInformasi = () => {
                     key: 'tarif_umum',
                     width: '15%',
                     align: 'center',
-                    sorter: (a, b) => a.tarif_umum - b.tarif_umum, 
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -370,7 +364,7 @@ const KelolaInformasi = () => {
                     <Breadcrumb.Item>
                         <NavLink to="/profil-staf">  
                             <Text className="title">
-                                Admin
+                                Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

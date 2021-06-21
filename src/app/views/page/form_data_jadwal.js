@@ -153,9 +153,10 @@ const FormDataJadwal = (props) => {
                             <Row>
                                 <Form.Item name="jam_buka">
                                     <TimePicker className="input-form secondary" 
-                                    clearIcon
-                                    clearText
+                                        clearIcon
+                                        clearText
                                         allowClear={false}
+                                        showNow={false}
                                         format='HH:mm'
                                         placeholder="Jam Buka"/>
                                 </Form.Item>
@@ -164,6 +165,7 @@ const FormDataJadwal = (props) => {
                                     <TimePicker className="input-form secondary" 
                                         clearText
                                         allowClear={false}
+                                        showNow={false}
                                         format='HH:mm'
                                         placeholder="Jam Tutup"/>
                                 </Form.Item>
