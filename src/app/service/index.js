@@ -334,6 +334,16 @@ const APIServices = {
             { crossdomain: true }
         )
     },
+
+    getExportDataPasien(){
+        return client.request(
+            {
+                method: "get",
+                responseType: 'blob',
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/exportPasien`,
+            },
+        )    
+    },
 }
 
 export { APIServices }

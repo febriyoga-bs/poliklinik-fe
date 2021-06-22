@@ -64,6 +64,30 @@ const KelolaPasien = () => {
                 }
             })
         }
+
+    const openURL = (URL) =>{
+            window.open(URL, "_blank");
+        }
+    const eksporDataPasien = () => {
+        setLoading(true);
+        APIServices.getExportDataPasien().then(res => {
+                if(res.data){
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'datapasien.xlsx'); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataPasien(Dummy.dataPasien);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
     
     const handleTableChange = (_pagination) =>{
         let search = "";
@@ -255,8 +279,9 @@ const KelolaPasien = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
+                                loading={loading}
                                 onClick={() => {
-                                    //gotoTambahDataPasien();
+                                    eksporDataPasien();
                                 }}
                             >
                                 Ekspor Data Pasien

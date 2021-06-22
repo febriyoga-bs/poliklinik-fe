@@ -130,7 +130,7 @@
 
   .layout-home{
     width: 100%;
-    min-height: 600px;
+    min-height: 100vh;
     height: 100%;
     align-items: center;
     background-color: #ffffff;
@@ -140,7 +140,7 @@
 
   .layout-content{
     width: 100%;
-    min-height: 600px;
+    min-height: 100vh;
     height: 100%;
     align-items: center;
     background-color: #072A6F;

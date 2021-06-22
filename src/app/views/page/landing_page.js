@@ -38,7 +38,7 @@ const LandingPage = () => {
     return(
         <Layout>
             <Content className="layout-home">
-                <Image src={poli} style={{position:"fixed", width:"100%", minHeight:600}} preview={false}>
+                <Image src={poli} style={{position:"fixed", width:"100%", minHeight:"100vh"}} preview={false}>
                 </Image>
                 
                 {loading ?

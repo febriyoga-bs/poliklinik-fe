@@ -54,13 +54,24 @@ const UbahDataPasien = (props) => {
         let body = {
             no_telepon: props.location.state.no_telepon,
             kategori: values.kategori,
-            jurusan: values.jurusan,
-            prodi: values.prodi,
+            
             nama: values.nama,
-            nomor_identitas: values.nomor_identitas,
             jenis_kelamin: values.jenis_kelamin,
             tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
             alamat: values.alamat
+        }
+        if (values.kategori !== props.location.state.kategori && (values.kategori === 'Umum' || values.kategori === 'Keluarga')){
+            body.jurusan = ""
+            body.prodi = ""
+            body.no_identitas = ""
+        } else if (values.kategori !== props.location.state.kategori && (values.kategori === 'Staf/Dosen')) {
+            body.jurusan = ""
+            body.prodi = ""
+            body.no_identitas = values.nomor_identitas
+        } else {
+            body.jurusan = values.jurusan
+            body.prodi = values.prodi
+            body.no_identitas = values.nomor_identitas
         }
 
         if(props.location.state){
@@ -279,12 +290,14 @@ const UbahDataPasien = (props) => {
                                     <Input className="input-form secondary" />
                             </Form.Item>
                         
-
-                        <Text className="title-label">Nomor Identitas</Text>
-                            <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
-                                    <Input className="input-form secondary" />
-                            </Form.Item>
-
+                        {kategori==="Mahasiswa" || kategori==="Staf/Dosen" &&
+                        <div>
+                            <Text className="title-label">Nomor Identitas</Text>
+                                <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
+                                        <Input className="input-form secondary" />
+                                </Form.Item>   
+                        </div>
+                        }
                         <Text className="title-label">Jenis Kelamin</Text>
                             <Form.Item name="jenis_kelamin" rules={[{ required: true, message: "Harap pilih jenis kelamin!" }]}>
                                 <Select defaultValue="Pilih Jenis Kelamin" className="input-form" >

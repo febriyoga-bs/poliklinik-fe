@@ -98,7 +98,7 @@ const ProfilStaf = () => {
                             mode="inline"
                             theme="dark"
                             inlineCollapsed={collapsed}
-                            style={{height:"120%"}}
+                            style={{height:"100vh"}}
                         >
                             <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                                 {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
