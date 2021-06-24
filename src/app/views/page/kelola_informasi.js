@@ -5,7 +5,7 @@ import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import CONFIG from '../../service/config';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;

@@ -6,7 +6,7 @@ import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
 import moment from 'moment';
 
-import Dummy from '../../dummy/dummy'
+//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -19,7 +19,6 @@ const UbahDataPasien = (props) => {
     const [dataJurusan, setDataJurusan] = useState([]);
     const [dataProdi, setDataProdi] = useState([]);
     const [kategori, setKategori] = useState("");
-    const [jurusan, setJurusan] = useState(0);
 
     //const dataJurusan = Dummy.listJurusan;
     //const dataProdi = Dummy.listProdi;
@@ -75,11 +74,11 @@ const UbahDataPasien = (props) => {
         }
 
         if(props.location.state){
-            if (props.location.pathname === "/profil-pasien/data-diri"){
+            if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
                 APIServices.postDataPasien(body).then(res => {
                     setLoading(false);
                     if(res.data){
-                        history.push('/profil-pasien');
+                        history.push('/dashboard-pasien');
                         dialog({icon: "success", title:"Lengkapi Data Diri Berhasil!"}).then(()=>{
                             console.log("Berhasil");
                         })
@@ -152,7 +151,6 @@ const UbahDataPasien = (props) => {
                     setLoading(false)
                 }
             }).catch(err => {
-                //setDataStaf(Dummy.dataStaf);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -168,7 +166,6 @@ const UbahDataPasien = (props) => {
                     setLoading(false)
                 }
             }).catch(err => {
-                //setDataStaf(Dummy.dataStaf);
                 if(err){
                     console.log(err.response)
                     setLoading(false)
@@ -214,10 +211,13 @@ const UbahDataPasien = (props) => {
                         { props.location.state === undefined ?
                             "Tambah Data Pasien"
                             :
-                            (props.location.pathname !== "/profil-pasien/data-diri") ?
-                            "Ubah Data Pasien"
-                            :
+                            (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri") ?
                             "Lengkapi Data Diri"
+                            :
+                            (props.location.pathname === "/dashboard-pasien/edit-profil") ?
+                            "Edit Profil"
+                            :
+                            "Ubah Data Pasien"
                         }
                     </Text>
                 </Row>
@@ -242,7 +242,7 @@ const UbahDataPasien = (props) => {
                         <Text className="title-label">Kategori Pasien</Text>
                             <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
                                 <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}
-                                    disabled={props.location.pathname === "/profil-pasien/edit-profil"}
+                                    disabled={props.location.pathname === "/dashboard-pasien/edit-profil"}
                                 >
                                     <Option value="Umum">Umum</Option>
                                     <Option value="Mahasiswa">Mahasiswa</Option>
@@ -257,7 +257,6 @@ const UbahDataPasien = (props) => {
                                 <Form.Item name="jurusan" rules={[{ required: true, message: "Harap pilih jurusan!" }]}>
                                     <Select defaultValue="Pilih Jurusan" className="input-form" 
                                         onChange={(e, a)=>{
-                                            setJurusan(a.key); 
                                             form.setFieldsValue({ prodi: ""})
                                             getDataProdi(a.key);
                                         }}
@@ -293,7 +292,7 @@ const UbahDataPasien = (props) => {
                                     <Input className="input-form secondary" />
                             </Form.Item>
                         
-                        {kategori==="Mahasiswa" || kategori==="Staf/Dosen" &&
+                        {(kategori==="Mahasiswa" || kategori==="Staf/Dosen") &&
                         <div>
                             <Text className="title-label">Nomor Identitas</Text>
                                 <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>

@@ -118,7 +118,7 @@ const FormDataDokter = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            {props.location.pathname !== "/profil-dokter/edit-profil" &&
+            {props.location.pathname !== "/dashboard-dokter/edit-profil" &&
                 <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item >
                         <NavLink to="/"> 
@@ -128,14 +128,14 @@ const FormDataDokter = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item >
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/dashboard-staf">  
                             <Text className="title">
-                            Admin
+                                Admin
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/dokter"> 
+                        <NavLink to="/dashboard-staf/kelola-data-pengguna/dokter"> 
                             <Text className="title">
                                 Kelola Data Dokter
                             </Text>
@@ -154,7 +154,7 @@ const FormDataDokter = (props) => {
             <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {   props.location.pathname === "/profil-dokter/edit-profil"  ? "Edit Profil" 
+                            {   props.location.pathname === "/dashboard-dokter/edit-profil"  ? "Edit Profil" 
                                 :
                                 props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"
                             }

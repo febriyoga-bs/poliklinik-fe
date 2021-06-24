@@ -118,7 +118,7 @@ const FormDataStaf = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            {props.location.pathname !== "/profil-staf/edit-profil" &&
+            {props.location.pathname !== "/dashboard-staf/edit-profil" &&
                 <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item >
                         <NavLink to="/"> 
@@ -128,14 +128,14 @@ const FormDataStaf = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item >
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/dashboard-staf">  
                             <Text className="title">
                             Admin
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/staf"> 
+                        <NavLink to="/dashboard-staf/kelola-data-pengguna/staf"> 
                             <Text className="title">
                                 Kelola Data Staf
                             </Text>
@@ -148,7 +148,7 @@ const FormDataStaf = (props) => {
             <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {   props.location.pathname === "/profil-staf/edit-profil"  ? "Edit Profil" 
+                            {   props.location.pathname === "/dashboard-staf/edit-profil"  ? "Edit Profil" 
                                 :
                                 props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"
                             }

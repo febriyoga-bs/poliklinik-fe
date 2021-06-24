@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { withRouter, useHistory, Route, Redirect, BrowserRouter, Switch } from 'react-router-dom';
+import React, { useState } from "react";
+import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-dom';
 import { Layout, Row, Col, Button, message, Menu} from 'antd';
 import { PieChartOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
-import InformasiStaf from "./informasi-staf";
+import ProfilStaf from "./profil-staf";
 import KelolaInformasi from "../kelola_informasi";
 import KelolaPasien from "../kelola_data_pasien";
 import KelolaDokter from "../kelola_data_dokter";
@@ -70,13 +70,13 @@ const DashboardStaf = () => {
     return(
         <Layout style={{backgroundColor: '#072A6F'}}>
             <Row>
-                <Col >
+                <Col>
                     <Menu
                         defaultSelectedKeys={['1']}
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{minHeight:"100vh", marginTop: 85}}
+                        style={{height:"100%", paddingTop: 85}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -110,9 +110,9 @@ const DashboardStaf = () => {
                     xl={collapsed ? 23 : 20} 
                     xxl={collapsed ? 23 : 20}
                 >
-                    <Row justify="center">
+                    <Row justify="center" style={{marginTop: 20}}>
                         <Switch>
-                            <PrivateRouteAdmin exact path="/dashboard-staf" component={InformasiStaf} />
+                            <PrivateRouteAdmin exact path="/dashboard-staf" component={ProfilStaf} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/edit-profil" component={FormDataStaf} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/kelola-data-pengguna/pasien" component={KelolaPasien} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/kelola-data-pengguna/pasien/:aksi" component={FormDataPasien} />

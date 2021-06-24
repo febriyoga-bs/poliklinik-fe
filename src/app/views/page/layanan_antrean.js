@@ -6,7 +6,7 @@ import { HomeOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Text } = Typography;
  
-const Antrian = () => {
+const Antrean = () => {
     const {loading, setLoading} = useState(false);
     const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
     const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
@@ -95,4 +95,4 @@ const Antrian = () => {
     );
 }
 
-export default withRouter(Antrian)
+export default withRouter(Antrean)
