@@ -10,7 +10,7 @@ import moment from 'moment';
 //import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 const { Search } = Input;
 const { Option } = Select;
 
@@ -95,7 +95,8 @@ const KelolaPasien = () => {
                     const url = window.URL.createObjectURL(new Blob([res.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', 'datapasien.xlsx'); //or any other extension
+                    let tanggal = moment().format('DD-MM-YYYY')
+                    link.setAttribute('download', `Data_Pasien_Poliklinik(${tanggal}).xlsx`); //or any other extension
                     document.body.appendChild(link);
                     link.click();
                     setLoadingEkspor(false)
@@ -232,7 +233,7 @@ const KelolaPasien = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">

@@ -9,13 +9,13 @@ import CONFIG from '../../service/config';
 //import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const KelolaDokter = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataDokter, setDataDokter] = useState([]);
-    const [pagination, setPagination] = useState([]);
+    const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const gotoTambahDataDokter= () => {
         const loc = '/dashboard-staf/kelola-data-pengguna/dokter/tambah-data';
@@ -28,16 +28,22 @@ const KelolaDokter = () => {
     }
 
     useEffect(()=>{
-        getDataDokter()
+        getDataDokter(pagination.current,  pagination.pageSize)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataDokter = () => {
+    const getDataDokter = (current, limit) => {
         setLoading(true);
-        APIServices.getAllDataDokter().then(res => {
+        APIServices.getAllDataDokter(current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
-                    let pagination = _data.pop()
+                    let _meta = _data.pop()
+                    console.log("Pagination: ", _meta)
+                    setPagination({
+                        current: _meta.pagination.current_page,
+                        pageSize: _meta.pagination.per_page,
+                        total: _meta.pagination.total
+                    })
                     setDataDokter(_data);
                     setLoading(false)
                 }
@@ -56,7 +62,7 @@ const KelolaDokter = () => {
                 if(res.data){
                     dialog({icon: "success", title:"Hapus Data Dokter Berhasil!"}).then(()=>{
                         console.log("Berhasil");
-                        getDataDokter()
+                        getDataDokter(pagination.current,  pagination.pageSize);
                     })
                 }
             }).catch(err => {
@@ -143,10 +149,14 @@ const KelolaDokter = () => {
         },
     ]
 
+    const handleTableChange = (_pagination) =>{
+        getDataDokter(_pagination.current, _pagination.pageSize)
+    }
+
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -217,7 +227,7 @@ const KelolaDokter = () => {
                             loading={loading}
                             dataSource={dataDokter}
                             scroll={{ x: "100%" }}
-                            // onChange={handleTableChange}
+                            onChange={handleTableChange}
                         />
                     </Card>
                 </Row>

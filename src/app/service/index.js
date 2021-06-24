@@ -93,12 +93,12 @@ const APIServices = {
         )
     },
     
-    getAllDataDokter(){
+    getAllDataDokter(current, limit){
         return client.request(
             {
                 method: "get",
                 //need changes
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDataDokter?limit=10`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getAllDataDokter?page=${current}&limit=${limit}`,
             },
             {crossdomain: true }
         )
@@ -156,11 +156,11 @@ const APIServices = {
         )
     },
 
-    getAllDataStaf(){
+    getAllDataStaf(current, limit){
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getAllDataStaf?limit=10`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getAllDataStaf?page=${current}&limit=${limit}`,
             },
             {crossdomain: true }
         )
@@ -222,9 +222,7 @@ const APIServices = {
     getAllDataPasien(nama, kategori, current, limit){
         return client.request(
             {
-                method: "get",
-                //need changes
-                //url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien/${nama}/kategori${kategori}/cursor${cursor}/prev${prev}/limit${limit}`,
+                method: "get", 
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien?nama=${nama}&kategori=${kategori}&page=${current}&limit=${limit}`,
             },
             {crossdomain: true }

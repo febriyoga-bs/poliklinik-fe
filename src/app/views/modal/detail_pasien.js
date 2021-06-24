@@ -1,9 +1,11 @@
 import React from 'react'
 import { Row, Col, Typography, Modal } from 'antd';
+import moment from 'moment';
 
 const { Title, Text } = Typography;
 
 const DetailPasien = (props) => {
+    let tanggal_lahir = moment(props.dataPasien.tanggal_lahir, 'YYYY-MM-DD');
 
     return (
         <Modal
@@ -87,6 +89,7 @@ const DetailPasien = (props) => {
           </div>
         }
 
+        {props.dataPasien.kategori!=="Umum" &&
         <Row>
           <Col span={8}>
             <Text> Nomor Identitas </Text>
@@ -98,6 +101,7 @@ const DetailPasien = (props) => {
             {props.dataPasien.nomor_identitas}
           </Col>
         </Row>
+        }
 
         <Row>
           <Col span={8}>
@@ -107,7 +111,7 @@ const DetailPasien = (props) => {
             <Text> : </Text>
           </Col>
           <Col span={8}>
-            {props.dataPasien.tanggal_lahir}
+            {tanggal_lahir.format('DD-MM-YYYY')}
           </Col>
         </Row>
 

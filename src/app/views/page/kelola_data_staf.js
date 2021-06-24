@@ -9,13 +9,13 @@ import CONFIG from '../../service/config';
 //import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const KelolaStaf = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataStaf, setDataStaf] = useState([]);
-    const [pagination, setPagination] = useState([]);
+    const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
  
     const gotoTambahDataStaf= () => {
         const loc = '/dashboard-staf/kelola-data-pengguna/staf/tambah-data';
@@ -28,17 +28,23 @@ const KelolaStaf = () => {
     }
 
     useEffect(()=>{
-        getDataStaf()
+        getDataStaf(pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataStaf = () => {
+    const getDataStaf = (current, limit) => {
         setLoading(true);
-        APIServices.getAllDataStaf().then(res => {
+        APIServices.getAllDataStaf(current, limit).then(res => {
                 console.log(res.data.data)
                 if(res.data){
                     let _data = Object.values(res.data.data)
-                    let pagination = _data.pop()
+                    let _meta = _data.pop()
+                    console.log("Pagination: ", _meta)
+                    setPagination({
+                        current: _meta.pagination.current_page,
+                        pageSize: _meta.pagination.per_page,
+                        total: _meta.pagination.total
+                    })
                     setDataStaf(_data);
                     setLoading(false)
                 }
@@ -57,7 +63,7 @@ const KelolaStaf = () => {
                 if(res.data){
                     dialog({icon: "success", title:"Hapus Data Staf Berhasil!"}).then(()=>{
                         console.log("Berhasil");
-                        getDataStaf()
+                        getDataStaf(pagination.current,  pagination.pageSize);
                     })
                 }
             }).catch(err => {
@@ -146,10 +152,14 @@ const KelolaStaf = () => {
         },
     ]
 
+    const handleTableChange = (_pagination) =>{
+        getDataStaf(_pagination.current, _pagination.pageSize)
+    }
+
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -220,7 +230,7 @@ const KelolaStaf = () => {
                             loading={loading}
                             dataSource={dataStaf}
                             scroll={{ x: "100%" }}
-                            // onChange={handleTableChange}
+                            onChange={handleTableChange}
                         />
                     </Card>
                 </Row>

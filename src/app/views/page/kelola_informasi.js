@@ -363,7 +363,7 @@ const KelolaInformasi = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">

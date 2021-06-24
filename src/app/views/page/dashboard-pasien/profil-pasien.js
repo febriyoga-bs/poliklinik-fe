@@ -4,6 +4,7 @@ import { Layout, Row, Col, Typography, Button, Image, Card, message, Spin} from 
 import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../../service';
 import UserImage from "../../../../assets/userimage.jpg";
+import moment from 'moment';
 //import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
@@ -160,7 +161,8 @@ const ProfilStaf = () => {
                     </Col>
                     <Col lg={10}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                            {dataPasien.tanggal_lahir ? dataPasien.tanggal_lahir : "-"}
+                            {dataPasien.tanggal_lahir ? 
+                            moment(dataPasien.tanggal_lahir, 'YYYY-MM-DD').format('DD-MM-YYYY') : "-"}
                         </Title>
                     </Col>
                 </Row>
@@ -192,7 +194,7 @@ const ProfilStaf = () => {
                             :
                         </Title>
                     </Col>
-                    <Col lg={10}>
+                    <Col lg={12}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
                             {dataPasien.alamat ? dataPasien.alamat : "-"}
                         </Title>
