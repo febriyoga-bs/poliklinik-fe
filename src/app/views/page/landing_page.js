@@ -46,7 +46,7 @@ const LandingPage = () => {
                         <Spin indicator={antIcon} /> 
                     </Row>
                     :
-                    <Row style={{marginLeft:20, marginTop:80, minHeight:600}}>
+                    <Row style={{marginLeft:20, marginTop:100, minHeight:600}}>
                         <Col offset={10} xs={12} md={12} lg={12}>
                             <Fade>
                                 <Row style={{marginBottom:20}}>

@@ -80,11 +80,11 @@ const LoginUser = () => {
             if(Auth.isLogin()){
                 let role = JSON.parse(localStorage.getItem('role'));
                 if (role === 1){
-                    history.push('/profil-staf');
+                    history.push('/dashboard-staf');
                 } else if (role === 2){
-                    history.push('/profil-dokter');
+                    history.push('/dashboard-dokter');
                 } else if (role === 3){
-                    history.push('/profil-pasien');
+                    history.push('/dashboard-pasien');
                 }
             }
         }).catch(err => {

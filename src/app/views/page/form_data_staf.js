@@ -63,7 +63,6 @@ const FormDataStaf = (props) => {
               })
         } else {
             APIServices.register(createBody).then(res => {
-                setLoading(false);
                 if(res.data){
                     APIServices.postDataStaf(body).then(res => {
                         setLoading(false);

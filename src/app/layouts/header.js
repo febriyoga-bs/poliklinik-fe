@@ -21,33 +21,36 @@ const HeaderLayout = (props) => {
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
             <Menu.Item >
                 <NavLink to="/antrian-poliklinik">  
-                    <Text className="title">
-                        Antrian Poliklinik
+                    <Text className="title-navmenu">
+                        Antrean Poliklinik
                     </Text>
                 </NavLink>
             </Menu.Item>
             <Menu.Item >
-                <NavLink to="/konsultasi-online">  
-                    <Text className="title">
+                {/* <NavLink to="/konsultasi-online">  
+                    <Text className="title-navmenu">
                         Konsultasi Online
                     </Text>
-                </NavLink>
+                </NavLink> */}
+                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} className="title-navmenu">
+                    Konsultasi Online
+                </Text>
             </Menu.Item>
         </Menu>
       );
 
-    const gotoProfil= () => {
+    const gotoDashboard= () => {
         let role = JSON.parse(localStorage.getItem('role'));
         console.log(role);
 
         if(role === 1){
-            const loc = '/profil-staf';
+            const loc = '/dashboard-staf';
             history.push(loc);
         } else if(role === 2){
-            const loc = '/profil-dokter';
+            const loc = '/dashboard-dokter';
             history.push(loc);
         } else if(role === 3){
-            const loc = '/profil-pasien';
+            const loc = '/dashboard-pasien';
             history.push(loc);
         }
     }
@@ -59,8 +62,9 @@ const HeaderLayout = (props) => {
 
     return (
         <Layout align="middle" className="navmenu" style={{maxWidth:'100%'}}>
-            <Row align='middle' style={{height:'100%'}}>
-                <Col md={6} lg={8} xl={10} style={{paddingLeft:10}}>
+            <Row justify="space-between" align='middle' style={{height:'100%'}}>
+                {/* <Col xs={12} sm={6} md={6} lg={6} xl={10} xxl={12} style={{paddingLeft:10}}> */}
+                <Col style={{paddingLeft:10}}>
                     <Row align='middle'>
                         <Image src={Logo} alt="Poliklinik POLBAN" 
                             style={{width: 60, height: 60, borderRadius: 20}}
@@ -74,7 +78,8 @@ const HeaderLayout = (props) => {
                         </Col>
                     </Row>
                 </Col>
-                <Col md={14} lg={16} xl={14}>
+                {/* <Col xs={2} sm={14} md={16} lg={18} xl={14} xxl={12}> */}
+                <Col className="title-navmenu">
                 <Menu mode="horizontal" style={{backgroundColor: "#EB3D00", borderRadius: "0px 0px 150px 0px"}}>
                     <Menu.Item key="1">
                         <NavLink to="/" className="title-navmenu">
@@ -104,7 +109,7 @@ const HeaderLayout = (props) => {
                     <Menu.Item key="5">
                         <div className="login-button">
                         {Auth.isLogin()? 
-                            <Button type='primary' className="app-btn primary" onClick={gotoProfil}>
+                            <Button type='primary' className="app-btn primary" onClick={gotoDashboard}>
                                 <UserOutlined style={{fontSize:20}}/> DASHBOARD
                             </Button>
                             :
@@ -117,10 +122,10 @@ const HeaderLayout = (props) => {
                     
                     </Menu>
                 </Col>
-                <Col md={4} span={2}>
+                <Col className="title-navmenu-mobile">
                     <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerMenu} >
                         <Text>
-                            <MenuOutlined style={{fontSize:30}}/>
+                            <MenuOutlined className="title-navmenu-mobile" style={{fontSize:30, color: "#FFF"}}/>
                         </Text>
                     </Button>
                 </Col>
@@ -128,7 +133,7 @@ const HeaderLayout = (props) => {
             <NavbarMenu
                 buttonCancel={handleDrawerMenu}
                 visible={visibleMenu}
-                handleProfil={() => {handleDrawerMenu(); gotoProfil()}}
+                handleDashboard={() => {handleDrawerMenu(); gotoDashboard()}}
                 handleLogin={() => {handleDrawerMenu(); gotoLogin()}}
             />
         </Layout>

@@ -262,6 +262,17 @@ const APIServices = {
         )
     },
 
+    deleteDataPasien(data){
+        return client.request(
+            {
+                method: "delete",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/deletePasien/${data}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     getDataPelayanan(){
         return client.request(
             {

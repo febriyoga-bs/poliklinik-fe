@@ -40,6 +40,19 @@
 /* ================================================================== */ 
 
 /* ANTD Override */
+.ant-input-group .ant-input-affix-wrapper:not(:last-child){
+  height: 40px;
+  border-radius: 10px 0px 0px 10px!important;
+}
+
+.ant-input-group-addon{
+  border-radius: 0px 10px 10px 0px;
+}
+
+.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {
+  margin-right: 10px;
+}
+
 .ant-select-selector{
   height: 40px!important;
   border-radius: 10px!important;
@@ -48,6 +61,16 @@
 
 .ant-breadcrumb-separator{
   color: #FFF;
+}
+
+@media screen and (max-width: 900px) {
+  .ant-menu-horizontal {
+    line-height: 0px;
+  }
+}
+
+.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover{
+  background-color: transparent;
 }
 
 .ant-menu-inline-collapsed:not(.ant-layout-sider-children > ul) {
@@ -63,9 +86,19 @@
   border-bottom: 2px solid #FFE600;
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover{
-  color: #FFE600;
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected{
+  color: #FFE600!important;
   border-bottom: 2px solid #FFE600;
+}
+
+.ant-dropdown-menu-item-active > a {
+  color: #FFE600;
 }
 
 .ant-menu-horizontal > .ant-menu-item-selected a {
@@ -135,7 +168,6 @@
     align-items: center;
     background-color: #ffffff;
     justify-content: center;
-    padding-top: 40px;
   }
 
   .layout-content{
@@ -242,14 +274,14 @@
   text-align: center;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 990px) {
   .title-navicon-mobile, .title-navmenu-mobile, .title-home-mobile{
     display: none;
   }
 
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 990px) {
   .title-navmenu, .title-home, .login-button{
     display: none;
   }
@@ -427,6 +459,12 @@
   background: #FFF;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
   border-radius: 16px;
+}
+
+@media screen and (max-width: 576px) {
+  .profil-card{
+    zoom: 70%;
+  }
 }
 
 .profil-card:hover{

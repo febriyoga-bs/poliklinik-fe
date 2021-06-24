@@ -117,7 +117,7 @@ const Informasi = () => {
             children: [
                 {
                     title: "Senin",
-                    width: '18%',
+                    width: '100px',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
@@ -160,7 +160,7 @@ const Informasi = () => {
                 },
                 {
                     title: "Selasa",
-                    width: '18%',
+                    width: '100px',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
@@ -201,7 +201,7 @@ const Informasi = () => {
                 },
                 {
                     title: "Rabu",
-                    width: '18%',
+                    width: '100px',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
@@ -242,7 +242,7 @@ const Informasi = () => {
                 },
                 {
                     title: "Kamis",
-                    width: '18%',
+                    width: '100px',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
@@ -283,7 +283,7 @@ const Informasi = () => {
                 },
                 {
                     title: "Jumat",
-                    width: '18%',
+                    width: '100px',
                     align: 'center',
                     render: (value, record, rowIndex) => {
                         let jam = "-";
@@ -354,8 +354,6 @@ const Informasi = () => {
                     key: 'tarif_mahasiswa',
                     width: '15%',
                     align: 'center',
-                    showSorterTooltip: false,
-                    sorter: (a, b) => a.tarif_mahasiswa - b.tarif_mahasiswa, 
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -376,8 +374,6 @@ const Informasi = () => {
                     key: 'tarif_staf_dosen',
                     width: '15%',
                     align: 'center',
-                    showSorterTooltip: false,
-                    sorter: (a, b) => a.tarif_staf_dosen - b.tarif_staf_dosen,
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -398,8 +394,6 @@ const Informasi = () => {
                     key: 'tarif_keluarga',
                     width: '15%',
                     align: 'center',
-                    showSorterTooltip: false,
-                    sorter: (a, b) => a.tarif_keluarga - b.tarif_keluarga,
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -420,8 +414,6 @@ const Informasi = () => {
                     key: 'tarif_umum',
                     width: '15%',
                     align: 'center',
-                    showSorterTooltip: false,
-                    sorter: (a, b) => a.tarif_umum - b.tarif_umum,
                     render: (harga) => {
                         if(harga === null){
                             harga = 0
@@ -470,6 +462,8 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={_dataJadwal}
+                            pagination={false}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -487,6 +481,7 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={dataPelayanan}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -505,7 +500,7 @@ const Informasi = () => {
                                 lg: (dataDokter.length < 4) ? dataDokter.length : 4, 
                                 md: (dataDokter.length < 3) ? dataDokter.length : 3, 
                                 sm: (dataDokter.length < 2) ? dataDokter.length : 2, 
-                                xs: (dataDokter.length < 2) ? dataDokter.length : 2
+                                xs: (dataDokter.length < 1) ? dataDokter.length : 1
                             }}
                             dataSource={dataDokter}
                             renderItem={item => (
@@ -546,12 +541,12 @@ const Informasi = () => {
                                 lg: (dataStaf.length < 4) ? dataStaf.length : 4, 
                                 md: (dataStaf.length < 3) ? dataStaf.length : 3, 
                                 sm: (dataStaf.length < 2) ? dataStaf.length : 2, 
-                                xs: (dataStaf.length < 2) ? dataStaf.length : 2
+                                xs: (dataStaf.length < 1) ? dataStaf.length : 1
                             }}
                             dataSource={dataStaf}
                             renderItem={item => (
                                 <List.Item>
-                                    <Row justify="center">
+                                    <Row>
                                       <Card className="profil-card" >
                                           <Row justify="center">
                                             <Image src={CONFIG.BASE_URL+"/"+item.avatar}  

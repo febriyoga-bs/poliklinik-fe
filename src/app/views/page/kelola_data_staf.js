@@ -18,12 +18,12 @@ const KelolaStaf = () => {
     const [pagination, setPagination] = useState([]);
  
     const gotoTambahDataStaf= () => {
-        const loc = '/kelola-data-pengguna/staf/tambah-data';
+        const loc = '/dashboard-staf/kelola-data-pengguna/staf/tambah-data';
         history.push(loc);
     }
 
     const gotoUbahDataStaf = (data) => {
-        const loc = '/kelola-data-pengguna/staf/ubah-data';
+        const loc = '/dashboard-staf/kelola-data-pengguna/staf/ubah-data';
         history.push({pathname:loc, state:data});
     }
 
@@ -149,7 +149,7 @@ const KelolaStaf = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -158,14 +158,14 @@ const KelolaStaf = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/dashboard-staf">  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/staf">  
+                        <NavLink to="/dashboard-staf/kelola-data-pengguna/staf">  
                             <Text className="title">
                                 Kelola Data Staf
                             </Text>
@@ -173,7 +173,7 @@ const KelolaStaf = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Row style={{marginLeft:40}}>
+                {/* <Row style={{marginLeft:40}}>
                     <Col>
                         <NavLink to="/kelola-data-pengguna/pasien" className="text-heading">
                             <Title level={1} style={{color: '#FFF'}}>
@@ -195,7 +195,7 @@ const KelolaStaf = () => {
                             </Title>
                         </NavLink>
                     </Col>
-                </Row>
+                </Row> */}
 
                 <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
@@ -219,6 +219,7 @@ const KelolaStaf = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={dataStaf}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>

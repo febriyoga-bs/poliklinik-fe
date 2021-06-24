@@ -238,9 +238,12 @@ const UbahDataPasien = (props) => {
                                     <Input className="input-form secondary" disabled/>
                             </Form.Item>
                             
+                          
                         <Text className="title-label">Kategori Pasien</Text>
                             <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
-                                <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}>
+                                <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}
+                                    disabled={props.location.pathname === "/profil-pasien/edit-profil"}
+                                >
                                     <Option value="Umum">Umum</Option>
                                     <Option value="Mahasiswa">Mahasiswa</Option>
                                     <Option value="Staf/Dosen">Staf/Dosen</Option>

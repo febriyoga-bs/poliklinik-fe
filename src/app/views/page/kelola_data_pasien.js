@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select} from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
-import { dialog } from '../../component/alert'
+import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
@@ -11,10 +11,13 @@ import moment from 'moment';
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
+const { Search } = Input;
+const { Option } = Select;
 
 const KelolaPasien = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
@@ -23,12 +26,12 @@ const KelolaPasien = () => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const gotoTambahDataPasien= () => {
-        const loc = '/kelola-data-pengguna/pasien/tambah-data';
+        const loc = '/dashboard-staf/kelola-data-pengguna/pasien/tambah-data';
         history.push(loc);
     }
 
     const gotoUbahDataPasien = (data) => {
-        const loc = '/kelola-data-pengguna/pasien/ubah-data';
+        const loc = '/dashboard-staf/kelola-data-pengguna/pasien/ubah-data';
         history.push({pathname:loc, state:data});
     }
 
@@ -37,9 +40,9 @@ const KelolaPasien = () => {
     };
 
     useEffect(()=>{
-        getDataPasien("", "", pagination.current,  pagination.pageSize);
+        getDataPasien(searchKey, filterKey, pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [searchKey, filterKey]);
 
     const getDataPasien = (nama, kategori, current, limit) => {
         setLoading(true);
@@ -64,12 +67,29 @@ const KelolaPasien = () => {
                 }
             })
         }
-
-    const openURL = (URL) =>{
-            window.open(URL, "_blank");
-        }
-    const eksporDataPasien = () => {
+    
+    const deletePasien = (no_telepon) => {
         setLoading(true);
+        APIServices.deleteDataPasien(no_telepon).then(res => {
+                if(res.data){
+                    dialog({icon: "success", title:"Hapus Data Pasien Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                        getDataPasien(searchKey, filterKey, pagination.current, pagination.pageSize)
+                    })
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                    dialog({icon: "error", title:"Hapus Data Pasien Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+            })
+        }
+
+    const eksporDataPasien = () => {
+        setLoadingEkspor(true);
         APIServices.getExportDataPasien().then(res => {
                 if(res.data){
                     const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -78,23 +98,19 @@ const KelolaPasien = () => {
                     link.setAttribute('download', 'datapasien.xlsx'); //or any other extension
                     document.body.appendChild(link);
                     link.click();
-                    setLoading(false)
+                    setLoadingEkspor(false)
                 }
             }).catch(err => {
                 if(err){
                     //setDataPasien(Dummy.dataPasien);
                     console.log(err.response)
-                    setLoading(false)
+                    setLoadingEkspor(false)
                 }
             })
         }
     
     const handleTableChange = (_pagination) =>{
-        let search = "";
-        let kategori = ""
-        console.log("Pagination: ", _pagination)
-
-        getDataPasien(search, kategori, _pagination.current, _pagination.pageSize)
+        getDataPasien(searchKey, filterKey, _pagination.current, _pagination.pageSize)
     }
 
     const columnsPasien = [
@@ -197,8 +213,8 @@ const KelolaPasien = () => {
                   <Col>
                     <Button 
                         onClick={() => {
-                            dialog({icon: "info", title:"Hapus Data Pasien", text: "Apakah Anda yakin akan menghapus data pasien ini?"}).then(()=>{
-                                console.log("deleted");
+                            deleteDialog({icon: "info", title:"Hapus Data Pasien", text: "Apakah Anda yakin akan menghapus data pasien ini?"}).then(()=>{
+                                deletePasien(record.no_telepon);
                             })
                         }}
                     >
@@ -216,7 +232,7 @@ const KelolaPasien = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -225,14 +241,14 @@ const KelolaPasien = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/dashboard-staf">  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/pasien">  
+                        <NavLink to="/dashboard-staf/kelola-data-pengguna/pasien">  
                             <Text className="title">
                                 Kelola Data Pasien
                             </Text>
@@ -240,7 +256,7 @@ const KelolaPasien = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Row style={{marginLeft:40}}>
+                {/* <Row style={{marginLeft:40}}>
                     <Col>
                         <NavLink to="/kelola-data-pengguna/pasien" className="text-heading" activeStyle={{color: '#EB3D00'}}>
                             <Title level={1} style={{color: '#EB3D00'}}>
@@ -262,13 +278,37 @@ const KelolaPasien = () => {
                             </Title>
                         </NavLink>
                     </Col>
-                </Row>
+                </Row> */}
 
                 <DetailPasien
                     dataPasien={record}
                     buttonCancel={handleModal}
                     visible={visibleModal}
                 />
+
+                <Row>
+                    <Col>
+                        <Search 
+                            allowClear
+                            placeholder="Cari berdasarkan Nama Pasien" 
+                            onChange={(e)=> setSearchKey(e.target.value)} 
+                            style={{ width: 300, maxWidth:"90%", marginLeft: 40, marginBottom: 20, borderRadius: 20}}
+                        />
+                    </Col>
+                    <Col>
+                        <Select
+                            allowClear
+                            placeholder="Filter berdasarkan Kategori Pasien"
+                            onChange={(val) => setFilterKey(val)}
+                            style={{ width: 300, maxWidth:"90%", marginLeft: 10, marginBottom: 20, borderRadius: 20}}
+                        >
+                            <Option value="Umum">Umum</Option>
+                            <Option value="Mahasiswa">Mahasiswa</Option>
+                            <Option value="Staf/Dosen">Staf/Dosen</Option>
+                            <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
+                        </Select>
+                    </Col>
+                </Row>
 
                 <Row style={{marginBottom:20, marginRight:40}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
@@ -279,7 +319,7 @@ const KelolaPasien = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
-                                loading={loading}
+                                loading={loadingEkspor}
                                 onClick={() => {
                                     eksporDataPasien();
                                 }}

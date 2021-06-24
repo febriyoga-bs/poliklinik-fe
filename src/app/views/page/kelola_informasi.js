@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button } from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Image, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
+import CONFIG from '../../service/config';
 
 import Dummy from '../../dummy/dummy'
 
@@ -18,22 +19,22 @@ const KelolaInformasi = () => {
     const [loading, setLoading] = useState(false);
 
     const gotoTambahDataPelayanan= () => {
-        const loc = '/kelola-informasi/pelayanan/tambah-data';
+        const loc = '/dashboard-staf/kelola-informasi/pelayanan/tambah-data';
         history.push(loc);
     }
 
     const gotoUbahDataPelayanan = (data) => {
-        const loc = '/kelola-informasi/pelayanan/ubah-data';
+        const loc = '/dashboard-staf/kelola-informasi/pelayanan/ubah-data';
         history.push({pathname:loc, state:data});
     }
 
     const gotoUbahProfilPoliklinik = (data) => {
-        const loc = '/kelola-informasi/profil-poliklinik';
+        const loc = '/dashboard-staf/kelola-informasi/profil-poliklinik';
         history.push({pathname:loc, state:data});
     }
 
     const gotoUbahJadwal = (data) => {
-        const loc = '/kelola-informasi/jadwal';
+        const loc = '/dashboard-staf/kelola-informasi/jadwal';
         history.push({pathname:loc, state:data});
     }
 
@@ -115,6 +116,15 @@ const KelolaInformasi = () => {
             key: 'gambar',
             width: '20%',
             align: 'center',
+            render: (record) => {
+                return (
+                    <Image src={CONFIG.BASE_URL+"/"+record}  
+                        preview={false}
+                        alt={record}
+                        className="image-profil"
+                    />
+                )
+            }
         },
         {
             title: "Deskripsi",
@@ -353,7 +363,7 @@ const KelolaInformasi = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -391,6 +401,7 @@ const KelolaInformasi = () => {
                             loading={loading}
                             dataSource={dataProfil}
                             pagination={false}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -410,6 +421,7 @@ const KelolaInformasi = () => {
                             loading={loading}
                             dataSource={dataJadwal}
                             pagination={false}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -438,6 +450,7 @@ const KelolaInformasi = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={dataPelayanan}
+                            scroll={{ x: "100%" }}
                             // onChange={handleTableChange}
                         />
                     </Card>

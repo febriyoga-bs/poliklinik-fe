@@ -21,8 +21,8 @@ const Menu = props => {
         >
             <Row justify="center" style={{marginTop:10}}>
                 {Auth.isLogin()? 
-                    <Button type='primary' className="app-btn primary" onClick={props.handleProfil}>
-                        <UserOutlined style={{fontSize:20}}/> PROFIL
+                    <Button type='primary' className="app-btn primary" onClick={props.handleDashboard}>
+                        <UserOutlined style={{fontSize:20}}/> DASHBOARD
                     </Button>
                     :
                     <Button type='primary' className="app-btn primary" onClick={props.handleLogin}>
