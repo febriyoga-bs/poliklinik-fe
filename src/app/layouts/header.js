@@ -20,8 +20,8 @@ const HeaderLayout = (props) => {
     const menuLayanan = (
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
             <Menu.Item >
-                <NavLink to="/antrian-poliklinik">  
-                    <Text className="title-navmenu">
+                <NavLink to="/antrean-poliklinik">  
+                    <Text className="title-navmenu" style={{fontWeight:"normal"}}>
                         Antrean Poliklinik
                     </Text>
                 </NavLink>
@@ -32,7 +32,8 @@ const HeaderLayout = (props) => {
                         Konsultasi Online
                     </Text>
                 </NavLink> */}
-                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} className="title-navmenu">
+                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
+                    className="title-navmenu" style={{fontWeight:"normal"}}>
                     Konsultasi Online
                 </Text>
             </Menu.Item>
@@ -72,7 +73,7 @@ const HeaderLayout = (props) => {
                             onClick={()=> props.history.push("/")} 
                         />
                         <Col className="title" style={{paddingLeft:5}}>
-                            UNIT <br></br>
+                            UNIT  <br></br>
                             PELAYANAN <br></br>
                             KESEHATAN
                         </Col>

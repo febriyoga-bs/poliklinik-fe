@@ -32,7 +32,7 @@ const Antrean = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
+                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
                         <Text className="title">
                             <HomeOutlined />
@@ -40,7 +40,7 @@ const Antrean = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/antrian-poliklinik">
                         <Text className="title">
-                            <span>Antrian Poliklinik</span>
+                            <span>Antrean Poliklinik</span>
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>

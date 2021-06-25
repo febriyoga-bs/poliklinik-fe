@@ -156,7 +156,7 @@ const KelolaDokter = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:20, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -204,7 +204,7 @@ const KelolaDokter = () => {
                     </Col>
                 </Row> */}
 
-                <Row style={{marginBottom:20, marginRight:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">

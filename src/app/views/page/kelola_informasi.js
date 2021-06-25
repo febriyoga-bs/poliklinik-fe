@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Image, Button } from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import CONFIG from '../../service/config';
 
@@ -10,7 +11,7 @@ import CONFIG from '../../service/config';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const KelolaInformasi = () => {
+const KelolaInformasi = (props) => {
     const history = useHistory();
     const [dataProfil, setDataProfil] = useState([]);
     const [dataJadwal, setDataJadwal] = useState([]);
@@ -44,7 +45,7 @@ const KelolaInformasi = () => {
         getDataJadwal();
         getDataDokter();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.match.path]);
 
     const getDataProfil = () => {
         setLoading(true)
@@ -60,6 +61,26 @@ const KelolaInformasi = () => {
             }
         })
     }
+
+    const deletePelayanan = (id_pelayanan) => {
+        setLoading(true);
+        APIServices.deleteDataPelayanan(id_pelayanan).then(res => {
+                if(res.data){
+                    dialog({icon: "success", title:"Hapus Data Pelayanan Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                        getDataPelayanan();
+                    })
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err.response)
+                    setLoading(false)
+                    dialog({icon: "error", title:"Hapus Data Pelayanan Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+            })
+        }
 
     const getDataPelayanan = () => {
         setLoading(true);
@@ -348,7 +369,14 @@ const KelolaInformasi = () => {
                     </Button>
                   </Col>
                   <Col>
-                    <Button >
+                    <Button 
+                        onClick={() => {
+                            deleteDialog({icon: "info", title:"Hapus Data Staf", text: "Apakah Anda yakin akan menghapus data staf ini?"})
+                            .then(()=>{
+                                deletePelayanan(record.id_pelayanan);
+                            })
+                        }}
+                    >
                         <Text style={{color: "#000"}}>
                             <DeleteOutlined style={{fontSize:20}}/>
                         </Text>
@@ -363,7 +391,7 @@ const KelolaInformasi = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:20, marginBottom:20}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -386,7 +414,7 @@ const KelolaInformasi = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{marginBottom:20, marginRight:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
                     <Col lg={12}>
                     <Card className="informasi-card" style={{minHeight:450}}>
                         <Row style={{marginBottom:20}}>
@@ -427,7 +455,7 @@ const KelolaInformasi = () => {
                     </Card>
                     </Col>
                 </Row>
-                <Row style={{marginBottom:20, marginRight:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row>
                             <Text className="title-tabel">

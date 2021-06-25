@@ -128,28 +128,6 @@
 }
 
 /* Layout */
-  .navbar {
-    position: relative;
-    width: 100%;
-    height: 325px;
-    box-shadow: 0px 22px 2px 0px rgba(138, 138, 138, 0.25);
-    background-color: #EB3D00!important;
-    border-radius: 0px 0px 150px 0px;
-    display: flex;
-    padding: 50px 0px 0px 0px;
-    margin-bottom: 25px;
-  }
-
-  .footer {
-    width: 100%;
-    min-height: 50px;
-    overflow: hidden;
-    background-color: #EB3D00;
-    transition: 0.4s;
-    position: relative;
-    z-index: 99;
-  }
-
   .navmenu{
     min-width: 100%;
     height: 85px;
@@ -158,6 +136,16 @@
     box-shadow: 0px 5px 1px 0px rgba(138, 138, 138, 0.25);
     position: fixed;
     transition: 0.4s;
+    z-index: 99;
+  }
+
+  .footer {
+    min-width: 100%;
+    min-height: 50px;
+    overflow: hidden;
+    background-color: #EB3D00;
+    transition: 0.4s;
+    position: relative;
     z-index: 99;
   }
 
@@ -269,7 +257,7 @@
 .title-navmenu, .title-navicon{
   color: #FFFFFF;
   font-weight: bold;
-  font-size: 1.25em;
+  font-size: 1.2em;
   letter-spacing: 0px;
   text-align: center;
 }
@@ -289,7 +277,7 @@
   .title-navicon-mobile, .title-navmenu-mobile, .title-home-mobile{
     color: #FFFFFF;
     font-weight: bold;
-    font-size: 1.25em;
+    font-size: 1.2em;
     letter-spacing: 0px;
     text-align: center;
   }
@@ -411,7 +399,8 @@
 
 .informasi-card{
   min-height: 200px;
-  margin-left: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
   margin-bottom: 20px;
   position: relative;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
@@ -461,11 +450,11 @@
   border-radius: 16px;
 }
 
-@media screen and (max-width: 576px) {
+/* @media screen and (max-width: 576px) {
   .profil-card{
-    zoom: 70%;
+    zoom: 90%;
   }
-}
+} */
 
 .profil-card:hover{
   border: 4px;

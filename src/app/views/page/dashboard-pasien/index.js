@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-dom';
-import { Layout, Row, Col, Button, Menu} from 'antd';
+import { Layout, Row, Col, Button, Menu, message} from 'antd';
 import { PieChartOutlined,  ContainerOutlined,
     MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import Auth from '../../../service/auth'
@@ -17,13 +17,20 @@ const DashboardPasien = () => {
     }
 
     const gotoRiwayatPelayanan = () => {
-        const loc = '/dashboard-pasien/riwayat-pelayanan';
-        history.push(loc);
+        message.info("Laman Riwayat Pelayanan belum Tersedia");
+        // const loc = '/dashboard-pasien/riwayat-pelayanan';
+        // history.push(loc);
     }
 
     const [collapsed, setCollapsed] = useState(false);
+    const [padding, setPadding] = useState(260)
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+        if(collapsed){
+            setPadding(260)
+        } else {
+            setPadding(50)
+        }
     };
 
     function PrivateRoute({ component: Component, path, ...rest }) {
@@ -47,7 +54,7 @@ const DashboardPasien = () => {
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{height:"100%", paddingTop: 85}}
+                        style={{maxWidth:250, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -66,13 +73,7 @@ const DashboardPasien = () => {
                     </Menu>
                 </Col>
 
-                <Col xs={collapsed ? 23 : 20} 
-                    sm={collapsed ? 23 : 20} 
-                    md={collapsed ? 23 : 20} 
-                    lg={collapsed ? 23 : 20} 
-                    xl={collapsed ? 23 : 20} 
-                    xxl={collapsed ? 23 : 20}
-                >
+                <Col span={24} style={{paddingLeft:padding}}>
                     <Row justify="center">
                         <Switch>
                             <PrivateRoute exact path="/dashboard-pasien" component={ProfilPasien} />

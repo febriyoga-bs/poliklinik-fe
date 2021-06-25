@@ -4,6 +4,9 @@ import { Layout, Row, Col, Button, message, Menu} from 'antd';
 import { UserOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import ProfilStaf from "./profil-staf";
+import RiwayatKunjungan from "../riwayat_kunjungan";
+import KelolaDataKunjungan from "../kelola_data_kunjungan";
+import KelolaRekamMedis from "../kelola_rekam_medis";
 import KelolaInformasi from "../kelola_informasi";
 import KelolaPasien from "../kelola_data_pasien";
 import KelolaDokter from "../kelola_data_dokter";
@@ -14,11 +17,12 @@ import FormDataPelayanan from "../form_data_pelayanan";
 import FormDataPasien from "../form_data_pasien";
 import FormDataDokter from "../form_data_dokter";
 import FormDataStaf from "../form_data_staf";
+import FormDataKunjungan from "../form_data_kunjungan";
 import Auth from '../../../service/auth'
 
 const {SubMenu} = Menu;
 
-const DashboardStaf = () => {
+const DashboardStaf = (props) => {
     const history = useHistory();
 
     const gotoProfil = () => {
@@ -27,7 +31,7 @@ const DashboardStaf = () => {
     }
 
     const gotoKelolaInformasi = () => {
-        const loc = '/dashboard-staf/kelola-informasi';
+        const loc = '/dashboard-staf/kelola-informasi'; 
         history.push(loc);
     }
 
@@ -44,15 +48,28 @@ const DashboardStaf = () => {
         history.push(loc);
     }
 
+    const gotoKelolaRekamMedis = () => {
+        const loc = '/dashboard-staf/kelola-rekam-medis';
+        history.push(loc);
+    }
+
     const gotoRiwayatKunjungan = () => {
-        message.info("Laman Riwayat Kunjungan Belum Tersedia");
-        // const loc = '/riwayat-kunjungan';
-        // history.push(loc);
+        const loc = '/dashboard-staf/riwayat-kunjungan';
+        history.push(loc);
     }
 
     const [collapsed, setCollapsed] = useState(false);
+    const [collumnProp, setCollumnProp] = useState({span: 20, offset: 4});
+    const [padding, setPadding] = useState(260)
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+        if(collapsed){
+            setPadding(260)
+            setCollumnProp({span: 20, offset: 4})
+        } else {
+            setPadding(50)
+            setCollumnProp({span: 23, offset: 1})
+        }
     };
 
     function PrivateRouteAdmin({ component: Component, path, ...rest }) {
@@ -69,29 +86,35 @@ const DashboardStaf = () => {
 
     return(
         <Layout style={{backgroundColor: '#072A6F'}}>
-            <Row>
-                <Col>
+            <Row >
+                <Col span={collumnProp.offset}>
                     <Menu
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={props.location.pathname}
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{height:"100%", paddingTop: 85}}
+                        style={{maxWidth:250, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                         </Button>
-                        <Menu.Item key="1" onClick={gotoProfil} icon={<UserOutlined />}>
+                        <Menu.Item key="/dashboard-staf" onClick={gotoProfil} icon={<UserOutlined />}>
                             Profil Staf
                         </Menu.Item>
-                        <Menu.Item key="2" onClick={gotoKelolaInformasi} icon={<ContainerOutlined />}>
+                        <Menu.Item key="/dashboard-staf/kelola-informasi" onClick={gotoKelolaInformasi} icon={<ContainerOutlined />}>
                             Kelola Informasi
                         </Menu.Item>
                         <SubMenu key="sub1" icon={<ContainerOutlined />} title="Kelola Data Pengguna">
-                            <Menu.Item key="3" onClick={() => gotoKelolaDataPengguna(3)}>Data Pasien</Menu.Item>
-                            <Menu.Item key="4" onClick={() => gotoKelolaDataPengguna(2)}>Data Dokter</Menu.Item>
-                            <Menu.Item key="5" onClick={() => gotoKelolaDataPengguna(1)}>Data Staf</Menu.Item>
+                            <Menu.Item key="/dashboard-staf/kelola-data-pengguna/pasien" 
+                                onClick={() => gotoKelolaDataPengguna(3)}>Data Pasien</Menu.Item>
+                            <Menu.Item key="/dashboard-staf/kelola-data-pengguna/dokter" 
+                                onClick={() => gotoKelolaDataPengguna(2)}>Data Dokter</Menu.Item>
+                            <Menu.Item key="/dashboard-staf/kelola-data-pengguna/staf" 
+                                onClick={() => gotoKelolaDataPengguna(1)}>Data Staf</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="/dashboard-staf/kelola-rekam-medis" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
+                            Kelola Rekam Medis
+                        </Menu.Item>
                         <Menu.Item key="6" onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
                             Riwayat Pelayanan Pasien
                         </Menu.Item>
@@ -103,12 +126,8 @@ const DashboardStaf = () => {
                     </Menu>
                 </Col>
 
-                <Col xs={collapsed ? 23 : 20} 
-                    sm={collapsed ? 23 : 20} 
-                    md={collapsed ? 23 : 20} 
-                    lg={collapsed ? 23 : 20} 
-                    xl={collapsed ? 23 : 20} 
-                    xxl={collapsed ? 23 : 20}
+                <Col span={24} style={{paddingLeft:padding}}
+                // offset={collumnProp.offset} span={collumnProp.span} 
                 >
                     <Row justify="center" style={{marginTop: 20}}>
                         <Switch>
@@ -124,6 +143,9 @@ const DashboardStaf = () => {
                             <PrivateRouteAdmin exact path="/dashboard-staf/kelola-informasi/profil-poliklinik" component={FormProfilPoliklinik} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/kelola-informasi/jadwal" component={FormDataJadwal} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/kelola-informasi/pelayanan/:aksi" component={FormDataPelayanan} />
+                            <PrivateRouteAdmin exact path="/dashboard-staf/kelola-rekam-medis" component={KelolaRekamMedis} />
+                            <PrivateRouteAdmin exact path="/dashboard-staf/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
+                            <PrivateRouteAdmin exact path="/dashboard-staf/riwayat-kunjungan" component={RiwayatKunjungan} />
                         </Switch>
                     </Row>
                 </Col>

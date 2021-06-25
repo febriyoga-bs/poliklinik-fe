@@ -12,7 +12,7 @@ const { Content } = Layout;
 const { Text } = Typography;
 const { Option } = Select;
 
-const UbahDataPasien = (props) => {
+const FormDataKunjungan = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -176,9 +176,9 @@ const UbahDataPasien = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            { (props.location.pathname !== "/dashboard-pasien/data-diri" &&
-                props.location.pathname !== "/dashboard-pasien/edit-profil") 
-                ?
+            { (props.location.pathname !== "/profil-pasien/data-diri" &&
+                props.location.pathname !== "/profil-pasien/edit-profil") 
+                &&
                 <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
                     <Breadcrumb.Item >
                         <NavLink to="/"> 
@@ -190,7 +190,7 @@ const UbahDataPasien = (props) => {
                     <Breadcrumb.Item >
                         <NavLink to="/profil-staf">  
                             <Text className="title">
-                                Admin
+                            Admin
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
@@ -202,12 +202,10 @@ const UbahDataPasien = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                :
-                <div style={{marginBottom:20}}></div>
             }
 
             <Row justify="center">
-            <Card className="form-card" style={{width: 650, textAlign:"left"}}>
+            <Card className="form-card" style={{width: 600, textAlign:"left"}}>
                 <Row>
                     <Text className="title-tabel">
                         { props.location.state === undefined ?
@@ -399,4 +397,4 @@ const UbahDataPasien = (props) => {
     
 }
 
-export default withRouter(UbahDataPasien)
+export default withRouter(FormDataKunjungan)

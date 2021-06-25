@@ -10,7 +10,7 @@ const { Content } = Layout;
 const {Title } = Typography;
 const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 
-const ProfilStaf = () => {
+const ProfilStaf = (props) => {
     const [loading, setLoading] = useState(false);
     const history = useHistory();
     const [dataStaf, setDataStaf] = useState([]);

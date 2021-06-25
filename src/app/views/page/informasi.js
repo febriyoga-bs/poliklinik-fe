@@ -331,8 +331,9 @@ const Informasi = () => {
             title: "Nama Pelayanan",
             dataIndex: 'nama',
             key: 'nama',
-            width: '25',
+            width: '100px',
             align: 'center',
+            fixed: 'left',
             showSorterTooltip: false,
             sorter: (a, b) => a.nama - b.nama,
         },
@@ -437,7 +438,7 @@ const Informasi = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
+                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
                         <Text className="title">
                             <HomeOutlined />
@@ -450,7 +451,7 @@ const Informasi = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row style={{marginBottom:20, marginRight:40}}>
-                    <Card className="informasi-card" style={{width:"100%"}}>
+                    <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Jadwal Poliklinik
@@ -463,13 +464,13 @@ const Informasi = () => {
                             loading={loading}
                             dataSource={_dataJadwal}
                             pagination={false}
-                            scroll={{ x: "100%" }}
+                            scroll={{ x: 800 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
                 </Row>
                 <Row style={{marginBottom:20, marginRight:40}}>
-                    <Card className="informasi-card" style={{width:"100%"}}>
+                    <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Pelayanan Poliklinik
@@ -481,13 +482,13 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={dataPelayanan}
-                            scroll={{ x: "100%" }}
+                            scroll={{ x: 800 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
                 </Row>
                 <Row style={{marginBottom:20, marginRight:40}}>
-                    <Card className="informasi-card" style={{width:"100%"}}>
+                    <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Profil Dokter Poliklinik
@@ -505,7 +506,7 @@ const Informasi = () => {
                             dataSource={dataDokter}
                             renderItem={item => (
                                 <List.Item>
-                                    <Row>
+                                    <Row justify="center">
                                       <Card className="profil-card" >
                                           <Row justify="center">
                                             <Image src={CONFIG.BASE_URL+"/"+item.avatar}  
@@ -546,7 +547,7 @@ const Informasi = () => {
                             dataSource={dataStaf}
                             renderItem={item => (
                                 <List.Item>
-                                    <Row>
+                                    <Row justify="center">
                                       <Card className="profil-card" >
                                           <Row justify="center">
                                             <Image src={CONFIG.BASE_URL+"/"+item.avatar}  

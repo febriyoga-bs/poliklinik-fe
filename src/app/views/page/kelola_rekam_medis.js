@@ -14,7 +14,7 @@ const { Text } = Typography;
 const { Search } = Input;
 const { Option } = Select;
 
-const KelolaPasien = () => {
+const KelolaRekamMedis = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [loadingEkspor, setLoadingEkspor] = useState(false);
@@ -25,13 +25,13 @@ const KelolaPasien = () => {
     const [filterKey, setFilterKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
-    const gotoTambahDataPasien= () => {
-        const loc = '/dashboard-staf/kelola-data-pengguna/pasien/tambah-data';
-        history.push(loc);
-    }
-
-    const gotoUbahDataPasien = (data) => {
-        const loc = '/dashboard-staf/kelola-data-pengguna/pasien/ubah-data';
+    const gotoKelolaDataKunjungan = (data) => {
+        let loc = ""
+        if(JSON.parse(localStorage.getItem('role')) === 1){
+            loc = `/dashboard-staf/kelola-rekam-medis/${data.id_pasien}`;
+        } else {
+            loc = `/dashboard-dokter/kelola-rekam-medis/${data.id_pasien}`;
+        }
         history.push({pathname:loc, state:data});
     }
 
@@ -64,48 +64,6 @@ const KelolaPasien = () => {
                     //setDataPasien(Dummy.dataPasien);
                     console.log(err.response)
                     setLoading(false)
-                }
-            })
-        }
-    
-    const deletePasien = (no_telepon) => {
-        setLoading(true);
-        APIServices.deleteDataPasien(no_telepon).then(res => {
-                if(res.data){
-                    dialog({icon: "success", title:"Hapus Data Pasien Berhasil!"}).then(()=>{
-                        console.log("Berhasil");
-                        getDataPasien(searchKey, filterKey, pagination.current, pagination.pageSize)
-                    })
-                }
-            }).catch(err => {
-                if(err){
-                    console.log(err.response)
-                    setLoading(false)
-                    dialog({icon: "error", title:"Hapus Data Pasien Gagal!"}).then(()=>{
-                        console.log("Gagal");
-                    })
-                }
-            })
-        }
-
-    const eksporDataPasien = () => {
-        setLoadingEkspor(true);
-        APIServices.getExportDataPasien().then(res => {
-                if(res.data){
-                    const url = window.URL.createObjectURL(new Blob([res.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Pasien_Poliklinik(${tanggal}).xlsx`); //or any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                    setLoadingEkspor(false)
-                }
-            }).catch(err => {
-                if(err){
-                    //setDataPasien(Dummy.dataPasien);
-                    console.log(err.response)
-                    setLoadingEkspor(false)
                 }
             })
         }
@@ -193,7 +151,7 @@ const KelolaPasien = () => {
             }
         },
         {
-            title: 'Kelola',
+            title: 'Kelola Rekam Medis',
             width: '20%',
             align: 'center',
             render: (record) => {
@@ -203,24 +161,11 @@ const KelolaPasien = () => {
                     <Button
                         onClick={() => {
                             console.log(record);
-                            gotoUbahDataPasien(record);
+                            gotoKelolaDataKunjungan(record);
                         }}
                     >
                         <Text style={{color: "#000"}}>
                             <EditOutlined style={{fontSize:20}}/>
-                        </Text>
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button 
-                        onClick={() => {
-                            deleteDialog({icon: "info", title:"Hapus Data Pasien", text: "Apakah Anda yakin akan menghapus data pasien ini?"}).then(()=>{
-                                deletePasien(record.no_telepon);
-                            })
-                        }}
-                    >
-                        <Text style={{color: "#000"}}>
-                            <DeleteOutlined style={{fontSize:20}}/>
                         </Text>
                     </Button>
                   </Col>
@@ -251,35 +196,11 @@ const KelolaPasien = () => {
                     <Breadcrumb.Item>
                         <NavLink to="/dashboard-staf/kelola-data-pengguna/pasien">  
                             <Text className="title">
-                                Kelola Data Pasien
+                                Kelola Data Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-
-                {/* <Row style={{marginLeft:40}}>
-                    <Col>
-                        <NavLink to="/kelola-data-pengguna/pasien" className="text-heading" activeStyle={{color: '#EB3D00'}}>
-                            <Title level={1} style={{color: '#EB3D00'}}>
-                                DATA PASIEN
-                            </Title>
-                        </NavLink>
-                    </Col>
-                    <Col style={{marginLeft:48}}>
-                        <NavLink to="/kelola-data-pengguna/dokter" className="text-heading">
-                            <Title level={1} style={{color: '#FFF'}}>
-                                DATA DOKTER 
-                            </Title>
-                        </NavLink>
-                    </Col>
-                    <Col style={{marginLeft:48}}>
-                        <NavLink to="/kelola-data-pengguna/staf" className="text-heading">
-                            <Title level={1} style={{color: '#FFF'}}>
-                                DATA STAF
-                            </Title>
-                        </NavLink>
-                    </Col>
-                </Row> */}
 
                 <DetailPasien
                     dataPasien={record}
@@ -318,23 +239,6 @@ const KelolaPasien = () => {
                                 Data Pasien
                             </Text>
                         </Row>
-                        <Row justify="end">
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
-                                loading={loadingEkspor}
-                                onClick={() => {
-                                    eksporDataPasien();
-                                }}
-                            >
-                                Ekspor Data Pasien
-                            </Button>
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                onClick={() => {
-                                    gotoTambahDataPasien();
-                                }}
-                            >
-                                Tambah Data Pasien
-                            </Button>
-                        </Row>
                         <Table
                             columns={columnsPasien}
                             size="middle"
@@ -352,4 +256,4 @@ const KelolaPasien = () => {
     );
 }
 
-export default withRouter(KelolaPasien)
+export default withRouter(KelolaRekamMedis)

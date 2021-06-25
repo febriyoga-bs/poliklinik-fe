@@ -25,7 +25,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/createAkun`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/buatAkun`,
                 data: data
             },
             { crossdomain: true }
@@ -108,7 +108,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/updateProfilDokter/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilDokter/${data.no_telepon}`,
                 data: data
             },
             { crossdomain: true }
@@ -287,7 +287,18 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updatePelayanan/${data.id_pelayanan}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahPelayanan/${data.id_pelayanan}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    deleteDataPelayanan(data){
+        return client.request(
+            {
+                method: "delete",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/deletePelayanan/${data}`,
                 data: data
             },
             { crossdomain: true }
@@ -308,7 +319,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updateJadwal/${data.id_jadwal}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahJadwal/${data.id_jadwal}`,
                 data: data
             },
             { crossdomain: true }

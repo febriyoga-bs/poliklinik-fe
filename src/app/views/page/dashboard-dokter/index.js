@@ -5,6 +5,8 @@ import { UserOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import ProfilDokter from "./profil-dokter";
 import FormDataDokter from "../form_data_dokter";
+import KelolaRekamMedis from "../kelola_rekam_medis";
+import KelolaDataKunjungan from "../kelola_data_kunjungan";
 import Auth from '../../../service/auth'
 
 
@@ -17,9 +19,8 @@ const DashboardDokter = () => {
     }
 
     const gotoKelolaRekamMedis = () => {
-        message.info("Laman Kelola Rekam Medis belum Tersedia");
-        // const loc = '/dashboard-dokter/kelola-rekam-medis';
-        // history.push(loc);
+        const loc = '/dashboard-dokter/kelola-rekam-medis';
+        history.push(loc);
     }
 
     const gotoKonsultasiOnline = () => {
@@ -29,8 +30,14 @@ const DashboardDokter = () => {
     }
 
     const [collapsed, setCollapsed] = useState(false);
+    const [padding, setPadding] = useState(260)
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+        if(collapsed){
+            setPadding(260)
+        } else {
+            setPadding(50)
+        }
     };
 
     function PrivateRouteDokter({ component: Component, path, ...rest }) {
@@ -54,7 +61,7 @@ const DashboardDokter = () => {
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{height:"100%", paddingTop: 85}}
+                        style={{maxWidth:250, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -76,17 +83,13 @@ const DashboardDokter = () => {
                     </Menu>
                 </Col>
 
-                <Col xs={collapsed ? 23 : 20} 
-                    sm={collapsed ? 23 : 20} 
-                    md={collapsed ? 23 : 20} 
-                    lg={collapsed ? 23 : 20} 
-                    xl={collapsed ? 23 : 20} 
-                    xxl={collapsed ? 23 : 20}
-                >
+                <Col span={24} style={{paddingLeft:padding}}>
                     <Row justify="center" style={{marginTop: 20}}>
                         <Switch>
                             <PrivateRouteDokter exact path="/dashboard-dokter" component={ProfilDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis" component={KelolaRekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
                         </Switch>
                     </Row>
                 </Col>
