@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink} from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Button, message } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Upload, Select, Button, message } from 'antd';
 import { HomeOutlined, LoadingOutlined, UploadOutlined, CheckCircleFilled } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
@@ -8,6 +8,7 @@ import CONFIG from '../../service/config';
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
 
 const FormDataStaf = (props) => {
     const history = useHistory();
@@ -27,10 +28,20 @@ const FormDataStaf = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
+
+        let _role = 0;
+        if(values.kategori_staf ==="Admin"){
+            _role = 1;
+        } else if(values.kategori_staf ==="Perawat"){
+            _role = 2;
+        } else {
+            _role = 3;
+        }
+
         let createBody ={
             no_telepon: values.no_telepon,
             password: "admin123",
-            role: 1,
+            role: _role,
             status: 1
         }
 
@@ -38,6 +49,7 @@ const FormDataStaf = (props) => {
             no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
+            kategori: values.kategori_staf,
             jabatan: values.jabatan,
         }
         console.log("Body: ", body);
@@ -246,12 +258,23 @@ const FormDataStaf = (props) => {
                                         <Input className="input-form secondary" />
                                 </Form.Item>
 
+                                <Text className="title-label">Kategori Staf</Text>
+                                    <Form.Item name="kategori_staf" 
+                                        rules={[{ required: true, message: "Harap pilih kategori!"  }]}
+                                    >
+                                        <Select defaultValue="Pilih Kategori" className="input-form" >
+                                            <Option key={1} value="Admin">Admin</Option>
+                                            <Option key={2} value="Perawat">Perawat</Option>
+                                            <Option key={3} value="Biasa">Staf Biasa</Option>
+                                        </Select>
+                                    </Form.Item>
+
                                 <Text className="title-label">Jabatan</Text>
-                                        <Form.Item name="jabatan" 
-                                            rules={[{ required: true, message: "Harap masukkan jabatan" }]}
-                                        >
-                                            <Input className="input-form secondary" />
-                                        </Form.Item>
+                                    <Form.Item name="jabatan" 
+                                        rules={[{ required: true, message: "Harap masukkan jabatan" }]}
+                                    >
+                                        <Input className="input-form secondary" />
+                                    </Form.Item>
                         </Col>
                     </Row>
                     <Row justify="center">

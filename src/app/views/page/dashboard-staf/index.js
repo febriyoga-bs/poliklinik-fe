@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-dom';
 import { Layout, Row, Col, Button, message, Menu} from 'antd';
-import { PieChartOutlined, DesktopOutlined, ContainerOutlined,
+import { UserOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import ProfilStaf from "./profil-staf";
 import KelolaInformasi from "../kelola_informasi";
@@ -81,7 +81,7 @@ const DashboardStaf = () => {
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                         </Button>
-                        <Menu.Item key="1" onClick={gotoProfil} icon={<PieChartOutlined />}>
+                        <Menu.Item key="1" onClick={gotoProfil} icon={<UserOutlined />}>
                             Profil Staf
                         </Menu.Item>
                         <Menu.Item key="2" onClick={gotoKelolaInformasi} icon={<ContainerOutlined />}>

@@ -224,7 +224,7 @@ const UbahDataPasien = (props) => {
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                 <Row justify="space-between" gutter={30}>
                     <Col span={12}>
-                        {!!props.location.state.id_pasien &&
+                        {!!props.location.state &&
                             <div>
                             <Text className="title-label">ID Pasien</Text>
                                 <Form.Item name="id_pasien" >
@@ -234,14 +234,62 @@ const UbahDataPasien = (props) => {
                         }
                         
                         <Text className="title-label">Nomor Telepon</Text>
-                            <Form.Item name="no_telepon" rules={[{ required: true }]}>
-                                    <Input className="input-form secondary" disabled/>
+                            <Form.Item name="no_telepon" rules={[{ required: true, message: 'Harap masukkan nomor telepon!' }]}>
+                                    <Input className="input-form secondary" disabled={props.location.state}
+                                        placeholder="Masukkan nomor telepon"
+                                    />
                             </Form.Item>
+
+                        {!props.location.state &&
+                                <div>
+                                <Text className="title-label">Password</Text>
+                                <Form.Item name="password"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Harap masukkan password Anda!'
+                                        },
+                                        {
+                                            pattern: new RegExp('[a-zA-Z0-9]{8,}$'),
+                                            message: "Harap masukkan 8 karakter atau lebih"
+                                        }
+                                    ]}
+                                >
+                                    <Input.Password className="input-form secondary"
+                                        placeholder="Masukkan 8 karakter atau lebih" 
+                                    />
+                                </Form.Item>
+
+                                <Text className="title-label">Konfirmasi Password</Text>
+                                <Form.Item name="confirmPassword"
+                                    dependencies={['password']}
+                                    rules={[
+                                        { 
+                                            required: true, message: 'Harap konfirmasi password!' 
+                                        },
+                                        ({ getFieldValue }) => ({
+                                            validator(rule, value) {
+                                                if (!value || getFieldValue('password') === value) {
+                                                return Promise.resolve();
+                                                }
+                                
+                                                return Promise.reject('Password tidak cocok!');
+                                            },
+                                        }),
+                                    ]}
+                                    >
+                                    <Input.Password className="input-form secondary" 
+                                        placeholder="Masukkan ulang password"
+                                    />
+                                </Form.Item>
+                                </div>
+                            }
+
                             
                           
                         <Text className="title-label">Kategori Pasien</Text>
                             <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
-                                <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}
+                                <Select defaultValue="Pilih Kategori" className="input-form" onChange={(e)=>setKategori(e)}
                                     disabled={props.location.pathname === "/dashboard-pasien/edit-profil"}
                                 >
                                     <Option value="Umum">Umum</Option>
@@ -289,7 +337,9 @@ const UbahDataPasien = (props) => {
                         
                         <Text className="title-label">Nama Pasien</Text>
                             <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan nama!" }]}>
-                                    <Input className="input-form secondary" />
+                                    <Input className="input-form secondary" 
+                                        placeholder="Masukkan nama"
+                                    />
                             </Form.Item>
                         
                         {(kategori==="Mahasiswa" || kategori==="Staf/Dosen") &&
@@ -310,13 +360,17 @@ const UbahDataPasien = (props) => {
                             
                         <Text className="title-label">Tanggal Lahir</Text>
                             <Form.Item name="tanggal_lahir" rules={[{ required: true, message: "Harap masukkan tanggal lahir!" }]}>
-                                    <DatePicker className="input-form secondary" format='DD/MM/YYYY' placeholder="" style={{width:256}}/>
+                                    <DatePicker className="input-form secondary" format='DD/MM/YYYY' 
+                                        placeholder="Masukkan Tanggal Lahir" style={{width:256}}
+                                    />
 
                             </Form.Item>
                             
                         <Text className="title-label">Alamat</Text>
-                            <Form.Item name="alamat" rules={[{ required: true, message: "Harap masukkan alamat sesuai KTP!" }]}>
-                                    <Input className="input-form secondary" />
+                            <Form.Item name="alamat" rules={[{ required: true, message: "Harap masukkan alamat lengkap sesuai KTP!" }]}>
+                                    <Input className="input-form secondary" 
+                                        placeholder="Masukkan alamat lengkap sesuai KTP!"
+                                    />
                             </Form.Item>
                     </Col>
                 </Row>
