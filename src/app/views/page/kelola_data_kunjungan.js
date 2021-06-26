@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select, DatePicker} from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select, DatePicker, message} from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
 
-//import Dummy from '../../dummy/dummy'
+import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -22,22 +22,24 @@ const KelolaKunjungan = (props) => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const gotoCatatKunjungan= () => {
-        const loc = '/dashboard-staf/kelola-data-pengguna/pasien/tambah-data';
+        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params}/catat-kunjungan`;
         history.push(loc);
     }
 
     const handleModal = () => {
-        setVisibleModal(!visibleModal);
+        message.info("Laman Detail Kunjungan belum Tersedia");
+        //setVisibleModal(!visibleModal);
     };
 
     useEffect(()=>{
         getDataPasien(searchKey, pagination.current,  pagination.pageSize);
+        console.log(props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
 
-    const getDataPasien = (nama, kategori, current, limit) => {
+    const getDataPasien = (kategori, current, limit) => {
         setLoading(true);
-        APIServices.getAllDataPasien(nama, kategori, current, limit).then(res => {
+        APIServices.getAllDataPasien(kategori, current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
                     let _meta = _data.pop()
@@ -47,12 +49,15 @@ const KelolaKunjungan = (props) => {
                         pageSize: _meta.pagination.per_page,
                         total: _meta.pagination.total
                     })
+                    setDataRekamMedis(Dummy.dataKunjungan);
+                    console.log(Dummy.dataKunjungan);
                     //setDataRekamMedis(_data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    //setDataPasien(Dummy.dataPasien);
+                    setDataRekamMedis(Dummy.dataKunjungan);
+                    console.log(Dummy.dataKunjungan);
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -92,7 +97,7 @@ const KelolaKunjungan = (props) => {
             key: 'jam_masuk',
             align: 'center',
             render: (value) => {
-                let jam = ""
+                let jam = value
 
                 return (
                     <Text>{jam}</Text>
@@ -105,7 +110,7 @@ const KelolaKunjungan = (props) => {
             key: 'jam_keluar',
             align: 'center',
             render: (value) => {
-                let jam = ""
+                let jam = value
 
                 return (
                     <Text>{jam}</Text>
@@ -118,7 +123,7 @@ const KelolaKunjungan = (props) => {
             key: 'anamnesa',
             align: 'center',
             render: (value) => {
-                let text = ""
+                let text = value
 
                 return (
                     <Text>{text}</Text>
@@ -131,7 +136,7 @@ const KelolaKunjungan = (props) => {
             key: 'diagnosis',
             align: 'center',
             render: (value) => {
-                let text = ""
+                let text = value
 
                 return (
                     <Text>{text}</Text>
@@ -144,7 +149,7 @@ const KelolaKunjungan = (props) => {
             key: 'keterangan',
             align: 'center',
             render: (value) => {
-                let text = ""
+                let text = value
 
                 return (
                     <Text>{text}</Text>
@@ -236,6 +241,15 @@ const KelolaKunjungan = (props) => {
                                 <Text style={{color: "#000"}}>
                                     <InfoOutlined style={{fontSize:20}}/>
                                 </Text>
+                            </Button>
+                        </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                onClick={() => {
+                                    gotoCatatKunjungan();
+                                }}
+                            >
+                                Catat Kunjungan
                             </Button>
                         </Row>
                         <Table

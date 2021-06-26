@@ -187,14 +187,14 @@ const KelolaRekamMedis = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf">  
+                        <NavLink to="/dashboard-dokter">  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/kelola-data-pengguna/pasien">  
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis">  
                             <Text className="title">
                                 Kelola Data Rekam Medis
                             </Text>

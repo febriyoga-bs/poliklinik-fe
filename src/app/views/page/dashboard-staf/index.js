@@ -90,6 +90,7 @@ const DashboardStaf = (props) => {
                 <Col span={collumnProp.offset}>
                     <Menu
                         defaultSelectedKeys={props.location.pathname}
+                        selectedKey={props.location.pathname}
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
@@ -112,9 +113,9 @@ const DashboardStaf = (props) => {
                             <Menu.Item key="/dashboard-staf/kelola-data-pengguna/staf" 
                                 onClick={() => gotoKelolaDataPengguna(1)}>Data Staf</Menu.Item>
                         </SubMenu>
-                        <Menu.Item key="/dashboard-staf/kelola-rekam-medis" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
+                        {/* <Menu.Item key="/dashboard-staf/kelola-rekam-medis" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
                             Kelola Rekam Medis
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item key="6" onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
                             Riwayat Pelayanan Pasien
                         </Menu.Item>

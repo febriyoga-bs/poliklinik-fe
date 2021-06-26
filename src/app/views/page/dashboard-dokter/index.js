@@ -7,6 +7,7 @@ import ProfilDokter from "./profil-dokter";
 import FormDataDokter from "../form_data_dokter";
 import KelolaRekamMedis from "../kelola_rekam_medis";
 import KelolaDataKunjungan from "../kelola_data_kunjungan";
+import FormDataKunjungan from "../form_data_kunjungan";
 import Auth from '../../../service/auth'
 
 
@@ -67,7 +68,7 @@ const DashboardDokter = () => {
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                         </Button>
                         <Menu.Item key="1" onClick={gotoProfil} icon={<UserOutlined />}>
-                            Profil Staf
+                            Profil Dokter
                         </Menu.Item>
                         <Menu.Item key="2" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
                             Kelola Rekam Medis
@@ -90,6 +91,7 @@ const DashboardDokter = () => {
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
                         </Switch>
                     </Row>
                 </Col>

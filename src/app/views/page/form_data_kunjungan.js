@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useHistory, NavLink} from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button, DatePicker } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Card, Typography, Form, Input, Select, Button, DatePicker, TimePicker } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
@@ -16,16 +16,14 @@ const FormDataKunjungan = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const [dataJurusan, setDataJurusan] = useState([]);
-    const [dataProdi, setDataProdi] = useState([]);
-    const [kategori, setKategori] = useState("");
+    const [dataDokter, setDataDokter] = useState([]);
 
     //const dataJurusan = Dummy.listJurusan;
     //const dataProdi = Dummy.listProdi;
 
     useEffect(()=>{
         console.log(props.location)
-        getDataJurusan();
+        getDataDokter();
         if(props.location.state){
             console.log(props.location)
           form.setFieldsValue(props.location.state);
@@ -34,144 +32,33 @@ const FormDataKunjungan = (props) => {
             let tanggal = props.location.state.tanggal_lahir;
             form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
           }
-          setKategori(props.location.state.kategori)
         }else{
           form.resetFields()
         }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const getDataDokter = () => {
+        setLoading(true);
+        APIServices.getAllDokter().then(res => {
+                if(res.data){
+                    setDataDokter(res.data.data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataDokter(Dummy.dataDokter);
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
     const onFinish= (values) => {
         setLoading(true);
-        let registerBody ={
-            no_telepon: values.no_telepon,
-            password: values.password,
-            role: 3,
-            status: 1
-        }
-
         let body = {
-            no_telepon: props.location.state.no_telepon,
-            kategori: values.kategori,
-            
-            nama: values.nama,
-            jenis_kelamin: values.jenis_kelamin,
-            tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
-            alamat: values.alamat
-        }
-        if (values.kategori !== props.location.state.kategori && (values.kategori === 'Umum' || values.kategori === 'Keluarga')){
-            body.jurusan = ""
-            body.prodi = ""
-            body.no_identitas = ""
-        } else if (values.kategori !== props.location.state.kategori && (values.kategori === 'Staf/Dosen')) {
-            body.jurusan = ""
-            body.prodi = ""
-            body.no_identitas = values.nomor_identitas
-        } else {
-            body.jurusan = values.jurusan
-            body.prodi = values.prodi
-            body.no_identitas = values.nomor_identitas
-        }
-
-        if(props.location.state){
-            if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
-                APIServices.postDataPasien(body).then(res => {
-                    setLoading(false);
-                    if(res.data){
-                        history.push('/dashboard-pasien');
-                        dialog({icon: "success", title:"Lengkapi Data Diri Berhasil!"}).then(()=>{
-                            console.log("Berhasil");
-                        })
-                    }
-                }).catch(err => {
-                    setLoading(false);
-                    if(err){
-                        dialog({icon: "error", title:"Lengkapi Data Diri Gagal!"}).then(()=>{
-                            console.log("Gagal");
-                        })
-                    }
-                })
-            } else {
-                body.no_telepon = props.location.state.no_telepon;
-                APIServices.putDataPasien(body).then(res => {
-                    setLoading(false);
-                    if(res.data){
-                        history.goBack();
-                        dialog({icon: "success", title:"Ubah Data Pasien Berhasil!"}).then(()=>{
-                            console.log("Berhasil");
-                        })
-                    }
-                }).catch(err => {
-                    setLoading(false);
-                    if(err){
-                        dialog({icon: "error", title:"Ubah Data Pasien Gagal!"}).then(()=>{
-                            console.log("Gagal");
-                        })
-                    }
-                })
-            }
-        } else {
-            APIServices.register(registerBody).then(res => {
-                console.log("Akun Created")
-                if(res.data){
-                    APIServices.postDataPasien(body).then(res => {
-                        setLoading(false);
-                        if(res.data){
-                            history.goBack();
-                            dialog({icon: "success", title:"Tambah Data Pasien Berhasil!"}).then(()=>{
-                                console.log("Berhasil");
-                            })
-                        }
-                    }).catch(err => {
-                        setLoading(false);
-                        if(err){
-                            dialog({icon: "error", title:"Tambah Data Pasien Gagal!"}).then(()=>{
-                                console.log("Gagal");
-                            })
-                        }
-                    })
-                }
-            }).catch(err => {
-                setLoading(false);
-                if(err){
-                    console.log(err);
-                    dialog({icon: "error", title:"Buat Akun Pasien Gagal!"}).then(()=>{
-                        console.log("Gagal");
-                    })
-                }
-            })
         }
     }
-
-    const getDataJurusan = () => {
-        setLoading(true);
-        APIServices.getJurusan().then(res => {
-                if(res.data){
-                    setDataJurusan(res.data.data);
-                    setLoading(false)
-                }
-            }).catch(err => {
-                if(err){
-                    console.log(err.response)
-                    setLoading(false)
-                }
-            })
-        }
-
-    const getDataProdi = (id_jurusan) => {
-        setLoading(true);
-        APIServices.getProdi(id_jurusan).then(res => {
-                if(res.data){
-                    setDataProdi(res.data.data);
-                    setLoading(false)
-                }
-            }).catch(err => {
-                if(err){
-                    console.log(err.response)
-                    setLoading(false)
-                }
-            })
-        }
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
@@ -188,16 +75,23 @@ const FormDataKunjungan = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item >
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/dashboard-dokter">  
                             <Text className="title">
-                            Admin
+                                Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/pasien"> 
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis"> 
                             <Text className="title">
-                                Kelola Data Pasien
+                                Kelola Rekam Medis
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis"> 
+                            <Text className="title">
+                                Catat Kunjungan
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
@@ -209,167 +103,89 @@ const FormDataKunjungan = (props) => {
                 <Row>
                     <Text className="title-tabel">
                         { props.location.state === undefined ?
-                            "Tambah Data Pasien"
+                            "Catat Kunjungan"
                             :
-                            (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri") ?
-                            "Lengkapi Data Diri"
-                            :
-                            (props.location.pathname === "/dashboard-pasien/edit-profil") ?
-                            "Edit Profil"
-                            :
-                            "Ubah Data Pasien"
+                            "Ubah Catatan Kunjungan"
                         }
                     </Text>
                 </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                 <Row justify="space-between" gutter={30}>
                     <Col span={12}>
-                        {!!props.location.state &&
-                            <div>
-                            <Text className="title-label">ID Pasien</Text>
-                                <Form.Item name="id_pasien" >
-                                        <Input className="input-form secondary" disabled/>
-                                </Form.Item>
-                            </div>
-                        }
-                        
-                        <Text className="title-label">Nomor Telepon</Text>
-                            <Form.Item name="no_telepon" rules={[{ required: true, message: 'Harap masukkan nomor telepon!' }]}>
-                                    <Input className="input-form secondary" disabled={props.location.state}
-                                        placeholder="Masukkan nomor telepon"
+                        <Text className="title-label">Tanggal Kunjungan</Text>
+                            <Form.Item name="tanggal_kunjungan" rules={[{ required: true, message: "Harap masukkan tanggal kunjungan!" }]}>
+                                    <DatePicker className="input-form secondary" format='DD/MM/YYYY' 
+                                        placeholder="Masukkan Tanggal Kunjungan" style={{width:256}}
                                     />
+
                             </Form.Item>
 
-                        {!props.location.state &&
-                                <div>
-                                <Text className="title-label">Password</Text>
-                                <Form.Item name="password"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Harap masukkan password Anda!'
-                                        },
-                                        {
-                                            pattern: new RegExp('[a-zA-Z0-9]{8,}$'),
-                                            message: "Harap masukkan 8 karakter atau lebih"
-                                        }
-                                    ]}
+                        
+                        <Text className="title-label">Dokter</Text>
+                            <Form.Item name="dokter" rules={[{ required: true, message: "Harap pilih dokter" }]}>
+                                <Select className="input-form secondary" mode="multiple" allowClear style={{minHeight:"100%"}}
+                                    placeholder={loading ? "Memuat Data Dokter" : "Pilih Dokter"}
                                 >
-                                    <Input.Password className="input-form secondary"
-                                        placeholder="Masukkan 8 karakter atau lebih" 
-                                    />
-                                </Form.Item>
-
-                                <Text className="title-label">Konfirmasi Password</Text>
-                                <Form.Item name="confirmPassword"
-                                    dependencies={['password']}
-                                    rules={[
-                                        { 
-                                            required: true, message: 'Harap konfirmasi password!' 
-                                        },
-                                        ({ getFieldValue }) => ({
-                                            validator(rule, value) {
-                                                if (!value || getFieldValue('password') === value) {
-                                                return Promise.resolve();
-                                                }
-                                
-                                                return Promise.reject('Password tidak cocok!');
-                                            },
-                                        }),
-                                    ]}
-                                    >
-                                    <Input.Password className="input-form secondary" 
-                                        placeholder="Masukkan ulang password"
-                                    />
-                                </Form.Item>
-                                </div>
-                            }
-
-                            
-                          
-                        <Text className="title-label">Kategori Pasien</Text>
-                            <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
-                                <Select defaultValue="Pilih Kategori" className="input-form" onChange={(e)=>setKategori(e)}
-                                    disabled={props.location.pathname === "/dashboard-pasien/edit-profil"}
-                                >
-                                    <Option value="Umum">Umum</Option>
-                                    <Option value="Mahasiswa">Mahasiswa</Option>
-                                    <Option value="Staf/Dosen">Staf/Dosen</Option>
-                                    <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
+                                {dataDokter.map(item => (
+                                    <Option key={item.id_dokter} value={item.id_dokter}>
+                                        {item.nama}
+                                    </Option>
+                                ))}
                                 </Select>
                             </Form.Item>
-                        
-                        {kategori==="Mahasiswa" &&
-                            <div>
-                                <Text className="title-label">Jurusan</Text>
-                                <Form.Item name="jurusan" rules={[{ required: true, message: "Harap pilih jurusan!" }]}>
-                                    <Select defaultValue="Pilih Jurusan" className="input-form" 
-                                        onChange={(e, a)=>{
-                                            form.setFieldsValue({ prodi: ""})
-                                            getDataProdi(a.key);
-                                        }}
-                                    >
-                                        {dataJurusan.map(item => (
-                                            <Option key={item.id_jurusan} value={item.nama}>
-                                                {item.nama}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Form.Item>
 
-                                <Text className="title-label">Program Studi</Text>
-                                <Form.Item name="prodi" rules={[{ required: true, message: "Harap pilih program studi!" }]}>
-                                    <Select defaultValue="Pilih Prodi" className="input-form" disabled={loading}>
-                                        {dataProdi.map((item) => {
-                                            return(
-                                                <Option key={item.id_prodi} value={item.nama}>
-                                                    {item.nama}
-                                                </Option>
-                                            )
-                                        })}
-                                    </Select>
-                                </Form.Item>
-                            </div>
-                        }
+                        
+                        <Text className="title-label">Jam Masuk</Text>
+                            <Form.Item name="jam_masuk" rules={[{ required: true, message: "Harap masukkan jam masuk!" }]}>
+                                <TimePicker className="input-form secondary" 
+                                    clearIcon
+                                    clearText
+                                    allowClear={false}
+                                    showNow={false}
+                                    format='HH:mm'
+                                    placeholder="Jam Masuk"/>
+                            </Form.Item>
+
+                        <Text className="title-label">Jam Keluar</Text>
+                            <Form.Item name="jam_keluar" rules={[{ required: true, message: "Harap masukkan jam keluar!" }]}>
+                                <TimePicker className="input-form secondary" 
+                                    clearIcon
+                                    clearText
+                                    allowClear={false}
+                                    showNow={false}
+                                    format='HH:mm'
+                                    placeholder="Jam Keluar"/>
+                            </Form.Item>
+                        
                         
                     </Col>
                     <Col span={12}>
                         
-                        <Text className="title-label">Nama Pasien</Text>
-                            <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan nama!" }]}>
-                                    <Input className="input-form secondary" 
-                                        placeholder="Masukkan nama"
+                        <Text className="title-label">Anamnesa</Text>
+                            <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan anamnesa!" }]}>
+                                    <Input.TextArea className="input-form secondary" 
+                                        placeholder="Catat anamnesa"
+                                    />
+                            </Form.Item>
+                            
+                        <Text className="title-label">Diagnosis</Text>
+                            <Form.Item name="diagnosis" rules={[{ required: true, message: "Harap masukkan diagnosis!" }]}>
+                                    <Input.TextArea className="input-form secondary" 
+                                        placeholder="Catat diagnosis"
                                     />
                             </Form.Item>
                         
-                        {(kategori==="Mahasiswa" || kategori==="Staf/Dosen") &&
-                        <div>
-                            <Text className="title-label">Nomor Identitas</Text>
-                                <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
-                                        <Input className="input-form secondary" />
-                                </Form.Item>   
-                        </div>
-                        }
-                        <Text className="title-label">Jenis Kelamin</Text>
-                            <Form.Item name="jenis_kelamin" rules={[{ required: true, message: "Harap pilih jenis kelamin!" }]}>
-                                <Select defaultValue="Pilih Jenis Kelamin" className="input-form" >
-                                    <Option key={1} value="Laki-laki">Laki-laki</Option>
-                                    <Option key={2} value="Perempuan">Perempuan</Option>
-                                </Select>
-                            </Form.Item>
-                            
-                        <Text className="title-label">Tanggal Lahir</Text>
-                            <Form.Item name="tanggal_lahir" rules={[{ required: true, message: "Harap masukkan tanggal lahir!" }]}>
-                                    <DatePicker className="input-form secondary" format='DD/MM/YYYY' 
-                                        placeholder="Masukkan Tanggal Lahir" style={{width:256}}
+                        <Text className="title-label">Terapi</Text>
+                            <Form.Item name="terapi" rules={[{ required: true, message: "Harap masukkan terapi!" }]}>
+                                    <Input.TextArea className="input-form secondary" 
+                                        placeholder="Catat terapi"
                                     />
-
                             </Form.Item>
-                            
-                        <Text className="title-label">Alamat</Text>
-                            <Form.Item name="alamat" rules={[{ required: true, message: "Harap masukkan alamat lengkap sesuai KTP!" }]}>
-                                    <Input className="input-form secondary" 
-                                        placeholder="Masukkan alamat lengkap sesuai KTP!"
+                        
+                        <Text className="title-label">Keterangan</Text>
+                            <Form.Item name="diagnosis" rules={[{ required: true, message: "Harap masukkan keterangan!" }]}>
+                                    <Input.TextArea className="input-form secondary" 
+                                        placeholder="Catat keterangan"
                                     />
                             </Form.Item>
                     </Col>

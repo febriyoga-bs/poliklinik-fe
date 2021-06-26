@@ -204,6 +204,27 @@ const dataPelayanan = [
     }
 ]
 
+const dataKunjungan = [
+    {
+        tanggal_kunjungan: "2021-06-20",
+        dokter: "Eva Dianita",
+        jam_masuk: "09.00",
+        jam_keluar: "09.15",
+        anamnesa: "teks anamnesa",
+        diagnosis: "teks diagnosis",
+        keterangan: "teks keterangan"
+    },
+    {
+        tanggal_kunjungan: "2021-06-22",
+        dokter: "Eva Dianita",
+        jam_masuk: "08.30",
+        jam_keluar: "08.45",
+        anamnesa: "teks anamnesa",
+        diagnosis: "teks diagnosis",
+        keterangan: "teks keterangan"
+    },
+]
+
 const listJurusan = [
     {
         id: 1,
@@ -316,6 +337,7 @@ export default {
     dataStaf,
     dataJadwal,
     dataPelayanan,
+    dataKunjungan,
     listJurusan,
     listProdi,
 }
