@@ -77,7 +77,7 @@ const KelolaKunjungan = (props) => {
             align: 'center',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
             render: (value) => {
-                let usia = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');;
+                let usia = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
 
                 return (
                     <Text>{usia}</Text>
