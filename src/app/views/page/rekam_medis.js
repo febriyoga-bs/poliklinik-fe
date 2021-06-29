@@ -11,8 +11,9 @@ import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
+const {Title } = Typography;
 
-const KelolaKunjungan = (props) => {
+const RekamMedis = (props) => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataRekamMedis, setDataRekamMedis] = useState([]);
@@ -21,14 +22,7 @@ const KelolaKunjungan = (props) => {
     const [searchKey, setSearchKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
-    const gotoCatatKunjungan= () => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params}/catat-kunjungan`;
-        history.push(loc);
-    }
-    const gotoRekamMedis = (data) => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params}/rekam-medis`;
-        history.push(loc);
-    }
+  
 
     const handleModal = () => {
         //message.info("Laman Detail Kunjungan belum Tersedia");
@@ -72,78 +66,7 @@ const KelolaKunjungan = (props) => {
         getDataPasien(searchKey, _pagination.current, _pagination.pageSize)
     }
 
-    const columnsRekamMedis = [
-        {
-            title: "Tanggal Kunjungan",
-            dataIndex: 'tanggal_kunjungan',
-            key: 'tanggal_kunjungan',
-            width: '20%',
-            align: 'center',
-            sorter: (a, b) => a.id_pasien - b.id_pasien,
-            render: (value) => {
-                let usia = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
-
-                return (
-                    <Text>{usia}</Text>
-                )
-            }
-        },
-        {
-            title: "Dokter Pemeriksa",
-            dataIndex: 'dokter',
-            key: 'dokter',
-            width: '20%',
-            align: 'center',
-        },
-        {
-            title: "Jam Masuk",
-            dataIndex: 'jam_masuk',
-            key: 'jam_masuk',
-            align: 'center',
-            render: (value) => {
-                let jam = value
-
-                return (
-                    <Text>{jam}</Text>
-                )
-            } 
-        },
-        {
-            title: "Jam Keluar",
-            dataIndex: 'jam_keluar',
-            key: 'jam_keluar',
-            align: 'center',
-            render: (value) => {
-                let jam = value
-
-                return (
-                    <Text>{jam}</Text>
-                )
-            }
-        }, 
-      
-        {
-            title: "Detail",
-            align: 'center',
-            render: (record) => {
-                return (
-                    <Row justify="center">
-                        <Button
-                            onClick={() => {
-                                console.log(record);
-                            gotoRekamMedis(record);
-                        }}
-                        >
-                            <Text style={{color: "#000"}}>
-                                <InfoOutlined style={{fontSize:20}}/>
-                            </Text>
-                        </Button>
-                    </Row>
-                )
-            }
-        },
-    ]
-
+    
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
@@ -169,6 +92,13 @@ const KelolaKunjungan = (props) => {
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/dashboard-staf/kelola-data-pengguna/rekam-medis/pasien">  
+                            <Text className="title">
+                                Rekam Medis
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
                 </Breadcrumb>
 
                 <DetailPasien
@@ -176,15 +106,6 @@ const KelolaKunjungan = (props) => {
                     buttonCancel={handleModal}
                     visible={visibleModal}
                 />
-
-                <Row>
-                    <Col>
-                        <DatePicker format='DD/MM/YYYY' 
-                            placeholder="Cari berdasarkan Tanggal" 
-                            style={{ width: 300, height: 40, maxWidth:"90%", marginLeft: 20, marginBottom: 20, borderRadius: 10}}         
-                        />
-                    </Col>
-                </Row>
 
                 <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
@@ -209,25 +130,45 @@ const KelolaKunjungan = (props) => {
                                 </Text>
                             </Button>
                         </Row>
-                        <Row justify="end">
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                onClick={() => {
-                                    gotoCatatKunjungan();
-                                }}
-                            >
-                                Catat Kunjungan
-                            </Button>
+                        <Row>
+                            <Text className="title-tabel">
+                                Tanggal Kunjungan :
+                            </Text>
                         </Row>
-                        <Table
-                            columns={columnsRekamMedis}
-                            size="middle"
-                            bordered={false}
-                            loading={loading}
-                            dataSource={dataRekamMedis}
-                            pagination={pagination}
-                            onChange={handleTableChange}
-                            scroll={{ x: 800 }}
-                        />
+                        <Row>
+                            <Text className="title-tabel">
+                                Dokter Pemeriksa :
+                            </Text>
+                        </Row>
+                        <Row>
+                            <Text className="title-tabel">
+                                Jam Masuk :
+                            </Text>
+                        </Row>
+                        <Row>
+                            <Text className="title-tabel">
+                                Jam Keluar :
+                            </Text>
+                        </Row>
+                        <div className="rekammedis-card" >
+                        <Row gutter={16}>
+                        <Col span={8}>
+                            <Card title="Anamnesa" >
+                            isi
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="Diagnosis" >
+                           isi
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="Keterangan" >
+                            isi
+                            </Card>
+                        </Col>
+                        </Row>
+                    </div>,
                     </Card>
                 </Row>
             </Content>
@@ -235,4 +176,4 @@ const KelolaKunjungan = (props) => {
     );
 }
 
-export default withRouter(KelolaKunjungan)
+export default withRouter(RekamMedis)

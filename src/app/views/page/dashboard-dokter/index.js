@@ -8,6 +8,7 @@ import FormDataDokter from "../form_data_dokter";
 import KelolaRekamMedis from "../kelola_rekam_medis";
 import KelolaDataKunjungan from "../kelola_data_kunjungan";
 import FormDataKunjungan from "../form_data_kunjungan";
+import RekamMedis from "../rekam_medis";
 import Auth from '../../../service/auth'
 
 
@@ -92,6 +93,7 @@ const DashboardDokter = () => {
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/rekam-medis" component={RekamMedis} />
                         </Switch>
                     </Row>
                 </Col>
