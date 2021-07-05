@@ -25,7 +25,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/buatAkun`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/postAkun`,
                 data: data
             },
             { crossdomain: true }
@@ -36,7 +36,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/verifikasiAkun/${data.no_telepon}/${data.kode_otp}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/getVerifikasiAkun/${data.no_telepon}/${data.kode_otp}`,
             },
             { crossdomain: true }
         )
@@ -108,7 +108,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/ubahProfilDokter/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/putProfilDokter/${data.no_telepon}`,
                 data: data
             },
             { crossdomain: true }
@@ -119,7 +119,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/createDokter`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/postDokter`,
                 data: data
             },
             { crossdomain: true }
@@ -170,7 +170,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/ubahProfilStaf/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/putProfilStaf/${data.no_telepon}`,
                 data: data
             },
             { crossdomain: true }
@@ -181,7 +181,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/createStaf`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/postStaf`,
                 data: data
             },
             { crossdomain: true }
@@ -233,7 +233,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/ubahProfilPasien/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/putProfilPasien/${data.no_telepon}`,
                 data: data
             },
             { crossdomain: true }
@@ -244,7 +244,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/createPasien`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/postPasien`,
                 data: data
             },
             { crossdomain: true }
@@ -276,7 +276,7 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/tambahPelayanan`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/postPelayanan`,
                 data: data
             },
             { crossdomain: true }
@@ -287,7 +287,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahPelayanan/${data.id_pelayanan}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/putPelayanan/${data.id_pelayanan}`,
                 data: data
             },
             { crossdomain: true }
@@ -319,7 +319,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/ubahJadwal/${data.id_jadwal}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/putJadwal/${data.id_jadwal}`,
                 data: data
             },
             { crossdomain: true }

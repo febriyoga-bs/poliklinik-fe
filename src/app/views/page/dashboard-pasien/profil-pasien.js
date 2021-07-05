@@ -30,16 +30,20 @@ const ProfilStaf = () => {
         setLoading(true);
         APIServices.getDataPasien().then(res => {
             if(res.data){
-                setDataPasien(res.data.data);
+                console.log(res.data.data)
+                if(Object.entries(res.data.data).length === 0){
+                    let loc = '/dashboard-pasien/lengkapi-data-diri';
+                    let data = {no_telepon: JSON.parse(localStorage.getItem('no_telepon'))}
+                    history.push({pathname:loc, state:data});
+                    message.info("Harap lengkapi data diri Anda!");
+                }
+                setDataPasien(res.data.data[0]);
                 setLoading(false)
             }
         }).catch(err => {
             if(err.response){
                 //setdataPasien(Dummy.dataPasien[0])
-                let loc = '/dashboard-pasien/lengkapi-data-diri';
-                let data = {no_telepon: JSON.parse(localStorage.getItem('no_telepon'))}
-                history.push({pathname:loc, state:data});
-                message.info("Harap lengkapi data diri Anda!");
+                
             } else {
                 message.error("Gagal memuat informasi profil. Periksa koneksi internet Anda!");
             }

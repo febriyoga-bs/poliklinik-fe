@@ -73,7 +73,7 @@ const DashboardPasien = () => {
                     </Menu>
                 </Col>
 
-                <Col span={24} style={{paddingLeft:padding}}>
+                <Col span={24} style={{paddingLeft:padding, marginTop:20}}>
                     <Row justify="center">
                         <Switch>
                             <PrivateRoute exact path="/dashboard-pasien" component={ProfilPasien} />

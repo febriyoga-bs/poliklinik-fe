@@ -6,7 +6,7 @@ export default class Auth {
 
   static login(body) {
     return new Promise((resolve, reject) => {
-      axios.post(CONFIG.BASE_URL + '/api/akun/login', body).then((res) => {
+      axios.post(CONFIG.BASE_URL + '/api/akun/postLogin', body).then((res) => {
         setTimeout(_ => {
           resolve(res);
         }, 1000);

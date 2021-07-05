@@ -30,7 +30,7 @@ const VerifikasiOTP = (props) => {
             if(Auth.isLogin()){
                 let role = JSON.parse(localStorage.getItem('role'));
                 if (role === 3){
-                    history.push('/profil-pasien');
+                    history.push('/dashboard-pasien');
                 }
             }
           }).catch(err => {

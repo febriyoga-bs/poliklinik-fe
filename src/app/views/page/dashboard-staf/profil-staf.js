@@ -28,7 +28,7 @@ const ProfilStaf = (props) => {
         setLoading(true)
         APIServices.getDataStaf().then(res => {
             if(res.data){
-                setDataStaf(res.data.data);
+                setDataStaf(res.data.data[0]);
                 setLoading(false)
             }
         }).catch(err => {

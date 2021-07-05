@@ -51,7 +51,6 @@ const UbahDataPasien = (props) => {
         }
 
         let body = {
-            no_telepon: props.location.state.no_telepon,
             kategori: values.kategori,
             
             nama: values.nama,
@@ -179,7 +178,7 @@ const UbahDataPasien = (props) => {
             { (props.location.pathname !== "/dashboard-pasien/data-diri" &&
                 props.location.pathname !== "/dashboard-pasien/edit-profil") 
                 ?
-                <Breadcrumb style={{marginLeft:40, marginBottom:20}} separator=">">
+                <Breadcrumb style={{marginLeft:20, marginBottom:20}} separator=">">
                     <Breadcrumb.Item >
                         <NavLink to="/"> 
                             <Text className="title">
@@ -190,14 +189,14 @@ const UbahDataPasien = (props) => {
                     <Breadcrumb.Item >
                         <NavLink to="/profil-staf">  
                             <Text className="title">
-                                Admin
+                                Pasien
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
                         <NavLink to="/kelola-data-pengguna/pasien"> 
                             <Text className="title">
-                                Kelola Data Pasien
+                                Lengkapi Data Diri
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

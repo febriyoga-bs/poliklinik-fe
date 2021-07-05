@@ -28,7 +28,7 @@ const ProfilDokter = () => {
         setLoading(true)
         APIServices.getDataDokter().then(res => {
             if(res.data){
-                setDataDokter(res.data.data);
+                setDataDokter(res.data.data[0]);
                 setLoading(false)
             }
         }).catch(err => {
