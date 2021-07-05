@@ -530,4 +530,11 @@
   border-width: 4px;
   box-shadow: 0px 50px 50px rgba(0, 0, 0, 0.10);
 }
+
+.rekammedis-card {
+  padding: 5px;
+  background: #ffffff;
+  border-width: 10px;
+  border-color: black;
+}
 /*  */
