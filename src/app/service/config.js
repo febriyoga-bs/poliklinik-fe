@@ -8,7 +8,7 @@ const BASE_URL_BE = "http://25.70.2.196:8000"
 
 //----
 //const isProd = false
-const isProd = false
+const isProd = true
 
 export default  {
     isServer: isProd ? 'Production' : 'Development',

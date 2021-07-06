@@ -428,7 +428,7 @@ const APIServices = {
         )
     },
 
-    postAntrean(data){
+    async postAntrean(data){
         return client.request(
             {
                 method: "post",

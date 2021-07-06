@@ -14,26 +14,71 @@ const AmbilAntrean = () => {
     const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
 
     const ambilAntrean = (data) => {
-        let body = {
+        let body1 = {
             id_poli: 1,
             id_pasien: 19,
         }
+        let body2 = {
+            id_poli: 1,
+            id_pasien: 35,
+        }
+        let body3 = {
+            id_poli: 1,
+            id_pasien: 1,
+        }
+        let body4 = {
+            id_poli: 1,
+            id_pasien: 6,
+        }
         setLoading(true);
-        APIServices.postAntrean(body).then(res => {
+
+        Promise.all([
+            APIServices.postAntrean(body1),
+            APIServices.postAntrean(body2),
+            APIServices.postAntrean(body3),
+            APIServices.postAntrean(body4),
+            APIServices.postAntrean(body1),
+            APIServices.postAntrean(body2),
+            APIServices.postAntrean(body3),
+            APIServices.postAntrean(body4),
+            APIServices.postAntrean(body1),
+            APIServices.postAntrean(body2),
+            APIServices.postAntrean(body3),
+            APIServices.postAntrean(body4)
+        ]).then((res) =>{
             setLoading(false);
-            if(res.data){
-                dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
-                    console.log("Berhasil");
-                })
-            }
-        }).catch(err => {
-            setLoading(false);
-            if(err){
-                dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
-                    console.log("Gagal");
-                })
-            }
         })
+
+        // APIServices.postAntrean(body1).then(res => {
+        //     setLoading(false);
+        //     if(res.data){
+        //         dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+        //             console.log("Berhasil");
+        //         })
+        //     }
+        // }).catch(err => {
+        //     setLoading(false);
+        //     if(err){
+        //         dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
+        //             console.log("Gagal");
+        //         })
+        //     }
+        // })
+        // APIServices.postAntrean(body2).then(res => {
+        //     setLoading(false);
+        //     if(res.data){
+        //         dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+        //             console.log("Berhasil");
+        //         })
+        //     }
+        // }).catch(err => {
+        //     setLoading(false);
+        //     if(err){
+        //         dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
+        //             console.log("Gagal");
+        //         })
+        //     }
+        // })
     }
 
     const columnsAntrean = [
