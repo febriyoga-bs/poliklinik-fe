@@ -98,7 +98,7 @@ const FormDataDokter = (props) => {
 
     const UploadProps = {
         name: 'image',
-        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
+        action: CONFIG.BASE_URL+'/api/upload/postUploadAvatar',
         headers: {
           authorization: 'authorization-text',
         },

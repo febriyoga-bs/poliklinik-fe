@@ -1,21 +1,15 @@
 import React, { useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
  
 const Antrean = () => {
-    const history = useHistory();
     const {loading, setLoading} = useState(false);
     const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
     const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
-
-    const gotoAmbilAntrean= () => {
-        const loc = '/antrean-poliklinik/poli-umum';
-        history.push(loc);
-    }
 
     const columnsAntrean = [
         {
@@ -71,15 +65,6 @@ const Antrean = () => {
                                 dataSource={dataAntreanUmum}
                                 // onChange={handleTableChange}
                             />
-                            <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntrean();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
-                            </Row>
                         </Card>
                     </Col>
                     <Col xs={12} md={8} lg={12}>
@@ -102,15 +87,6 @@ const Antrean = () => {
                                 dataSource={dataAntreanGigi}
                                 // onChange={handleTableChange}
                             />
-                            <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntrean();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
-                            </Row>
                         </Card>
                     </Col>
                 </Row>

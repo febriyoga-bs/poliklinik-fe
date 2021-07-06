@@ -52,26 +52,27 @@ const UbahDataPasien = (props) => {
 
         let body = {
             kategori: values.kategori,
-            
+            no_telepon: values.no_telepon,
             nama: values.nama,
             jenis_kelamin: values.jenis_kelamin,
             tanggal_lahir: values.tanggal_lahir.format('YYYY-MM-DD'),
             alamat: values.alamat
         }
-        if (values.kategori !== props.location.state.kategori && (values.kategori === 'Umum' || values.kategori === 'Keluarga')){
-            body.jurusan = ""
-            body.prodi = ""
-            body.no_identitas = ""
-        } else if (values.kategori !== props.location.state.kategori && (values.kategori === 'Staf/Dosen')) {
-            body.jurusan = ""
-            body.prodi = ""
-            body.no_identitas = values.nomor_identitas
-        } else {
-            body.jurusan = values.jurusan
-            body.prodi = values.prodi
-            body.no_identitas = values.nomor_identitas
+        if(props.location.state){
+            if (values.kategori !== props.location.state.kategori && (values.kategori === 'Umum' || values.kategori === 'Keluarga')){
+                body.jurusan = ""
+                body.prodi = ""
+                body.no_identitas = ""
+            } else if (values.kategori !== props.location.state.kategori && (values.kategori === 'Staf/Dosen')) {
+                body.jurusan = ""
+                body.prodi = ""
+                body.no_identitas = values.nomor_identitas
+            } else {
+                body.jurusan = values.jurusan
+                body.prodi = values.prodi
+                body.no_identitas = values.nomor_identitas
+            }
         }
-
         if(props.location.state){
             if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
                 APIServices.postDataPasien(body).then(res => {

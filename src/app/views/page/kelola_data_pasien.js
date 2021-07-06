@@ -231,9 +231,8 @@ const KelolaPasien = () => {
     ]
 
     return(
-        <Layout style={{backgroundColor: "#072A6F"}}>
-            <Content className="layout-content">
-                <Breadcrumb style={{marginLeft:20, marginBottom:20}} separator=">">
+        <>
+                <Breadcrumb style={{marginLeft:20, marginBottom:20, marginTop:85}} separator=">">
                     <Breadcrumb.Item>
                         <NavLink to="/">  
                             <Text className="title">
@@ -301,7 +300,7 @@ const KelolaPasien = () => {
                             allowClear
                             placeholder="Filter berdasarkan Kategori Pasien"
                             onChange={(val) => setFilterKey(val)}
-                            style={{ width: 300, maxWidth:"90%", marginLeft: 10, marginBottom: 20, borderRadius: 20}}
+                            style={{ width: 300, maxWidth:"90%", marginLeft: 20, marginBottom: 20, borderRadius: 20}}
                         >
                             <Option value="Umum">Umum</Option>
                             <Option value="Mahasiswa">Mahasiswa</Option>
@@ -311,7 +310,7 @@ const KelolaPasien = () => {
                     </Col>
                 </Row>
 
-                <Row style={{marginBottom:20, marginRight:20}}>
+                <Row style={{width:"100%", marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -343,12 +342,11 @@ const KelolaPasien = () => {
                             dataSource={dataPasien}
                             pagination={pagination}
                             onChange={handleTableChange}
-                            scroll={{ x: "100%" }}
+                            scroll={{ x: 500 }}
                         />
                     </Card>
                 </Row>
-            </Content>
-        </Layout>
+            </>
     );
 }
 

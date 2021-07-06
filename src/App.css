@@ -131,7 +131,7 @@
   .navmenu{
     min-width: 100%;
     height: 85px;
-    background-color: #EB3D00!important;
+    background-color: #FF6700!important;
     border-radius: 0px 0px 45px 0px;
     box-shadow: 0px 5px 1px 0px rgba(138, 138, 138, 0.25);
     position: fixed;
@@ -164,6 +164,16 @@
     height: 100%;
     align-items: center;
     background-color: #072A6F;
+    justify-content: center;
+    margin-top: 85px;
+  }
+
+  .layout-content-new{
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    align-items: center;
+    background-color: #1261A0;
     justify-content: center;
     margin-top: 85px;
   }

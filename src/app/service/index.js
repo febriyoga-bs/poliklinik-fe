@@ -339,7 +339,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/updateProfil`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/informasi/putProfil`,
                 data: data
             },
             { crossdomain: true }
@@ -354,6 +354,100 @@ const APIServices = {
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/exportPasien`,
             },
         )    
+    },
+
+    getRiwayatPelayanan(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRiwayatPelayanan`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    postKunjungan(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/postKunjungan`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    postRekamMedis(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/arsip/postRekamMedis`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    getAntreanUmum(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getAntreanUmum`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getLastAntreanUmum(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getLastAntreanUmum`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getAntreanGigi(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getAntreanGigi`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getLastAntreanGigi(){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getLastAntreanGigi`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    postAntrean(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/postAntrean`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
+    putAntrean(data){
+        return client.request(
+            {
+                method: "put",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/putAntrean/${data}`,
+                data: data
+            },
+            { crossdomain: true }
+        )
     },
 }
 

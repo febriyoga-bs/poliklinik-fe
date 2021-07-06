@@ -81,7 +81,7 @@ const HeaderLayout = (props) => {
                 </Col>
                 {/* <Col xs={2} sm={14} md={16} lg={18} xl={14} xxl={12}> */}
                 <Col className="title-navmenu">
-                <Menu mode="horizontal" style={{backgroundColor: "#EB3D00", borderRadius: "0px 0px 150px 0px"}}>
+                <Menu mode="horizontal" style={{backgroundColor:"transparent", borderRadius: "0px 0px 150px 0px"}}>
                     <Menu.Item key="1">
                         <NavLink to="/" className="title-navmenu">
                             BERANDA

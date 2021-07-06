@@ -450,7 +450,7 @@ const Informasi = () => {
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{marginBottom:20, marginRight:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -464,12 +464,12 @@ const Informasi = () => {
                             loading={loading}
                             dataSource={_dataJadwal}
                             pagination={false}
-                            scroll={{ x: 800 }}
+                            scroll={{ x: 450 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
                 </Row>
-                <Row style={{marginBottom:20, marginRight:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
@@ -482,13 +482,13 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={dataPelayanan}
-                            scroll={{ x: 800 }}
+                            scroll={{ x: 450 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
                 </Row>
-                <Row style={{marginBottom:20, marginRight:40}}>
-                    <Card className="informasi-card" style={{width:"100%", marginLeft:40}}>
+                <Row style={{marginBottom:20, marginRight:20}}>
+                    <Card className="informasi-card" style={{width:"100%", marginLeft:40, justifyContent:"center"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Profil Dokter Poliklinik

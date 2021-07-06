@@ -61,12 +61,15 @@ const DashboardStaf = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const [collumnProp, setCollumnProp] = useState({span: 20, offset: 4});
     const [padding, setPadding] = useState(260)
+    const [width, setWidth] = useState(250)
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
         if(collapsed){
+            setWidth(250)
             setPadding(260)
             setCollumnProp({span: 20, offset: 4})
         } else {
+            setWidth(45)
             setPadding(50)
             setCollumnProp({span: 23, offset: 1})
         }
@@ -85,7 +88,7 @@ const DashboardStaf = (props) => {
       }
 
     return(
-        <Layout style={{backgroundColor: '#072A6F'}}>
+        <Layout style={{backgroundColor: '#1261A0'}}>
             <Row >
                 <Col span={collumnProp.offset}>
                     <Menu
@@ -94,7 +97,7 @@ const DashboardStaf = (props) => {
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{maxWidth:250, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
+                        style={{minWidth:width, maxWidth:width, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -130,7 +133,7 @@ const DashboardStaf = (props) => {
                 <Col span={24} style={{paddingLeft:padding}}
                 // offset={collumnProp.offset} span={collumnProp.span} 
                 >
-                    <Row justify="center" style={{marginTop: 20}}>
+                    <Row style={{marginTop: 20}}>
                         <Switch>
                             <PrivateRouteAdmin exact path="/dashboard-staf" component={ProfilStaf} />
                             <PrivateRouteAdmin exact path="/dashboard-staf/edit-profil" component={FormDataStaf} />

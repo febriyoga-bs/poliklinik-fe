@@ -13,11 +13,13 @@ const FormProfilPoliklinik = (props) => {
     const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [uploadInfo, setUploadInfo] = useState("")
 
     useEffect(()=>{
         console.log(props.location)
         if(props.location.state){
           form.setFieldsValue(props.location.state);
+          setUploadInfo(props.location.state.gambar)
         }else{
           form.resetFields()
         }
@@ -27,7 +29,7 @@ const FormProfilPoliklinik = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let body = {
-            gambar : values.gambar,
+            gambar : uploadInfo.response && uploadInfo.response.url,
             deskripsi : values.deskripsi
         }
         console.log("body: ", body)
@@ -51,7 +53,7 @@ const FormProfilPoliklinik = (props) => {
 
     const UploadProps = {
         name: 'image',
-        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
+        action: CONFIG.BASE_URL+'/api/upload/postUploadAvatar',
         headers: {
           authorization: 'authorization-text',
         },
@@ -60,6 +62,7 @@ const FormProfilPoliklinik = (props) => {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
+            setUploadInfo(info.file);
             form.setFieldsValue({ gambar : info.file.response.url})
             message.success(`${info.file.name} file uploaded successfully`);
           } else if (info.file.status === 'error') {

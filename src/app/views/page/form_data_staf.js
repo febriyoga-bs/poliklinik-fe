@@ -109,7 +109,7 @@ const FormDataStaf = (props) => {
 
     const UploadProps = {
         name: 'image',
-        action: CONFIG.BASE_URL+'/api/upload/uploadAvatar',
+        action: CONFIG.BASE_URL+'/api/upload/postUploadAvatar',
         enctype: "multipart/form-data",
         headers: {
             authorization: 'authorization-text',

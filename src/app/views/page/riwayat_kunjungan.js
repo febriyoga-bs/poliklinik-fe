@@ -36,17 +36,17 @@ const RiwayatPelayanan = () => {
 
     const getDataPasien = (nama, kategori, current, limit) => {
         setLoading(true);
-        APIServices.getAllDataPasien(nama, kategori, current, limit).then(res => {
+        APIServices.getRiwayatPelayanan().then(res => {
                 if(res.data){
-                    let _data = Object.values(res.data.data)
-                    let _meta = _data.pop()
-                    console.log("Pagination: ", _meta)
-                    setPagination({
-                        current: _meta.pagination.current_page,
-                        pageSize: _meta.pagination.per_page,
-                        total: _meta.pagination.total
-                    })
-                    setDataPelayanan(_data);
+                    // let _data = Object.values(res.data.data)
+                    // let _meta = _data.pop()
+                    // console.log("Pagination: ", _meta)
+                    // setPagination({
+                    //     current: _meta.pagination.current_page,
+                    //     pageSize: _meta.pagination.per_page,
+                    //     total: _meta.pagination.total
+                    // })
+                    setDataPelayanan(res.data);
                     setLoading(false)
                 }
             }).catch(err => {

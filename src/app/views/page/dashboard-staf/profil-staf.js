@@ -42,7 +42,7 @@ const ProfilStaf = (props) => {
     }
 
     return(
-    <Content className="layout-content">
+    <Content className="layout-content-new">
                 
         {loading ?
             <Row justify="center" align="middle" style={{minHeight:580}}>

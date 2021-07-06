@@ -1,21 +1,15 @@
 import React, { useState } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Text } = Typography;
  
-const Antrean = () => {
-    const history = useHistory();
+const AmbilAntrean = () => {
     const {loading, setLoading} = useState(false);
     const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
     const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
-
-    const gotoAmbilAntrean= () => {
-        const loc = '/antrean-poliklinik/poli-umum';
-        history.push(loc);
-    }
 
     const columnsAntrean = [
         {
@@ -51,16 +45,29 @@ const Antrean = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
-                    <Col xs={12} md={8} lg={12}>
+                    <Col xs={24} md={8} lg={8}>
                         <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    POLI UMUM
+                                    AMBIL ANTREAN BARU
                                 </Text>
                             </Row>
+                        </Card>
+                    </Col>
+                    <Col xs={24} md={8} lg={8}>
+                        <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DIPERIKSA: --
+                                    SEDANG DILAYANI
+                                </Text>
+                            </Row>
+                        </Card>
+                    </Col>
+                    <Col xs={24} md={8} lg={8}>
+                        <Card className="button-card" >
+                            <Row justify="center">
+                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                    LIST ANTREAN
                                 </Text>
                             </Row>
                             <Table
@@ -71,46 +78,6 @@ const Antrean = () => {
                                 dataSource={dataAntreanUmum}
                                 // onChange={handleTableChange}
                             />
-                            <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntrean();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
-                            </Row>
-                        </Card>
-                    </Col>
-                    <Col xs={12} md={8} lg={12}>
-                        <Card className="button-card" >
-                            <Row justify="center">
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    POLI GIGI
-                                </Text>
-                            </Row>
-                            <Row justify="center">
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DIPERIKSA: --
-                                </Text>
-                            </Row>
-                            <Table
-                                columns={columnsAntrean}
-                                size="middle"
-                                bordered={false}
-                                loading={loading}
-                                dataSource={dataAntreanGigi}
-                                // onChange={handleTableChange}
-                            />
-                            <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntrean();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
-                            </Row>
                         </Card>
                     </Col>
                 </Row>
@@ -119,4 +86,4 @@ const Antrean = () => {
     );
 }
 
-export default withRouter(Antrean)
+export default withRouter(AmbilAntrean)
