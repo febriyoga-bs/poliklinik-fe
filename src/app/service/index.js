@@ -108,7 +108,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/putProfilDokter/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/putProfilDokter/${data.id_dokter}`,
                 data: data
             },
             { crossdomain: true }
@@ -170,7 +170,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/putProfilStaf/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/putProfilStaf/${data.id_staf}`,
                 data: data
             },
             { crossdomain: true }
@@ -233,7 +233,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/putProfilPasien/${data.no_telepon}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/putProfilPasien/${data.id_pasien}`,
                 data: data
             },
             { crossdomain: true }
@@ -356,11 +356,11 @@ const APIServices = {
         )    
     },
 
-    getRiwayatPelayanan(){
+    getRiwayatPelayanan(data, current, limit){
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRiwayatPelayanan`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRiwayatPelayanan?pasien=${data}&page=${current}&limit=${limit}`,
             },
             {crossdomain: true }
         )

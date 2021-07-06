@@ -46,7 +46,7 @@ const FormDataDokter = (props) => {
 
         //
         if(props.location.state){
-            body.no_telepon = props.location.state.no_telepon;
+            body.id_dokter = props.location.state.id_dokter;
             APIServices.putDataDokter(body).then(res => {
                 setLoading(false);
                 if(res.data){

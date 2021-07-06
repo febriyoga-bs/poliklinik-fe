@@ -57,9 +57,9 @@ const KelolaStaf = () => {
             })
         }
 
-    const deleteStaf = (no_telepon) => {
+    const deleteStaf = (id_staf) => {
         setLoading(true);
-        APIServices.deleteDataStaf(no_telepon).then(res => {
+        APIServices.deleteDataStaf(id_staf).then(res => {
                 if(res.data){
                     dialog({icon: "success", title:"Hapus Data Staf Berhasil!"}).then(()=>{
                         console.log("Berhasil");
@@ -137,7 +137,7 @@ const KelolaStaf = () => {
                         onClick={() => {
                             deleteDialog({icon: "info", title:"Hapus Data Staf", text: "Apakah Anda yakin akan menghapus data staf ini?"})
                             .then(()=>{
-                                deleteStaf(record.no_telepon);
+                                deleteStaf(record.id_staf);
                             })
                         }}
                     >

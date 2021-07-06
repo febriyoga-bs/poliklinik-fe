@@ -56,7 +56,7 @@ const FormDataStaf = (props) => {
 
         //
         if(props.location.state){
-            body.no_telepon = props.location.state.no_telepon;
+            body.id_staf = props.location.state.id_staf;
             APIServices.putDataStaf(body).then(res => {
                 setLoading(false);
                 if(res.data){

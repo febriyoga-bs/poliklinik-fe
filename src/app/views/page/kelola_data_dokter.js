@@ -56,9 +56,9 @@ const KelolaDokter = () => {
             })
         }
     
-    const deleteDokter = (no_telepon) => {
+    const deleteDokter = (id_dokter) => {
         setLoading(true);
-        APIServices.deleteDataDokter(no_telepon).then(res => {
+        APIServices.deleteDataDokter(id_dokter).then(res => {
                 if(res.data){
                     dialog({icon: "success", title:"Hapus Data Dokter Berhasil!"}).then(()=>{
                         console.log("Berhasil");
@@ -134,7 +134,7 @@ const KelolaDokter = () => {
                     <Button 
                         onClick={() => {
                             deleteDialog({icon: "info", title:"Hapus Data Dokter", text: "Apakah Anda yakin akan menghapus data dokter ini?"}).then(()=>{
-                                deleteDokter(record.no_telepon);
+                                deleteDokter(record.id_dokter);
                             })
                         }}
                     >

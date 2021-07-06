@@ -17,7 +17,6 @@ const { Option } = Select;
 const KelolaRekamMedis = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);

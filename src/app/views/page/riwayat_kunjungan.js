@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, DatePicker, Input, Select} from 'antd';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, DatePicker, Input, Select, Button} from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
@@ -22,7 +22,6 @@ const RiwayatPelayanan = () => {
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
-    const [filterKey, setFilterKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const handleModal = () => {
@@ -30,13 +29,13 @@ const RiwayatPelayanan = () => {
     };
 
     useEffect(()=>{
-        getDataPasien(searchKey, filterKey, pagination.current,  pagination.pageSize);
+        getRiwayatPelayanan(searchKey, pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchKey, filterKey]);
+    }, [searchKey]);
 
-    const getDataPasien = (nama, kategori, current, limit) => {
+    const getRiwayatPelayanan = (tanggal, current, limit) => {
         setLoading(true);
-        APIServices.getRiwayatPelayanan().then(res => {
+        APIServices.getRiwayatPelayanan("", current, limit).then(res => {
                 if(res.data){
                     // let _data = Object.values(res.data.data)
                     // let _meta = _data.pop()
@@ -57,9 +56,31 @@ const RiwayatPelayanan = () => {
                 }
             })
         }
+
+    const eksporDataPasien = () => {
+        setLoadingEkspor(true);
+        APIServices.getExportDataPasien().then(res => {
+                if(res.data){
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    let tanggal = moment().format('DD-MM-YYYY')
+                    link.setAttribute('download', `Data_Pasien_Poliklinik(${tanggal}).xlsx`); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                    setLoadingEkspor(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataPasien(Dummy.dataPasien);
+                    console.log(err.response)
+                    setLoadingEkspor(false)
+                }
+            })
+        }
     
     const handleTableChange = (_pagination) =>{
-        getDataPasien(searchKey, filterKey, _pagination.current, _pagination.pageSize)
+        getRiwayatPelayanan(searchKey, _pagination.current, _pagination.pageSize)
     }
 
     const columnsPelayanan = [
@@ -149,6 +170,16 @@ const RiwayatPelayanan = () => {
                             <Text className="title-tabel">
                                 Data Riwayat Pelayanan
                             </Text>
+                        </Row>
+                        <Row justify="end">
+                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
+                                loading={loadingEkspor}
+                                onClick={() => {
+                                    eksporDataPasien();
+                                }}
+                            >
+                                Ekspor Riwayat Pelayanan
+                            </Button>
                         </Row>
                         <Table
                             columns={columnsPelayanan}

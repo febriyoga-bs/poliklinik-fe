@@ -22,11 +22,11 @@ const KelolaKunjungan = (props) => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const gotoCatatKunjungan= () => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params}/catat-kunjungan`;
+        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/catat-kunjungan`;
         history.push(loc);
     }
     const gotoRekamMedis = (data) => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params}/rekam-medis`;
+        const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/rekam-medis`;
         history.push(loc);
     }
 
@@ -172,7 +172,7 @@ const KelolaKunjungan = (props) => {
                 </Breadcrumb>
 
                 <DetailPasien
-                    dataPasien={record}
+                    dataPasien={props.location.state}
                     buttonCancel={handleModal}
                     visible={visibleModal}
                 />

@@ -3,6 +3,53 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
+
+const client = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'your-pusher-channels-key',
+    client: client
+});
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_ABLY_PUBLIC_KEY,
+    wsHost: 'realtime-pusher.ably.io',
+    wsPort: 443,
+    disableStats: true,
+    encrypted: true,
+});
+
+/* LISTENING FOR EVENT BROADCAST */
+// Echo.private(`orders.${orderId}`)
+//     .listen('OrderShipmentStatusUpdated', (e) => {
+//         console.log(e.order);
+//     });
+
+/* JOINING PRESENCE CHANNEL */
+// Echo.join(`chat.${roomId}`)
+//     .here((users) => {
+//         //
+//     })
+//     .joining((user) => {
+//         console.log(user.name);
+//     })
+//     .leaving((user) => {
+//         console.log(user.name);
+//     })
+//     .error((error) => {
+//         console.error(error);
+//     });
+
 const { Content } = Layout;
 const { Text } = Typography;
  
