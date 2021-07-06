@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
@@ -6,34 +6,42 @@ import { HomeOutlined } from '@ant-design/icons';
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true
-});
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     forceTLS: true
+// });
 
-const client = require('pusher-js');
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'your-pusher-channels-key',
-    client: client
-});
+// const client = require('pusher-js');
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: 'your-pusher-channels-key',
+//     client: client
+// });
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_ABLY_PUBLIC_KEY,
-    wsHost: 'realtime-pusher.ably.io',
-    wsPort: 443,
-    disableStats: true,
-    encrypted: true,
-});
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_ABLY_PUBLIC_KEY,
+//     wsHost: 'realtime-pusher.ably.io',
+//     wsPort: 443,
+//     disableStats: true,
+//     encrypted: true,
+// });
 
-/* LISTENING FOR EVENT BROADCAST */
-// Echo.private(`orders.${orderId}`)
-//     .listen('OrderShipmentStatusUpdated', (e) => {
-//         console.log(e.order);
-//     });
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     wsHost: window.location.hostname,
+//     wsPort: 6001,
+//     wssHost: window.location.hostname,
+//     wssPort: 6001,
+//     key: 'client',
+//     disableStats: true,
+//     enabledTransports: ['ws', 'wss'],
+//     forceTLS: false,
+//   });
+
+
 
 /* JOINING PRESENCE CHANNEL */
 // Echo.join(`chat.${roomId}`)
@@ -63,6 +71,29 @@ const Antrean = () => {
         const loc = '/antrean-poliklinik/poli-umum';
         history.push(loc);
     }
+
+    useEffect(()=>{
+        window.Echo = new Echo({
+            authEndpoint: "http://25.70.2.196:8000/public/broadcasting/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "25.70.2.196",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
+
+        console.log("Tes: ", window.Echo);
+        let echo = window.Echo;
+        /* LISTENING FOR EVENT BROADCAST */
+        echo.private(`antre`)
+            .listen('AntreanSent', (e) => {
+                console.log(e);
+            });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    
 
     const columnsAntrean = [
         {
@@ -98,7 +129,7 @@ const Antrean = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
-                    <Col xs={12} md={8} lg={12}>
+                    <Col xs={12} md={12} lg={12}>
                         <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
@@ -129,7 +160,7 @@ const Antrean = () => {
                             </Row>
                         </Card>
                     </Col>
-                    <Col xs={12} md={8} lg={12}>
+                    <Col xs={12} md={12} lg={12}>
                         <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>

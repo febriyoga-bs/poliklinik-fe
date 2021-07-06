@@ -2,13 +2,13 @@
 // setting web configuration server
 
 //----
-const BASE_URL_BE = "http://localhost:8000"
+const BASE_URL_BE = "http://25.70.2.196:8000"
 //const BASE_URL_LOGIN_BE = "http://25.30.225.211:9015"  //api pakai login
 //const BASE_URL_NOAUTH_BE = "http://25.30.225.211:9012" //api pakai no auth
 
 //----
 //const isProd = false
-const isProd = true
+const isProd = false
 
 export default  {
     isServer: isProd ? 'Production' : 'Development',

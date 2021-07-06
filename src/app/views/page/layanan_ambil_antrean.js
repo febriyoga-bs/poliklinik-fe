@@ -9,16 +9,17 @@ const { Content } = Layout;
 const { Text } = Typography;
  
 const AmbilAntrean = () => {
-    const {loading, setLoading} = useState(false);
-    const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
-    const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
+    const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
 
     const ambilAntrean = (data) => {
         let body = {
             id_poli: 1,
-            id_pasien: 17,
+            id_pasien: 19,
         }
-        APIServices.postDataPasien(body).then(res => {
+        setLoading(true);
+        APIServices.postAntrean(body).then(res => {
             setLoading(false);
             if(res.data){
                 dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
@@ -70,7 +71,7 @@ const AmbilAntrean = () => {
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
                     <Col xs={24} md={12} lg={8}>
-                        <Card className="button-card" >
+                        <Card className="button-card" style={{height:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     AMBIL ANTREAN BARU
@@ -84,7 +85,8 @@ const AmbilAntrean = () => {
                                 </Row>
                             </Card>
                             <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
+                                    loading={loading}
                                     onClick={() => {
                                         ambilAntrean();
                                     }}
@@ -95,7 +97,7 @@ const AmbilAntrean = () => {
                         </Card>
                     </Col>
                     <Col xs={24} md={12} lg={8}>
-                        <Card className="button-card" >
+                        <Card className="button-card" style={{height:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     SEDANG DILAYANI
@@ -131,7 +133,7 @@ const AmbilAntrean = () => {
                         </Card>
                     </Col>
                     <Col xs={24} md={24} lg={8}>
-                        <Card className="button-card" >
+                        <Card className="button-card" style={{height:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     LIST ANTREAN
