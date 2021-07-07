@@ -74,7 +74,7 @@ const Antrean = () => {
 
     useEffect(()=>{
         window.Echo = new Echo({
-            authEndpoint: "http://25.70.2.196:8000/public/broadcasting/auth",
+            authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
             broadcaster: 'pusher',
             key: "anyKey",
             wsHost: "25.70.2.196",
@@ -86,13 +86,16 @@ const Antrean = () => {
         console.log("Tes: ", window.Echo);
         let echo = window.Echo;
         /* LISTENING FOR EVENT BROADCAST */
-        echo.private(`antre`)
+        // echo.private(`antre`)
+        //     .listen('AntreanSent', (e) => {
+        //         console.log(e);
+        //     });
+        echo.channel('antre')
             .listen('AntreanSent', (e) => {
                 console.log(e);
-            });
+            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     
 
     const columnsAntrean = [

@@ -92,7 +92,7 @@ const UbahDataPasien = (props) => {
                     }
                 })
             } else {
-                body.no_telepon = props.location.state.no_telepon;
+                body.id_pasien = props.location.state.id_pasien;
                 APIServices.putDataPasien(body).then(res => {
                     setLoading(false);
                     if(res.data){
@@ -236,7 +236,11 @@ const UbahDataPasien = (props) => {
                         }
                         
                         <Text className="title-label">Nomor Telepon</Text>
-                            <Form.Item name="no_telepon" rules={[{ required: true, message: 'Harap masukkan nomor telepon!' }]}>
+                            <Form.Item name="no_telepon" 
+                            rules={[
+                                { required: true, message: 'Harap masukkan nomor telepon!' },
+                                { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!' },
+                                ]}>
                                     <Input className="input-form secondary" disabled={props.location.state}
                                         placeholder="Masukkan nomor telepon"
                                     />
@@ -338,7 +342,11 @@ const UbahDataPasien = (props) => {
                     <Col span={12}>
                         
                         <Text className="title-label">Nama Pasien</Text>
-                            <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan nama!" }]}>
+                            <Form.Item name="nama" 
+                            rules={[
+                                { required: true, message: "Harap masukkan nama!" },
+                                { pattern: new RegExp('[a-zA-Z]$'), message: "Harap hanya masukkan huruf!" },
+                                ]}>
                                     <Input className="input-form secondary" 
                                         placeholder="Masukkan nama"
                                     />

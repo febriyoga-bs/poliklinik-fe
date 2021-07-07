@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 import { dialog } from '../../component/alert'
+
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -12,79 +15,82 @@ const AmbilAntrean = () => {
     const [loading, setLoading] = useState(false);
     const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
     const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
+    const [dataAntrean, setDataAntrean] = useState([]);
+
+    useEffect(()=>{
+        window.Echo = new Echo({
+            authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "25.70.2.196",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
+
+        console.log("Tes: ", window.Echo);
+        let echo = window.Echo;
+        /* LISTENING FOR EVENT BROADCAST */
+        // echo.private(`antre`)
+        //     .listen('AntreanSent', (e) => {
+        //         console.log(e);
+        //     });
+        echo.channel('antre')
+            .listen('AntreanSent', (e) => {
+                console.log(e);
+                let arr = []
+                arr.push(e.antrean)
+                console.log(arr)
+                setDataAntrean(arr)
+            })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const ambilAntrean = (data) => {
         let body1 = {
             id_poli: 1,
-            id_pasien: 19,
-        }
-        let body2 = {
-            id_poli: 1,
-            id_pasien: 35,
-        }
-        let body3 = {
-            id_poli: 1,
             id_pasien: 1,
-        }
-        let body4 = {
-            id_poli: 1,
-            id_pasien: 6,
         }
         setLoading(true);
 
-        Promise.all([
-            APIServices.postAntrean(body1),
-            APIServices.postAntrean(body2),
-            APIServices.postAntrean(body3),
-            APIServices.postAntrean(body4),
-            APIServices.postAntrean(body1),
-            APIServices.postAntrean(body2),
-            APIServices.postAntrean(body3),
-            APIServices.postAntrean(body4),
-            APIServices.postAntrean(body1),
-            APIServices.postAntrean(body2),
-            APIServices.postAntrean(body3),
-            APIServices.postAntrean(body4)
-        ]).then((res) =>{
-            setLoading(false);
-        })
+        // Promise.all([
+        //     APIServices.postAntrean(body1),
+        //     APIServices.postAntrean(body2),
+        //     APIServices.postAntrean(body3),
+        //     APIServices.postAntrean(body4),
+        //     APIServices.postAntrean(body1),
+        //     APIServices.postAntrean(body2),
+        //     APIServices.postAntrean(body3),
+        //     APIServices.postAntrean(body4),
+        //     APIServices.postAntrean(body1),
+        //     APIServices.postAntrean(body2),
+        //     APIServices.postAntrean(body3),
+        //     APIServices.postAntrean(body4)
+        // ]).then((res) =>{
+        //     setLoading(false);
+        // })
 
-        // APIServices.postAntrean(body1).then(res => {
-        //     setLoading(false);
-        //     if(res.data){
-        //         dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
-        //             console.log("Berhasil");
-        //         })
-        //     }
-        // }).catch(err => {
-        //     setLoading(false);
-        //     if(err){
-        //         dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
-        //             console.log("Gagal");
-        //         })
-        //     }
-        // })
-        // APIServices.postAntrean(body2).then(res => {
-        //     setLoading(false);
-        //     if(res.data){
-        //         dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
-        //             console.log("Berhasil");
-        //         })
-        //     }
-        // }).catch(err => {
-        //     setLoading(false);
-        //     if(err){
-        //         dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
-        //             console.log("Gagal");
-        //         })
-        //     }
-        // })
+        APIServices.postAntrean(body1).then(res => {
+            setLoading(false);
+            if(res.data){
+                dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+        }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+        })
     }
 
     const columnsAntrean = [
         {
             title: "Nomor Antrean",
-            dataIndex: 'nomor',
+            dataIndex: 'no_antrean',
             key: 'nomor',
             width: '25',
             align: 'center',
@@ -92,7 +98,7 @@ const AmbilAntrean = () => {
         },
         {
             title: "Nama Pasien",
-            dataIndex: 'nama',
+            dataIndex: ["pasiens", "nama"],
             key: 'nama',
             width: '25',
             align: 'center',
@@ -189,7 +195,7 @@ const AmbilAntrean = () => {
                                 size="middle"
                                 bordered={false}
                                 loading={loading}
-                                dataSource={dataAntreanUmum}
+                                dataSource={dataAntrean}
                                 // onChange={handleTableChange}
                             />
                         </Card>
