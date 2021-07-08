@@ -12,10 +12,10 @@ const { Content } = Layout;
 const { Text } = Typography;
  
 const AmbilAntrean = (props) => {
+    const [loadingButton, setLoadingButton] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
-    const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
     const [dataAntrean, setDataAntrean] = useState([]);
+    const [lastAntrean, setLastAntrean] = useState([]);
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -30,28 +30,116 @@ const AmbilAntrean = (props) => {
 
         console.log("Tes: ", window.Echo);
         let echo = window.Echo;
-        /* LISTENING FOR EVENT BROADCAST */
-        // echo.private(`antre`)
-        //     .listen('AntreanSent', (e) => {
-        //         console.log(e);
-        //     });
-        echo.channel('antre')
-            .listen('AntreanSent', (e) => {
-                console.log(e);
-                let arr = []
-                arr.push(e.antrean)
-                console.log(arr)
-                setDataAntrean(arr)
-            })
+
+        if(props.location.state.poli === "umum"){
+            echo.channel('antre')
+                .listen('AntreanSentUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+                .listen('AntreanUpdateUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+        } else {
+            echo.channel('antre')
+                .listen('AntreanSentGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+                .listen('AntreanUpdateGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    /* RENDER WHEN PAGE OPEN */
+    useEffect(()=>{
+        if(props.location.state.poli === "umum"){
+            getAntreanUmum()
+            getLastAntreanUmum()
+        } else {
+            getAntreanGigi()
+            getLastAntreanGigi()
+        }
+    }, []);
+
+    const getAntreanUmum = () => {
+        setLoading(true);
+        APIServices.getAntreanUmum().then(res => {
+                console.log("AU: ", res.data.data.data)
+                setDataAntrean(res.data.data.data);
+                if(res.data){
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+    
+    const getLastAntreanUmum = () => {
+        setLoading(true);
+        APIServices.getLastAntreanUmum().then(res => {
+                console.log("LA: ", res)
+                if(res.data){
+                    setLastAntrean(res.data.data.data[0])
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getAntreanGigi = () => {
+        setLoading(true);
+        APIServices.getAntreanGigi().then(res => {
+                console.log("AG: ", res.data.data.data)
+                setDataAntrean(res.data.data.data);
+                if(res.data){
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getLastAntreanGigi = () => {
+        setLoading(true);
+        APIServices.getLastAntreanGigi().then(res => {
+                console.log("LG: ", res)
+                if(res.data){
+                    setLastAntrean(res.data.data.data[0])
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
 
     const ambilAntrean = (data) => {
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
             id_pasien: 1,
         }
-        setLoading(true);
+        setLoadingButton(true);
 
         // Promise.all([
         //     APIServices.postAntrean(body1),
@@ -71,14 +159,14 @@ const AmbilAntrean = (props) => {
         // })
 
         APIServices.postAntrean(body).then(res => {
-            setLoading(false);
+            setLoadingButton(false);
             if(res.data){
                 dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
                     console.log("Berhasil");
                 })
             }
         }).catch(err => {
-            setLoading(false);
+            setLoadingButton(false);
             if(err){
                 dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
                     console.log("Gagal");
@@ -98,7 +186,7 @@ const AmbilAntrean = (props) => {
         },
         {
             title: "Nama Pasien",
-            dataIndex: ["pasiens", "nama"],
+            dataIndex: "nama",
             key: 'nama',
             width: '25',
             align: 'center',
@@ -142,7 +230,7 @@ const AmbilAntrean = (props) => {
                             </Card>
                             <Row justify="center">
                                 <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
-                                    loading={loading}
+                                    loading={loadingButton}
                                     onClick={() => {
                                         ambilAntrean();
                                     }}
@@ -189,7 +277,7 @@ const AmbilAntrean = (props) => {
                         </Card>
                     </Col>
                     <Col xs={24} md={24} lg={8}>
-                        <Card className="button-card" style={{height:350}}>
+                        <Card className="button-card" style={{minHeight:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     LIST ANTREAN

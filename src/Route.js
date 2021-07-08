@@ -11,6 +11,7 @@ import LoginUser from "./app/views/page/user_login";
 import Register from "./app/views/page/registrasi_pasien";
 import Antrean from "./app/views/page/layanan_antrean";
 import AmbilAntrean from "./app/views/page/layanan_ambil_antrean";
+import PanggilAntrean from "./app/views/page/layanan_panggil_antrean";
 import Konsultasi from "./app/views/page/layanan_konsultasi";
 import Informasi from "./app/views/page/informasi";
 import DashboardPasien from "./app/views/page/dashboard-pasien";
@@ -73,6 +74,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/antrean-poliklinik" component={Antrean} />
             <Route exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
             <Route exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
+            <Route exact path="/antrean-poliklinik/poli-umum/panggil" component={PanggilAntrean} />
+            <Route exact path="/antrean-poliklinik/poli-gigi/panggil" component={PanggilAntrean} />
             <Route exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />

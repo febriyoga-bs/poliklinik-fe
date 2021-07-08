@@ -453,7 +453,7 @@ const APIServices = {
         return client.request(
             {
                 method: "put",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/putAntrean/${data}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/putAntrean/${data.id_antrean}`,
                 data: data
             },
             { crossdomain: true }

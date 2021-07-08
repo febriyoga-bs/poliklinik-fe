@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, message } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+import { APIServices } from '../../service'
 import Auth from "../../service/auth";
 import moment from 'moment';
 
@@ -13,22 +14,43 @@ const { Text } = Typography;
  
 const Antrean = () => {
     const history = useHistory();
-    const {loading, setLoading} = useState(false);
-    const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
-    const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
+    const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
     const [currentTime, setCurrentTime] = useState(moment().format("DD/MM/YYYY HH:mm:ss"));
     
     useEffect(()=>{
         const interval = setInterval(() => {
-            console.log('This will run every second!');
             setCurrentTime(moment().format("DD/MM/YYYY HH:mm:ss"))
           }, 1000);
           return () => clearInterval(interval);
     }, [])
 
+    const gotoPanggilAntreanUmum= () => {
+        let data = {poli: "umum"}
+        const loc = '/antrean-poliklinik/poli-umum/panggil';
+
+        if(Auth.isLogin()){
+            history.push({pathname:loc, state:data});
+        }else{
+            message.info("Anda perlu login untuk mengakses layanan ini!")
+        }
+    }
+
     const gotoAmbilAntreanUmum= () => {
         let data = {poli: "umum"}
         const loc = '/antrean-poliklinik/poli-umum';
+
+        if(Auth.isLogin()){
+            history.push({pathname:loc, state:data});
+        }else{
+            message.info("Anda perlu login untuk mengakses layanan ini!")
+        }
+    }
+
+    const gotoPanggilAntreanGigi= () => {
+        let data = {poli: "gigi"}
+        const loc = '/antrean-poliklinik/poli-gigi/panggil';
 
         if(Auth.isLogin()){
             history.push({pathname:loc, state:data});
@@ -48,6 +70,7 @@ const Antrean = () => {
         }
     }
 
+    /* RENDER WHEN EVENT PUSH */
     useEffect(()=>{
         window.Echo = new Echo({
             authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
@@ -62,18 +85,90 @@ const Antrean = () => {
         console.log("Tes: ", window.Echo);
         let echo = window.Echo;
         echo.channel('antre')
-            .listen('AntreanSent', (e) => {
+            .listen('AntreanSentUmum', (e) => {
+                getAntreanUmum()
                 console.log(e);
+            })
+            .listen('AntreanUpdateUmum', (e) => {
+                console.log(e);
+                getAntreanUmum()
+            })
+
+        echo.channel('antre')
+            .listen('AntreanSentGigi', (e) => {
+                getAntreanGigi()
+                console.log(e);
+            })
+            .listen('AntreanUpdateGigi', (e) => {
+                console.log(e);
+                getAntreanGigi()
             })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+
+    /* RENDER WHEN PAGE OPEN */
+    useEffect(()=>{
+        getAntreanUmum()
+        getAntreanGigi()
+    }, []);
+
+    const getAntreanUmum = () => {
+        setLoading(true);
+        APIServices.getAntreanUmum().then(res => {
+                console.log("AU: ", res.data.data.data)
+                setDataAntreanUmum(res.data.data.data);
+                if(res.data){
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getAntreanGigi = () => {
+        setLoading(true);
+        APIServices.getAntreanGigi().then(res => {
+                console.log("AG: ", res.data.data.data)
+                setDataAntreanGigi(res.data.data.data);
+                if(res.data){
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
     
 
-    const columnsAntrean = [
+    const columnsAntreanUmum = [
         {
             title: "Nomor Antrean",
-            dataIndex: 'nomor',
-            key: 'nomor',
+            dataIndex: 'no_antrean',
+            key: 'no_antrean',
+            width: '25',
+            align: 'center',
+            
+        },
+        {
+            title: "Nama Pasien",
+            dataIndex: 'nama',
+            key: 'nama',
+            width: '25',
+            align: 'center',
+        },
+    ]
+
+    const columnsAntreanGigi= [
+        {
+            title: "Nomor Antrean",
+            dataIndex: 'no_antrean',
+            key: 'no_antrean',
             width: '25',
             align: 'center',
             
@@ -126,14 +221,15 @@ const Antrean = () => {
                                 </Text>
                             </Row>
                             <Table
-                                columns={columnsAntrean}
+                                columns={columnsAntreanUmum}
                                 size="middle"
                                 bordered={false}
                                 loading={loading}
                                 dataSource={dataAntreanUmum}
                                 // onChange={handleTableChange}
                             />
-                            <Row justify="center">
+                            <Row justify="center" gutter={10}>
+                                <Col>
                                 <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
                                     onClick={() => {
                                         gotoAmbilAntreanUmum();
@@ -141,6 +237,16 @@ const Antrean = () => {
                                 >
                                     Ambil Nomor Antrean
                                 </Button>
+                                </Col>
+                                <Col>
+                                <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
+                                    onClick={() => {
+                                        gotoPanggilAntreanUmum();
+                                    }}
+                                >
+                                    Panggil Nomor Antrean
+                                </Button>
+                                </Col>
                             </Row>
                         </Card>
                     </Col>
@@ -157,14 +263,15 @@ const Antrean = () => {
                                 </Text>
                             </Row>
                             <Table
-                                columns={columnsAntrean}
+                                columns={columnsAntreanGigi}
                                 size="middle"
                                 bordered={false}
                                 loading={loading}
                                 dataSource={dataAntreanGigi}
                                 // onChange={handleTableChange}
                             />
-                            <Row justify="center">
+                            <Row justify="center" gutter={10}>
+                                <Col>
                                 <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
                                     onClick={() => {
                                         gotoAmbilAntreanGigi();
@@ -172,6 +279,16 @@ const Antrean = () => {
                                 >
                                     Ambil Nomor Antrean
                                 </Button>
+                                </Col>
+                                <Col>
+                                <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
+                                    onClick={() => {
+                                        gotoPanggilAntreanGigi();
+                                    }}
+                                >
+                                    Panggil Nomor Antrean
+                                </Button>
+                                </Col>
                             </Row>
                         </Card>
                     </Col>
