@@ -377,6 +377,16 @@ const APIServices = {
         )
     },
 
+    getKunjungan(data, id, current, limit){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getKunjungan?tanggal=${data}&id=${id}&page=${current}&limit=${limit}`,
+            },
+            {crossdomain: true }
+        )
+    },
+
     postRekamMedis(data){
         return client.request(
             {

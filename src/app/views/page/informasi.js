@@ -516,7 +516,7 @@ const Informasi = () => {
                                           </Row>
                                           <Row justify="center">
                                               <Text className="title-profil" ellipsis={{ rows: 1}}>
-                                                {item.nama}
+                                                {item.spesialisasi === "Umum" ? "dr. " : "drg. "}{item.nama}
                                               </Text>
                                           </Row>
                                           <Row justify="center">

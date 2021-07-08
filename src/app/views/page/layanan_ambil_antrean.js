@@ -11,7 +11,7 @@ window.Pusher = require('pusher-js');
 const { Content } = Layout;
 const { Text } = Typography;
  
-const AmbilAntrean = () => {
+const AmbilAntrean = (props) => {
     const [loading, setLoading] = useState(false);
     const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
     const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
@@ -47,8 +47,8 @@ const AmbilAntrean = () => {
     }, []);
 
     const ambilAntrean = (data) => {
-        let body1 = {
-            id_poli: 1,
+        let body = {
+            id_poli: props.location.state.poli === "umum" ? 1 : 2,
             id_pasien: 1,
         }
         setLoading(true);
@@ -70,7 +70,7 @@ const AmbilAntrean = () => {
         //     setLoading(false);
         // })
 
-        APIServices.postAntrean(body1).then(res => {
+        APIServices.postAntrean(body).then(res => {
             setLoading(false);
             if(res.data){
                 dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
@@ -114,9 +114,14 @@ const AmbilAntrean = () => {
                             <HomeOutlined />
                         </Text>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/antrian-poliklinik">
+                    <Breadcrumb.Item href="/antrean-poliklinik">
                         <Text className="title">
                             <span>Antrean Poliklinik</span>
+                        </Text>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href="/antrean-poliklinik">
+                        <Text className="title">
+                            {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
                         </Text>
                     </Breadcrumb.Item>
                 </Breadcrumb>
@@ -131,7 +136,7 @@ const AmbilAntrean = () => {
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        U-029
+                                        ---
                                     </Text>
                                 </Row>
                             </Card>
@@ -157,7 +162,7 @@ const AmbilAntrean = () => {
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        U-029
+                                        ---
                                     </Text>
                                 </Row>
                             </Card>
@@ -168,17 +173,17 @@ const AmbilAntrean = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    09:25
+                                    ---
                                 </Text>
                             </Row>
                             <Row justify="center" style={{marginTop:20}}>
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    Poli Umum
+                                    {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
                                 </Text>
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    dr. Eva Dianita
+                                    dr. ---
                                 </Text>
                             </Row>
                         </Card>

@@ -1,62 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, message } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+import Auth from "../../service/auth";
+import moment from 'moment';
 
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
-
-// const client = require('pusher-js');
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-channels-key',
-//     client: client
-// });
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_ABLY_PUBLIC_KEY,
-//     wsHost: 'realtime-pusher.ably.io',
-//     wsPort: 443,
-//     disableStats: true,
-//     encrypted: true,
-// });
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     wssHost: window.location.hostname,
-//     wssPort: 6001,
-//     key: 'client',
-//     disableStats: true,
-//     enabledTransports: ['ws', 'wss'],
-//     forceTLS: false,
-//   });
-
-
-
-/* JOINING PRESENCE CHANNEL */
-// Echo.join(`chat.${roomId}`)
-//     .here((users) => {
-//         //
-//     })
-//     .joining((user) => {
-//         console.log(user.name);
-//     })
-//     .leaving((user) => {
-//         console.log(user.name);
-//     })
-//     .error((error) => {
-//         console.error(error);
-//     });
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -66,10 +16,36 @@ const Antrean = () => {
     const {loading, setLoading} = useState(false);
     const {dataAntreanUmum, setDataAntreanUmum} = useState([]);
     const {dataAntreanGigi, setDataAntreanGigi} = useState([]);
+    const [currentTime, setCurrentTime] = useState(moment().format("DD/MM/YYYY HH:mm:ss"));
+    
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            console.log('This will run every second!');
+            setCurrentTime(moment().format("DD/MM/YYYY HH:mm:ss"))
+          }, 1000);
+          return () => clearInterval(interval);
+    }, [])
 
-    const gotoAmbilAntrean= () => {
+    const gotoAmbilAntreanUmum= () => {
+        let data = {poli: "umum"}
         const loc = '/antrean-poliklinik/poli-umum';
-        history.push(loc);
+
+        if(Auth.isLogin()){
+            history.push({pathname:loc, state:data});
+        }else{
+            message.info("Anda perlu login untuk mengakses layanan ini!")
+        }
+    }
+
+    const gotoAmbilAntreanGigi= () => {
+        let data = {poli: "gigi"}
+        const loc = '/antrean-poliklinik/poli-gigi';
+
+        if(Auth.isLogin()){
+            history.push({pathname:loc, state:data});
+        }else{
+            message.info("Anda perlu login untuk mengakses layanan ini!")
+        }
     }
 
     useEffect(()=>{
@@ -85,11 +61,6 @@ const Antrean = () => {
 
         console.log("Tes: ", window.Echo);
         let echo = window.Echo;
-        /* LISTENING FOR EVENT BROADCAST */
-        // echo.private(`antre`)
-        //     .listen('AntreanSent', (e) => {
-        //         console.log(e);
-        //     });
         echo.channel('antre')
             .listen('AntreanSent', (e) => {
                 console.log(e);
@@ -119,6 +90,16 @@ const Antrean = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content-new">
+                <Row>
+                    <Col span={20}>
+                        <marquee direction="" onmouseover="this.stop();" onmouseout="this.start();">
+                            Layanan Ambil Nomor Antrean hanya dapat dilakukan pukul 08.00 s.d. 11.00
+                        </marquee>
+                    </Col>
+                    <Col offset={1} span={3}>
+                        {currentTime}
+                    </Col>
+                </Row>
                 <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
                         <Text className="title">
@@ -155,7 +136,7 @@ const Antrean = () => {
                             <Row justify="center">
                                 <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
                                     onClick={() => {
-                                        gotoAmbilAntrean();
+                                        gotoAmbilAntreanUmum();
                                     }}
                                 >
                                     Ambil Nomor Antrean
@@ -186,7 +167,7 @@ const Antrean = () => {
                             <Row justify="center">
                                 <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
                                     onClick={() => {
-                                        gotoAmbilAntrean();
+                                        gotoAmbilAntreanGigi();
                                     }}
                                 >
                                     Ambil Nomor Antrean

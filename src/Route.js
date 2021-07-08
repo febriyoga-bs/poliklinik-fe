@@ -71,7 +71,8 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/login" component={LoginUser} />
             <Route exact path="/registrasi" component={Register} />
             <Route exact path="/antrean-poliklinik" component={Antrean} />
-            <Route exact path="/antrean-poliklinik/:poli" component={AmbilAntrean} />
+            <Route exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
+            <Route exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
             <Route exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />

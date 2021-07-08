@@ -174,7 +174,10 @@ const FormDataDokter = (props) => {
 
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon"
-                                    rules={[{ required: true, message: "Harap masukkan nomor telepon" }]}
+                                    rules={[
+                                        { required: true, message: "Harap masukkan nomor telepon" },
+                                        { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!'},
+                                    ]}
                                 >
                                         <Input className="input-form secondary" disabled={props.location.state}/>
                                 </Form.Item>
@@ -238,7 +241,10 @@ const FormDataDokter = (props) => {
 
                                 <Text className="title-label">Nama Dokter</Text>
                                 <Form.Item name="nama" 
-                                    rules={[{ required: true, message: "Harap masukkan nama"  }]}
+                                    rules={[
+                                        { required: true, message: "Harap masukkan nama!" },
+                                        { pattern: new RegExp('[a-zA-Z]$'), message: "Harap hanya masukkan huruf!" },
+                                    ]}
                                 >
                                         <Input className="input-form secondary" />
                                 </Form.Item>

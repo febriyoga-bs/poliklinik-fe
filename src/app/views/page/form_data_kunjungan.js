@@ -56,8 +56,36 @@ const FormDataKunjungan = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
+        let id_rekam_medis = 1;
         let body = {
+            id_rekam_medis: id_rekam_medis,
+            id_dokter: values.dokter,
+            tanggal: values.tanggal_kunjungan.format('YYYY-MM-DD'),
+            jam_masuk: values.jam_masuk.format('HH:mm'),
+            jam_keluar: values.jam_keluar.format('HH:mm'),
+            anamnesa: values.anamnesa,
+            diagnosa: values.diagnosis,
+            diagnosis: values.diagnosis,
+            terapi: values.terapi,
+            keterangan: values.keterangan
         }
+
+        APIServices.postKunjungan(body).then(res => {
+            setLoading(false);
+            if(res.data){
+                history.goBack();
+                dialog({icon: "success", title:"Tambah Data Kunjungan Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+        }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Tambah Data Kunjungan Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+        })
     }
     
     return(
@@ -123,7 +151,7 @@ const FormDataKunjungan = (props) => {
                         
                         <Text className="title-label">Dokter</Text>
                             <Form.Item name="dokter" rules={[{ required: true, message: "Harap pilih dokter" }]}>
-                                <Select className="input-form secondary" mode="multiple" allowClear style={{minHeight:"100%"}}
+                                <Select className="input-form secondary" allowClear style={{minHeight:"100%"}}
                                     placeholder={loading ? "Memuat Data Dokter" : "Pilih Dokter"}
                                 >
                                 {dataDokter.map(item => (
@@ -183,7 +211,7 @@ const FormDataKunjungan = (props) => {
                             </Form.Item>
                         
                         <Text className="title-label">Keterangan</Text>
-                            <Form.Item name="diagnosis" rules={[{ required: true, message: "Harap masukkan keterangan!" }]}>
+                            <Form.Item name="keterangan" rules={[{ required: true, message: "Harap masukkan keterangan!" }]}>
                                     <Input.TextArea className="input-form secondary" 
                                         placeholder="Catat keterangan"
                                     />

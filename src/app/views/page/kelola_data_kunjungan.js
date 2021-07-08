@@ -19,7 +19,7 @@ const KelolaKunjungan = (props) => {
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
-    const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
+    const [pagination, setPagination] = useState({current:1, pageSize:10, total:10});
 
     const gotoCatatKunjungan= () => {
         const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/catat-kunjungan`;
@@ -36,14 +36,14 @@ const KelolaKunjungan = (props) => {
     };
 
     useEffect(()=>{
-        getDataPasien(searchKey, pagination.current,  pagination.pageSize);
+        getDataKunjungan(searchKey, pagination.current,  pagination.pageSize);
         console.log(props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
 
-    const getDataPasien = (kategori, current, limit) => {
+    const getDataKunjungan = (kategori, current, limit) => {
         setLoading(true);
-        APIServices.getAllDataPasien(kategori, current, limit).then(res => {
+        APIServices.getKunjungan(kategori, current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
                     let _meta = _data.pop()
@@ -53,15 +53,13 @@ const KelolaKunjungan = (props) => {
                         pageSize: _meta.pagination.per_page,
                         total: _meta.pagination.total
                     })
-                    setDataRekamMedis(Dummy.dataKunjungan);
-                    console.log(Dummy.dataKunjungan);
+                    //setDataRekamMedis(Dummy.dataKunjungan);
                     //setDataRekamMedis(_data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    setDataRekamMedis(Dummy.dataKunjungan);
-                    console.log(Dummy.dataKunjungan);
+                    //setDataRekamMedis(Dummy.dataKunjungan);
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -69,7 +67,7 @@ const KelolaKunjungan = (props) => {
         }
     
     const handleTableChange = (_pagination) =>{
-        getDataPasien(searchKey, _pagination.current, _pagination.pageSize)
+        getDataKunjungan(searchKey, _pagination.current, _pagination.pageSize)
     }
 
     const columnsRekamMedis = [
@@ -79,7 +77,7 @@ const KelolaKunjungan = (props) => {
             key: 'tanggal_kunjungan',
             width: '20%',
             align: 'center',
-            sorter: (a, b) => a.id_pasien - b.id_pasien,
+            sorter: (a, b) => a.tanggal_kunjungan - b.tanggal_kunjungan,
             render: (value) => {
                 let usia = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
 
@@ -226,7 +224,7 @@ const KelolaKunjungan = (props) => {
                             dataSource={dataRekamMedis}
                             pagination={pagination}
                             onChange={handleTableChange}
-                            scroll={{ x: 800 }}
+                            scroll={{ x: 400 }}
                         />
                     </Card>
                 </Row>
