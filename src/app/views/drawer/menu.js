@@ -1,10 +1,35 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Drawer, Button, Row } from 'antd'
+import { Drawer, Button, Row, Typography, Dropdown, message } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import Auth from '../../service/auth';
 
+const {Text } = Typography;
+
 const Menu = props => {
+
+    const menuLayanan = (
+        <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
+            <Menu.Item >
+                <NavLink to="/antrean-poliklinik">  
+                    <Text className="title-navmenu" style={{fontWeight:"normal"}}>
+                        Antrean Poliklinik
+                    </Text>
+                </NavLink>
+            </Menu.Item>
+            <Menu.Item >
+                {/* <NavLink to="/konsultasi-online">  
+                    <Text className="title-navmenu">
+                        Konsultasi Online
+                    </Text>
+                </NavLink> */}
+                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
+                    className="title-navmenu" style={{fontWeight:"normal"}}>
+                    Konsultasi Online
+                </Text>
+            </Menu.Item>
+        </Menu>
+      );
 
     return(
         <Drawer
@@ -39,6 +64,14 @@ const Menu = props => {
                 <NavLink to="/informasi" className="title-home-mobile" onClick={props.buttonCancel}>
                     INFORMASI
                 </NavLink>
+            </Row>
+
+            <Row justify="center" style={{marginTop:10}}>
+                <Dropdown overlay={menuLayanan} placement="bottomCenter">
+                    <Text className="title-navmenu">
+                        LAYANAN
+                    </Text>
+                </Dropdown>
             </Row>
                
         </Drawer>
