@@ -16,6 +16,7 @@ const KelolaKunjungan = (props) => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataRekamMedis, setDataRekamMedis] = useState([]);
+    const [id, setId] = useState("");
     const [rmExist, setRMExist] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
@@ -24,7 +25,11 @@ const KelolaKunjungan = (props) => {
 
     const gotoCatatKunjungan= () => {
         const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/catat-kunjungan`;
-        history.push(loc);
+        let data = {
+            id_rekam_medis: id
+        }
+
+        history.push({pathname:loc, state:data});
     }
     const gotoRekamMedis = (data) => {
         const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/rekam-medis`;
@@ -44,6 +49,7 @@ const KelolaKunjungan = (props) => {
             props.location.state.kode_rekam_medis.forEach(val =>{
                 if(val.id_poli === props.location.state.poli){
                     setRMExist(true)
+                    setId(val.id_rekam_medis)
                     getDataKunjungan(searchKey, val.id_rekam_medis, pagination.current,  pagination.pageSize);
                 }
             })

@@ -56,7 +56,7 @@ const FormDataKunjungan = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let id_rekam_medis = 1;
+        let id_rekam_medis = props.location.id_rekam_medis;
         let body = {
             id_rekam_medis: id_rekam_medis,
             id_dokter: values.dokter,
@@ -64,7 +64,6 @@ const FormDataKunjungan = (props) => {
             jam_masuk: values.jam_masuk.format('HH:mm'),
             jam_keluar: values.jam_keluar.format('HH:mm'),
             anamnesa: values.anamnesa,
-            diagnosa: values.diagnosis,
             diagnosis: values.diagnosis,
             terapi: values.terapi,
             keterangan: values.keterangan
