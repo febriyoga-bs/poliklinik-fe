@@ -387,6 +387,16 @@ const APIServices = {
         )
     },
 
+    getExportRiwayatKunjungan(){
+        return client.request(
+            {
+                method: "get",
+                responseType: 'blob',
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getExportPelayanan`,
+            },
+        )    
+    },
+
     postRekamMedis(data){
         return client.request(
             {

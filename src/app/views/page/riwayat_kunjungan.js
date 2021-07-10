@@ -57,15 +57,15 @@ const RiwayatPelayanan = () => {
             })
         }
 
-    const eksporDataPasien = () => {
+    const eksporRiwayatKunjungan = () => {
         setLoadingEkspor(true);
-        APIServices.getExportDataPasien().then(res => {
+        APIServices.getExportRiwayatKunjungan().then(res => {
                 if(res.data){
                     const url = window.URL.createObjectURL(new Blob([res.data]));
                     const link = document.createElement('a');
                     link.href = url;
                     let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Pasien_Poliklinik(${tanggal}).xlsx`); //or any other extension
+                    link.setAttribute('download', `Data_Riwayat_Kunjungan(${tanggal}).xlsx`); //or any other extension
                     document.body.appendChild(link);
                     link.click();
                     setLoadingEkspor(false)
@@ -180,7 +180,7 @@ const RiwayatPelayanan = () => {
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
                                 loading={loadingEkspor}
                                 onClick={() => {
-                                    eksporDataPasien();
+                                    eksporRiwayatKunjungan();
                                 }}
                             >
                                 Ekspor Riwayat Pelayanan
