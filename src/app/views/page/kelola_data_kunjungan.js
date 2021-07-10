@@ -122,10 +122,10 @@ const KelolaKunjungan = (props) => {
             align: 'center',
             sorter: (a, b) => a.tanggal - b.tanggal,
             render: (value) => {
-                let usia = moment(value, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY');
+                let tanggal = moment(value, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY');
 
                 return (
-                    <Text>{usia}</Text>
+                    <Text>{tanggal}</Text>
                 )
             }
         },

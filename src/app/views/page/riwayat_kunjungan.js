@@ -37,15 +37,15 @@ const RiwayatPelayanan = () => {
         setLoading(true);
         APIServices.getRiwayatPelayanan("", current, limit).then(res => {
                 if(res.data){
-                    // let _data = Object.values(res.data.data)
-                    // let _meta = _data.pop()
-                    // console.log("Pagination: ", _meta)
-                    // setPagination({
-                    //     current: _meta.pagination.current_page,
-                    //     pageSize: _meta.pagination.per_page,
-                    //     total: _meta.pagination.total
-                    // })
-                    setDataPelayanan(res.data);
+                    let _data = Object.values(res.data.data)
+                    let _meta = _data.pop()
+                    console.log("Pagination: ", _meta)
+                    setPagination({
+                        current: _meta.pagination.current_page,
+                        pageSize: _meta.pagination.per_page,
+                        total: _meta.pagination.total
+                    })
+                    setDataPelayanan(_data);
                     setLoading(false)
                 }
             }).catch(err => {
@@ -86,39 +86,44 @@ const RiwayatPelayanan = () => {
     const columnsPelayanan = [
         {
             title: "Tanggal Pelayanan",
-            dataIndex: 'tanggal_kunjungan',
-            key: 'tanggal_kunjungan',
+            dataIndex: 'tanggal',
+            key: 'tanggal',
             width: '20%',
             align: 'center',
             sorter: (a, b) => a.id_pasien - b.id_pasien,
             render: (value) => {
-                let usia = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');;
+                let tanggal = moment(value, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY');
 
                 return (
-                    <Text>{usia}</Text>
+                    <Text>{tanggal}</Text>
                 )
             }
         },
         {
             title: "Nama Pasien",
-            dataIndex: 'nama',
+            dataIndex: 'nama_pasien',
             key: 'nama',
             width: '20%',
             align: 'center',
         },
         {
             title: "Dokter Pemeriksa",
-            dataIndex: 'dokter',
+            dataIndex: 'nama_dokter',
             key: 'dokter',
             width: '20%',
             align: 'center',
         },
         {
             title: "Jenis Pelayanan",
-            dataIndex: 'jenis_pelayanan',
-            key: 'jenis_pelayanan',
+            dataIndex: 'jenis',
+            key: 'jenis',
             width: '20%',
             align: 'center',
+            render: (record) => {
+                return (
+                    <Text>Poli {record}</Text>
+                )
+            }
         },
     ]
 

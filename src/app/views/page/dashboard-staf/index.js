@@ -119,7 +119,7 @@ const DashboardStaf = (props) => {
                         {/* <Menu.Item key="/dashboard-staf/kelola-rekam-medis" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
                             Kelola Rekam Medis
                         </Menu.Item> */}
-                        <Menu.Item key="6" onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
+                        <Menu.Item key="dashboard-staf/riwayat-kunjungan" onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
                             Riwayat Pelayanan Pasien
                         </Menu.Item>
                         <Menu.Item key="7" onClick={Auth.logout} icon={<PoweroffOutlined />}
