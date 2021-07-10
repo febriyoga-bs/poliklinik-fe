@@ -391,10 +391,30 @@ const APIServices = {
         return client.request(
             {
                 method: "post",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/arsip/postRekamMedis`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/postRekamMedis`,
                 data: data
             },
             { crossdomain: true }
+        )
+    },
+
+    getRekamMedisUmum(data){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRekamMedisUmum?id_pasien=${data}`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getRekamMedisGigi(data){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRekamMedisGigi?id_pasien=${data}`,
+            },
+            {crossdomain: true }
         )
     },
 

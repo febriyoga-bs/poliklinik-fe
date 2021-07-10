@@ -14,7 +14,7 @@ const { Text } = Typography;
 const { Search } = Input;
 const { Option } = Select;
 
-const KelolaRekamMedis = () => {
+const KelolaRekamMedis = (props) => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
@@ -31,6 +31,7 @@ const KelolaRekamMedis = () => {
         } else {
             loc = `/dashboard-dokter/kelola-rekam-medis/${data.id_pasien}`;
         }
+        data.poli = props.location.state.poli
         history.push({pathname:loc, state:data});
     }
 
@@ -112,22 +113,19 @@ const KelolaRekamMedis = () => {
         },
         {
             title: "Nomor Rekam Medis",
-            children: [
-                {
-                    title: "Poli Gigi",
-                    dataIndex: 'gigi',
-                    key: 'gigi',
-                    align: 'center',
-                    sorter: (a, b) => a.usia - b.usia,
-                },
-                {
-                    title: "Poli Umum",
-                    dataIndex: 'umum',
-                    key: 'umum',
-                    align: 'center',
-                    sorter: (a, b) => a.usia - b.usia,
-                }
-            ]
+            key: 'rekam_medis',
+            align: 'center',
+            render: (record) => {
+                let kode = "-"
+                record.kode_rekam_medis.forEach(val =>{
+                    if(val.id_poli === props.location.state.poli){
+                        kode = val.kode_rekam_medis
+                    }
+                })
+                return (
+                    <Text>{kode}</Text>
+                )
+            }
         },
         {
             title: "Detail",
@@ -196,6 +194,13 @@ const KelolaRekamMedis = () => {
                         <NavLink to="/dashboard-dokter/kelola-rekam-medis">  
                             <Text className="title">
                                 Kelola Data Rekam Medis
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis">  
+                            <Text className="title">
+                                {props.location.state.poli === 1 ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

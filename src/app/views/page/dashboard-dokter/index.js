@@ -11,6 +11,7 @@ import FormDataKunjungan from "../form_data_kunjungan";
 import RekamMedis from "../rekam_medis";
 import Auth from '../../../service/auth'
 
+const {SubMenu} = Menu
 
 const DashboardDokter = () => {
     const history = useHistory();
@@ -20,9 +21,16 @@ const DashboardDokter = () => {
         history.push(loc);
     }
 
-    const gotoKelolaRekamMedis = () => {
-        const loc = '/dashboard-dokter/kelola-rekam-medis';
-        history.push(loc);
+    const gotoKelolaRekamMedis = (data) => {
+        let loc = '/dashboard-dokter/kelola-rekam-medis/umum';
+        let _data = ""
+        if(data===1){
+            _data = {poli: 1}
+        }else if(data ===2){
+            loc = '/dashboard-dokter/kelola-rekam-medis/gigi';
+            _data = {poli: 2}
+        }
+        history.push({pathname:loc, state:_data});
     }
 
     const gotoKonsultasiOnline = () => {
@@ -68,12 +76,15 @@ const DashboardDokter = () => {
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                         </Button>
-                        <Menu.Item key="1" onClick={gotoProfil} icon={<UserOutlined />}>
+                        <Menu.Item key="/dashboard-dokter" onClick={gotoProfil} icon={<UserOutlined />}>
                             Profil Dokter
                         </Menu.Item>
-                        <Menu.Item key="2" onClick={gotoKelolaRekamMedis} icon={<ContainerOutlined />}>
-                            Kelola Rekam Medis
-                        </Menu.Item>
+                        <SubMenu key="/dashboard-dokter/kelola-rekam-medis" icon={<ContainerOutlined />} title="Kelola Rekam Medis">
+                            <Menu.Item key="/dashboard-dokter/kelola-rekam-medis/umum" 
+                                onClick={() => gotoKelolaRekamMedis(1)}>Rekam Medis Umum</Menu.Item>
+                            <Menu.Item key="/dashboard-dokter/kelola-rekam-medis/gigi" 
+                                onClick={() => gotoKelolaRekamMedis(2)}>Rekam Medis Gigi</Menu.Item>
+                        </SubMenu>
                         <Menu.Item key="3" onClick={gotoKonsultasiOnline} icon={<DesktopOutlined />}>
                             Konsultasi Online
                         </Menu.Item>
@@ -90,7 +101,8 @@ const DashboardDokter = () => {
                         <Switch>
                             <PrivateRouteDokter exact path="/dashboard-dokter" component={ProfilDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis" component={KelolaRekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/umum" component={KelolaRekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/gigi" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/rekam-medis" component={RekamMedis} />

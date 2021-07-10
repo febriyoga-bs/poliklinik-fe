@@ -16,6 +16,7 @@ const KelolaKunjungan = (props) => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [dataRekamMedis, setDataRekamMedis] = useState([]);
+    const [rmExist, setRMExist] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
@@ -27,7 +28,7 @@ const KelolaKunjungan = (props) => {
     }
     const gotoRekamMedis = (data) => {
         const loc = `/dashboard-dokter/kelola-rekam-medis/${props.match.params.id_pasien}/rekam-medis`;
-        history.push(loc);
+        history.push({pathname:loc, state:data});
     }
 
     const handleModal = () => {
@@ -36,14 +37,23 @@ const KelolaKunjungan = (props) => {
     };
 
     useEffect(()=>{
-        getDataKunjungan(searchKey, pagination.current,  pagination.pageSize);
+        
         console.log(props)
+        console.log(props.location.state.kode_rekam_medis)
+        if(props.location.state.kode_rekam_medis.length > 0){
+            props.location.state.kode_rekam_medis.forEach(val =>{
+                if(val.id_poli === props.location.state.poli){
+                    setRMExist(true)
+                    getDataKunjungan(searchKey, val.id_rekam_medis, pagination.current,  pagination.pageSize);
+                }
+            })
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
 
-    const getDataKunjungan = (kategori, current, limit) => {
+    const getDataKunjungan = (kategori, id, current, limit) => {
         setLoading(true);
-        APIServices.getKunjungan(kategori, current, limit).then(res => {
+        APIServices.getKunjungan(kategori, id, current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
                     let _meta = _data.pop()
@@ -53,8 +63,7 @@ const KelolaKunjungan = (props) => {
                         pageSize: _meta.pagination.per_page,
                         total: _meta.pagination.total
                     })
-                    //setDataRekamMedis(Dummy.dataKunjungan);
-                    //setDataRekamMedis(_data);
+                    setDataRekamMedis(_data);
                     setLoading(false)
                 }
             }).catch(err => {
@@ -65,21 +74,49 @@ const KelolaKunjungan = (props) => {
                 }
             })
         }
+
+    const buatRekamMedis = () => {
+        let body ={
+            id_poli: props.location.state.poli,
+            id_pasien: props.location.state.id_pasien,
+        }
+        APIServices.postRekamMedis(body).then(res => {
+            setLoading(false);
+            if(res.data){
+                dialog({icon: "success", title:"Buat Rekam Medis Berhasil!"}).then(()=>{
+                    console.log("Berhasil");
+                })
+            }
+        }).catch(err => {
+            setLoading(false);
+            if(err){
+                dialog({icon: "error", title:"Buat Rekam Medis Gagal!"}).then(()=>{
+                    console.log("Gagal");
+                })
+            }
+        })
+    }
     
     const handleTableChange = (_pagination) =>{
-        getDataKunjungan(searchKey, _pagination.current, _pagination.pageSize)
+        if(props.location.state.kode_rekam_medis.length > 0){
+            props.location.state.kode_rekam_medis.forEach(val =>{
+                if(val.id_poli === props.location.state.poli){
+                    getDataKunjungan(searchKey, val.id_rekam_medis, pagination.current,  pagination.pageSize);
+                }
+            })
+        }
     }
 
     const columnsRekamMedis = [
         {
             title: "Tanggal Kunjungan",
-            dataIndex: 'tanggal_kunjungan',
-            key: 'tanggal_kunjungan',
+            dataIndex: 'tanggal',
+            key: 'tanggal',
             width: '20%',
             align: 'center',
-            sorter: (a, b) => a.tanggal_kunjungan - b.tanggal_kunjungan,
+            sorter: (a, b) => a.tanggal - b.tanggal,
             render: (value) => {
-                let usia = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                let usia = moment(value, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY');
 
                 return (
                     <Text>{usia}</Text>
@@ -88,7 +125,7 @@ const KelolaKunjungan = (props) => {
         },
         {
             title: "Dokter Pemeriksa",
-            dataIndex: 'dokter',
+            dataIndex: 'nama_dokter',
             key: 'dokter',
             width: '20%',
             align: 'center',
@@ -161,9 +198,23 @@ const KelolaKunjungan = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis">  
+                            <Text className="title">
+                                Kelola Data Rekam Medis
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis">  
+                            <Text className="title">
+                                {props.location.state.poli === 1 ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
                         <NavLink to="/dashboard-staf/kelola-data-pengguna/pasien">  
                             <Text className="title">
-                                Kelola Data Kunjungan
+                                Data Kunjungan
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
@@ -208,13 +259,26 @@ const KelolaKunjungan = (props) => {
                             </Button>
                         </Row>
                         <Row justify="end">
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                onClick={() => {
-                                    gotoCatatKunjungan();
-                                }}
-                            >
-                                Catat Kunjungan
-                            </Button>
+                            {rmExist ?
+
+                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                    onClick={() => {
+                                        gotoCatatKunjungan();
+                                    }}
+                                    >
+                                    Catat Kunjungan
+                                </Button>
+                                :
+                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                    loading={loading}
+                                    onClick={() => {
+                                        buatRekamMedis();
+                                    }}
+                                    >
+                                    Buat Rekam Medis
+                                </Button>
+                            }
+                            
                         </Row>
                         <Table
                             columns={columnsRekamMedis}

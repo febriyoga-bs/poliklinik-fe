@@ -23,47 +23,22 @@ const RekamMedis = (props) => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
   
-
     const handleModal = () => {
         //message.info("Laman Detail Kunjungan belum Tersedia");
         setVisibleModal(!visibleModal);
     };
 
     useEffect(()=>{
-        getDataPasien(searchKey, pagination.current,  pagination.pageSize);
+        let tanggal = moment(props.location.state.tanggal, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY') 
+        props.location.state.tanggal = tanggal
+        setDataRekamMedis(props.location.state)
         console.log(props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
 
-    const getDataPasien = (kategori, current, limit) => {
-        setLoading(true);
-        APIServices.getAllDataPasien(kategori, current, limit).then(res => {
-                if(res.data){
-                    let _data = Object.values(res.data.data)
-                    let _meta = _data.pop()
-                    console.log("Pagination: ", _meta)
-                    setPagination({
-                        current: _meta.pagination.current_page,
-                        pageSize: _meta.pagination.per_page,
-                        total: _meta.pagination.total
-                    })
-                    setDataRekamMedis(Dummy.dataKunjungan);
-                    console.log(Dummy.dataKunjungan);
-                    //setDataRekamMedis(_data);
-                    setLoading(false)
-                }
-            }).catch(err => {
-                if(err){
-                    setDataRekamMedis(Dummy.dataKunjungan);
-                    console.log(Dummy.dataKunjungan);
-                    console.log(err.response)
-                    setLoading(false)
-                }
-            })
-        }
     
     const handleTableChange = (_pagination) =>{
-        getDataPasien(searchKey, _pagination.current, _pagination.pageSize)
+        //getDataPasien(searchKey, _pagination.current, _pagination.pageSize)
     }
 
     
@@ -132,39 +107,39 @@ const RekamMedis = (props) => {
                         </Row>
                         <Row>
                             <Text className="title-tabel">
-                                Tanggal Kunjungan :
+                                Tanggal Kunjungan : {dataRekamMedis.tanggal ? dataRekamMedis.tanggal : "-"}
                             </Text>
                         </Row>
                         <Row>
                             <Text className="title-tabel">
-                                Dokter Pemeriksa :
+                                Dokter Pemeriksa : {dataRekamMedis.nama_dokter ? dataRekamMedis.nama_dokter : "-"}
                             </Text>
                         </Row>
                         <Row>
                             <Text className="title-tabel">
-                                Jam Masuk :
+                                Jam Masuk : {dataRekamMedis.jam_masuk ? dataRekamMedis.jam_masuk : "-"}
                             </Text>
                         </Row>
                         <Row>
                             <Text className="title-tabel">
-                                Jam Keluar :
+                                Jam Keluar : {dataRekamMedis.jam_keluar ? dataRekamMedis.jam_keluar : "-"}
                             </Text>
                         </Row>
                         <div className="rekammedis-card" >
                         <Row gutter={16}>
                         <Col span={8}>
                             <Card title="Anamnesa" >
-                            isi
+                                {dataRekamMedis.anamnesa ? dataRekamMedis.anamnesa : "-"}
                             </Card>
                         </Col>
                         <Col span={8}>
                             <Card title="Diagnosis" >
-                           isi
+                                {dataRekamMedis.diagnosis ? dataRekamMedis.diagnosis: "-"}
                             </Card>
                         </Col>
                         <Col span={8}>
                             <Card title="Keterangan" >
-                            isi
+                                {dataRekamMedis.keterangan ? dataRekamMedis.keterangan : "-"}
                             </Card>
                         </Col>
                         </Row>
