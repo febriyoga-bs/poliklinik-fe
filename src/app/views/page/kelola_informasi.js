@@ -371,7 +371,7 @@ const KelolaInformasi = (props) => {
                   <Col>
                     <Button 
                         onClick={() => {
-                            deleteDialog({icon: "info", title:"Hapus Data Staf", text: "Apakah Anda yakin akan menghapus data staf ini?"})
+                            deleteDialog({icon: "info", title:"Hapus Data Pelayanan", text: "Apakah Anda yakin akan menghapus data pelayanan ini?"})
                             .then(()=>{
                                 deletePelayanan(record.id_pelayanan);
                             })
