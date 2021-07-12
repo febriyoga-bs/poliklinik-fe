@@ -56,7 +56,7 @@ const FormDataKunjungan = (props) => {
 
     const onFinish= (values) => {
         setLoading(true);
-        let id_rekam_medis = props.location.id_rekam_medis;
+        let id_rekam_medis = props.location.state.id_rekam_medis;
         let body = {
             id_rekam_medis: id_rekam_medis,
             id_dokter: values.dokter,
