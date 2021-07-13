@@ -158,17 +158,41 @@ const KelolaPasien = () => {
             children: [
                 {
                     title: "Poli Gigi",
-                    dataIndex: 'gigi',
                     key: 'gigi',
                     align: 'center',
                     sorter: (a, b) => a.usia - b.usia,
+                    render: (record) => {
+                        let kode = "-"
+                        if(record.kode_rekam_medis.length > 0){
+                            record.kode_rekam_medis.forEach(val =>{
+                                if(val.id_poli === 2){
+                                    kode = val.kode_rekam_medis
+                                }
+                            })
+                        }
+                        return (
+                            <Text>{kode}</Text>
+                        )
+                    }
                 },
                 {
                     title: "Poli Umum",
-                    dataIndex: 'umum',
                     key: 'umum',
                     align: 'center',
                     sorter: (a, b) => a.usia - b.usia,
+                    render: (record) => {
+                        let kode = "-"
+                        if(record.kode_rekam_medis.length > 0){
+                            record.kode_rekam_medis.forEach(val =>{
+                                if(val.id_poli === 1){
+                                    kode = val.kode_rekam_medis
+                                }
+                            })
+                        }
+                        return (
+                            <Text>{kode}</Text>
+                        )
+                    }
                 }
             ]
         },

@@ -351,7 +351,7 @@ const APIServices = {
             {
                 method: "get",
                 responseType: 'blob',
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/exportPasien`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getExportPasien`,
             },
         )    
     },
