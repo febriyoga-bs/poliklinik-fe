@@ -4,6 +4,7 @@ import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'a
 import { HomeOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 import { dialog } from '../../component/alert'
+import moment from 'moment';
 
 // import Echo from 'laravel-echo';
 // window.Pusher = require('pusher-js');
@@ -15,6 +16,7 @@ const PanggilAntrean = (props) => {
     const [loading, setLoading] = useState(false);
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
+    const [jamMasuk, setJamMasuk] = useState(null);
 
     // useEffect(()=>{
     //     window.Echo = new Echo({
@@ -77,7 +79,9 @@ const PanggilAntrean = (props) => {
         APIServices.getLastAntreanUmum().then(res => {
                 console.log("LA: ", res)
                 if(res.data){
-                    setLastAntrean(res.data.data.data[0])
+                    if(res.data.data.data.length > 0){
+                        setLastAntrean(res.data.data.data[0])
+                    }
                     setLoading(false)
                 }
             }).catch(err => {
@@ -109,7 +113,9 @@ const PanggilAntrean = (props) => {
         APIServices.getLastAntreanGigi().then(res => {
                 console.log("LG: ", res)
                 if(res.data){
-                    setLastAntrean(res.data.data.data[0])
+                    if(res.data.data.data.length > 0){
+                        setLastAntrean(res.data.data.data[0])
+                    }
                     setLoading(false)
                 }
             }).catch(err => {
@@ -250,8 +256,7 @@ const PanggilAntrean = (props) => {
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        {/* {lastAntrean.no_antrean ? lastAntrean.no_antrean : "-"} */}
-                                        ---
+                                        {lastAntrean.no_antrean ? lastAntrean.no_antrean : "-"}
                                     </Text>
                                 </Row>
                             </Card>
@@ -262,7 +267,7 @@ const PanggilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    ---
+                                    {lastAntrean.jam_masuk ? moment(lastAntrean.jam_masuk, 'YYYY-MM-DD HH:mm:ss.S').format('HH:mm:ss') : "-"}
                                 </Text>
                             </Row>
                             <Row justify="center" style={{marginTop:20}}>
@@ -272,7 +277,7 @@ const PanggilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    dr. ---
+                                    dr. Eva Dianita
                                 </Text>
                             </Row>
                         </Card>

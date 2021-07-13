@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Select} from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 import { dialog } from '../../component/alert'
@@ -10,12 +10,16 @@ window.Pusher = require('pusher-js');
 
 const { Content } = Layout;
 const { Text } = Typography;
+const { Option } = Select;
  
 const AmbilAntrean = (props) => {
     const [loadingButton, setLoadingButton] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [dataPasien, setDataPasien] = useState([]);
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
+    const [newAntrean, setNewAntrean] = useState([]);
+    const [idPasien, setIDPasien] = useState(null);
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -36,11 +40,13 @@ const AmbilAntrean = (props) => {
                 .listen('AntreanSentUmum', (e) => {
                     console.log(e);
                     getAntreanUmum()
+                    getNewAntrean(1)
                     getLastAntreanUmum()
                 })
                 .listen('AntreanUpdateUmum', (e) => {
                     console.log(e);
                     getAntreanUmum()
+                    getNewAntrean(1)
                     getLastAntreanUmum()
                 })
         } else {
@@ -48,11 +54,13 @@ const AmbilAntrean = (props) => {
                 .listen('AntreanSentGigi', (e) => {
                     console.log(e);
                     getAntreanGigi()
+                    getNewAntrean(2)
                     getLastAntreanGigi()
                 })
                 .listen('AntreanUpdateGigi', (e) => {
                     console.log(e);
                     getAntreanGigi()
+                    getNewAntrean(2)
                     getLastAntreanGigi()
                 })
         }
@@ -63,12 +71,53 @@ const AmbilAntrean = (props) => {
     useEffect(()=>{
         if(props.location.state.poli === "umum"){
             getAntreanUmum()
+            getNewAntrean(1);
             getLastAntreanUmum()
         } else {
             getAntreanGigi()
+            getNewAntrean(2);
             getLastAntreanGigi()
         }
+        getDataPasien()
     }, []);
+
+    const getDataPasien = (nama, kategori, current, limit) => {
+        setLoading(true);
+        APIServices.getAllPasien().then(res => {
+            console.log(res)
+                if(res.data){
+                    let _data = Object.values(res.data.data)
+                    let _meta = _data.pop()
+                    console.log("Pagination: ", _meta)
+                    
+                    setDataPasien(_data);
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataPasien(Dummy.dataPasien);
+                    setDataPasien([]);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getNewAntrean = (id_poli) => {
+        setLoading(true);
+        APIServices.getNewAntrean(id_poli).then(res => {
+                if(res.data){
+                    console.log(res.data.data.no_antrean)
+                    setNewAntrean(res.data.data.no_antrean)
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
 
     const getAntreanUmum = () => {
         setLoading(true);
@@ -91,7 +140,9 @@ const AmbilAntrean = (props) => {
         APIServices.getLastAntreanUmum().then(res => {
                 console.log("LA: ", res)
                 if(res.data){
-                    setLastAntrean(res.data.data.data[0])
+                    if(res.data.data.data.length > 0){
+                        setLastAntrean(res.data.data.data[0])
+                    }
                     setLoading(false)
                 }
             }).catch(err => {
@@ -123,7 +174,9 @@ const AmbilAntrean = (props) => {
         APIServices.getLastAntreanGigi().then(res => {
                 console.log("LG: ", res)
                 if(res.data){
-                    setLastAntrean(res.data.data.data[0])
+                    if(res.data.data.data.length > 0){
+                        setLastAntrean(res.data.data.data[0])
+                    }
                     setLoading(false)
                 }
             }).catch(err => {
@@ -137,7 +190,7 @@ const AmbilAntrean = (props) => {
     const ambilAntrean = (data) => {
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
-            id_pasien: 37,
+            id_pasien: idPasien,
         }
         setLoadingButton(true);
 
@@ -146,14 +199,6 @@ const AmbilAntrean = (props) => {
         //     APIServices.postAntrean(body2),
         //     APIServices.postAntrean(body3),
         //     APIServices.postAntrean(body4),
-        //     APIServices.postAntrean(body1),
-        //     APIServices.postAntrean(body2),
-        //     APIServices.postAntrean(body3),
-        //     APIServices.postAntrean(body4),
-        //     APIServices.postAntrean(body1),
-        //     APIServices.postAntrean(body2),
-        //     APIServices.postAntrean(body3),
-        //     APIServices.postAntrean(body4)
         // ]).then((res) =>{
         //     setLoading(false);
         // })
@@ -218,26 +263,43 @@ const AmbilAntrean = (props) => {
                         <Card className="button-card" style={{height:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    NOMOR ANTREAN ANDA
+                                    AMBIL NOMOR ANTREAN BARU
                                 </Text>
                             </Row>
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        U-002
+                                        {newAntrean ? newAntrean : "-"}
                                     </Text>
                                 </Row>
                             </Card>
+                            
+                            <Row justify="center" style={{marginTop:20}}>
+                                <Text className="title-label">Pasien</Text>
+                            </Row>
                             <Row justify="center">
-                                {/* <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
+                                <Select className="input-form secondary" allowClear
+                                    style={{width:"80%"}}
+                                    onChange={(val) => setIDPasien(val)}
+                                >
+                                    {dataPasien.map(item => (
+                                        <Option key={item.id_pasien} value={item.id_pasien}>
+                                            {item.kode_pasien+"-"+item.nama}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </Row>
+                            <Row justify="center">
+                                
+                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
                                     loading={loadingButton}
                                     onClick={() => {
                                         ambilAntrean();
                                     }}
                                 >
                                     Ambil Nomor Antrean
-                                </Button> */}
-                                <Row justify="center">
+                                </Button>
+                                {/* <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", marginTop:30}}>
                                         Menunggu 1 antrean
                                     </Text>
@@ -247,7 +309,7 @@ const AmbilAntrean = (props) => {
                                     <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                         silahkan mengambil antrean baru.
                                     </Text>
-                                </Row>
+                                </Row> */}
                             </Row>
                         </Card>
                     </Col>
@@ -261,7 +323,7 @@ const AmbilAntrean = (props) => {
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        ---
+                                        {lastAntrean.no_antrean ? lastAntrean.no_antrean : "-"}
                                     </Text>
                                 </Row>
                             </Card>
@@ -282,7 +344,7 @@ const AmbilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    dr. ---
+                                    dr. Eva Dianita
                                 </Text>
                             </Row>
                         </Card>

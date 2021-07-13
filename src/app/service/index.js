@@ -229,6 +229,16 @@ const APIServices = {
         )
     },
 
+    getAllPasien(){
+        return client.request(
+            {
+                method: "get", 
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien?paginate=false`,
+            },
+            {crossdomain: true }
+        )
+    },
+
     putDataPasien(data){
         return client.request(
             {
@@ -463,6 +473,16 @@ const APIServices = {
             {
                 method: "get",
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getLastAntreanGigi`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getNewAntrean(data){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/antrean/getNewAntrean?id_poli=${data}`,
             },
             {crossdomain: true }
         )
