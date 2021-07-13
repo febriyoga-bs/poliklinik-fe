@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button } from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Spin } from 'antd';
+import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 import { dialog } from '../../component/alert'
 import moment from 'moment';
 
-// import Echo from 'laravel-echo';
-// window.Pusher = require('pusher-js');
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
 
 const { Content } = Layout;
 const { Text } = Typography;
+const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
  
 const PanggilAntrean = (props) => {
     const [loading, setLoading] = useState(false);
@@ -18,34 +19,47 @@ const PanggilAntrean = (props) => {
     const [lastAntrean, setLastAntrean] = useState([]);
     const [jamMasuk, setJamMasuk] = useState(null);
 
-    // useEffect(()=>{
-    //     window.Echo = new Echo({
-    //         authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-    //         broadcaster: 'pusher',
-    //         key: "anyKey",
-    //         wsHost: "25.70.2.196",
-    //         wsPort: 6001,
-    //         disableStats: true,
-    //         forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-    //     });
+    useEffect(()=>{
+        window.Echo = new Echo({
+            authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "25.70.2.196",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
 
-    //     console.log("Tes: ", window.Echo);
-    //     let echo = window.Echo;
-    //     /* LISTENING FOR EVENT BROADCAST */
-    //     // echo.private(`antre`)
-    //     //     .listen('AntreanSent', (e) => {
-    //     //         console.log(e);
-    //     //     });
-    //     echo.channel('antre')
-    //         .listen('AntreanSent', (e) => {
-    //             console.log(e);
-    //             let arr = []
-    //             arr.push(e.antrean)
-    //             console.log(arr)
-    //             setDataAntrean(arr)
-    //         })
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+        console.log("Tes: ", window.Echo);
+        let echo = window.Echo;
+
+        if(props.location.state.poli === "umum"){
+            echo.channel('antre')
+                .listen('AntreanSentUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+                .listen('AntreanUpdateUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+        } else {
+            echo.channel('antre')
+                .listen('AntreanSentGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+                .listen('AntreanUpdateGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     /* RENDER WHEN PAGE OPEN */
     useEffect(()=>{
@@ -248,11 +262,17 @@ const PanggilAntrean = (props) => {
                     
                     <Col xs={24} md={8} lg={8}>
                         <Card className="button-card" style={{height:350}}>
-                            <Row justify="center">
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DILAYANI
-                                </Text>
+                        <Row justify="center">
+                            <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                SEDANG DILAYANI
+                            </Text>
+                        </Row>
+                        {loading ?
+                            <Row justify="center" align="middle" style={{marginTop:40}}>
+                                <Spin indicator={antIcon} /> 
                             </Row>
+                        :
+                        <>
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
@@ -280,6 +300,8 @@ const PanggilAntrean = (props) => {
                                     dr. Eva Dianita
                                 </Text>
                             </Row>
+                        </>
+                        }
                         </Card>
                     </Col>
                     <Col xs={24} md={16} lg={16}>

@@ -354,7 +354,7 @@ const UbahDataPasien = (props) => {
                         
                         {(kategori==="Mahasiswa" || kategori==="Staf/Dosen") &&
                         <div>
-                            <Text className="title-label">Nomor Identitas</Text>
+                            <Text className="title-label">{kategori==="Mahasiswa" ? "Nomor Identitas (NIM)" : "Nomor Identitas (NIP)"}</Text>
                                 <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
                                         <Input className="input-form secondary" />
                                 </Form.Item>   

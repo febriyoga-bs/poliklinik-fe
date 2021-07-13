@@ -69,6 +69,16 @@
   }
 }
 
+.ant-menu-submenu-title{
+  color: #FFF;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.ant-menu-submenu-title:hover{
+  color: #FFE600;
+}
+
 .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover{
   background-color: transparent;
 }

@@ -230,23 +230,26 @@ const Antrean = () => {
                             />
                             <Row justify="center" gutter={10}>
                                 <Col>
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntreanUmum();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
+                                    <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                        onClick={() => {
+                                            gotoAmbilAntreanUmum();
+                                        }}
+                                    >
+                                        Ambil Nomor Antrean
+                                    </Button>
                                 </Col>
-                                <Col>
-                                <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoPanggilAntreanUmum();
-                                    }}
-                                >
-                                    Panggil Nomor Antrean
-                                </Button>
-                                </Col>
+                                {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+          
+                                    <Col>
+                                        <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
+                                            onClick={() => {
+                                                gotoPanggilAntreanUmum();
+                                            }}
+                                        >
+                                            Panggil Nomor Antrean
+                                        </Button>
+                                    </Col>
+                                }
                             </Row>
                         </Card>
                     </Col>
@@ -272,23 +275,26 @@ const Antrean = () => {
                             />
                             <Row justify="center" gutter={10}>
                                 <Col>
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoAmbilAntreanGigi();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
+                                    <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                        onClick={() => {
+                                            gotoAmbilAntreanGigi();
+                                        }}
+                                    >
+                                        Ambil Nomor Antrean
+                                    </Button>
                                 </Col>
-                                <Col>
-                                <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
-                                    onClick={() => {
-                                        gotoPanggilAntreanGigi();
-                                    }}
-                                >
-                                    Panggil Nomor Antrean
-                                </Button>
-                                </Col>
+                                {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+          
+                                    <Col>
+                                        <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
+                                            onClick={() => {
+                                                gotoPanggilAntreanGigi();
+                                            }}
+                                        >
+                                            Panggil Nomor Antrean
+                                        </Button>
+                                    </Col>
+                                }
                             </Row>
                         </Card>
                     </Col>

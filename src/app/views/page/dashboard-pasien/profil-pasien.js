@@ -38,6 +38,7 @@ const ProfilStaf = () => {
                     message.info("Harap lengkapi data diri Anda!");
                 }
                 setDataPasien(res.data.data[0]);
+                localStorage.setItem('id_pasien', JSON.stringify(res.data.data[0].id_pasien));
                 setLoading(false)
             }
         }).catch(err => {

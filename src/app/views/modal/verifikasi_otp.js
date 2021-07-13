@@ -62,7 +62,7 @@ const VerifikasiOTP = (props) => {
 
         <Row justify="center">
             <Text style={{textAlign:"center"}}>
-                Kode verifikasi (OTP) telah dikirim melalui SMS ke <br></br>
+                Kode verifikasi akun telah dikirim melalui SMS ke <br></br>
                 <b>{props.data.no_telepon}</b>
             </Text>
         </Row>

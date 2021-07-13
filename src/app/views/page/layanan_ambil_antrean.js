@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Select} from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Select, Spin} from 'antd';
+import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
+import Auth from "../../service/auth";
 import { dialog } from '../../component/alert'
+import moment from 'moment';
 
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
@@ -11,6 +13,7 @@ window.Pusher = require('pusher-js');
 const { Content } = Layout;
 const { Text } = Typography;
 const { Option } = Select;
+const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
  
 const AmbilAntrean = (props) => {
     const [loadingButton, setLoadingButton] = useState(false);
@@ -18,8 +21,10 @@ const AmbilAntrean = (props) => {
     const [dataPasien, setDataPasien] = useState([]);
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
-    const [newAntrean, setNewAntrean] = useState([]);
+    const [newAntrean, setNewAntrean] = useState("-");
     const [idPasien, setIDPasien] = useState(null);
+    const [antreanExist, setAntreanExist] = useState(false)
+    const [noAntrean, setNoAntrean] = useState(null)
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -122,10 +127,16 @@ const AmbilAntrean = (props) => {
     const getAntreanUmum = () => {
         setLoading(true);
         APIServices.getAntreanUmum().then(res => {
-                console.log("AU: ", res.data.data.data)
-                setDataAntrean(res.data.data.data);
                 if(res.data){
                     setLoading(false)
+                    console.log("AU: ", res.data.data.data)
+                    setDataAntrean(res.data.data.data);
+                    res.data.data.data.forEach(val => {
+                        if(val.id_pasien === JSON.parse(localStorage.getItem('id_pasien')) && val.status === 0){
+                            setAntreanExist(true);
+                            setNoAntrean(val.no_antrean)
+                        }
+                    })
                 }
             }).catch(err => {
                 if(err){
@@ -156,10 +167,16 @@ const AmbilAntrean = (props) => {
     const getAntreanGigi = () => {
         setLoading(true);
         APIServices.getAntreanGigi().then(res => {
-                console.log("AG: ", res.data.data.data)
-                setDataAntrean(res.data.data.data);
                 if(res.data){
                     setLoading(false)
+                    console.log("AG: ", res.data.data.data)
+                    setDataAntrean(res.data.data.data);
+                    res.data.data.data.forEach(val => {
+                        if(val.id_pasien === JSON.parse(localStorage.getItem('id_pasien')) && val.status === 0){
+                            setAntreanExist(true);
+                            setNoAntrean(val.no_antrean)
+                        }
+                    })
                 }
             }).catch(err => {
                 if(err){
@@ -188,9 +205,11 @@ const AmbilAntrean = (props) => {
         }
 
     const ambilAntrean = (data) => {
+                           
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
-            id_pasien: idPasien,
+            id_pasien: (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) ? 
+                idPasien : JSON.parse(localStorage.getItem('id_pasien')),
         }
         setLoadingButton(true);
 
@@ -260,66 +279,91 @@ const AmbilAntrean = (props) => {
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
                     <Col xs={24} md={12} lg={8}>
+                        
+                        
                         <Card className="button-card" style={{height:350}}>
-                            <Row justify="center">
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    AMBIL NOMOR ANTREAN BARU
-                                </Text>
+                        <Row justify="center">
+                            <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                {antreanExist ? "NOMOR ANTREAN ANDA" : "AMBIL NOMOR ANTREAN BARU"}
+                            </Text>
+                        </Row>
+                        {loading ?
+                            <Row justify="center" align="middle" style={{marginTop:40}}>
+                                <Spin indicator={antIcon} /> 
                             </Row>
+                        :
+                        <>
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        {newAntrean ? newAntrean : "-"}
+                                        {antreanExist ? noAntrean : (newAntrean) ? newAntrean : "-"}
                                     </Text>
                                 </Row>
                             </Card>
                             
-                            <Row justify="center" style={{marginTop:20}}>
-                                <Text className="title-label">Pasien</Text>
-                            </Row>
+                            
+                            {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+                                <>
+                                <Row justify="center" style={{marginTop:20}}>
+                                    <Text className="title-label">Pilih Pasien</Text>
+                                </Row>
+                                <Row justify="center">
+                                    <Select className="input-form secondary" allowClear
+                                        style={{width:"80%"}}
+                                        onChange={(val) => setIDPasien(val)}
+                                    >
+                                        {dataPasien.map(item => (
+                                            <Option key={item.id_pasien} value={item.id_pasien}>
+                                                {item.kode_pasien+"-"+item.nama}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Row>
+                                </>
+                            }
+                            
                             <Row justify="center">
-                                <Select className="input-form secondary" allowClear
-                                    style={{width:"80%"}}
-                                    onChange={(val) => setIDPasien(val)}
-                                >
-                                    {dataPasien.map(item => (
-                                        <Option key={item.id_pasien} value={item.id_pasien}>
-                                            {item.kode_pasien+"-"+item.nama}
-                                        </Option>
-                                    ))}
-                                </Select>
+                                {!antreanExist ? 
+                                    <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
+                                        loading={loadingButton}
+                                        onClick={() => {
+                                            ambilAntrean();
+                                        }}
+                                    >
+                                        Ambil Nomor Antrean
+                                    </Button>
+                                    :
+                                    <Row justify="center">
+                                        <Text style={{color:"#EB3D00", fontWeight:"bold", marginTop:30}}>
+                                            Menunggu antrean
+                                        </Text>
+                                        <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                            *) Apabila terlewat lebih dari 3 antrean,
+                                        </Text>
+                                        <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                            silahkan mengambil antrean baru.
+                                        </Text>
+                                </Row>
+                                }
                             </Row>
-                            <Row justify="center">
-                                
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
-                                    loading={loadingButton}
-                                    onClick={() => {
-                                        ambilAntrean();
-                                    }}
-                                >
-                                    Ambil Nomor Antrean
-                                </Button>
-                                {/* <Row justify="center">
-                                    <Text style={{color:"#EB3D00", fontWeight:"bold", marginTop:30}}>
-                                        Menunggu 1 antrean
-                                    </Text>
-                                    <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                        *) Apabila terlewat lebih dari 3 antrean,
-                                    </Text>
-                                    <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                        silahkan mengambil antrean baru.
-                                    </Text>
-                                </Row> */}
-                            </Row>
+                        </>
+                        }
                         </Card>
                     </Col>
                     <Col xs={24} md={12} lg={8}>
                         <Card className="button-card" style={{height:350}}>
-                            <Row justify="center">
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DILAYANI
-                                </Text>
+                        <Row justify="center">
+                            <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                SEDANG DILAYANI
+                            </Text>
+                        </Row>
+                        {loading ?
+                            <Row justify="center" align="middle" style={{marginTop:40}}>
+                                <Spin indicator={antIcon} /> 
                             </Row>
+                        :
+                        <>
+                            
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
@@ -334,7 +378,8 @@ const AmbilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    ---
+                                {lastAntrean.jam_masuk ? moment(lastAntrean.jam_masuk, 'YYYY-MM-DD HH:mm:ss.S').format('HH:mm:ss') : "-"}
+                                
                                 </Text>
                             </Row>
                             <Row justify="center" style={{marginTop:20}}>
@@ -347,6 +392,8 @@ const AmbilAntrean = (props) => {
                                     dr. Eva Dianita
                                 </Text>
                             </Row>
+                        </>
+                        }
                         </Card>
                     </Col>
                     <Col xs={24} md={24} lg={8}>

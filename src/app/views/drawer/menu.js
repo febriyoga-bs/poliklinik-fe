@@ -1,18 +1,19 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Drawer, Button, Row, Typography, Dropdown, message } from 'antd'
+import { Drawer, Button, Row, Typography, Dropdown, message, Menu } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import Auth from '../../service/auth';
 
 const {Text } = Typography;
+const {SubMenu} = Menu;
 
-const Menu = props => {
+const MenuDrawer = props => {
 
     const menuLayanan = (
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
             <Menu.Item >
                 <NavLink to="/antrean-poliklinik">  
-                    <Text className="title-navmenu" style={{fontWeight:"normal"}}>
+                    <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
                         Antrean Poliklinik
                     </Text>
                 </NavLink>
@@ -24,7 +25,7 @@ const Menu = props => {
                     </Text>
                 </NavLink> */}
                 <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
-                    className="title-navmenu" style={{fontWeight:"normal"}}>
+                    className="title-home-mobile" style={{fontWeight:"normal"}}>
                     Konsultasi Online
                 </Text>
             </Menu.Item>
@@ -60,22 +61,53 @@ const Menu = props => {
                     BERANDA
                 </NavLink>
             </Row>
+            
+            <Row justify="center" style={{marginTop:10}}>
+                <Menu
+                    mode="inline"
+                    style={{backgroundColor:"transparent"}}
+                >
+                <SubMenu key="sub1" title="LAYANAN">
+                    <Menu.Item key="/dashboard-staf/kelola-data-pengguna/pasien" style={{backgroundColor:"transparent"}}>
+                        <NavLink to="/antrean-poliklinik" >  
+                            <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                                Antrean Poliklinik
+                            </Text>
+                        </NavLink>
+                    </Menu.Item>
+                    <Menu.Item style={{backgroundColor:"transparent"}}>
+                        <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
+                            className="title-home-mobile" style={{fontWeight:"normal"}}>
+                            Konsultasi Online
+                        </Text>
+                    </Menu.Item>
+                </SubMenu>
+                </Menu>
+                {/* <Dropdown overlay={menuLayanan} placement="bottomCenter">
+                    <Text className="title-home-mobile">
+                        LAYANAN
+                    </Text>
+                </Dropdown> */}
+            </Row>
+
             <Row justify="center" style={{marginTop:10}}>
                 <NavLink to="/informasi" className="title-home-mobile" onClick={props.buttonCancel}>
                     INFORMASI
                 </NavLink>
             </Row>
+            
 
             <Row justify="center" style={{marginTop:10}}>
-                <Dropdown overlay={menuLayanan} placement="bottomCenter">
-                    <Text className="title-navmenu">
-                        LAYANAN
-                    </Text>
-                </Dropdown>
+                {/* <NavLink to="/bantuan" className="title-home-mobile" onClick={props.buttonCancel}>
+                    BANTUAN
+                </NavLink> */}
+                <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-home-mobile">
+                    BANTUAN
+                </Text>
             </Row>
                
         </Drawer>
     )
 }
 
-export default Menu
+export default MenuDrawer
