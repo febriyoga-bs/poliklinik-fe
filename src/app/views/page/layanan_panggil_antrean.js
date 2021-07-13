@@ -250,7 +250,8 @@ const PanggilAntrean = (props) => {
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        {lastAntrean.no_antrean ? lastAntrean.no_antrean : "-"}
+                                        {/* {lastAntrean.no_antrean ? lastAntrean.no_antrean : "-"} */}
+                                        ---
                                     </Text>
                                 </Row>
                             </Card>

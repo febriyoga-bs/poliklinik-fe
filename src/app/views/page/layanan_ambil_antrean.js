@@ -137,7 +137,7 @@ const AmbilAntrean = (props) => {
     const ambilAntrean = (data) => {
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
-            id_pasien: 1,
+            id_pasien: 37,
         }
         setLoadingButton(true);
 
@@ -218,25 +218,36 @@ const AmbilAntrean = (props) => {
                         <Card className="button-card" style={{height:350}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    AMBIL ANTREAN BARU
+                                    NOMOR ANTREAN ANDA
                                 </Text>
                             </Row>
                             <Card justify="center" style={{marginTop:20, borderColor: "#EB3D00", borderWidth: 5, borderRadius: 15}}>
                                 <Row justify="center">
                                     <Text style={{color:"#EB3D00", fontWeight:"bold", fontSize: "3em"}}>
-                                        ---
+                                        U-002
                                     </Text>
                                 </Row>
                             </Card>
                             <Row justify="center">
-                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
+                                {/* <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
                                     loading={loadingButton}
                                     onClick={() => {
                                         ambilAntrean();
                                     }}
                                 >
                                     Ambil Nomor Antrean
-                                </Button>
+                                </Button> */}
+                                <Row justify="center">
+                                    <Text style={{color:"#EB3D00", fontWeight:"bold", marginTop:30}}>
+                                        Menunggu 1 antrean
+                                    </Text>
+                                    <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                        *) Apabila terlewat lebih dari 3 antrean,
+                                    </Text>
+                                    <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                        silahkan mengambil antrean baru.
+                                    </Text>
+                                </Row>
                             </Row>
                         </Card>
                     </Col>

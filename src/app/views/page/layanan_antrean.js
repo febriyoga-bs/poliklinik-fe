@@ -185,7 +185,7 @@ const Antrean = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content-new">
-                <Row>
+                <Row style={{color:"#FFF"}}>
                     <Col span={20}>
                         <marquee direction="" onmouseover="this.stop();" onmouseout="this.start();">
                             Layanan Ambil Nomor Antrean hanya dapat dilakukan pukul 08.00 s.d. 11.00
