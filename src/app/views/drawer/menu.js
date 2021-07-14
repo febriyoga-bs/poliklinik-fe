@@ -56,7 +56,7 @@ const MenuDrawer = props => {
                     </Button>
                 }
             </Row>
-            <Row justify="center" style={{marginTop:10}}>
+            <Row justify="center" style={{marginTop:20}}>
                 <NavLink to="/" className="title-home-mobile" onClick={props.buttonCancel}>
                     BERANDA
                 </NavLink>
@@ -67,8 +67,8 @@ const MenuDrawer = props => {
                     mode="inline"
                     style={{backgroundColor:"transparent"}}
                 >
-                <SubMenu key="sub1" title="LAYANAN">
-                    <Menu.Item key="/dashboard-staf/kelola-data-pengguna/pasien" style={{backgroundColor:"transparent"}}>
+                <SubMenu key="sub1" title="LAYANAN" style={{paddingLeft:0}}>
+                    <Menu.Item style={{backgroundColor:"transparent"}}>
                         <NavLink to="/antrean-poliklinik" >  
                             <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
                                 Antrean Poliklinik
@@ -97,7 +97,7 @@ const MenuDrawer = props => {
             </Row>
             
 
-            <Row justify="center" style={{marginTop:10}}>
+            <Row justify="center" style={{marginTop:20}}>
                 {/* <NavLink to="/bantuan" className="title-home-mobile" onClick={props.buttonCancel}>
                     BANTUAN
                 </NavLink> */}

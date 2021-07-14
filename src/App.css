@@ -69,17 +69,40 @@
   }
 }
 
-.ant-menu-submenu-title{
+.ant-drawer-close, .ant-drawer-title {
+  margin: 15px;
   color: #FFF;
   font-weight: bold;
-  font-size: 1.2em;
 }
 
-.ant-menu-submenu-title:hover{
+.ant-menu-inline{
+  border-right: 0px;
+}
+
+.ant-menu-submenu-title{
+  color: #FFF;
+  font-size: 1.2em;
+  padding-left: 0px!important;
+}
+
+.ant-menu-inline .ant-menu-submenu-title, 
+.ant-menu-sub.ant-menu-inline > .ant-menu-item{
+  text-align: center;
+  padding: 0px;
+  padding-left: 0px!important;
+} 
+
+.ant-menu-submenu-title:hover, .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow,
+.ant-menu-item-active{
   color: #FFE600;
 }
 
-.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover{
+.ant-menu-submenu-arrow {
+  color: #FFF;
+}
+
+.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover, 
+.ant-menu-sub.ant-menu-inline {
   background-color: transparent;
 }
 

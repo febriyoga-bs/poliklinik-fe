@@ -208,7 +208,7 @@ const Antrean = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
-                    <Col xs={12} md={12} lg={12}>
+                    <Col xs={24} md={12} lg={12}>
                         <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
@@ -253,7 +253,7 @@ const Antrean = () => {
                             </Row>
                         </Card>
                     </Col>
-                    <Col xs={12} md={12} lg={12}>
+                    <Col xs={24} md={12} lg={12}>
                         <Card className="button-card" >
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>

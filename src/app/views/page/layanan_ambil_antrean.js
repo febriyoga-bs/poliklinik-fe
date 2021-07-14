@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Select, Spin} from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
@@ -25,6 +25,7 @@ const AmbilAntrean = (props) => {
     const [idPasien, setIDPasien] = useState(null);
     const [antreanExist, setAntreanExist] = useState(false)
     const [noAntrean, setNoAntrean] = useState(null)
+    const [sisaAntrean, setSisaAntrean] = useState(null)
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -75,13 +76,13 @@ const AmbilAntrean = (props) => {
     /* RENDER WHEN PAGE OPEN */
     useEffect(()=>{
         if(props.location.state.poli === "umum"){
+            getLastAntreanUmum()
             getAntreanUmum()
             getNewAntrean(1);
-            getLastAntreanUmum()
         } else {
+            getLastAntreanGigi()
             getAntreanGigi()
             getNewAntrean(2);
-            getLastAntreanGigi()
         }
         getDataPasien()
     }, []);
@@ -135,6 +136,10 @@ const AmbilAntrean = (props) => {
                         if(val.id_pasien === JSON.parse(localStorage.getItem('id_pasien')) && val.status === 0){
                             setAntreanExist(true);
                             setNoAntrean(val.no_antrean)
+                            let current = val.no_antrean.split("U-")
+                            let last = lastAntrean.no_antrean.split("U-")
+                            console.log("tes: ", parseInt(current[1]))
+                            setSisaAntrean(parseInt(current[1]) - parseInt(last[1]))
                         }
                     })
                 }
@@ -153,6 +158,8 @@ const AmbilAntrean = (props) => {
                 if(res.data){
                     if(res.data.data.data.length > 0){
                         setLastAntrean(res.data.data.data[0])
+                    } else {
+                        setLastAntrean({no_antrean:"U-000"})
                     }
                     setLoading(false)
                 }
@@ -175,7 +182,10 @@ const AmbilAntrean = (props) => {
                         if(val.id_pasien === JSON.parse(localStorage.getItem('id_pasien')) && val.status === 0){
                             setAntreanExist(true);
                             setNoAntrean(val.no_antrean)
-                        }
+                            let current = val.no_antrean.split("G-")
+                            let last = lastAntrean.no_antrean.split("G-")
+                            console.log("tes: ", parseInt(current[1]))
+                            setSisaAntrean(parseInt(current[1]) - parseInt(last[1]))}
                     })
                 }
             }).catch(err => {
@@ -193,6 +203,8 @@ const AmbilAntrean = (props) => {
                 if(res.data){
                     if(res.data.data.data.length > 0){
                         setLastAntrean(res.data.data.data[0])
+                    } else {
+                        setLastAntrean({no_antrean:"G-000"})
                     }
                     setLoading(false)
                 }
@@ -261,15 +273,19 @@ const AmbilAntrean = (props) => {
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content-new">
                 <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/antrean-poliklinik">
-                        <Text className="title">
-                            <span>Antrean Poliklinik</span>
-                        </Text>
+                    <Breadcrumb.Item >
+                        <NavLink to="/antrean-poliklinik"> 
+                            <Text className="title">
+                                <span>Antrean Poliklinik</span>
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/antrean-poliklinik">
                         <Text className="title">
@@ -333,17 +349,25 @@ const AmbilAntrean = (props) => {
                                         Ambil Nomor Antrean
                                     </Button>
                                     :
-                                    <Row justify="center">
-                                        <Text style={{color:"#EB3D00", fontWeight:"bold", marginTop:30}}>
-                                            Menunggu antrean
+                                    <>
+                                    <Col>
+                                    <Row justify="center" style={{marginTop:30}}>
+                                        <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
+                                            Menunggu {sisaAntrean} antrean
                                         </Text>
+                                    </Row>
+                                    <Row justify="center">
                                         <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                             *) Apabila terlewat lebih dari 3 antrean,
                                         </Text>
+                                    </Row>
+                                    <Row justify="center">
                                         <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                             silahkan mengambil antrean baru.
                                         </Text>
-                                </Row>
+                                    </Row>
+                                    </Col>
+                                    </>
                                 }
                             </Row>
                         </>
