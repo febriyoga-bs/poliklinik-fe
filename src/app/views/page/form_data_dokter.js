@@ -30,6 +30,7 @@ const FormDataDokter = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let registerBody ={
+            no_identitas: values.no_identitas,
             no_telepon: values.no_telepon,
             password: values.password,
             role: 2,
@@ -37,6 +38,7 @@ const FormDataDokter = (props) => {
         }
 
         let body ={
+            no_identitas: values.no_identitas,
             no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
@@ -172,6 +174,16 @@ const FormDataDokter = (props) => {
                                     </div>
                                 }
 
+                                <Text className="title-label">Nomor Identitas</Text>
+                                <Form.Item name="no_identitas"
+                                    rules={[
+                                        { required: true, message: "Harap masukkan nomor identitas" },
+                                        { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!'},
+                                    ]}
+                                >
+                                        <Input className="input-form secondary" disabled={props.location.state} placeholder="Masukkan nomor identitas"/>
+                                </Form.Item>
+
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon"
                                     rules={[
@@ -179,7 +191,7 @@ const FormDataDokter = (props) => {
                                         { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!'},
                                     ]}
                                 >
-                                        <Input className="input-form secondary" disabled={props.location.state}/>
+                                        <Input className="input-form secondary" placeholder="Masukkan nomor telepon"/>
                                 </Form.Item>
 
                                 {!props.location.state &&
@@ -246,7 +258,8 @@ const FormDataDokter = (props) => {
                                         { pattern: new RegExp('[a-zA-Z]$'), message: "Harap hanya masukkan huruf!" },
                                     ]}
                                 >
-                                        <Input className="input-form secondary" />
+                                        <Input className="input-form secondary" placeholder="Masukkan nama"/>
+                                        
                                 </Form.Item>
 
                                 <Text className="title-label">Spesialisasi</Text>

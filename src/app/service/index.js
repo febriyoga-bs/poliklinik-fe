@@ -77,7 +77,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getDokterById`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/dokter/getDokter`,
             },
             {crossdomain: true }
         )
@@ -140,7 +140,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getStafById`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/staf/getStaf`,
             },
             {crossdomain: true }
         )
@@ -203,7 +203,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getPasienById`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getPasien`,
             },
             {crossdomain: true }
         )

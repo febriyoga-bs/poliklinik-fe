@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Card, Form, Input, Button, Select, DatePicker} from 'antd';
 import { dialog } from '../../component/alert'
 import { APIServices } from '../../service'
+import { Radio } from 'antd';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -13,8 +14,14 @@ const Register = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [regisStep, setRegisStep] = useState(1);
+    const [kategori, setKategori] = useState("");
     const dateFormat = 'DD/MM/YYYY';
 
+    useEffect(()=>{
+        setKategori(kategori)
+        console.log(kategori)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const gotoLogin = () => {
         const loc = '/login';
         history.push(loc);
@@ -107,6 +114,40 @@ const Register = () => {
                             />
                         </Form.Item>
                     </Col> */}
+                    <Col span={24}>
+                    <Text className="title-label">Kategori Pasien</Text>
+                        <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
+                            <Radio.Group onChange={(e)=>setKategori(e)} value={kategori}>
+                                <Radio value="Umum">Umum</Radio>
+                                <Radio value="Mahasiswa">Mahasiswa</Radio>
+                                <Radio value="Staf/Dosen">Staf/Dosen</Radio>
+                                <Radio value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                        <Text className="form-label active">{kategori}</Text>
+                        <Form.Item
+                            name="no_identitas"
+                            required
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Harap masukkan Nomor Identitas Anda!'
+                            },
+                            {
+                                pattern: new RegExp('^[0-9]+$'), 
+                                message: 'Harap hanya masukkan angka!',
+                            },
+                            ]}
+                            style={{marginBottom:30}}
+                            >
+                            
+                            <Input className="input-form" maxLength={15} minLength={10}
+                                placeholder="Contoh: 3204162203000008"
+                            />
+                        </Form.Item>
+                    </Col>
                     <Col span={24}>
                         <Text className="form-label active">No. Telepon</Text>
                         <Form.Item
