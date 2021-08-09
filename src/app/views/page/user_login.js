@@ -38,10 +38,9 @@ const LoginUser = () => {
     const onFinish = (values) => {
         setLoading(true)
         let loginData = {
-            no_telepon: values.no_telepon,
+            var_login: values.var_login,
             password: values.password
         }
-
         // // Login Test
         //     if(values.no_telepon === "1" && values.password === "1"){
         //         localStorage.setItem('role', JSON.stringify("123"));
@@ -63,12 +62,14 @@ const LoginUser = () => {
             let res = response.data;
             let status = JSON.parse(res.data.status);
             if(res && status === 1){
+                localStorage.setItem('no_identitas', JSON.stringify(res.data.no_identitas));
                 localStorage.setItem('no_telepon', JSON.stringify(res.data.no_telepon));
                 localStorage.setItem('role', JSON.stringify(res.meta.role));
                 localStorage.setItem('token', JSON.stringify(res.meta.api_token));
             } else if(status === 0){
                 message.info("Akun Belum Terverifikasi");
                 let record = {
+                    no_identitas: res.data.no_identitas,
                     no_telepon: res.data.no_telepon,
                     role: res.meta.role,
                     token: res.meta.api_token
@@ -90,7 +91,7 @@ const LoginUser = () => {
         }).catch(err => {
             setLoading(false);
             if(err.response){
-                message.error("Nomor Telepon atau Password yang Anda masukkan salah!");
+                message.error("Nomor Identitas atau Password yang Anda masukkan salah!");
             } else {
                 message.error("Terjadi kesalahan, periksa koneksi Anda!");
             }
@@ -126,14 +127,14 @@ const LoginUser = () => {
                                 <Row>
                                     <Form form={form} onFinish={onFinish}>
                                         <Col span={24}>
-                                            <Text className={fieldPhoneActive ? "form-label active" : "form-label"}>No. Telepon</Text>
+                                            <Text className={fieldPhoneActive ? "form-label active" : "form-label"}>No. Identitas/No. Telepon</Text>
                                             <Form.Item
-                                                name="no_telepon"
+                                                name="var_login"
                                                 required
                                                 rules={[
                                                 {
                                                     required: true,
-                                                    message: 'Harap masukkan Nomor Telepon Anda!'
+                                                    message: 'Harap masukkan Nomor Identitas/Nomor Telepon Anda!'
                                                 },
                                                 {
                                                     pattern: new RegExp('^[0-9]+$'),  
@@ -143,7 +144,7 @@ const LoginUser = () => {
                                                 >
                                                 
                                                 <Input className="input-form" 
-                                                    placeholder={fieldPhoneActive ? "" : "No. Telepon"}
+                                                    placeholder={fieldPhoneActive ? "" : "No. Identitas/No. Telepon"}
                                                     prefix={<UserOutlined />}
                                                     onFocus={() => setFieldPhoneActive(true)}
                                                     onBlur={(e) => {if(e.target.value === ""){setFieldPhoneActive(false)} }}
