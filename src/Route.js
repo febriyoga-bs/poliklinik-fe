@@ -8,7 +8,7 @@ import HeaderLayout from './app/layouts/header';
 import FooterLayout from './app/layouts/footer';
 import LandingPage from "./app/views/page/landing_page";
 import LoginUser from "./app/views/page/user_login";
-import Register from "./app/views/page/registrasi_pasien";
+import Pendaftaran from "./app/views/page/pendaftaran_pasien";
 import Antrean from "./app/views/page/layanan_antrean";
 import AmbilAntrean from "./app/views/page/layanan_ambil_antrean";
 import PanggilAntrean from "./app/views/page/layanan_panggil_antrean";
@@ -70,7 +70,7 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <HeaderLayout/>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={LoginUser} />
-            <Route exact path="/registrasi" component={Register} />
+            <Route exact path="/pendaftaran" component={Pendaftaran} />
             <Route exact path="/antrean-poliklinik" component={Antrean} />
             <Route exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
             <Route exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />

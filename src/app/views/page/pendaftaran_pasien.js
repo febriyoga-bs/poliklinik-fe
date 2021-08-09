@@ -11,7 +11,7 @@ const { Option } = Select;
 
 const Register = () => {
     const history = useHistory();
-    const [form] = Form.useForm();
+    const [formPendaftaranInput] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [regisStep, setRegisStep] = useState(1);
     const [kategori, setKategori] = useState("");
@@ -247,8 +247,8 @@ const Register = () => {
                     
                     <Col span={24}>
                         <Text className="form-label active">Nomor Identitas 
-                            { (form.getFieldValue("kategori")==="Umum") ? " (NIK)" : 
-                              (form.getFieldValue("kategori")==="Mahasiswa") ? " (NIM)" : " (NIP)"}
+                            { (formPendaftaranInput.getFieldValue("kategori")==="Umum") ? " (NIK)" : 
+                              (formPendaftaranInput.getFieldValue("kategori")==="Mahasiswa") ? " (NIM)" : " (NIP)"}
                         </Text>
                         <Form.Item
                             name="nomor_identitas"
@@ -267,8 +267,8 @@ const Register = () => {
                             
                             <Input className="input-form"
                                 placeholder={
-                                    (form.getFieldValue("kategori")==="Umum") ? ("Masukkan nomor induk kependudukan") :
-                                    (form.getFieldValue("kategori")==="Mahasiswa") ? "Masukkan nomor induk mahasiswa" : "Masukkan nomor induk pegawai" }
+                                    (formPendaftaranInput.getFieldValue("kategori")==="Umum") ? ("Masukkan nomor induk kependudukan") :
+                                    (formPendaftaranInput.getFieldValue("kategori")==="Mahasiswa") ? "Masukkan nomor induk mahasiswa" : "Masukkan nomor induk pegawai" }
                             />
                         </Form.Item>
                     </Col>
@@ -376,12 +376,12 @@ const Register = () => {
                             <Card className="registrasi-card" style={{marginBottom:40}}>
                                 <Row justify="center" style={{marginBottom:40}}>
                                     <Text className="title bold" style={{textAlign:"center"}}>
-                                        REGISTRASI PASIEN POLIKLINIK <br></br>
-                                        {(regisStep===2) ? "("+form.getFieldValue("kategori")+")" : ""}
+                                        PENDAFTARAN PASIEN POLIKLINIK <br></br>
+                                        {(regisStep===2) ? "("+formPendaftaranInput.getFieldValue("kategori")+")" : ""}
                                     </Text>
                                 </Row>
                                 <Row>
-                                    <Form form={form} onFinish={onFinish}>
+                                    <Form form={formPendaftaranInput} onFinish={onFinish}>
                                         {regisForm}
                                     </Form>
                                 </Row>

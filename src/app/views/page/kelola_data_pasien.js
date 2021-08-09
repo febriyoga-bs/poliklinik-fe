@@ -68,9 +68,9 @@ const KelolaPasien = () => {
             })
         }
     
-    const deletePasien = (no_telepon) => {
+    const deletePasien = (id) => {
         setLoading(true);
-        APIServices.deleteDataPasien(no_telepon).then(res => {
+        APIServices.deleteDataPasien(id).then(res => {
                 if(res.data){
                     dialog({icon: "success", title:"Hapus Data Pasien Berhasil!"}).then(()=>{
                         console.log("Berhasil");
@@ -239,7 +239,7 @@ const KelolaPasien = () => {
                     <Button 
                         onClick={() => {
                             deleteDialog({icon: "info", title:"Hapus Data Pasien", text: "Apakah Anda yakin akan menghapus data pasien ini?"}).then(()=>{
-                                deletePasien(record.no_telepon);
+                                deletePasien(record.id_pasien);
                             })
                         }}
                     >
