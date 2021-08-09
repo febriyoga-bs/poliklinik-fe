@@ -10,7 +10,7 @@ const { Text } = Typography;
 
 const LoginUser = () => {
     const history = useHistory();
-    const [form] = Form.useForm();
+    const [formLoginInput] = Form.useForm();
     const [isLoading, setLoading] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
@@ -30,8 +30,8 @@ const LoginUser = () => {
         // history.push(loc);
     }
 
-    const gotoRegistrasi = () => {
-        const loc = '/registrasi';
+    const gotoPendaftaran = () => {
+        const loc = '/pendaftaran';
         history.push(loc);
     }
 
@@ -120,11 +120,11 @@ const LoginUser = () => {
                             <Card className="login-card">
                                 <Row justify="center" style={{marginBottom:30}}>
                                     <Text className="title bold">
-                                        LOGIN
+                                        LOGINI
                                     </Text>
                                 </Row>
                                 <Row>
-                                    <Form form={form} onFinish={onFinish}>
+                                    <Form form={formLoginInput} onFinish={onFinish}>
                                         <Col span={24}>
                                             <Text className={fieldPhoneActive ? "form-label active" : "form-label"}>No. Telepon</Text>
                                             <Form.Item
@@ -197,9 +197,9 @@ const LoginUser = () => {
                                                 </Text>
                                             </Row>
                                             <Row justify="center">
-                                                <Button type="text" onClick={gotoRegistrasi}>
+                                                <Button type="text" onClick={gotoPendaftaran}>
                                                     <Text className="title-button" style={{color: "#FFE600", marginBottom:20}}>
-                                                        Registrasi
+                                                        Daftar
                                                     </Text>
                                                 </Button>
                                             </Row>

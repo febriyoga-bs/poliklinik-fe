@@ -12,7 +12,7 @@ const VerifikasiOTP = (props) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
-    const sendOTP = (values) =>{
+    const onFinishVerifikasi = (values) =>{
         setLoading(true);
         let body = {
             no_telepon: props.data.no_telepon,
@@ -68,7 +68,7 @@ const VerifikasiOTP = (props) => {
         </Row>
 
         <Row justify="center">
-            <Form form={form} onFinish={sendOTP}>
+            <Form form={form} onFinish={onFinishVerifikasi}>
                 <Form.Item
                         name="kode_otp"
                         required
