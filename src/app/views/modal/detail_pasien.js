@@ -39,6 +39,30 @@ const DetailPasien = (props) => {
 
         <Row>
           <Col span={8}>
+            <Text> Kode Pasien </Text>
+          </Col>
+          <Col span={1}>
+            <Text> : </Text>
+          </Col>
+          <Col span={8}>
+            {props.dataPasien.kode_pasien}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={8}>
+            <Text> Nomor Identitas </Text>
+          </Col>
+          <Col span={1}>
+            <Text> : </Text>
+          </Col>
+          <Col span={8}>
+            {props.dataPasien.no_identitas}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={8}>
             <Text> Nomor Telepon </Text>
           </Col>
           <Col span={1}>

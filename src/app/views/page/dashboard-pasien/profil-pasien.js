@@ -103,6 +103,40 @@ const ProfilStaf = () => {
                 <Row>
                     <Col span={8} lg={6}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            Kode Pasien
+                        </Title>
+                    </Col>
+                    <Col span={1}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            :
+                        </Title>
+                    </Col>
+                    <Col lg={10}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            {dataPasien.kode_pasien ? dataPasien.kode_pasien : "-"}
+                        </Title>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={8} lg={6}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            No. Identitas
+                        </Title>
+                    </Col>
+                    <Col span={1}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            :
+                        </Title>
+                    </Col>
+                    <Col lg={10}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            {dataPasien.no_identitas ? dataPasien.no_identitas : "-"}
+                        </Title>
+                    </Col>
+                </Row>  
+                <Row>
+                    <Col span={8} lg={6}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
                             No. Telepon
                         </Title>
                     </Col>

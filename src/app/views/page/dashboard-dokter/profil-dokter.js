@@ -92,6 +92,23 @@ const ProfilDokter = () => {
                 <Row>
                     <Col span={8} lg={6}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            Nomor Identitas
+                        </Title>
+                    </Col>
+                    <Col span={1}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            :
+                        </Title>
+                    </Col>
+                    <Col lg={10}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            {dataDokter.no_identitas ? dataDokter.no_identitas : "-"}
+                        </Title>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={8} lg={6}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
                             No. Telepon
                         </Title>
                     </Col>

@@ -39,6 +39,7 @@ const FormDataStaf = (props) => {
         }
 
         let createBody ={
+            no_identitas: values.no_identitas,
             no_telepon: values.no_telepon,
             password: "admin123",
             role: _role,
@@ -46,6 +47,7 @@ const FormDataStaf = (props) => {
         }
 
         let body ={
+            no_identitas: values.no_identitas,
             no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
@@ -175,8 +177,21 @@ const FormDataStaf = (props) => {
                                     <Form.Item name="id_staf" >
                                             <Input className="input-form secondary" disabled/>
                                     </Form.Item>
+
+                                    
                                     </div>
                                 } 
+                                <Text className="title-label">Nomor Identitas</Text>
+                                    <Form.Item name="no_identitas" 
+                                    rules={[
+                                        { required: true, message: "Harap masukkan nomor identitas" },
+                                        { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!'},
+                                    ]}
+                                    >
+                                            <Input className="input-form secondary" 
+                                            disabled={props.location.state}
+                                            placeholder="Masukkan nomor identitas"/>
+                                    </Form.Item>
 
                                 <Text className="title-label">Nomor Telepon</Text>
                                 <Form.Item name="no_telepon"
@@ -185,7 +200,7 @@ const FormDataStaf = (props) => {
                                         { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!'},
                                     ]}
                                 >
-                                        <Input className="input-form secondary" disabled={props.location.state}/>
+                                        <Input className="input-form secondary" placeholder="Masukkan nomor telepon"/>
                                 </Form.Item>
 
                                 {!props.location.state &&
@@ -260,7 +275,8 @@ const FormDataStaf = (props) => {
                                         { required: true, message: "Harap masukkan nama!" },
                                         { pattern: new RegExp('[a-zA-Z]$'), message: "Harap hanya masukkan huruf!" },
                                     ]}>
-                                        <Input className="input-form secondary" />
+                                        <Input className="input-form secondary" 
+                                        placeholder="Masukkan nama"/>
                                 </Form.Item>
 
                                 <Text className="title-label">Kategori Staf</Text>
@@ -278,7 +294,8 @@ const FormDataStaf = (props) => {
                                     <Form.Item name="jabatan" 
                                         rules={[{ required: true, message: "Harap masukkan jabatan" }]}
                                     >
-                                        <Input className="input-form secondary" />
+                                        <Input className="input-form secondary" 
+                                        placeholder="Masukkan jabatan"/>
                                     </Form.Item>
                         </Col>
                     </Row>

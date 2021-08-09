@@ -127,23 +127,32 @@ const RekamMedis = (props) => {
                         </Row>
                         <div className="rekammedis-card" >
                         <Row gutter={16}>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Card title="Anamnesa" >
                                 {dataRekamMedis.anamnesa ? dataRekamMedis.anamnesa : "-"}
                             </Card>
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Card title="Diagnosis" >
                                 {dataRekamMedis.diagnosis ? dataRekamMedis.diagnosis: "-"}
                             </Card>
                         </Col>
-                        <Col span={8}>
+                        </Row>
+                    </div>
+                    <div className="rekammedis-card" >
+                        <Row gutter={16}>
+                        <Col span={12}>
+                            <Card title="Terapi" >
+                                {dataRekamMedis.terapi ? dataRekamMedis.terapi: "-"}
+                            </Card>
+                        </Col>
+                        <Col span={12}>
                             <Card title="Keterangan" >
                                 {dataRekamMedis.keterangan ? dataRekamMedis.keterangan : "-"}
                             </Card>
                         </Col>
                         </Row>
-                    </div>,
+                    </div>
                     </Card>
                 </Row>
             </Content>

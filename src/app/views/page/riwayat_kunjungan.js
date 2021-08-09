@@ -146,9 +146,9 @@ const RiwayatPelayanan = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/riwayat-pelayanan">  
+                        <NavLink to="/dashboard-staf/riwayat-kunjungan">  
                             <Text className="title">
-                                Riwayat Pelayanan
+                                Riwayat Kunjungan
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

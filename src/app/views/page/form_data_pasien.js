@@ -52,6 +52,7 @@ const UbahDataPasien = (props) => {
 
         let body = {
             kategori: values.kategori,
+            no_identitas : values.no_identitas,
             no_telepon: values.no_telepon,
             nama: values.nama,
             jenis_kelamin: values.jenis_kelamin,
@@ -62,15 +63,12 @@ const UbahDataPasien = (props) => {
             if (values.kategori !== props.location.state.kategori && (values.kategori === 'Umum' || values.kategori === 'Keluarga')){
                 body.jurusan = ""
                 body.prodi = ""
-                body.no_identitas = ""
             } else if (values.kategori !== props.location.state.kategori && (values.kategori === 'Staf/Dosen')) {
                 body.jurusan = ""
                 body.prodi = ""
-                body.no_identitas = values.nomor_identitas
             } else {
                 body.jurusan = values.jurusan
                 body.prodi = values.prodi
-                body.no_identitas = values.nomor_identitas
             }
         }
         if(props.location.state){
@@ -232,16 +230,23 @@ const UbahDataPasien = (props) => {
                                 <Form.Item name="id_pasien" >
                                         <Input className="input-form secondary" disabled/>
                                 </Form.Item>
+                                     
                             </div>
                         }
-                        
+                        <Text className="title-label">{kategori==="Mahasiswa" ? "Nomor Identitas (NIM)" : kategori === "Staf/Dosen" ? "Nomor Identitas (NIP)" : "Nomor Identitas (NIK)"}</Text>
+                            <Form.Item name="no_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
+                                    <Input className="input-form secondary" 
+                                    disabled={props.location.state}
+                                    placeholder="Masukkan nomor identitas"/>
+                            </Form.Item>  
+
                         <Text className="title-label">Nomor Telepon</Text>
                             <Form.Item name="no_telepon" 
                             rules={[
                                 { required: true, message: 'Harap masukkan nomor telepon!' },
                                 { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!' },
                                 ]}>
-                                    <Input className="input-form secondary" disabled={props.location.state}
+                                    <Input className="input-form secondary" 
                                         placeholder="Masukkan nomor telepon"
                                     />
                             </Form.Item>
@@ -352,14 +357,6 @@ const UbahDataPasien = (props) => {
                                     />
                             </Form.Item>
                         
-                        {(kategori==="Mahasiswa" || kategori==="Staf/Dosen") &&
-                        <div>
-                            <Text className="title-label">{kategori==="Mahasiswa" ? "Nomor Identitas (NIM)" : "Nomor Identitas (NIP)"}</Text>
-                                <Form.Item name="nomor_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
-                                        <Input className="input-form secondary" />
-                                </Form.Item>   
-                        </div>
-                        }
                         <Text className="title-label">Jenis Kelamin</Text>
                             <Form.Item name="jenis_kelamin" rules={[{ required: true, message: "Harap pilih jenis kelamin!" }]}>
                                 <Select defaultValue="Pilih Jenis Kelamin" className="input-form" >

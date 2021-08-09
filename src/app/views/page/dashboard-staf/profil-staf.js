@@ -92,6 +92,23 @@ const ProfilStaf = (props) => {
                 <Row>
                     <Col span={8} lg={6}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            No. Identitas
+                        </Title>
+                    </Col>
+                    <Col span={1}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            :
+                        </Title>
+                    </Col>
+                    <Col lg={10}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                            {dataStaf.no_identitas ? dataStaf.no_identitas : "-"}
+                        </Title>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={8} lg={6}>
+                        <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
                             No. Telepon
                         </Title>
                     </Col>
