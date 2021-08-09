@@ -103,9 +103,9 @@ const DashboardDokter = () => {
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/umum" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/gigi" component={KelolaRekamMedis} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien" component={KelolaDataKunjungan} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:id_pasien/rekam-medis" component={RekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien" component={KelolaDataKunjungan} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/detail" component={RekamMedis} />
                         </Switch>
                     </Row>
                 </Col>

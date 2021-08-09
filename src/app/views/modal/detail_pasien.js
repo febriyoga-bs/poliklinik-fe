@@ -22,7 +22,7 @@ const DetailPasien = (props) => {
         >
 
         <Title level={3} style={{textAlign: "center", color: "#072A6F"}}>
-            DETAIL PASIEN {props.dataPasien.id_pasien}
+            DETAIL PASIEN
         </Title>
 
         <Row>

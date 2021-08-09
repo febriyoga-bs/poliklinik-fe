@@ -61,16 +61,30 @@ const RekamMedis = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/kelola-data-pengguna/pasien">  
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis/umum">  
                             <Text className="title">
-                                Kelola Data Kunjungan
+                                Kelola Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/kelola-data-pengguna/rekam-medis/pasien">  
+                        <NavLink to="/dashboard-dokter/kelola-rekam-medis/umum">  
                             <Text className="title">
-                                Rekam Medis
+                                Rekam Medis Umum
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}`}>  
+                            <Text className="title">
+                                Data Kunjungan
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}/detail`}>  
+                            <Text className="title">
+                                Detail 
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
@@ -96,7 +110,8 @@ const RekamMedis = (props) => {
                             <Button
                                 style={{marginLeft: 10}}
                                 onClick={() => {
-                                    setRecord(record)
+                                    setRecord(props.location.state.dataPasien)
+                                    console.log("test",props.location.state)
                                     handleModal();
                                 }}
                             >

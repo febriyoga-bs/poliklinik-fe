@@ -188,8 +188,8 @@ const FormDataKunjungan = (props) => {
                     </Col>
                     <Col span={12}>
                         
-                        <Text className="title-label">Anamnesa</Text>
-                            <Form.Item name="nama" rules={[{ required: true, message: "Harap masukkan anamnesa!" }]}>
+                        <Text className="title-label">Anamnesis</Text>
+                            <Form.Item name="anamnesa" rules={[{ required: true, message: "Harap masukkan anamnesis!" }]}>
                                     <Input.TextArea className="input-form secondary" 
                                         placeholder="Catat anamnesa"
                                     />

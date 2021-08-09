@@ -42,7 +42,7 @@ const MenuDrawer = props => {
             footer={null}
             width="300px"
             onClose={props.buttonCancel}
-            bodyStyle={{backgroundColor:"#EB3D00"}}
+            bodyStyle={{backgroundColor:"#072A6F"}}
             headerStyle={{height: 85, backgroundColor:"#EB3D00", alignItems:"center"}}
         >
             <Row justify="center" style={{marginTop:10}}>
@@ -67,7 +67,7 @@ const MenuDrawer = props => {
                     mode="inline"
                     style={{backgroundColor:"transparent"}}
                 >
-                <SubMenu key="sub1" title="LAYANAN" style={{paddingLeft:0}}>
+                <SubMenu className="drawer-menu-layanan" key="sub1" title="LAYANAN" style={{paddingLeft:0}}>
                     <Menu.Item style={{backgroundColor:"transparent"}}>
                         <NavLink to="/antrean-poliklinik" >  
                             <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
