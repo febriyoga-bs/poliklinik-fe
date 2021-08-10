@@ -61,7 +61,7 @@ const DashboardDokter = () => {
           <Route
             path={path}
             render={({ location }) =>
-              Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2) ? ( <Component {...rest} /> ) : 
+              Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 2) ? ( <Component {...rest} /> ) : 
               ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
             }
           />
