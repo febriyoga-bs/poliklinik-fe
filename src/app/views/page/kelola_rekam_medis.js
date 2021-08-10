@@ -24,17 +24,30 @@ const KelolaRekamMedis = (props) => {
     const [filterKey, setFilterKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
-    let id_poli = props.match.params.poli==="umum" ? 1:2;
+    let id_poli = props.match.params.poli==="umum" ? 1 : 2;
+
+    const [path, setPath] = useState("");
+    const [role, setRole] = useState(5);
+
+    useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
+        console.log(_role/login_time)
+        if(_role/login_time === 2){
+            setPath("/dashboard-dokter");
+        } else if(_role/login_time === 5){
+            setPath("/dashboard-perawat");
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const gotoKelolaDataKunjungan = (data) => {
-        let loc = ""
         let poli = id_poli === 1 ? "umum" : "gigi"
-        if(JSON.parse(localStorage.getItem('role')) === 5){
-            loc = `/dashboard-perawat/kelola-rekam-medis/${poli}/data-kunjungan/${data.id_pasien}`;
-        } else {
-            loc = `/dashboard-dokter/kelola-rekam-medis/${poli}/data-kunjungan/${data.id_pasien}`;
-        }
         data.poli = id_poli
+
+        let loc = `${path}/kelola-rekam-medis/${poli}/data-kunjungan/${data.id_pasien}`;
         history.push({pathname:loc, state:data});
     }
 
@@ -187,21 +200,21 @@ const KelolaRekamMedis = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-dokter">  
+                        <NavLink to={`${path}`}>  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/${props.match.params.poli}`}>  
+                        <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
                                 Kelola Data Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/${props.match.params.poli}`}>  
+                        <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
                                 {props.match.params.poli === "umum" ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
                             </Text>

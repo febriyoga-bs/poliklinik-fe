@@ -23,8 +23,25 @@ const KelolaKunjungan = (props) => {
     const [searchKey, setSearchKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:10, total:10});
 
+    const [path, setPath] = useState("");
+    const [role, setRole] = useState(5);
+
+    useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
+        console.log(_role/login_time)
+        if(_role/login_time === 2){
+            setPath("/dashboard-dokter");
+        } else if(_role/login_time === 5){
+            setPath("/dashboard-perawat");
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const gotoCatatKunjungan= () => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}/catat-kunjungan`;
+        const loc = `${path}/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}/catat-kunjungan`;
         let data = {
             id_rekam_medis: id
         }
@@ -32,7 +49,7 @@ const KelolaKunjungan = (props) => {
         history.push({pathname:loc, state:data});
     }
     const gotoRekamMedis = (data) => {
-        const loc = `/dashboard-dokter/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}/detail`;
+        const loc = `${path}/kelola-rekam-medis/umum/data-kunjungan/${props.match.params.id_pasien}/detail`;
         history.push({pathname:loc, state:data});
     }
 
@@ -42,7 +59,6 @@ const KelolaKunjungan = (props) => {
     };
 
     useEffect(()=>{
-        
         console.log(props)
         console.log(props.location.state.kode_rekam_medis)
         if(props.location.state.kode_rekam_medis.length > 0){
@@ -198,28 +214,28 @@ const KelolaKunjungan = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-dokter">  
+                        <NavLink to={`${path}`}>  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/${props.match.params.poli}`}>  
+                        <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
                                 Kelola Data Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/${props.match.params.poli}`}>  
+                        <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
                                 {props.match.params.poli === "umum" ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to={`/dashboard-dokter/kelola-rekam-medis/${props.match.params.poli}/data-kunjungan/${props.match.params.id_pasien}`}>  
+                        <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}/data-kunjungan/${props.match.params.id_pasien}`}>  
                             <Text className="title">
                                 Data Kunjungan
                             </Text>

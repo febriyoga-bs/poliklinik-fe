@@ -15,8 +15,27 @@ const ProfilStaf = (props) => {
     const history = useHistory();
     const [dataStaf, setDataStaf] = useState([]);
 
+    const [path, setPath] = useState("");
+    const [role, setRole] = useState(4);
+
+    useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
+        console.log(_role/login_time)
+        if(_role/login_time === 1){
+            setPath("/dashboard-admin");
+        } else if(_role/login_time === 4){
+            setPath("/dashboard-staf-umum");
+        } else {
+            setPath("/dashboard-perawat")
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const gotoEditProfil = (data) => {
-        const loc = '/dashboard-staf/edit-profil';
+        const loc = `${path}/edit-profil`;
         history.push({pathname:loc, state:data});
     }
     useEffect(()=>{
