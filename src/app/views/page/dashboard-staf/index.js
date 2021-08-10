@@ -61,7 +61,7 @@ const DashboardStaf = (props) => {
         } else if(user===2){
             loc = `${path}/kelola-data-pengguna/dokter`;
         } else if(user===3){
-            loc = `${path}//kelola-data-pengguna/pasien`;
+            loc = `${path}/kelola-data-pengguna/pasien`;
         }
         
         history.push(loc);

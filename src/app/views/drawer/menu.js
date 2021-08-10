@@ -76,10 +76,11 @@ const MenuDrawer = props => {
                         </NavLink>
                     </Menu.Item>
                     <Menu.Item style={{backgroundColor:"transparent"}}>
-                        <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
-                            className="title-home-mobile" style={{fontWeight:"normal"}}>
-                            Konsultasi Online
-                        </Text>
+                        <NavLink to="/konsultasi-online">  
+                            <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                                Konsultasi Online
+                            </Text>
+                        </NavLink>
                     </Menu.Item>
                 </SubMenu>
                 </Menu>

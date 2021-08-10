@@ -169,11 +169,12 @@ const ProfilStaf = () => {
                         </Title>
                     </Col>
                 </Row>
-                {dataPasien.kategori !== "Umum" &&
+                {dataPasien.kategori === "Mahasiswa" &&
+                <>
                 <Row>
                     <Col span={8} lg={6}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                            No. Identitas
+                            Jurusan
                         </Title>
                     </Col>
                     <Col span={1}>
@@ -183,10 +184,28 @@ const ProfilStaf = () => {
                     </Col>
                     <Col lg={10}>
                         <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
-                            {dataPasien.nomor_identitas ? dataPasien.nomor_identitas : "-"}
+                            {dataPasien.jurusan ? dataPasien.jurusan : "-"}
                         </Title>
                     </Col>
                 </Row>
+                <Row>
+                <Col span={8} lg={6}>
+                    <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                        Prodi
+                    </Title>
+                </Col>
+                <Col span={1}>
+                    <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                        :
+                    </Title>
+                </Col>
+                <Col lg={10}>
+                    <Title style={{ color: '#FFFFFF' }} level={5} className="title-frame">
+                        {dataPasien.prodi ? dataPasien.prodi : "-"}
+                    </Title>
+                </Col>
+                </Row>
+                </>
                 }
                 <Row>
                     <Col span={8} lg={6}>

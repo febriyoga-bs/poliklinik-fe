@@ -27,15 +27,15 @@ const HeaderLayout = (props) => {
                 </NavLink>
             </Menu.Item>
             <Menu.Item >
-                {/* <NavLink to="/konsultasi-online">  
+                <NavLink to="/konsultasi-online">  
                     <Text className="title-navmenu">
                         Konsultasi Online
                     </Text>
-                </NavLink> */}
-                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
+                </NavLink>
+                {/* <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
                     className="title-navmenu" style={{fontWeight:"normal"}}>
                     Konsultasi Online
-                </Text>
+                </Text> */}
             </Menu.Item>
         </Menu>
       );

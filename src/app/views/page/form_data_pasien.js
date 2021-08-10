@@ -268,7 +268,22 @@ const UbahDataPasien = (props) => {
                             </Form.Item>
 
                         <Text className="title-label">{kategori==="Mahasiswa" ? "Nomor Identitas (NIM)" : kategori === "Staf/Dosen" ? "Nomor Identitas (NIP)" : "Nomor Identitas (NIK)"}</Text>
-                            <Form.Item name="no_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
+                            <Form.Item name="no_identitas" 
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Harap masukkan Nomor Identitas Anda!'
+                                    },
+                                    {
+                                        pattern: (kategori === "Umum") ? new RegExp('^[0-9]{16,16}$') : 
+                                                 (kategori === "Mahasiswa") ? new RegExp('^[0-9]{9,9}$') : 
+                                                 new RegExp('^[0-9]{18,18}$'), 
+                                        message: (kategori === "Umum") ? 'Harap masukkan 16 digit angka NIK!':
+                                                 (kategori === "Mahasiswa") ? 'Harap masukkan 9 digit angka NIM!' :
+                                                 'Harap masukkan 18 digit angka NIP!',
+                                    },
+                                ]}
+                            >
                                     <Input className="input-form secondary" 
                                     disabled={props.location.state}
                                     placeholder="Masukkan nomor identitas"/>

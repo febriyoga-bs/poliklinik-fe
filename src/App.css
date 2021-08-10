@@ -455,6 +455,18 @@
   border-radius: 16px;
 }
 
+.konsultasi-card{
+  padding: 0px!important;
+  min-height: 200px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-width: 5px;
+  border-radius: 10px;
+}
+
 .dashboard-card{
   background-color: #001529;
   width: 500px;

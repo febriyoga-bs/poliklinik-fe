@@ -113,20 +113,6 @@ const DetailPasien = (props) => {
           </div>
         }
 
-        {props.dataPasien.kategori!=="Umum" &&
-        <Row>
-          <Col span={8}>
-            <Text> Nomor Identitas </Text>
-          </Col>
-          <Col span={1}>
-            <Text> : </Text>
-          </Col>
-          <Col span={8}>
-            {props.dataPasien.nomor_identitas}
-          </Col>
-        </Row>
-        }
-
         <Row>
           <Col span={8}>
             <Text> Tanggal Lahir </Text>

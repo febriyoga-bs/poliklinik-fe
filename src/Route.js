@@ -111,11 +111,11 @@ import Template from "./app/views/page/template";
             <Route exact path="/login" component={LoginUser} />
             <Route exact path="/pendaftaran" component={Pendaftaran} />
             <Route exact path="/antrean-poliklinik" component={Antrean} />
-            <Route exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
-            <Route exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
-            <Route exact path="/antrean-poliklinik/poli-umum/panggil" component={PanggilAntrean} />
-            <Route exact path="/antrean-poliklinik/poli-gigi/panggil" component={PanggilAntrean} />
-            <Route exact path="/konsultasi-online" component={Konsultasi} />
+            <PrivateRoute exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
+            <PrivateRoute exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
+            <PrivateRoute exact path="/antrean-poliklinik/poli-umum/panggil" component={PanggilAntrean} />
+            <PrivateRoute exact path="/antrean-poliklinik/poli-gigi/panggil" component={PanggilAntrean} />
+            <PrivateRoute exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />
             <PrivateRoute exact path="/dashboard-pasien" component={DashboardPasien} />
