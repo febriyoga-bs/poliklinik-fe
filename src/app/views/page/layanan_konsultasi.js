@@ -10,6 +10,7 @@ const { Text } = Typography;
 
 const Konsultasi = () => {
     const [dataDokter, setDataDokter] = useState(null)
+    const [dataPasien, setDataPasien] = useState(null)
     const [formPesanInput] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [role, setRole] = useState(0);
@@ -22,7 +23,7 @@ const Konsultasi = () => {
 
         console.log(_role/login_time)
         if(_role/login_time === 2){
-
+            getKonsultasi();
         } else if(_role/login_time === 3){
             getDataDokter();
         } 
@@ -33,6 +34,40 @@ const Konsultasi = () => {
     const getDataDokter = () => {
         setLoading(true);
         APIServices.getAllDokter().then(res => {
+                if(res.data){
+                    setDataDokter(res.data.data);
+                    console.log(res.data.data)
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataDokter(Dummy.dataDokter);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+    
+    const getKonsultasi = () => {
+        setLoading(true);
+        APIServices.getKonsultasi({id_dokter: 1, id_pasien: null}).then(res => {
+                if(res.data){
+                    setDataDokter(res.data.data);
+                    console.log(res.data.data)
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    //setDataDokter(Dummy.dataDokter);
+                    console.log(err.response)
+                    setLoading(false)
+                }
+            })
+        }
+        
+    const getPesan = () => {
+        setLoading(true);
+        APIServices.getPesan().then(res => {
                 if(res.data){
                     setDataDokter(res.data.data);
                     console.log(res.data.data)
@@ -67,14 +102,15 @@ const Konsultasi = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row style={{marginBottom:20, marginRight:20}}>
-                    <Card className="konsultasi-card" style={{width:"100%", minHeight: 500, marginLeft:40}}>
+                    <Card className="konsultasi-card" bodyStyle={{padding:0}} style={{width:"100%", minHeight: 500, marginLeft:40}}>
                         {/* RUANG KONSULTASI PASIEN */}
-                        {(role === 3 && !!dataDokter) &&
+                        {(role === 3) &&
                         <Row>
-                        <Col span={6}>
-                            <Row>
+                        <Col span={7}>
+                            <Row style={{marginLeft:20, marginTop: 10}}>
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>List Dokter</Text>
                             </Row>
+                            {!!dataDokter &&
                             <Menu
                                 defaultSelectedKeys={['1']}
                                 defaultOpenKeys={['sub1']}
@@ -95,13 +131,14 @@ const Konsultasi = () => {
                                     )
                                 })}
                             </Menu>
+                            }
                         </Col>
-                        <div style={{height: "100%", borderLeft:"3px solid #8F8F8F"}}></div>
-                        <Col span={17}>
-                            <Row>
+                        <Col span={17} style={{height: 500, borderLeft:"4px solid #8F8F8F"}}>
+                            <Row style={{marginLeft:20, marginTop: 10}}>
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>Ruang Konsultasi</Text>
                             </Row>
-                            <Row>
+                            {!!dataDokter && 
+                            <Row style={{marginLeft:20}}>
                                 <Image
                                     style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
                                     alt={dataDokter[menukey].avatar}
@@ -109,11 +146,83 @@ const Konsultasi = () => {
                                 />
                                 <Text style={{color:"#EB3D00", marginTop:5}}>{dataDokter[menukey].spesialisasi==="Umum" ? "dr. " : "drg. "} {dataDokter[menukey].nama}</Text>
                             </Row>
-                            <div style={{width: "100%", borderBottom:"3px solid #8F8F8F", marginTop: 10, marginBottom: 30}}></div>
+                            }
+                            <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 30}}></div>
+                            <Row style={{height: 340}}>
+                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}></Text>
+                            </Row>
+                            <Row style={{marginLeft:20}}>
+                                <Form form={formPesanInput} onFinish={onFinishPesan}>
+                                    <Form.Item name="alamat">
+                                        <Input style={{minWidth: 300, width: 450, borderRadius: 10}}
+                                            placeholder="Ketik pesan anda . . ."
+                                        />
+                                    </Form.Item>
+                                </Form>
+                                <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                    <Text>
+                                        <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                    </Text>
+                                </Button>
+                                <Button type="text" htmlType="submit" >
+                                    <Text>
+                                        <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                    </Text>
+                                </Button>
+                            </Row>
+                        </Col>
+                        </Row>
+                        }
+                        {/* RUANG KONSULTASI DOKTER */}
+                        {(role === 2) &&
+                        <Row>
+                        <Col span={7}>
+                            <Row > 
+                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>List Pasien</Text>
+                            </Row>
+                            {!!dataPasien && 
+                            <Menu
+                                defaultSelectedKeys={['1']}
+                                defaultOpenKeys={['sub1']}
+                                mode="inline"
+                            >
+                                {dataPasien.map((res, idx) =>{
+                                    return(
+                                        <Menu.Item key={idx} onClick={(item) => {console.log(item); setMenuKey(Number(item.key))}}>
+                                            <Row>
+                                                <Image
+                                                    style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
+                                                    alt={res.avatar}
+                                                    src={CONFIG.BASE_URL+"/"+res.avatar}
+                                                />
+                                                <Text style={{color:"#EB3D00"}}>{res.spesialisasi==="Umum" ? "dr. " : "drg. "} {res.nama}</Text>
+                                            </Row>
+                                        </Menu.Item>
+                                    )
+                                })}
+                            </Menu>
+                            }
+                        </Col>
+                        <div style={{height: 500, borderLeft:"4px solid #8F8F8F"}}></div>
+                        <Col span={17}>
+                            <Row style={{marginLeft:20}}>
+                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}>Ruang Konsultasi</Text>
+                            </Row>
+                            {!!dataPasien && 
+                            <Row style={{marginLeft:20}}>
+                                <Image
+                                    style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
+                                    alt={dataPasien[menukey].avatar}
+                                    src={CONFIG.BASE_URL+"/"+dataPasien[menukey].avatar}
+                                />
+                                <Text style={{color:"#EB3D00", marginTop:5}}>{dataPasien[menukey].nama}</Text>
+                            </Row>
+                            }
+                            <div style={{width: "150%", borderBottom:"3px solid #8F8F8F", marginTop: 10, marginBottom: 30}}></div>
                             <Row style={{height: 300}}>
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}></Text>
                             </Row>
-                            <Row>
+                            <Row style={{marginLeft:20}}>
                                 <Form form={formPesanInput} onFinish={onFinishPesan}>
                                     <Form.Item name="alamat">
                                         <Input style={{minWidth: 300, width: 450, borderRadius: 10}}

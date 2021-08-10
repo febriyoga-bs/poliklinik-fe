@@ -465,6 +465,7 @@
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
   border-width: 5px;
   border-radius: 10px;
+  border-color: #8F8F8F;
 }
 
 .dashboard-card{

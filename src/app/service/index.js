@@ -509,6 +509,37 @@ const APIServices = {
             { crossdomain: true }
         )
     },
+
+    getKonsultasi(data){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/getKonsultasi?id_dokter=${data.id_dokter}&id_pasien=${data.id_pasien}`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    getPesan(data){
+        return client.request(
+            {
+                method: "get",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/getKonsultasi?id_konsultasi=${data.id_konsultasi}`,
+            },
+            {crossdomain: true }
+        )
+    },
+
+    postPesan(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/postPesan`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
 }
 
 export { APIServices }
