@@ -39,27 +39,6 @@ const Register = () => {
                 dialog({icon: "success", title:"Pendaftaran Berhasil", text:"Anda dapat login menggunakan akun yang telah terdaftar"}).then(()=>{
                     console.log("Berhasil");
                 })
-                // verifDialog().then((kode_otp)=>{
-                //     console.log("Testing Kode OTP: ", kode_otp);
-                //     let body = [];
-                //     body.no_telepon = values.no_telepon;
-                //     body.kode_otp = kode_otp;
-                //     APIServices.verifikasi(body).then(res => {
-                //         setLoading(false);
-                //         if(res.data){
-                //             dialog({icon: "success", title:"Verifikasi Berhasil"}).then(()=>{
-                //                 console.log("Berhasil");
-                //             })
-                //         }
-                //       }).catch(err => {
-                //         setLoading(false);
-                //         if(err){
-                //             dialog({icon: "error", title:"Verifikasi Gagal"}).then(()=>{
-                //                 console.log("Gagal");
-                //             })
-                //         }
-                //       })
-                // })
             }
           }).catch(err => {
             setLoading(false);
@@ -141,14 +120,18 @@ const Register = () => {
                                 message: 'Harap masukkan Nomor Identitas Anda!'
                             },
                             {
-                                pattern: new RegExp('^[0-9]+$'), 
-                                message: 'Harap hanya masukkan angka!',
+                                pattern: (kategori === "Umum") ? new RegExp('^[0-9]{16,16}$') : 
+                                         (kategori === "Mahasiswa") ? new RegExp('^[0-9]{9,9}$') : 
+                                         new RegExp('^[0-9]{18,18}$'), 
+                                message: (kategori === "Umum") ? 'Harap masukkan 16 digit angka NIK!':
+                                         (kategori === "Mahasiswa") ? 'Harap masukkan 9 digit angka NIM!' :
+                                         'Harap masukkan 18 digit angka NIP!',
                             },
                             ]}
                             style={{marginBottom:30}}
                             >
                             
-                            <Input className="input-form" maxLength={15} minLength={10}
+                            <Input className="input-form" 
                                 placeholder={
                                     (kategori === "Umum") ? "Contoh: 3204152101951005" : 
                                     (kategori === "Mahasiswa") ? "Contoh: 181511001" : "Contoh: 198507252105012001"}
@@ -258,7 +241,7 @@ const Register = () => {
                               (formPendaftaranInput.getFieldValue("kategori")==="Mahasiswa") ? " (NIM)" : " (NIP)"}
                         </Text>
                         <Form.Item
-                            name="nomor_identitas"
+                            name="no_identitas"
                             required
                             rules={[
                             {

@@ -29,7 +29,10 @@ const UbahDataPasien = (props) => {
 
         if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
             let no_identitas = JSON.parse(localStorage.getItem('no_identitas'))
-            form.setFieldsValue({no_telepon: no_identitas.length})
+            form.setFieldsValue({
+                kategori: no_identitas.length === 16 ? "Umum" :
+                          no_identitas.length === 9 ? "Mahasiswa" : "Staf/Dosen"
+            })
             form.setFieldsValue({no_identitas: no_identitas});
         }
 
@@ -181,8 +184,7 @@ const UbahDataPasien = (props) => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
         <Content className="layout-content">
-            { (props.location.pathname !== "/dashboard-pasien/data-diri" &&
-                props.location.pathname !== "/dashboard-pasien/edit-profil") 
+            { props.location.pathname !== "/dashboard-pasien/edit-profil" 
                 ?
                 <Breadcrumb style={{marginLeft:20, marginBottom:20}} separator=">">
                     <Breadcrumb.Item >
@@ -195,16 +197,27 @@ const UbahDataPasien = (props) => {
                     <Breadcrumb.Item >
                         <NavLink to="/profil-pasien">  
                             <Text className="title">
-                                Pasien
+                                Dashboard Pasien
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/kelola-data-pengguna/pasien"> 
+                        {/* <NavLink to="/kelola-data-pengguna/pasien">  */}
                             <Text className="title">
-                                Lengkapi Data Diri
+                            {
+                                props.location.state === undefined ?
+                                "Tambah Data Pasien"
+                                :
+                                (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri") ?
+                                "Lengkapi Data Diri"
+                                :
+                                (props.location.pathname === "/dashboard-pasien/edit-profil") ?
+                                "Edit Profil"
+                                :
+                                "Ubah Data Pasien"
+                            }
                             </Text>
-                        </NavLink>
+                        {/* </NavLink> */}
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 :
@@ -268,6 +281,7 @@ const UbahDataPasien = (props) => {
                                 { pattern: new RegExp('^[0-9]+$'),  message: 'Harap hanya masukkan angka!' },
                                 ]}>
                                     <Input className="input-form secondary" 
+                                        disabled={props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"}
                                         placeholder="Masukkan nomor telepon"
                                     />
                             </Form.Item>

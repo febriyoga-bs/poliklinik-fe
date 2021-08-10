@@ -16,8 +16,8 @@ const DashboardPasien = () => {
         history.push(loc);
     }
 
-    const gotoRiwayatPelayanan = () => {
-        message.info("Laman Riwayat Pelayanan belum Tersedia");
+    const gotoRiwayatKunjungan = () => {
+        message.info("Laman Riwayat Kunjungan belum Tersedia");
         // const loc = '/dashboard-pasien/riwayat-pelayanan';
         // history.push(loc);
     }
@@ -62,8 +62,8 @@ const DashboardPasien = () => {
                         <Menu.Item key="1" onClick={gotoProfil} icon={<PieChartOutlined />}>
                             Profil Pasien
                         </Menu.Item>
-                        <Menu.Item key="2" onClick={gotoRiwayatPelayanan} icon={<ContainerOutlined />}>
-                            Riwayat Pelayanan
+                        <Menu.Item key="2" onClick={gotoRiwayatKunjungan} icon={<ContainerOutlined />}>
+                            Riwayat Kunjungan 
                         </Menu.Item>
                         <Menu.Item key="3" onClick={Auth.logout} icon={<PoweroffOutlined />}
                             style={{color:"#FF0000"}}

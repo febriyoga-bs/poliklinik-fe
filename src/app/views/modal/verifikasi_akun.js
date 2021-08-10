@@ -15,21 +15,22 @@ const VerifikasiOTP = (props) => {
     const onFinishVerifikasi = (values) =>{
         setLoading(true);
         let body = {
-            no_telepon: props.data.no_telepon,
+            no_identitas: props.data.no_identitas,
             kode_otp: values.kode_otp,
         }
         APIServices.verifikasi(body).then(res => {
             setLoading(false);
             if(res.data){
                 message.success("Verifikasi Berhasil")
+                localStorage.setItem('no_identitas', JSON.stringify(props.data.no_identitas));
                 localStorage.setItem('no_telepon', JSON.stringify(props.data.no_telepon));
                 localStorage.setItem('role', JSON.stringify(props.data.role));
                 localStorage.setItem('token', JSON.stringify(props.data.token));
+                localStorage.setItem('login', JSON.stringify(props.data.login));
             }
 
             if(Auth.isLogin()){
-                let role = JSON.parse(localStorage.getItem('role'));
-                if (role === 3){
+                if (props.data.role/props.data.login === 3){
                     history.push('/dashboard-pasien');
                 }
             }

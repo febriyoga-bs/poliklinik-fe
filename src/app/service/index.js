@@ -36,7 +36,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/getVerifikasiAkun/${data.no_telepon}/${data.kode_otp}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/getVerifikasiAkun/${data.no_identitas}/${data.kode_otp}`,
             },
             { crossdomain: true }
         )

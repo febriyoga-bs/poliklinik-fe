@@ -42,6 +42,7 @@ const ProfilStaf = () => {
                 setLoading(false)
             }
         }).catch(err => {
+            console.log("err: ", err)
             if(err.response){
                 //setdataPasien(Dummy.dataPasien[0])
                 
