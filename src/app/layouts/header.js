@@ -42,17 +42,17 @@ const HeaderLayout = (props) => {
 
     const gotoDashboard= () => {
         let role = JSON.parse(localStorage.getItem('role'));
-        console.log(role);
-
-        if(role === 1){
-            const loc = '/dashboard-staf';
-            history.push(loc);
-        } else if(role === 2){
-            const loc = '/dashboard-dokter';
-            history.push(loc);
-        } else if(role === 3){
-            const loc = '/dashboard-pasien';
-            history.push(loc);
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        if (role/login_time === 1){
+            history.push('/dashboard-admin');
+        } else if (role/login_time === 2){
+            history.push('/dashboard-dokter');
+        } else if (role/login_time === 3){
+            history.push('/dashboard-pasien');
+        } else if (role/login_time === 4){
+            history.push('/dashboard-staf-umum');
+        } else if (role/login_time === 5){
+            history.push('/dashboard-perawat');
         }
     }
 

@@ -20,7 +20,7 @@ import DashboardStaf from "./app/views/page/dashboard-staf";
 
 import Template from "./app/views/page/template";
 
-function PrivateRoute({ component: Component, path, ...rest }) {
+ function PrivateRoute({ component: Component, path, ...rest }) {
     return (
       <Route
         path={path}
@@ -32,12 +32,48 @@ function PrivateRoute({ component: Component, path, ...rest }) {
     );
   }
 
-  function PrivateRouteAdmin({ component: Component, path, ...rest }) {
+  function PrivateRouteStafUmum({ component: Component, path, ...rest }) {
+    let role = JSON.parse(localStorage.getItem('role'));
+    let login_time = JSON.parse(localStorage.getItem('login'));
+    console.log(role/login_time)
     return (
       <Route
         path={path}
         render={({ location }) =>
-          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 1) ? ( <Component {...rest} /> ) : 
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 4) ? 
+          ( <Component {...rest} /> ) : 
+          ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
+        }
+      />
+    );
+  }
+
+  function PrivateRouteAdmin({ component: Component, path, ...rest }) {
+    let role = JSON.parse(localStorage.getItem('role'));
+    let login_time = JSON.parse(localStorage.getItem('login'));
+    console.log(role/login_time)
+    return (
+      <Route
+        path={path}
+        render={({ location }) =>
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 1) 
+          ? ( <Component {...rest} /> ) : 
+          ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
+        }
+      />
+    );
+  }
+
+  function PrivateRoutePerawat({ component: Component, path, ...rest }) {
+    let role = JSON.parse(localStorage.getItem('role'));
+    let login_time = JSON.parse(localStorage.getItem('login'));
+    console.log(role/login_time)
+    return (
+      <Route
+        path={path}
+        render={({ location }) =>
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 5) ? 
+          ( <Component {...rest} /> ) : 
           ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
         }
       />
@@ -45,11 +81,14 @@ function PrivateRoute({ component: Component, path, ...rest }) {
   }
   
   function PrivateRouteDokter({ component: Component, path, ...rest }) {
+    let role = JSON.parse(localStorage.getItem('role'));
+    let login_time = JSON.parse(localStorage.getItem('login'));
     return (
       <Route
         path={path}
         render={({ location }) =>
-          Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2) ? ( <Component {...rest} /> ) : 
+          Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 2) ? 
+          ( <Component {...rest} /> ) : 
           ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
         }
       />
@@ -81,7 +120,9 @@ function PrivateRoute({ component: Component, path, ...rest }) {
             <Route exact path="/bantuan" component={Template} />
             <PrivateRoute exact path="/dashboard-pasien" component={DashboardPasien} />
             <PrivateRouteDokter exact path="/dashboard-dokter" component={DashboardDokter} />
-            <PrivateRouteAdmin exact path="/dashboard-staf" component={DashboardStaf} />
+            <PrivateRouteAdmin exact path="/dashboard-admin" component={DashboardStaf} />
+            <PrivateRoutePerawat exact path="/dashboard-perawat" component={DashboardStaf} />
+            <PrivateRouteStafUmum exact path="/dashboard-staf-umum" component={DashboardStaf} />
             <Route exact path="!!" component={Template} />
             <FooterLayout/>
           </React.Fragment>

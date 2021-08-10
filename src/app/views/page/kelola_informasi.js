@@ -20,22 +20,22 @@ const KelolaInformasi = (props) => {
     const [loading, setLoading] = useState(false);
 
     const gotoTambahDataPelayanan= () => {
-        const loc = '/dashboard-staf/kelola-informasi/pelayanan/tambah-data';
+        const loc = '/dashboard-admin/kelola-informasi/pelayanan/tambah-data';
         history.push(loc);
     }
 
     const gotoUbahDataPelayanan = (data) => {
-        const loc = '/dashboard-staf/kelola-informasi/pelayanan/ubah-data';
+        const loc = '/dashboard-admin/kelola-informasi/pelayanan/ubah-data';
         history.push({pathname:loc, state:data});
     }
 
     const gotoUbahProfilPoliklinik = (data) => {
-        const loc = '/dashboard-staf/kelola-informasi/profil-poliklinik';
+        const loc = '/dashboard-admin/kelola-informasi/profil-poliklinik';
         history.push({pathname:loc, state:data});
     }
 
     const gotoUbahJadwal = (data) => {
-        const loc = '/dashboard-staf/kelola-informasi/jadwal';
+        const loc = '/dashboard-admin/kelola-informasi/jadwal';
         history.push({pathname:loc, state:data});
     }
 

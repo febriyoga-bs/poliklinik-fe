@@ -26,10 +26,14 @@ export default class Auth {
     // sessionStorage.clear();
     localStorage.removeItem('token')
     localStorage.removeItem('role');
+    localStorage.removeItem('no_telepon');
+    localStorage.removeItem('no_identitas');
+    localStorage.removeItem('login');
     window.location.reload();
   }
   
   static isLogin() {
-    return !!localStorage.getItem('role') && !!localStorage.getItem('token') && !!localStorage.getItem('no_telepon');
+    return !!localStorage.getItem('role') && !!localStorage.getItem('token') && !!localStorage.getItem('no_telepon')
+           && !!localStorage.getItem('no_identitas') && !!localStorage.getItem('login');
   }
 }

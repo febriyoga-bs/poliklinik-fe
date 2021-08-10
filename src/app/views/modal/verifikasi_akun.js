@@ -57,7 +57,7 @@ const VerifikasiOTP = (props) => {
         >
 
         <Title level={3} style={{textAlign: "center", color: "#072A6F"}}>
-            Verifikasi Pendaftaran
+            Verifikasi Akun
         </Title>
 
         <Row justify="center">

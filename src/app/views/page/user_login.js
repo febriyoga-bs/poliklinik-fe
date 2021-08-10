@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
 import { Layout, Row, Col, Typography, Card, Form, Input, Button, message } from 'antd';
 import { LockOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
-import VerifikasiOTP from '../modal/verifikasi_otp'
+import VerifikasiAkun from '../modal/verifikasi_akun'
 import Auth from '../../service/auth'
+import moment from 'moment';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -61,18 +62,23 @@ const LoginUser = () => {
             setLoading(false);
             let res = response.data;
             let status = JSON.parse(res.data.status);
+            let login_time = moment().unix();
+            console.log("login time: ", login_time);
+
             if(res && status === 1){
                 localStorage.setItem('no_identitas', JSON.stringify(res.data.no_identitas));
                 localStorage.setItem('no_telepon', JSON.stringify(res.data.no_telepon));
-                localStorage.setItem('role', JSON.stringify(res.meta.role));
+                localStorage.setItem('role', JSON.stringify(res.meta.role * login_time));
                 localStorage.setItem('token', JSON.stringify(res.meta.api_token));
+                localStorage.setItem('login', JSON.stringify(login_time));
             } else if(status === 0){
                 message.info("Akun Belum Terverifikasi");
                 let record = {
                     no_identitas: res.data.no_identitas,
                     no_telepon: res.data.no_telepon,
-                    role: res.meta.role,
-                    token: res.meta.api_token
+                    role: res.meta.role * login_time,
+                    token: res.meta.api_token,
+                    login: login_time
                 }
                 setRecord(record)
                 handleModal();
@@ -80,12 +86,17 @@ const LoginUser = () => {
         
             if(Auth.isLogin()){
                 let role = JSON.parse(localStorage.getItem('role'));
-                if (role === 1){
-                    history.push('/dashboard-staf');
-                } else if (role === 2){
+                let login_time = JSON.parse(localStorage.getItem('login'));
+                if (role/login_time === 1){
+                    history.push('/dashboard-admin');
+                } else if (role/login_time === 2){
                     history.push('/dashboard-dokter');
-                } else if (role === 3){
+                } else if (role/login_time === 3){
                     history.push('/dashboard-pasien');
+                } else if (role/login_time === 4){
+                    history.push('/dashboard-staf-umum');
+                } else if (role/login_time === 5){
+                    history.push('/dashboard-perawat');
                 }
             }
         }).catch(err => {
@@ -101,7 +112,7 @@ const LoginUser = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <VerifikasiOTP
+                <VerifikasiAkun
                     data={record}
                     buttonCancel={handleModal}
                     visible={visibleModal}
@@ -121,7 +132,7 @@ const LoginUser = () => {
                             <Card className="login-card">
                                 <Row justify="center" style={{marginBottom:30}}>
                                     <Text className="title bold">
-                                        LOGINI
+                                        LOGIN
                                     </Text>
                                 </Row>
                                 <Row>

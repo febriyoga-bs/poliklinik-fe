@@ -4,6 +4,7 @@ import { Layout, Row, Col, Button, message, Menu} from 'antd';
 import { UserOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import ProfilDokter from "./profil-dokter";
+import RiwayatKunjungan from "../riwayat_kunjungan";
 import FormDataDokter from "../form_data_dokter";
 import KelolaRekamMedis from "../kelola_rekam_medis";
 import KelolaDataKunjungan from "../kelola_data_kunjungan";
@@ -37,6 +38,11 @@ const DashboardDokter = () => {
         message.info("Laman Konsultasi Online belum Tersedia");
         // const loc = '/dashboard-dokter/konsultasi-online';
         // history.push(loc);
+    }
+
+    const gotoRiwayatKunjungan = () => {
+        const loc = '/dashboard-dokter/riwayat-kunjungan';
+        history.push(loc);
     }
 
     const [collapsed, setCollapsed] = useState(false);
@@ -88,6 +94,9 @@ const DashboardDokter = () => {
                         <Menu.Item key="3" onClick={gotoKonsultasiOnline} icon={<DesktopOutlined />}>
                             Konsultasi Online
                         </Menu.Item>
+                        <Menu.Item key="dashboard-dokter/riwayat-kunjungan" onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
+                            Riwayat Kunjungan Pasien
+                        </Menu.Item>
                         <Menu.Item key="4" onClick={Auth.logout} icon={<PoweroffOutlined />}
                             style={{color:"#FF0000"}}
                         >
@@ -106,6 +115,7 @@ const DashboardDokter = () => {
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/detail" component={RekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/riwayat-kunjungan" component={RiwayatKunjungan} />
                         </Switch>
                     </Row>
                 </Col>

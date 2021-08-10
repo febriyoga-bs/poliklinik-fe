@@ -14,7 +14,7 @@ const { Text } = Typography;
 const { Search } = Input;
 const { Option } = Select;
 
-const RiwayatPelayanan = () => {
+const RiwayatKunjungan = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [loadingEkspor, setLoadingEkspor] = useState(false);
@@ -29,13 +29,13 @@ const RiwayatPelayanan = () => {
     };
 
     useEffect(()=>{
-        getRiwayatPelayanan(searchKey, pagination.current,  pagination.pageSize);
+        getRiwayatKunjungan(searchKey, pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
 
-    const getRiwayatPelayanan = (tanggal, current, limit) => {
+    const getRiwayatKunjungan = (tanggal, current, limit) => {
         setLoading(true);
-        APIServices.getRiwayatPelayanan("", current, limit).then(res => {
+        APIServices.getRiwayatKunjungan("", current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)
                     let _meta = _data.pop()
@@ -80,7 +80,7 @@ const RiwayatPelayanan = () => {
         }
     
     const handleTableChange = (_pagination) =>{
-        getRiwayatPelayanan(searchKey, _pagination.current, _pagination.pageSize)
+        getRiwayatKunjungan(searchKey, _pagination.current, _pagination.pageSize)
     }
 
     const columnsPelayanan = [
@@ -173,7 +173,7 @@ const RiwayatPelayanan = () => {
                     <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
-                                Data Riwayat Pelayanan
+                                Data Riwayat Kunjungan
                             </Text>
                         </Row>
                         <Row justify="end">
@@ -183,7 +183,7 @@ const RiwayatPelayanan = () => {
                                     eksporRiwayatKunjungan();
                                 }}
                             >
-                                Ekspor Riwayat Pelayanan
+                                Ekspor Riwayat Kunjungan
                             </Button>
                         </Row>
                         <Table
@@ -203,4 +203,4 @@ const RiwayatPelayanan = () => {
     );
 }
 
-export default withRouter(RiwayatPelayanan)
+export default withRouter(RiwayatKunjungan)

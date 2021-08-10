@@ -366,11 +366,11 @@ const APIServices = {
         )    
     },
 
-    getRiwayatPelayanan(data, current, limit){
+    getRiwayatKunjungan(data, current, limit){
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRiwayatPelayanan?pasien=${data}&page=${current}&limit=${limit}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getRiwayatKunjungan?pasien=${data}&page=${current}&limit=${limit}`,
             },
             {crossdomain: true }
         )

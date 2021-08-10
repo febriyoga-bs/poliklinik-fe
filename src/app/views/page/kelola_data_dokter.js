@@ -18,12 +18,12 @@ const KelolaDokter = () => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const gotoTambahDataDokter= () => {
-        const loc = '/dashboard-staf/kelola-data-pengguna/dokter/tambah-data';
+        const loc = '/dashboard-admin/kelola-data-pengguna/dokter/tambah-data';
         history.push(loc);
     }
 
     const gotoUbahDataDokter = (data) => {
-        const loc = '/dashboard-staf/kelola-data-pengguna/dokter/ubah-data';
+        const loc = '/dashboard-admin/kelola-data-pengguna/dokter/ubah-data';
         history.push({pathname:loc, state:data});
     }
 
@@ -165,14 +165,14 @@ const KelolaDokter = () => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf">  
+                        <NavLink to="/dashboard-admin">  
                             <Text className="title">
                                 Dashboard
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/kelola-data-pengguna/dokter">  
+                        <NavLink to="/dashboard-admin/kelola-data-pengguna/dokter">  
                             <Text className="title">
                                 Kelola Data Dokter
                             </Text>

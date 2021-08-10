@@ -14,7 +14,7 @@ const Register = () => {
     const [formPendaftaranInput] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [regisStep, setRegisStep] = useState(1);
-    const [kategori, setKategori] = useState("");
+    const [kategori, setKategori] = useState("Umum");
     const dateFormat = 'DD/MM/YYYY';
 
     useEffect(()=>{
@@ -77,23 +77,7 @@ const Register = () => {
             return(
                 <Row>
                     {/* <Col span={24}>
-                        <Text className="form-label active">Kategori Pasien</Text>
-                        <Form.Item
-                            name="kategori"
-                            required
-                            initialValue="Umum"
-                            rules={[{
-                                required: true,
-                                message: 'Harap pilih kategori pasien!'
-                            }]}
-                            style={{marginBottom:30}}
-                            >
-                            <Select defaultValue="Umum" className="input-form">
-                                <Option value="Umum">Umum</Option>
-                                <Option value="Mahasiswa">Mahasiswa</Option>
-                                <Option value="Staf/Dosen">Staf/Dosen</Option>
-                            </Select>
-                        </Form.Item>
+                        
                     </Col>
                     <Col span={24}>
                         <Text className="form-label active">Nama Lengkap</Text>
@@ -114,7 +98,7 @@ const Register = () => {
                             />
                         </Form.Item>
                     </Col> */}
-                    <Col span={24}>
+                    {/* <Col span={24}>
                     <Text className="title-label">Kategori Pasien</Text>
                         <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
                             <Radio.Group onChange={(e)=>setKategori(e)} value={kategori}>
@@ -124,9 +108,30 @@ const Register = () => {
                                 <Radio value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Radio>
                             </Radio.Group>
                         </Form.Item>
+                    </Col> */}
+                    <Col span={24}>
+                        <Text className="form-label active">Kategori Pasien</Text>
+                        <Form.Item
+                            name="kategori"
+                            required
+                            initialValue="Umum"
+                            rules={[{
+                                required: true,
+                                message: 'Harap pilih kategori pasien!'
+                            }]}
+                            style={{marginBottom:30}}
+                            >
+                            <Select defaultValue="Umum" className="input-form" onChange={(e)=>setKategori(e)}>
+                                <Option value="Umum">Umum</Option>
+                                <Option value="Mahasiswa">Mahasiswa</Option>
+                                <Option value="Staf/Dosen">Staf/Dosen</Option>
+                            </Select>
+                        </Form.Item>
                     </Col>
                     <Col span={24}>
-                        <Text className="form-label active">{kategori}</Text>
+                        <Text className="form-label active">No. Identitas 
+                          {(kategori === "Umum") ? " (NIK)" : (kategori === "Mahasiswa") ? " (NIM)" : " (NIP)"}
+                        </Text>
                         <Form.Item
                             name="no_identitas"
                             required
@@ -144,7 +149,9 @@ const Register = () => {
                             >
                             
                             <Input className="input-form" maxLength={15} minLength={10}
-                                placeholder="Contoh: 3204162203000008"
+                                placeholder={
+                                    (kategori === "Umum") ? "Contoh: 3204152101951005" : 
+                                    (kategori === "Mahasiswa") ? "Contoh: 181511001" : "Contoh: 198507252105012001"}
                             />
                         </Form.Item>
                     </Col>
@@ -373,10 +380,10 @@ const Register = () => {
                     </Col>
                     <Col md={10} lg={10}>
                         <Row justify="center">
-                            <Card className="registrasi-card" style={{marginBottom:40}}>
-                                <Row justify="center" style={{marginBottom:40}}>
+                            <Card className="registrasi-card" style={{marginTop:15}}>
+                                <Row justify="center" style={{marginBottom:30}}>
                                     <Text className="title bold" style={{textAlign:"center"}}>
-                                        PENDAFTARAN PASIEN POLIKLINIK <br></br>
+                                        PENDAFTARAN PASIEN <br></br>
                                         {(regisStep===2) ? "("+formPendaftaranInput.getFieldValue("kategori")+")" : ""}
                                     </Text>
                                 </Row>
@@ -394,7 +401,7 @@ const Register = () => {
                                     </Row>
                                     <Row justify="center">
                                         <Button type="text" onClick={gotoLogin}>
-                                            <Text className="title-button" style={{color: "#FFE600", marginBottom:20}}>
+                                            <Text className="title-button" style={{color: "#FFE600", marginBottom:10}}>
                                                 Login
                                             </Text>
                                         </Button>

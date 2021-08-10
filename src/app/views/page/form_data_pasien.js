@@ -26,10 +26,16 @@ const UbahDataPasien = (props) => {
     useEffect(()=>{
         console.log(props.location)
         getDataJurusan();
-        if(props.location.state){
-            console.log(props.location)
-          form.setFieldsValue(props.location.state);
 
+        if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
+            let no_identitas = JSON.parse(localStorage.getItem('no_identitas'))
+            form.setFieldsValue({no_telepon: no_identitas.length})
+            form.setFieldsValue({no_identitas: no_identitas});
+        }
+
+        if(props.location.state){
+            form.setFieldsValue(props.location.state);
+            console.log(props.location)
           if(props.location.state.tanggal_lahir){
             let tanggal = props.location.state.tanggal_lahir;
             form.setFieldsValue({tanggal_lahir: (moment(tanggal, 'YYYY-MM-DD')) });
@@ -44,6 +50,7 @@ const UbahDataPasien = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let registerBody ={
+            no_identitas : values.no_identitas,
             no_telepon: values.no_telepon,
             password: values.password,
             role: 3,
@@ -186,7 +193,7 @@ const UbahDataPasien = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item >
-                        <NavLink to="/profil-staf">  
+                        <NavLink to="/profil-pasien">  
                             <Text className="title">
                                 Pasien
                             </Text>
@@ -224,7 +231,7 @@ const UbahDataPasien = (props) => {
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
                 <Row justify="space-between" gutter={30}>
                     <Col span={12}>
-                        {!!props.location.state &&
+                        {(!!props.location.state && props.location.pathname !== "/dashboard-pasien/lengkapi-data-diri") &&
                             <div>
                             <Text className="title-label">ID Pasien</Text>
                                 <Form.Item name="id_pasien" >
@@ -233,6 +240,20 @@ const UbahDataPasien = (props) => {
                                      
                             </div>
                         }
+                        <Text className="title-label">Kategori Pasien</Text>
+                            <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
+                                {}
+                                <Select defaultValue="Pilih Kategori" className="input-form" onChange={(e)=>setKategori(e)}
+                                    disabled={props.location.pathname === "/dashboard-pasien/edit-profil"
+                                             || props.location.state}
+                                >
+                                    <Option value="Umum">Umum</Option>
+                                    <Option value="Mahasiswa">Mahasiswa</Option>
+                                    <Option value="Staf/Dosen">Staf/Dosen</Option>
+                                    <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
+                                </Select>
+                            </Form.Item>
+
                         <Text className="title-label">{kategori==="Mahasiswa" ? "Nomor Identitas (NIM)" : kategori === "Staf/Dosen" ? "Nomor Identitas (NIP)" : "Nomor Identitas (NIK)"}</Text>
                             <Form.Item name="no_identitas" rules={[{ required: true, message: "Harap masukkan nomor identitas!" }]}>
                                     <Input className="input-form secondary" 
@@ -295,20 +316,7 @@ const UbahDataPasien = (props) => {
                                 </Form.Item>
                                 </div>
                             }
-
-                            
-                          
-                        <Text className="title-label">Kategori Pasien</Text>
-                            <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
-                                <Select defaultValue="Pilih Kategori" className="input-form" onChange={(e)=>setKategori(e)}
-                                    disabled={props.location.pathname === "/dashboard-pasien/edit-profil"}
-                                >
-                                    <Option value="Umum">Umum</Option>
-                                    <Option value="Mahasiswa">Mahasiswa</Option>
-                                    <Option value="Staf/Dosen">Staf/Dosen</Option>
-                                    <Option value="Keluarga Staf/Dosen">Keluarga Staf/Dosen</Option>
-                                </Select>
-                            </Form.Item>
+                        
                         
                         {kategori==="Mahasiswa" &&
                             <div>

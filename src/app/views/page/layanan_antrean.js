@@ -195,7 +195,7 @@ const Antrean = () => {
                         {currentTime}
                     </Col>
                 </Row>
-                <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
+                <Breadcrumb style={{marginTop: 10, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
                         <Text className="title">
                             <HomeOutlined />

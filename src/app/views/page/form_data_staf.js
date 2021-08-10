@@ -30,12 +30,12 @@ const FormDataStaf = (props) => {
         setLoading(true);
 
         let _role = 0;
-        if(values.kategori_staf ==="Admin"){
+        if(values.kategori_staf === "Petugas Administrasi"){
             _role = 1;
-        } else if(values.kategori_staf ==="Perawat"){
-            _role = 2;
+        } else if(values.kategori_staf === "Perawat"){
+            _role = 5;
         } else {
-            _role = 3;
+            _role = 4;
         }
 
         let createBody ={
@@ -51,7 +51,6 @@ const FormDataStaf = (props) => {
             no_telepon: values.no_telepon,
             avatar: uploadInfo.response && uploadInfo.response.url,
             nama: values.nama,
-            kategori: values.kategori_staf,
             jabatan: values.jabatan,
         }
         console.log("Body: ", body);
@@ -279,24 +278,24 @@ const FormDataStaf = (props) => {
                                         placeholder="Masukkan nama"/>
                                 </Form.Item>
 
-                                <Text className="title-label">Kategori Staf</Text>
-                                    <Form.Item name="kategori_staf" 
-                                        rules={[{ required: true, message: "Harap pilih kategori!"  }]}
+                                <Text className="title-label">Jabatan</Text>
+                                    <Form.Item name="jabatan" 
+                                        rules={[{ required: true, message: "Harap pilih jabatan!"  }]}
                                     >
                                         <Select defaultValue="Pilih Kategori" className="input-form" >
-                                            <Option key={1} value="Admin">Admin</Option>
+                                            <Option key={1} value="Petugas Administrasi">Petugas Administrasi</Option>
                                             <Option key={2} value="Perawat">Perawat</Option>
-                                            <Option key={3} value="Biasa">Staf Biasa</Option>
+                                            <Option key={3} value="Staf Umum">Staf Umum</Option>
                                         </Select>
                                     </Form.Item>
 
-                                <Text className="title-label">Jabatan</Text>
-                                    <Form.Item name="jabatan" 
+                                {}
+                                    {/* <Form.Item name="staf_umum" 
                                         rules={[{ required: true, message: "Harap masukkan jabatan" }]}
                                     >
                                         <Input className="input-form secondary" 
                                         placeholder="Masukkan jabatan"/>
-                                    </Form.Item>
+                                    </Form.Item> */}
                         </Col>
                     </Row>
                     <Row justify="center">
