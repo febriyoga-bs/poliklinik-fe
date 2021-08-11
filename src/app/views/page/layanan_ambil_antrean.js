@@ -243,6 +243,15 @@ const AmbilAntrean = (props) => {
             setLoadingButton(false);
             if(res.data){
                 dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+                    if(props.location.state.poli === "umum"){
+                        getLastAntreanUmum()
+                        getAntreanUmum()
+                        getNewAntrean(1);
+                    } else {
+                        getLastAntreanGigi()
+                        getAntreanGigi()
+                        getNewAntrean(2);
+                    }
                     console.log("Berhasil");
                 })
             }
