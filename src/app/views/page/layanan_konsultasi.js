@@ -17,6 +17,7 @@ const Konsultasi = () => {
     const [dataKonsultasi, setDataKonsultasi] = useState([])
     const [dataPesan, setDataPesan] = useState([])
     const [formPesanInput] = Form.useForm();
+    const [loadingCreateKonsultasi, setLoadingCreateKonsultasi] = useState(false)
     const [loadingKonsultasi, setLoadingKonsultasi] = useState(false)
     const [loadingPesan, setLoadingPesan] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -79,24 +80,24 @@ const Konsultasi = () => {
                 if(res.data){
                     let _dataPesan = [];
                     res.data.data[0].pesan.forEach((val) => {
-                        let _position = ""
-
-                        if(role === 3 && val.pengirim === "pasien"){
-                            _position =  'right'
-                        } else if(role === 2 && val.pengirim === "dokter"){
-                            _position = 'right'
-                        } else {
-                            _position = 'left'
+                        let messageBox = {
+                            type: val.type,
+                            text: val.pesan,
+                            // date: moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').toDate(),
+                            dateString: moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm')
                         }
 
-                        _dataPesan.push(
-                            {
-                                position: _position,
-                                type: val.type,
-                                text: val.pesan,
-                                date: moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').toDate(),
-                            }
-                        )
+                        if(role === 3 && val.pengirim === "pasien"){
+                            messageBox.position =  'right'
+                            messageBox.status = 'sent'
+                        } else if(role === 2 && val.pengirim === "dokter"){
+                            messageBox.position = 'right'
+                            messageBox.status = 'sent'
+                        } else {
+                            messageBox.position = 'left'
+                        }
+
+                        _dataPesan.push(messageBox)
                     })
                     setDataPesan(_dataPesan);
                     console.log(res.data.data)
@@ -123,15 +124,20 @@ const Konsultasi = () => {
         console.log("data: ", data)
     } 
 
-    const buatKonsultasi = () => {
+    const buatKonsultasi = (id_dokter) => {
         let body = {
-            
+            id_dokter: id_dokter,
+            id_pasien: JSON.parse(localStorage.getItem('id_pasien'))
         }
-        APIServices.postKonsultasi({body}).then(res => {
+        setLoadingCreateKonsultasi(true)
+        APIServices.postKonsultasi(body).then(res => {
+            setLoadingCreateKonsultasi(false)
+            getKonsultasi(id_dokter, JSON.parse(localStorage.getItem('id_pasien')))
             if(res.data){
-
+                console.log("Inisiasi konsultasi berhasil")
             }
           }).catch(err => {
+            setLoadingCreateKonsultasi(false)
             if(err){
                 // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
                 //     console.log(err);
@@ -319,9 +325,9 @@ const Konsultasi = () => {
                                         </Row>
                                         <Row justify="center">
                                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                                loading={loading}
+                                                loading={loadingCreateKonsultasi}
                                                 onClick={() => {
-                                                    buatKonsultasi();
+                                                    buatKonsultasi(dataDokter[menukey].id_dokter);
                                                 }}
                                                 >
                                                 Konsultasi Sekarang
@@ -444,25 +450,13 @@ const Konsultasi = () => {
                                         </>
                                     /*END OF LIST PESAN */
                                 :
-                                    (!!dataDokter) &&
+                                    
                                     <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                         <Col>
                                         <Row justify="center">    
                                             <Text>
-                                                Anda belum pernah melakukan konsultasi dengan 
-                                                <b>{dataDokter[menukey].spesialisasi==="Umum" ? " dr. " : " drg. "}
-                                                {dataDokter[menukey].nama}</b>
+                                                Belum ada pasien yang melakukan konsultasi dengan Anda!
                                             </Text>
-                                        </Row>
-                                        <Row justify="center">
-                                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
-                                                loading={loading}
-                                                onClick={() => {
-                                                    buatKonsultasi();
-                                                }}
-                                                >
-                                                Konsultasi Sekarang
-                                            </Button>
                                         </Row>
                                         </Col>
                                     </Row>

@@ -36,6 +36,7 @@ const UbahDataPasien = (props) => {
             })
             setKategori(_kategori)
             form.setFieldsValue({no_identitas: no_identitas});
+            form.setFieldsValue({no_telepon: props.location.state.no_telepon});
         }else if(props.location.state){
             form.setFieldsValue(props.location.state);
             console.log(props.location)

@@ -100,6 +100,7 @@ const LoginUser = () => {
                 }
             }
         }).catch(err => {
+            console.log(err)
             setLoading(false);
             if(err.response){
                 message.error("Nomor Identitas atau Password yang Anda masukkan salah!");

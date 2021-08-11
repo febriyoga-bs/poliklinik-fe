@@ -48,6 +48,7 @@ const ProfilStaf = (props) => {
         APIServices.getDataStaf().then(res => {
             if(res.data){
                 setDataStaf(res.data.data[0]);
+                localStorage.setItem('id_staf', JSON.stringify(res.data.data[0].id_staf));
                 setLoading(false)
             }
         }).catch(err => {

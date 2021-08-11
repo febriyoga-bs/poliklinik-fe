@@ -29,6 +29,7 @@ const ProfilDokter = () => {
         APIServices.getDataDokter().then(res => {
             if(res.data){
                 setDataDokter(res.data.data[0]);
+                localStorage.setItem('id_dokter', JSON.stringify(res.data.data[0].id_dokter));
                 setLoading(false)
             }
         }).catch(err => {

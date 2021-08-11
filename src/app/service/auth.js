@@ -29,6 +29,10 @@ export default class Auth {
     localStorage.removeItem('no_telepon');
     localStorage.removeItem('no_identitas');
     localStorage.removeItem('login');
+
+    localStorage.removeItem('id_staf');
+    localStorage.removeItem('id_dokter');
+    localStorage.removeItem('id_pasien');
     window.location.reload();
   }
   
