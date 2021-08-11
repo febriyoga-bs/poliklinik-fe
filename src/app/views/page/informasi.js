@@ -138,7 +138,8 @@ const Informasi = () => {
                                 record.jadwal[0].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1.id_dokter === res2.id_dokter){
-                                            dokter.push(res2.nama);
+                                            let str = res2.spesialisasi === "Umum" ? "dr. " : "drg. "
+                                            dokter.push(str+res2.nama);
                                         }
                                     })
                                 })
@@ -180,7 +181,8 @@ const Informasi = () => {
                                 record.jadwal[1].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1.id_dokter === res2.id_dokter){
-                                            dokter.push(res2.nama);
+                                            let str = res2.spesialisasi === "Umum" ? "dr. " : "drg. "
+                                            dokter.push(str+res2.nama);
                                         }
                                     })
                                 })
@@ -221,7 +223,8 @@ const Informasi = () => {
                                 record.jadwal[2].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1.id_dokter === res2.id_dokter){
-                                            dokter.push(res2.nama);
+                                            let str = res2.spesialisasi === "Umum" ? "dr. " : "drg. "
+                                            dokter.push(str+res2.nama);
                                         }
                                     })
                                 })
@@ -262,7 +265,8 @@ const Informasi = () => {
                                 record.jadwal[3].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1.id_dokter === res2.id_dokter){
-                                            dokter.push(res2.nama);
+                                            let str = res2.spesialisasi === "Umum" ? "dr. " : "drg. "
+                                            dokter.push(str+res2.nama);
                                         }
                                     })
                                 })
@@ -303,7 +307,8 @@ const Informasi = () => {
                                 record.jadwal[4].dokter.forEach((res1)=>{
                                     dataDokter.forEach((res2)=>{
                                         if(res1.id_dokter === res2.id_dokter){
-                                            dokter.push(res2.nama);
+                                            let str = res2.spesialisasi === "Umum" ? "dr. " : "drg. "
+                                            dokter.push(str+res2.nama);
                                         }
                                     })
                                 })
@@ -353,7 +358,7 @@ const Informasi = () => {
                     title: "Tarif Mahasiswa",
                     dataIndex: 'tarif_mahasiswa',
                     key: 'tarif_mahasiswa',
-                    width: '15%',
+                    width: '25%',
                     align: 'center',
                     render: (harga) => {
                         if(harga === null){
@@ -373,7 +378,7 @@ const Informasi = () => {
                     title: "Tarif Staf/Dosen",
                     dataIndex: 'tarif_staf_kampus',
                     key: 'tarif_staf_dosen',
-                    width: '15%',
+                    width: '25%',
                     align: 'center',
                     render: (harga) => {
                         if(harga === null){
@@ -393,7 +398,7 @@ const Informasi = () => {
                     title: "Tarif Keluarga Staf",
                     dataIndex: 'tarif_keluarga_staf',
                     key: 'tarif_keluarga',
-                    width: '15%',
+                    width: '25%',
                     align: 'center',
                     render: (harga) => {
                         if(harga === null){
@@ -413,7 +418,7 @@ const Informasi = () => {
                     title: "Tarif Umum",
                     dataIndex: 'tarif_umum',
                     key: 'tarif_umum',
-                    width: '15%',
+                    width: '25%',
                     align: 'center',
                     render: (harga) => {
                         if(harga === null){
@@ -436,7 +441,7 @@ const Informasi = () => {
     ]
 
     return(
-        <Layout style={{backgroundColor: "#072A6F"}}>
+        <Layout style={{backgroundColor: "#072A6F", minWidth: 700}}>
             <Content className="layout-content">
                 <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
@@ -464,7 +469,7 @@ const Informasi = () => {
                             loading={loading}
                             dataSource={_dataJadwal}
                             pagination={false}
-                            scroll={{ x: 450 }}
+                            scroll={{ x: 550 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -482,7 +487,7 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={dataPelayanan}
-                            scroll={{ x: 450 }}
+                            scroll={{ x: 550 }}
                             // onChange={handleTableChange}
                         />
                     </Card>
@@ -496,12 +501,12 @@ const Informasi = () => {
                         </Row>
                         <Row>
                         <List 
-                            grid={{ gutter: 30, 
+                            grid={{ gutter: 50, 
                                 xl: (dataDokter.length < 5) ? dataDokter.length : 5, 
                                 lg: (dataDokter.length < 4) ? dataDokter.length : 4, 
                                 md: (dataDokter.length < 3) ? dataDokter.length : 3, 
                                 sm: (dataDokter.length < 2) ? dataDokter.length : 2, 
-                                xs: (dataDokter.length < 1) ? dataDokter.length : 1
+                                xs: (dataDokter.length < 2) ? dataDokter.length : 2
                             }}
                             dataSource={dataDokter}
                             renderItem={item => (
@@ -537,12 +542,12 @@ const Informasi = () => {
                         </Row>
                         <Row>
                         <List 
-                            grid={{ gutter: 30, 
+                            grid={{ gutter: 50, 
                                 xl: (dataStaf.length < 5) ? dataStaf.length : 5, 
                                 lg: (dataStaf.length < 4) ? dataStaf.length : 4, 
                                 md: (dataStaf.length < 3) ? dataStaf.length : 3, 
                                 sm: (dataStaf.length < 2) ? dataStaf.length : 2, 
-                                xs: (dataStaf.length < 1) ? dataStaf.length : 1
+                                xs: (dataStaf.length < 2) ? dataStaf.length : 2
                             }}
                             dataSource={dataStaf}
                             renderItem={item => (

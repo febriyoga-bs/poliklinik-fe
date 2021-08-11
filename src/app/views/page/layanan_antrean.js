@@ -78,8 +78,10 @@ const Antrean = () => {
             key: "anyKey",
             wsHost: "25.70.2.196",
             wsPort: 6001,
+            wssHost: "25.70.2.196",
+            wssPort: 6001,
             disableStats: true,
-            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+            forceTLS: true // Critical if you want to use a non-secure WebSocket connection
         });
 
         console.log("Tes: ", window.Echo);
@@ -107,8 +109,13 @@ const Antrean = () => {
     }, []);
 
 
+    const [role, setRole] = useState(0);
     /* RENDER WHEN PAGE OPEN */
     useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
         getAntreanUmum()
         getAntreanGigi()
     }, []);
@@ -209,7 +216,7 @@ const Antrean = () => {
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">
                     <Col xs={24} md={12} lg={12}>
-                        <Card className="button-card" >
+                        <Card className="button-card" style={{minHeight:475}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI UMUM
@@ -238,7 +245,7 @@ const Antrean = () => {
                                         Ambil Nomor Antrean
                                     </Button>
                                 </Col>
-                                {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+                                {Auth.isLogin() && (role === 1 || role === 2 || role === 4 || role === 5) &&
           
                                     <Col>
                                         <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 
@@ -254,7 +261,7 @@ const Antrean = () => {
                         </Card>
                     </Col>
                     <Col xs={24} md={12} lg={12}>
-                        <Card className="button-card" >
+                        <Card className="button-card" style={{minHeight:475}}>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
                                     POLI GIGI
@@ -283,7 +290,7 @@ const Antrean = () => {
                                         Ambil Nomor Antrean
                                     </Button>
                                 </Col>
-                                {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+                                {Auth.isLogin() && (role === 1 || role === 2 || role === 4 || role === 5) &&
           
                                     <Col>
                                         <Button type='primary' className="app-btn tertiary" info style={{marginTop: 10}} 

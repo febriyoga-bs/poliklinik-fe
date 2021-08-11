@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Redirect, BrowserRouter } from "react-router-dom";
+import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
 import ScrollToTop from "./app/component/scroll-to-top"
 import './App.css';
 import { Layout } from "antd";
@@ -111,10 +111,14 @@ import Template from "./app/views/page/template";
             <Route exact path="/login" component={LoginUser} />
             <Route exact path="/pendaftaran" component={Pendaftaran} />
             <Route exact path="/antrean-poliklinik" component={Antrean} />
-            <PrivateRoute exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
-            <PrivateRoute exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
-            <PrivateRoute exact path="/antrean-poliklinik/poli-umum/panggil" component={PanggilAntrean} />
-            <PrivateRoute exact path="/antrean-poliklinik/poli-gigi/panggil" component={PanggilAntrean} />
+            
+            <Switch>
+              <PrivateRoute exact path="/antrean-poliklinik/poli-umum" component={AmbilAntrean} />
+              <PrivateRoute exact path="/antrean-poliklinik/poli-gigi" component={AmbilAntrean} />
+              <PrivateRoute exact path="/antrean-poliklinik/poli-umum/panggil" component={PanggilAntrean} />
+              <PrivateRoute exact path="/antrean-poliklinik/poli-gigi/panggil" component={PanggilAntrean} />
+            </Switch>
+            
             <PrivateRoute exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
             <Route exact path="/bantuan" component={Template} />

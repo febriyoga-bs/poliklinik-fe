@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Typography, Row, Col, Button, Image, Dropdown, Menu, message} from "antd";
 import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { withRouter, NavLink, useHistory } from "react-router-dom";
@@ -17,25 +17,35 @@ const HeaderLayout = (props) => {
         setVisibleMenu(!visibleMenu);
     };
 
+
+    let _role = JSON.parse(localStorage.getItem('role'));
+    let login_time = JSON.parse(localStorage.getItem('login'));
+    let role = _role/login_time
+
+    console.log(_role/login_time)
+
     const menuLayanan = (
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
             <Menu.Item >
                 <NavLink to="/antrean-poliklinik">  
-                    <Text className="title-navmenu" style={{fontWeight:"normal"}}>
+                    <Text className="title-navmenu">
                         Antrean Poliklinik
                     </Text>
                 </NavLink>
             </Menu.Item>
             <Menu.Item >
-                <NavLink to="/konsultasi-online">  
-                    <Text className="title-navmenu">
+                {role === 2 || role === 3 ? 
+                    <NavLink to="/konsultasi-online">  
+                        <Text className="title-navmenu">
+                            Konsultasi Online
+                        </Text>
+                    </NavLink>
+                :
+                    <Text onClick={()=>message.info("Anda perlu login sebagai pasien atau dokter untuk mengakses laman konsultasi!")} 
+                        className="title-navmenu" style={{fontWeight:"normal"}}>
                         Konsultasi Online
                     </Text>
-                </NavLink>
-                {/* <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
-                    className="title-navmenu" style={{fontWeight:"normal"}}>
-                    Konsultasi Online
-                </Text> */}
+                }
             </Menu.Item>
         </Menu>
       );
@@ -136,6 +146,7 @@ const HeaderLayout = (props) => {
                 visible={visibleMenu}
                 handleDashboard={() => {handleDrawerMenu(); gotoDashboard()}}
                 handleLogin={() => {handleDrawerMenu(); gotoLogin()}}
+                role={role}
             />
         </Layout>
     );

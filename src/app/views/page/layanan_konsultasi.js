@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { withRouter } from 'react-router-dom';
+import 'react-chat-elements/dist/main.css';
+import { MessageList } from 'react-chat-elements'
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Menu, Image, Form, Input, Button } from 'antd';
 import { HomeOutlined, SendOutlined, PaperClipOutlined} from '@ant-design/icons';
 import { APIServices }  from '../../service';
@@ -11,6 +13,20 @@ const { Text } = Typography;
 const Konsultasi = () => {
     const [dataDokter, setDataDokter] = useState(null)
     const [dataPasien, setDataPasien] = useState(null)
+    const [dataPesan, setDataPesan] = useState([
+            {
+                position: 'left',
+                type: 'text',
+                text: 'Lorem ipsum dolor sit amet, ',
+                date: new Date(),
+            },
+            {
+                position: 'right',
+                type: 'text',
+                text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, Lorem ipsum dolor sit amet, consectetur adipisicing elit,',
+                date: new Date(),
+            },
+    ])
     const [formPesanInput] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [role, setRole] = useState(0);
@@ -82,12 +98,30 @@ const Konsultasi = () => {
             })
         }
     
-    const onFinishPesan = () => {
-        console.log("Pesan dikirim!")
+    const onFinishPesan = (values) => {
+        if(values.pesan !== undefined && values.pesan !== " "){
+            console.log("list pesan: ", dataPesan)
+            let _dataPesan = [...dataPesan];
+            _dataPesan.push(
+                {
+                    position: 'right',
+                    type: 'text',
+                    text: values.pesan,
+                    date: new Date(),
+                }
+            )
+            setDataPesan(_dataPesan)
+        }
+        
+        formPesanInput.resetFields()
     }
 
+    useEffect(()=>{
+        console.log("Pesan dikirim!", dataPesan)
+    }, [dataPesan])
+
     return(
-        <Layout style={{backgroundColor: "#072A6F"}}>
+        <Layout style={{backgroundColor: "#072A6F", minWidth:700, minHeight:"100vh"}}>
             <Content className="layout-content-new">
                 <Breadcrumb style={{marginTop: 10, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
@@ -133,7 +167,7 @@ const Konsultasi = () => {
                             </Menu>
                             }
                         </Col>
-                        <Col span={17} style={{height: 500, borderLeft:"4px solid #8F8F8F"}}>
+                        <Col span={17} style={{height: 500, borderLeft:"4px solid #8F8F8F", backgroundColor:"#F8F8F8"}}>
                             <Row style={{marginLeft:20, marginTop: 10}}>
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>Ruang Konsultasi</Text>
                             </Row>
@@ -147,28 +181,36 @@ const Konsultasi = () => {
                                 <Text style={{color:"#EB3D00", marginTop:5}}>{dataDokter[menukey].spesialisasi==="Umum" ? "dr. " : "drg. "} {dataDokter[menukey].nama}</Text>
                             </Row>
                             }
-                            <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 30}}></div>
-                            <Row style={{height: 340}}>
-                                <Text style={{color:"#EB3D00", fontWeight:"bold"}}></Text>
+                            <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 20}}></div>
+                            <Row style={{height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
+                            <MessageList
+                                className='message-list'
+                                lockable={false}
+                                toBottomHeight={'100%'}
+                                dataSource={dataPesan} 
+                                />
                             </Row>
                             <Row style={{marginLeft:20}}>
                                 <Form form={formPesanInput} onFinish={onFinishPesan}>
-                                    <Form.Item name="alamat">
-                                        <Input style={{minWidth: 300, width: 450, borderRadius: 10}}
+                                    <Row style={{width: "100%"}}>
+                                    <Form.Item name="pesan">
+                                        <Input style={{width:500, borderRadius: 10}}
                                             placeholder="Ketik pesan anda . . ."
                                         />
                                     </Form.Item>
+                                
+                                    <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                        <Text>
+                                            <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                        </Text>
+                                    </Button>
+                                    <Button type="text" htmlType="submit" >
+                                        <Text>
+                                            <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                        </Text>
+                                    </Button>
+                                    </Row>
                                 </Form>
-                                <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
-                                    <Text>
-                                        <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                    </Text>
-                                </Button>
-                                <Button type="text" htmlType="submit" >
-                                    <Text>
-                                        <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                    </Text>
-                                </Button>
                             </Row>
                         </Col>
                         </Row>
@@ -224,22 +266,25 @@ const Konsultasi = () => {
                             </Row>
                             <Row style={{marginLeft:20}}>
                                 <Form form={formPesanInput} onFinish={onFinishPesan}>
-                                    <Form.Item name="alamat">
+                                    <Form.Item name="pesan">
                                         <Input style={{minWidth: 300, width: 450, borderRadius: 10}}
                                             placeholder="Ketik pesan anda . . ."
                                         />
                                     </Form.Item>
+                                
+                                    <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                        <Text>
+                                            <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                        </Text>
+                                    </Button>
+                                    <Form.Item>
+                                    <Button type="primary" htmlType="submit" >
+                                        <Text>
+                                            <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                        </Text>
+                                    </Button>
+                                    </Form.Item>
                                 </Form>
-                                <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
-                                    <Text>
-                                        <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                    </Text>
-                                </Button>
-                                <Button type="text" htmlType="submit" >
-                                    <Text>
-                                        <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                    </Text>
-                                </Button>
                             </Row>
                         </Col>
                         </Row>

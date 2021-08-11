@@ -8,6 +8,7 @@ const {Text } = Typography;
 const {SubMenu} = Menu;
 
 const MenuDrawer = props => {
+    console.log(props)
 
     const menuLayanan = (
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
@@ -76,11 +77,19 @@ const MenuDrawer = props => {
                         </NavLink>
                     </Menu.Item>
                     <Menu.Item style={{backgroundColor:"transparent"}}>
-                        <NavLink to="/konsultasi-online">  
-                            <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                        {props.role === 2 || props.role === 3 ? 
+                            
+                            <NavLink to="/konsultasi-online">  
+                                <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                                    Konsultasi Online
+                                </Text>
+                            </NavLink>
+                        :
+                            <Text onClick={()=>message.info("Anda perlu login sebagai pasien atau dokter untuk mengakses laman konsultasi!")} 
+                                className="title-home-mobile" style={{fontWeight:"normal"}}>
                                 Konsultasi Online
                             </Text>
-                        </NavLink>
+                        }
                     </Menu.Item>
                 </SubMenu>
                 </Menu>

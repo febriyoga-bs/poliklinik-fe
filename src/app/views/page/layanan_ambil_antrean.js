@@ -73,8 +73,13 @@ const AmbilAntrean = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const [role, setRole] = useState(0);
     /* RENDER WHEN PAGE OPEN */
     useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
         if(props.location.state.poli === "umum"){
             getLastAntreanUmum()
             getAntreanUmum()
@@ -220,7 +225,7 @@ const AmbilAntrean = (props) => {
                            
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
-            id_pasien: (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) ? 
+            id_pasien: (role === 1 || role === 2 || role === 4 || role === 5) ? 
                 idPasien : JSON.parse(localStorage.getItem('id_pasien')),
         }
         setLoadingButton(true);
@@ -318,7 +323,7 @@ const AmbilAntrean = (props) => {
                             </Card>
                             
                             
-                            {Auth.isLogin() && (JSON.parse(localStorage.getItem('role')) === 2 || JSON.parse(localStorage.getItem('role')) === 1) &&
+                            {Auth.isLogin() && (role === 1 || role === 2 || role === 4 || role === 5) &&
                                 <>
                                 <Row justify="center" style={{marginTop:20}}>
                                     <Text className="title-label">Pilih Pasien</Text>
@@ -339,7 +344,7 @@ const AmbilAntrean = (props) => {
                             }
                             
                             <Row justify="center">
-                                {!antreanExist ? 
+                                {!antreanExist || (role !== 3) ? 
                                     <Button type='primary' className="app-btn secondary" info style={{marginTop: 20}} 
                                         loading={loadingButton}
                                         onClick={() => {
