@@ -250,6 +250,7 @@ const Konsultasi = () => {
                                 </Row>
                                 </>
                             :
+                                (!!dataDokter) &&
                                 <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                     <Col>
                                     <Row justify="center">    
