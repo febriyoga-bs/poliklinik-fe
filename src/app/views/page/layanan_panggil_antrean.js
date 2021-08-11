@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
+import Speech from 'react-speech';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Spin } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
@@ -213,8 +214,12 @@ const PanggilAntrean = (props) => {
                   </Col>
                   <Col>
                     <Button 
-                        onClick={() => {
-
+                        onClick={(rec) => {
+                            return(
+                                <Speech 
+                                    text={`Nomor Antrian ${rec.nomor} harap memasuki ruang pemeriksaan`} 
+                                    voice="Google UK English Female" />
+                            )
                         }}
                     >
                         <Text style={{color: "#000"}}>

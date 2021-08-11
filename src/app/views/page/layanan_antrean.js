@@ -76,9 +76,11 @@ const Antrean = () => {
             authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
             broadcaster: 'pusher',
             key: "anyKey",
-            wsHost: "25.70.2.196",
+            //wsHost: "25.70.2.196",
+            //wssHost: "25.70.2.196",
+            wsHost: "http://api.kota101.studio",
+            wssHost: "https://api.kota101.studio",
             wsPort: 6001,
-            wssHost: "25.70.2.196",
             wssPort: 6001,
             disableStats: true,
             forceTLS: true // Critical if you want to use a non-secure WebSocket connection

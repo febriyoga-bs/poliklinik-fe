@@ -540,6 +540,17 @@ const APIServices = {
             { crossdomain: true }
         )
     },
+
+    postKonsultasi(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/postKonsultasi`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
 }
 
 export { APIServices }

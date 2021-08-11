@@ -95,6 +95,23 @@ const Konsultasi = () => {
         }
         console.log("data: ", data)
     } 
+
+    const buatKonsultasi = () => {
+        let body = {
+            
+        }
+        APIServices.postKonsultasi({body}).then(res => {
+            if(res.data){
+
+            }
+          }).catch(err => {
+            if(err){
+                // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
+                //     console.log(err);
+                // })
+            }
+          })
+    }
     
     const onFinishPesan = (values) => {
         if(values.pesan !== undefined && values.pesan !== " "){
@@ -198,6 +215,7 @@ const Konsultasi = () => {
                             <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 20}}></div>
                             
                             {dataPesan.length !== 0 ? 
+                                <>
                                 <Row style={{width:"100%",height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                     <MessageList
                                         className='message-list'
@@ -207,33 +225,53 @@ const Konsultasi = () => {
                                         style={{width:500}}
                                         />
                                 </Row>
-                            :
-                                <Row style={{width:"100%",height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
+                                
+                                <Row style={{marginLeft:20}}>
+                                    <Form form={formPesanInput} onFinish={onFinishPesan}>
+                                        <Row style={{width: "100%"}}>
+                                        <Form.Item name="pesan">
+                                            <Input style={{width:500, borderRadius: 10}} focus={true} autoFocus={true}
+                                                placeholder="Ketik pesan anda . . ."
+                                            />
+                                        </Form.Item>
                                     
+                                        <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                            <Text>
+                                                <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                            </Text>
+                                        </Button>
+                                        <Button type="text" htmlType="submit" >
+                                            <Text>
+                                                <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                            </Text>
+                                        </Button>
+                                        </Row>
+                                    </Form>
+                                </Row>
+                                </>
+                            :
+                                <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
+                                    <Col>
+                                    <Row justify="center">    
+                                        <Text>
+                                            Anda belum pernah melakukan konsultasi dengan 
+                                            <b>{dataDokter[menukey].spesialisasi==="Umum" ? " dr. " : " drg. "}
+                                            {dataDokter[menukey].nama}</b>
+                                        </Text>
+                                    </Row>
+                                    <Row justify="center">
+                                        <Button type='primary' className="app-btn secondary" info style={{marginTop: 10}} 
+                                            loading={loading}
+                                            onClick={() => {
+                                                buatKonsultasi();
+                                            }}
+                                            >
+                                            Konsultasi Sekarang
+                                        </Button>
+                                    </Row>
+                                    </Col>
                                 </Row>
                             }
-                            <Row style={{marginLeft:20}}>
-                                <Form form={formPesanInput} onFinish={onFinishPesan}>
-                                    <Row style={{width: "100%"}}>
-                                    <Form.Item name="pesan">
-                                        <Input style={{width:500, borderRadius: 10}} focus={true} autoFocus={true}
-                                            placeholder="Ketik pesan anda . . ."
-                                        />
-                                    </Form.Item>
-                                
-                                    <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
-                                        <Text>
-                                            <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                        </Text>
-                                    </Button>
-                                    <Button type="text" htmlType="submit" >
-                                        <Text>
-                                            <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                        </Text>
-                                    </Button>
-                                    </Row>
-                                </Form>
-                            </Row>
                         </Col>
                         </Row>
                         }
