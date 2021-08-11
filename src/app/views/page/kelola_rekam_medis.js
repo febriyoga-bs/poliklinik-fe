@@ -267,7 +267,7 @@ const KelolaRekamMedis = (props) => {
                             dataSource={dataPasien}
                             pagination={pagination}
                             onChange={handleTableChange}
-                            scroll={{ x: "100%" }}
+                            scroll={{ x: 500 }}
                         />
                     </Card>
                 </Row>

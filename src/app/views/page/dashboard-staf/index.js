@@ -131,7 +131,7 @@ const DashboardStaf = (props) => {
       }
 
     return(
-        <Layout style={{backgroundColor: '#072A6F'}}>
+        <Layout style={{backgroundColor: '#072A6F', minHeight: "100vh"}}>
             <Row >
                 <Col span={collumnProp.offset}>
                     <Menu

@@ -28,7 +28,7 @@ const HeaderLayout = (props) => {
         <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
             <Menu.Item >
                 <NavLink to="/antrean-poliklinik">  
-                    <Text className="title-navmenu">
+                    <Text className="title-navmenu" style={{fontWeight:"normal"}}>
                         Antrean Poliklinik
                     </Text>
                 </NavLink>
@@ -36,7 +36,7 @@ const HeaderLayout = (props) => {
             <Menu.Item >
                 {role === 2 || role === 3 ? 
                     <NavLink to="/konsultasi-online">  
-                        <Text className="title-navmenu">
+                        <Text className="title-navmenu" style={{fontWeight:"normal"}}>
                             Konsultasi Online
                         </Text>
                     </NavLink>

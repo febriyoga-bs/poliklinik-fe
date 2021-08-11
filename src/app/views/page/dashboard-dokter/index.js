@@ -28,9 +28,9 @@ const DashboardDokter = () => {
     }
 
     const gotoKonsultasiOnline = () => {
-        message.info("Laman Konsultasi Online belum Tersedia");
-        // const loc = '/dashboard-dokter/konsultasi-online';
-        // history.push(loc);
+        //message.info("Laman Konsultasi Online belum Tersedia");
+        const loc = '/konsultasi-online';
+        history.push(loc);
     }
 
     const gotoRiwayatKunjungan = () => {

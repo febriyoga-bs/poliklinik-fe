@@ -524,7 +524,7 @@ const APIServices = {
         return client.request(
             {
                 method: "get",
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/getKonsultasi?id_konsultasi=${data.id_konsultasi}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/konsultasi/getPesan?id_konsultasi=${data}`,
             },
             {crossdomain: true }
         )

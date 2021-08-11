@@ -36,9 +36,7 @@ const UbahDataPasien = (props) => {
             })
             setKategori(_kategori)
             form.setFieldsValue({no_identitas: no_identitas});
-        }
-
-        if(props.location.state){
+        }else if(props.location.state){
             form.setFieldsValue(props.location.state);
             console.log(props.location)
           if(props.location.state.tanggal_lahir){
@@ -53,6 +51,7 @@ const UbahDataPasien = (props) => {
     }, []);
 
     const onFinish= (values) => {
+        console.log(kategori)
         setLoading(true);
         let registerBody ={
             no_identitas : values.no_identitas,
