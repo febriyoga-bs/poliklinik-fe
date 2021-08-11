@@ -13,20 +13,7 @@ const { Text } = Typography;
 const Konsultasi = () => {
     const [dataDokter, setDataDokter] = useState(null)
     const [dataPasien, setDataPasien] = useState(null)
-    const [dataPesan, setDataPesan] = useState([
-            {
-                position: 'left',
-                type: 'text',
-                text: 'Lorem ipsum dolor sit amet, ',
-                date: new Date(),
-            },
-            {
-                position: 'right',
-                type: 'text',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, Lorem ipsum dolor sit amet, consectetur adipisicing elit,',
-                date: new Date(),
-            },
-    ])
+    const [dataPesan, setDataPesan] = useState([])
     const [formPesanInput] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [role, setRole] = useState(0);
@@ -64,9 +51,9 @@ const Konsultasi = () => {
             })
         }
     
-    const getKonsultasi = () => {
+    const getKonsultasi = (id_dokter, id_pasien) => {
         setLoading(true);
-        APIServices.getKonsultasi({id_dokter: 1, id_pasien: null}).then(res => {
+        APIServices.getKonsultasi({id_dokter: id_dokter, id_pasien: id_pasien}).then(res => {
                 if(res.data){
                     setDataDokter(res.data.data);
                     console.log(res.data.data)
@@ -98,6 +85,17 @@ const Konsultasi = () => {
             })
         }
     
+    const handleGantiRuangKonsultasi = (key, data) => {
+        setMenuKey(key); 
+        setDataPesan([])
+        if(role === 2){
+            getKonsultasi(JSON.parse(localStorage.getItem('id_dokter'), data.id_pasien))
+        } else if (role === 3){
+            getKonsultasi(data.id_dokter, JSON.parse(localStorage.getItem('id_pasien')))
+        }
+        console.log("data: ", data)
+    } 
+    
     const onFinishPesan = (values) => {
         if(values.pesan !== undefined && values.pesan !== " "){
             console.log("list pesan: ", dataPesan)
@@ -108,9 +106,25 @@ const Konsultasi = () => {
                     type: 'text',
                     text: values.pesan,
                     date: new Date(),
+                    status: "waiting"
                 }
             )
             setDataPesan(_dataPesan)
+
+            let body = {
+                pesan: values.pesan,
+            }
+            APIServices.postPesan({body}).then(res => {
+                if(res.data){
+
+                }
+              }).catch(err => {
+                if(err){
+                    // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
+                    //     console.log(err);
+                    // })
+                }
+              })
         }
         
         formPesanInput.resetFields()
@@ -152,7 +166,7 @@ const Konsultasi = () => {
                             >
                                 {dataDokter.map((res, idx) =>{
                                     return(
-                                        <Menu.Item key={idx} onClick={(item) => {console.log(item); setMenuKey(Number(item.key))}}>
+                                        <Menu.Item key={idx} onClick={(item) => {console.log(item); handleGantiRuangKonsultasi(Number(item.key), res);}}>
                                             <Row>
                                                 <Image
                                                     style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
@@ -182,19 +196,27 @@ const Konsultasi = () => {
                             </Row>
                             }
                             <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 20}}></div>
-                            <Row style={{height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
-                            <MessageList
-                                className='message-list'
-                                lockable={false}
-                                toBottomHeight={'100%'}
-                                dataSource={dataPesan} 
-                                />
-                            </Row>
+                            
+                            {dataPesan.length !== 0 ? 
+                                <Row style={{width:"100%",height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
+                                    <MessageList
+                                        className='message-list'
+                                        lockable={false}
+                                        toBottomHeight={'100%'}
+                                        dataSource={dataPesan} 
+                                        style={{width:500}}
+                                        />
+                                </Row>
+                            :
+                                <Row style={{width:"100%",height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
+                                    
+                                </Row>
+                            }
                             <Row style={{marginLeft:20}}>
                                 <Form form={formPesanInput} onFinish={onFinishPesan}>
                                     <Row style={{width: "100%"}}>
                                     <Form.Item name="pesan">
-                                        <Input style={{width:500, borderRadius: 10}}
+                                        <Input style={{width:500, borderRadius: 10}} focus={true} autoFocus={true}
                                             placeholder="Ketik pesan anda . . ."
                                         />
                                     </Form.Item>

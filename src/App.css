@@ -599,6 +599,10 @@
 /*  */
 
 /* BUBBLE CHAT ELEMENT */
+.message-list{
+  width: 100%;
+}
+
 /* Right triangle placed top right flush. */
 .tri-right.border.right-top:before {
 	content: ' ';
