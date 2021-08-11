@@ -127,13 +127,9 @@ const FormDataKunjungan = (props) => {
 
             <Row justify="center">
             <Card className="form-card" style={{width: 600, textAlign:"left"}}>
-                <Row>
+                <Row style={{marginBottom:10}}>
                     <Text className="title-tabel">
-                        { props.location.state === undefined ?
-                            "Catat Kunjungan"
-                            :
-                            "Ubah Catatan Kunjungan"
-                        }
+                        Catat Kunjungan
                     </Text>
                 </Row>
                 <Form form={form} name="control-hooks" onFinish={onFinish}>
@@ -170,6 +166,16 @@ const FormDataKunjungan = (props) => {
                                     allowClear={false}
                                     showNow={false}
                                     format='HH:mm'
+                                    disabledHours={() => {
+                                        let arr = []
+                                        for(let i=0; i<8; i++){
+                                            arr.push(i)
+                                        }
+                                        for(let i=16; i<24; i++){
+                                            arr.push(i)
+                                        }
+                                        return arr
+                                    }}
                                     placeholder="Jam Masuk"/>
                             </Form.Item>
 
@@ -181,6 +187,17 @@ const FormDataKunjungan = (props) => {
                                     allowClear={false}
                                     showNow={false}
                                     format='HH:mm'
+                                    disabledHours={() => {
+                                        let jam_masuk = Number(form.getFieldValue('jam_masuk').format('HH'))
+                                        let arr = []
+                                        for(let i=0; i<jam_masuk; i++){
+                                            arr.push(i)
+                                        }
+                                        for(let i=16; i<24; i++){
+                                            arr.push(i)
+                                        }
+                                        return arr
+                                    } }
                                     placeholder="Jam Keluar"/>
                             </Form.Item>
                         

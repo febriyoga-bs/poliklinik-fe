@@ -67,8 +67,8 @@ const DashboardStaf = (props) => {
         history.push(loc);
     }
 
-    const gotoKelolaRekamMedis = () => {
-        const loc = `${path}/kelola-rekam-medis`;
+    const gotoKelolaRekamMedis = (params) => {
+        const loc = `${path}/kelola-rekam-medis/${params}`;
         history.push(loc);
     }
 
@@ -95,13 +95,11 @@ const DashboardStaf = (props) => {
     };
 
     function PrivateRouteStafUmum({ component: Component, path, ...rest }) {
-        let role = JSON.parse(localStorage.getItem('role'));
-        let login_time = JSON.parse(localStorage.getItem('login'));
         return (
           <Route
             path={path}
             render={({ location }) =>
-              Auth.isLogin() && (role/login_time === 4) ? ( <Component {...rest} /> ) : 
+              Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login'))=== 4) ? ( <Component {...rest} /> ) : 
               ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
             }
           />
@@ -109,13 +107,11 @@ const DashboardStaf = (props) => {
       }
     
     function PrivateRouteAdmin({ component: Component, path, ...rest }) {
-        let role = JSON.parse(localStorage.getItem('role'));
-        let login_time = JSON.parse(localStorage.getItem('login'));
         return (
           <Route
             path={path}
             render={({ location }) =>
-              Auth.isLogin() && (role/login_time === 1) ? ( <Component {...rest} /> ) : 
+              Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 1) ? ( <Component {...rest} /> ) : 
               ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
             }
           />
@@ -123,13 +119,11 @@ const DashboardStaf = (props) => {
       }
     
     function PrivateRoutePerawat({ component: Component, path, ...rest }) {
-        let role = JSON.parse(localStorage.getItem('role'));
-        let login_time = JSON.parse(localStorage.getItem('login'));
         return (
           <Route
             path={path}
             render={({ location }) =>
-              Auth.isLogin() && (role/login_time === 5) ? ( <Component {...rest} /> ) : 
+              Auth.isLogin() && (JSON.parse(localStorage.getItem('role'))/JSON.parse(localStorage.getItem('login')) === 5) ? ( <Component {...rest} /> ) : 
               ( <Redirect to={{ pathname: "/", state: { from: location } }} /> )
             }
           />
@@ -146,7 +140,7 @@ const DashboardStaf = (props) => {
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{minWidth:width, maxWidth:width, height:"100%", paddingTop: 85, position:"fixed", zIndex:1}}
+                        style={{minWidth:width, maxWidth:width, height:"100vh", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -173,9 +167,9 @@ const DashboardStaf = (props) => {
                             <>
                             <SubMenu key={`${path}/kelola-rekam-medis`} icon={<ContainerOutlined />} title="Kelola Rekam Medis">
                                 <Menu.Item key={`${path}/kelola-rekam-medis/umum`} 
-                                    onClick={() => gotoKelolaRekamMedis(1)}>Rekam Medis Umum</Menu.Item>
-                                <Menu.Item key={`${path}/dashboard-dokter/kelola-rekam-medis/gigi`} 
-                                    onClick={() => gotoKelolaRekamMedis(2)}>Rekam Medis Gigi</Menu.Item>
+                                    onClick={() => gotoKelolaRekamMedis("umum")}>Rekam Medis Umum</Menu.Item>
+                                <Menu.Item key={`${path}/kelola-rekam-medis/gigi`} 
+                                    onClick={() => gotoKelolaRekamMedis("gigi")}>Rekam Medis Gigi</Menu.Item>
                             </SubMenu>
                             </>
                         }
@@ -215,8 +209,7 @@ const DashboardStaf = (props) => {
 
                             <PrivateRoutePerawat exact path="/dashboard-perawat" component={ProfilStaf} />
                             <PrivateRoutePerawat exact path="/dashboard-perawat/edit-profil" component={FormDataStaf} />
-                            <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/umum" component={KelolaRekamMedis} />
-                            <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/gigi" component={KelolaRekamMedis} />
+                            <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/:poli" component={KelolaRekamMedis} />
                             <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
                             <PrivateRoutePerawat exact path="/dashboard-perawat/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/detail" component={RekamMedis} />

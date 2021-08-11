@@ -23,6 +23,8 @@ const KelolaKunjungan = (props) => {
     const [searchKey, setSearchKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:10, total:10});
 
+    let id_poli = props.match.params.poli==="umum" ? 1 : 2;
+
     const [path, setPath] = useState("");
     const [role, setRole] = useState(5);
 
@@ -63,7 +65,7 @@ const KelolaKunjungan = (props) => {
         console.log(props.location.state.kode_rekam_medis)
         if(props.location.state.kode_rekam_medis.length > 0){
             props.location.state.kode_rekam_medis.forEach(val =>{
-                if(val.id_poli === props.location.state.poli){
+                if(val.id_poli === id_poli){
                     setRMExist(true)
                     setId(val.id_rekam_medis)
                     getDataKunjungan(searchKey, val.id_rekam_medis, pagination.current,  pagination.pageSize);
@@ -71,7 +73,7 @@ const KelolaKunjungan = (props) => {
             })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchKey]);
+    }, [searchKey, rmExist]);
 
     const getDataKunjungan = (kategori, id, current, limit) => {
         setLoading(true);
@@ -99,12 +101,13 @@ const KelolaKunjungan = (props) => {
 
     const buatRekamMedis = () => {
         let body ={
-            id_poli: props.location.state.poli,
+            id_poli: id_poli,
             id_pasien: props.location.state.id_pasien,
         }
         APIServices.postRekamMedis(body).then(res => {
             setLoading(false);
             if(res.data){
+                setRMExist(true)
                 dialog({icon: "success", title:"Buat Rekam Medis Berhasil!"}).then(()=>{
                     console.log("Berhasil");
                 })
@@ -122,7 +125,7 @@ const KelolaKunjungan = (props) => {
     const handleTableChange = (_pagination) =>{
         if(props.location.state.kode_rekam_medis.length > 0){
             props.location.state.kode_rekam_medis.forEach(val =>{
-                if(val.id_poli === props.location.state.poli){
+                if(val.id_poli === id_poli){
                     getDataKunjungan(searchKey, val.id_rekam_medis, pagination.current,  pagination.pageSize);
                 }
             })
@@ -223,14 +226,14 @@ const KelolaKunjungan = (props) => {
                     <Breadcrumb.Item>
                         <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
-                                Kelola Data Rekam Medis
+                                Kelola Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
                         <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
-                                {props.match.params.poli === "umum" ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
+                                {props.match.params.poli === "umum" ? "Umum" : "Gigi"}
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

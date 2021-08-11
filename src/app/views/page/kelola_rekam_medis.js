@@ -40,12 +40,12 @@ const KelolaRekamMedis = (props) => {
         } else if(_role/login_time === 5){
             setPath("/dashboard-perawat");
         }
+        console.log(props)
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const gotoKelolaDataKunjungan = (data) => {
-        let poli = id_poli === 1 ? "umum" : "gigi"
-        data.poli = id_poli
+        let poli = props.match.params.poli
 
         let loc = `${path}/kelola-rekam-medis/${poli}/data-kunjungan/${data.id_pasien}`;
         history.push({pathname:loc, state:data});
@@ -209,14 +209,14 @@ const KelolaRekamMedis = (props) => {
                     <Breadcrumb.Item>
                         <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
-                                Kelola Data Rekam Medis
+                                Kelola Rekam Medis
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
                         <NavLink to={`${path}/kelola-rekam-medis/${props.match.params.poli}`}>  
                             <Text className="title">
-                                {props.match.params.poli === "umum" ? "Rekam Medis Umum" : "Rekam Medis Gigi"}
+                                {props.match.params.poli === "umum" ? "Umum" : "Gigi"}
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>

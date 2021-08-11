@@ -29,10 +29,12 @@ const UbahDataPasien = (props) => {
 
         if (props.location.pathname === "/dashboard-pasien/lengkapi-data-diri"){
             let no_identitas = JSON.parse(localStorage.getItem('no_identitas'))
+            let _kategori = no_identitas.length === 16 ? "Umum" :
+                            no_identitas.length === 9 ? "Mahasiswa" : "Staf/Dosen"
             form.setFieldsValue({
-                kategori: no_identitas.length === 16 ? "Umum" :
-                          no_identitas.length === 9 ? "Mahasiswa" : "Staf/Dosen"
+                kategori: _kategori
             })
+            setKategori(_kategori)
             form.setFieldsValue({no_identitas: no_identitas});
         }
 

@@ -22,16 +22,9 @@ const DashboardDokter = () => {
         history.push(loc);
     }
 
-    const gotoKelolaRekamMedis = (data) => {
-        let loc = '/dashboard-dokter/kelola-rekam-medis/umum';
-        let _data = ""
-        if(data===1){
-            _data = {poli: 1}
-        }else if(data ===2){
-            loc = '/dashboard-dokter/kelola-rekam-medis/gigi';
-            _data = {poli: 2}
-        }
-        history.push({pathname:loc, state:_data});
+    const gotoKelolaRekamMedis = (params) => {
+        let loc = `/dashboard-dokter/kelola-rekam-medis/${params}`;
+        history.push(loc);
     }
 
     const gotoKonsultasiOnline = () => {
@@ -87,9 +80,9 @@ const DashboardDokter = () => {
                         </Menu.Item>
                         <SubMenu key="/dashboard-dokter/kelola-rekam-medis" icon={<ContainerOutlined />} title="Kelola Rekam Medis">
                             <Menu.Item key="/dashboard-dokter/kelola-rekam-medis/umum" 
-                                onClick={() => gotoKelolaRekamMedis(1)}>Rekam Medis Umum</Menu.Item>
+                                onClick={() => gotoKelolaRekamMedis("umum")}>Rekam Medis Umum</Menu.Item>
                             <Menu.Item key="/dashboard-dokter/kelola-rekam-medis/gigi" 
-                                onClick={() => gotoKelolaRekamMedis(2)}>Rekam Medis Gigi</Menu.Item>
+                                onClick={() => gotoKelolaRekamMedis("gigi")}>Rekam Medis Gigi</Menu.Item>
                         </SubMenu>
                         <Menu.Item key="3" onClick={gotoKonsultasiOnline} icon={<DesktopOutlined />}>
                             Konsultasi Online
@@ -110,8 +103,7 @@ const DashboardDokter = () => {
                         <Switch>
                             <PrivateRouteDokter exact path="/dashboard-dokter" component={ProfilDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/umum" component={KelolaRekamMedis} />
-                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/gigi" component={KelolaRekamMedis} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/detail" component={RekamMedis} />

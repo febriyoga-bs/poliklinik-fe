@@ -16,6 +16,25 @@ const FormDataStaf = (props) => {
     const [loading, setLoading] = useState(false);
     const [uploadInfo, setUploadInfo] = useState("");
 
+    const [path, setPath] = useState("");
+    const [role, setRole] = useState(4);
+
+    useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
+        console.log(_role/login_time)
+        if(_role/login_time === 1){
+            setPath("/dashboard-admin");
+        } else if(_role/login_time === 4){
+            setPath("/dashboard-staf-umum");
+        } else {
+            setPath("/dashboard-perawat")
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(()=>{
         console.log(props.location)
         if(props.location.state){
@@ -141,14 +160,14 @@ const FormDataStaf = (props) => {
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item >
-                        <NavLink to="/dashboard-staf">  
+                        <NavLink to={`${path}`}>  
                             <Text className="title">
                             Admin
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <NavLink to="/dashboard-staf/kelola-data-pengguna/staf"> 
+                        <NavLink to={`${path}/kelola-data-pengguna/staf`}> 
                             <Text className="title">
                                 Kelola Data Staf
                             </Text>
@@ -161,7 +180,7 @@ const FormDataStaf = (props) => {
             <Card className="form-card" style={{width: 400, textAlign:"left"}}>
                 <Row>
                         <Text className="title-tabel">
-                            {   props.location.pathname === "/dashboard-staf/edit-profil"  ? "Edit Profil" 
+                            {   props.location.pathname === `${path}/edit-profil` ? "Edit Profil" 
                                 :
                                 props.match.params.aksi === "ubah-data" ? "Ubah Data" : "Tambah Data"
                             }
