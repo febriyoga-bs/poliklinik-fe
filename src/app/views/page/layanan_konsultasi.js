@@ -2,8 +2,9 @@ import React, {useState, useEffect} from "react";
 import { withRouter } from 'react-router-dom';
 import 'react-chat-elements/dist/main.css';
 import { MessageList } from 'react-chat-elements'
-import { Layout, Row, Col, Breadcrumb, Typography, Card, Menu, Image, Form, Input, Button } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Typography, Card, Menu, Image, Form, Input, Button, message } from 'antd';
 import { HomeOutlined, SendOutlined, PaperClipOutlined} from '@ant-design/icons';
+import UserImage from "../../../assets/userimage.jpg";
 import { APIServices }  from '../../service';
 import CONFIG from '../../service/config';
 import moment from 'moment';
@@ -31,7 +32,7 @@ const Konsultasi = () => {
 
         console.log(_role/login_time)
         if(_role/login_time === 2){
-            getKonsultasi();
+            getKonsultasi(JSON.parse(localStorage.getItem('id_dokter'), null));
         } else if(_role/login_time === 3){
             getDataDokter();
         } 
@@ -60,8 +61,16 @@ const Konsultasi = () => {
         setLoadingKonsultasi(true);
         APIServices.getKonsultasi({id_dokter: id_dokter, id_pasien: id_pasien}).then(res => {
                 if(res.data){
-                    getPesan(res.data.data[0].id_konsultasi)
+                    let id_konsultasi = (role===3) ? res.data.data[0].id_konsultasi : res.data.data[menukey].id_konsultasi
+                    getPesan(id_konsultasi)
                     setDataKonsultasi(res.data.data);
+                    if(role === 2){
+                        let arr = []
+                        res.data.data.forEach((val) => {
+                            arr.push(val.pasien)
+                        })
+                        setDataPasien(arr)
+                    }
                     console.log(res.data.data)
                     setLoadingKonsultasi(false)
                 }
@@ -106,6 +115,7 @@ const Konsultasi = () => {
             }).catch(err => {
                 if(err){
                     //setDataDokter(Dummy.dataDokter);
+                    message.info("Gagal memuat data pesan, periksa koneksi internet Anda!")
                     console.log(err.response)
                     setLoadingPesan(false)
                 }
@@ -114,11 +124,13 @@ const Konsultasi = () => {
     
     const handleGantiRuangKonsultasi = (key, data) => {
         setMenuKey(key); 
-        setDataPesan([])
-        setDataKonsultasi([])
         if(role === 2){
-            getKonsultasi(JSON.parse(localStorage.getItem('id_dokter'), data.id_pasien))
+            getPesan(dataKonsultasi[key].id_konsultasi)
+            setDataPesan([])
+            //getKonsultasi(JSON.parse(localStorage.getItem('id_dokter'), data.id_pasien))
         } else if (role === 3){
+            setDataPesan([])
+            setDataKonsultasi([])
             getKonsultasi(data.id_dokter, JSON.parse(localStorage.getItem('id_pasien')))
         }
         console.log("data: ", data)
@@ -162,7 +174,7 @@ const Konsultasi = () => {
             setDataPesan(_dataPesan)
 
             let body = {
-                id_konsultasi: dataKonsultasi[0].id_konsultasi,
+                id_konsultasi: role === 3 ? dataKonsultasi[0].id_konsultasi : dataKonsultasi[menukey].id_konsultasi,
                 pesan: values.pesan,
                 type: "text"
             }
@@ -223,7 +235,7 @@ const Konsultasi = () => {
                                                 <Row>
                                                     <Image
                                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
-                                                        alt={res.avatar}
+                                                        alt={"avatar"}
                                                         src={CONFIG.BASE_URL+"/"+res.avatar}
                                                         preview={false}
                                                     />
@@ -245,7 +257,7 @@ const Konsultasi = () => {
                                 <Row style={{marginLeft:20}}>
                                     <Image
                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
-                                        alt={dataDokter[menukey].avatar}
+                                        alt={"avatar"}
                                         src={CONFIG.BASE_URL+"/"+dataDokter[menukey].avatar}
                                     />
                                     <Text style={{color:"#EB3D00", marginTop:5}}>{dataDokter[menukey].spesialisasi==="Umum" ? "dr. " : "drg. "} {dataDokter[menukey].nama}</Text>
@@ -266,7 +278,7 @@ const Konsultasi = () => {
                                 : (dataKonsultasi.length !== 0) ? 
 
                                     /* LIST PESAN */
-                                    (loadingPesan) ?
+                                    (loadingPesan && dataPesan.length === 0) ?
                                         <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                             <Col>
                                             <Row justify="center">    
@@ -288,28 +300,33 @@ const Konsultasi = () => {
                                                 />
                                         </Row>
                                         
-                                        <Row style={{marginLeft:20}}>
-                                            <Form form={formPesanInput} onFinish={onFinishPesan}>
-                                                <Row style={{width: "100%"}}>
-                                                <Form.Item name="pesan">
-                                                    <Input style={{width:500, borderRadius: 10}} focus={true} autoFocus={true}
-                                                        placeholder="Ketik pesan anda . . ."
-                                                    />
-                                                </Form.Item>
+                                        <Form form={formPesanInput} onFinish={onFinishPesan}>
+                                            <Row style={{marginLeft:20}}>
+                                                <Col xl={20} lg={18} md={16} sm={14} xs={14}>
+                                                    <Form.Item name="pesan">
+                                                        <Input style={{borderRadius: 10}} focus={true} autoFocus={true}
+                                                            placeholder="Ketik pesan anda . . ."
+                                                        />
+                                                    </Form.Item>
+                                                </Col>
                                             
-                                                <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
-                                                    <Text>
-                                                        <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                                    </Text>
-                                                </Button>
-                                                <Button type="text" htmlType="submit" >
-                                                    <Text>
-                                                        <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                                    </Text>
-                                                </Button>
-                                                </Row>
-                                            </Form>
-                                        </Row>
+                                                <Col xl={4} lg={6} md={8} sm={10} xs={10}>
+                                                    <Row>
+                                                        <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                                            <Text>
+                                                                <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                            </Text>
+                                                        </Button>
+                                                        
+                                                        <Button type="text" htmlType="submit" >
+                                                            <Text>
+                                                                <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                            </Text>
+                                                        </Button>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </Form>
                                         </>
                                     /*END OF LIST PESAN */
                                 :
@@ -360,11 +377,11 @@ const Konsultasi = () => {
                                                 <Row>
                                                     <Image
                                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
-                                                        alt={res.avatar}
-                                                        src={CONFIG.BASE_URL+"/"+res.avatar}
+                                                        alt={"avatar"}
+                                                        src={UserImage}
                                                         preview={false}
                                                     />
-                                                    <Text style={{color:"#EB3D00"}}>{res.spesialisasi==="Umum" ? "dr. " : "drg. "} {res.nama}</Text>
+                                                    <Text style={{color:"#EB3D00"}}> {res.nama}</Text>
                                                 </Row>
                                             </Menu.Item>
                                         )
@@ -382,8 +399,8 @@ const Konsultasi = () => {
                                 <Row style={{marginLeft:20}}>
                                     <Image
                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
-                                        alt={dataPasien[menukey].avatar}
-                                        src={CONFIG.BASE_URL+"/"+dataPasien[menukey].avatar}
+                                        alt={"avatar"}
+                                        src={UserImage}
                                     />
                                     <Text style={{color:"#EB3D00", marginTop:5}}>{dataPasien[menukey].nama}</Text>
                                 </Row>
@@ -403,7 +420,7 @@ const Konsultasi = () => {
                                 : (dataKonsultasi.length !== 0) ? 
 
                                     /* LIST PESAN */
-                                    (loadingPesan) ?
+                                    (loadingPesan && dataPesan.length === 0) ?
                                         <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                             <Col>
                                             <Row justify="center">    
@@ -424,29 +441,34 @@ const Konsultasi = () => {
                                                 style={{width:500}}
                                                 />
                                         </Row>
-                                        
-                                        <Row style={{marginLeft:20}}>
-                                            <Form form={formPesanInput} onFinish={onFinishPesan}>
-                                                <Row style={{width: "100%"}}>
-                                                <Form.Item name="pesan">
-                                                    <Input style={{width:500, borderRadius: 10}} focus={true} autoFocus={true}
-                                                        placeholder="Ketik pesan anda . . ."
-                                                    />
-                                                </Form.Item>
+
+                                        <Form form={formPesanInput} onFinish={onFinishPesan}>
+                                            <Row style={{marginLeft:20}}>
+                                                <Col xl={20} lg={18} md={16} sm={14} xs={14}>
+                                                    <Form.Item name="pesan">
+                                                        <Input style={{borderRadius: 10}} focus={true} autoFocus={true}
+                                                            placeholder="Ketik pesan anda . . ."
+                                                        />
+                                                    </Form.Item>
+                                                </Col>
                                             
-                                                <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
-                                                    <Text>
-                                                        <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                                    </Text>
-                                                </Button>
-                                                <Button type="text" htmlType="submit" >
-                                                    <Text>
-                                                        <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                                    </Text>
-                                                </Button>
-                                                </Row>
-                                            </Form>
-                                        </Row>
+                                                <Col xl={4} lg={6} md={8} sm={10} xs={10}>
+                                                    <Row>
+                                                        <Button type="text" onClick={()=>{console.log("ATTACH FILE")}} >
+                                                            <Text>
+                                                                <PaperClipOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                            </Text>
+                                                        </Button>
+                                                        
+                                                        <Button type="text" htmlType="submit" >
+                                                            <Text>
+                                                                <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                            </Text>
+                                                        </Button>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </Form>
                                         </>
                                     /*END OF LIST PESAN */
                                 :

@@ -226,7 +226,7 @@ const Antrean = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DIPERIKSA: --
+                                    SEDANG DILAYANI: --
                                 </Text>
                             </Row>
                             <Table
@@ -271,7 +271,7 @@ const Antrean = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DIPERIKSA: --
+                                    SEDANG DILAYANI: --
                                 </Text>
                             </Row>
                             <Table
