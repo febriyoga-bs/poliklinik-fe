@@ -42,9 +42,11 @@ const Konsultasi = () => {
 
     const getDataDokter = () => {
         setLoading(true);
+        setLoadingKonsultasi(true);
         APIServices.getAllDokter().then(res => {
                 if(res.data){
                     setDataDokter(res.data.data);
+                    getKonsultasi(res.data.data[0].id_dokter, JSON.parse(localStorage.getItem('id_pasien')));
                     console.log(res.data.data)
                     setLoading(false)
                 }
@@ -96,7 +98,8 @@ const Konsultasi = () => {
                             dateString: moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm')
                         }
 
-                        if(role === 3 && val.pengirim === "pasien"){
+                        let id_pasien = JSON.parse(localStorage.getItem('id_pasien'))
+                        if((role === 3 && val.pengirim === "pasien") || (!!id_pasien && val.pengirim === "pasien")){
                             messageBox.position =  'right'
                             messageBox.status = 'sent'
                         } else if(role === 2 && val.pengirim === "dokter"){
@@ -265,7 +268,7 @@ const Konsultasi = () => {
                                 }
                                 <div style={{width: "100%", borderBottom:"4px solid #8F8F8F", marginTop: 10, marginBottom: 20}}></div>
                                 
-                                {   loadingKonsultasi ?
+                                {  loadingKonsultasi ?
                                     <Row justify="center" align="middle" style={{width:"100%", height: 340, overflowY:"scroll", marginBottom: 10, backgroundColor:"#F8F8F8"}}>
                                         <Col>
                                         <Row justify="center">    
