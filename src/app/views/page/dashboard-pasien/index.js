@@ -6,6 +6,7 @@ import { PieChartOutlined,  ContainerOutlined,
 import Auth from '../../../service/auth'
 import ProfilPasien from "./profil-pasien";
 import FormDataPasien from "../form_data_pasien";
+import RiwayatKunjungan from "../riwayat_kunjungan";
 //import Dummy from '../../../dummy/dummy'
 
 const DashboardPasien = () => {
@@ -17,9 +18,9 @@ const DashboardPasien = () => {
     }
 
     const gotoRiwayatKunjungan = () => {
-        message.info("Laman Riwayat Kunjungan belum Tersedia");
-        // const loc = '/dashboard-pasien/riwayat-pelayanan';
-        // history.push(loc);
+        //message.info("Laman Riwayat Kunjungan belum Tersedia");
+        const loc = '/dashboard-pasien/riwayat-kunjungan';
+        history.push(loc);
     }
 
     const [collapsed, setCollapsed] = useState(false);
@@ -79,7 +80,8 @@ const DashboardPasien = () => {
                             <PrivateRoute exact path="/dashboard-pasien" component={ProfilPasien} />
                             <PrivateRoute exact path="/dashboard-pasien/edit-profil" component={FormDataPasien} />
                             <PrivateRoute exact path="/dashboard-pasien/lengkapi-data-diri" component={FormDataPasien} />
-                           </Switch>
+                            <PrivateRoute exact path="/dashboard-pasien/riwayat-kunjungan" component={RiwayatKunjungan} />
+                        </Switch>
                     </Row>
                 </Col>
             </Row>
