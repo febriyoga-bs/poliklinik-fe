@@ -53,7 +53,7 @@ const FormProfilPoliklinik = (props) => {
 
     const UploadProps = {
         name: 'image',
-        action: CONFIG.BASE_URL+'/api/upload/postUploadAvatar',
+        action: CONFIG.BASE_URL+'/api/upload/postUploadImage',
         headers: {
           authorization: 'authorization-text',
         },

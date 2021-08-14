@@ -213,19 +213,18 @@ const PanggilAntrean = (props) => {
                     </Button>
                   </Col>
                   <Col>
-                    <Button 
+                    <Speech 
+                        text={`Nomor Antrian ${record.nomor} harap memasuki ruang pemeriksaan`} 
+                        voice="Google UK English Female" />
+                    {/* <Button 
                         onClick={(rec) => {
-                            return(
-                                <Speech 
-                                    text={`Nomor Antrian ${rec.nomor} harap memasuki ruang pemeriksaan`} 
-                                    voice="Google UK English Female" />
-                            )
+                            
                         }}
                     >
                         <Text style={{color: "#000"}}>
                             Panggil
                         </Text>
-                    </Button>
+                    </Button> */}
                   </Col>
                   <Col>
                     <Button 

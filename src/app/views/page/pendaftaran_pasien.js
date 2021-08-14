@@ -44,7 +44,7 @@ const Register = () => {
             setLoading(false);
             console.log(err);
             if(err){
-                dialog({icon: "error", title:"Pendaftaran Gagal", text:"Nomor Telepon sudah digunakan!"}).then(()=>{
+                dialog({icon: "error", title:"Pendaftaran Gagal", text:"Nomor Identitas atau Nomor Telepon sudah digunakan!"}).then(()=>{
                     console.log("Gagal");
                 })
             }
