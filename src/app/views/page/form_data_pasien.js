@@ -19,11 +19,16 @@ const UbahDataPasien = (props) => {
     const [dataJurusan, setDataJurusan] = useState([]);
     const [dataProdi, setDataProdi] = useState([]);
     const [kategori, setKategori] = useState("");
+    const [role, setRole] = useState(0);
 
     //const dataJurusan = Dummy.listJurusan;
     //const dataProdi = Dummy.listProdi;
 
     useEffect(()=>{
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+
         console.log(props.location)
         getDataJurusan();
 
@@ -259,8 +264,7 @@ const UbahDataPasien = (props) => {
                             <Form.Item name="kategori" rules={[{ required: true, message: "Harap pilih kategori pasien!" }]}>
                                 {}
                                 <Select defaultValue="Pilih Kategori" className="input-form" onChange={(e)=>setKategori(e)}
-                                    disabled={props.location.pathname === "/dashboard-pasien/edit-profil"
-                                             || props.location.state}
+                                    disabled={(role === 3)}
                                 >
                                     <Option value="Umum">Umum</Option>
                                     <Option value="Mahasiswa">Mahasiswa</Option>
@@ -277,17 +281,19 @@ const UbahDataPasien = (props) => {
                                         message: 'Harap masukkan Nomor Identitas Anda!'
                                     },
                                     {
-                                        pattern: (kategori === "Umum") ? new RegExp('^[0-9]{16,16}$') : 
-                                                 (kategori === "Mahasiswa") ? new RegExp('^[0-9]{9,9}$') : 
-                                                 new RegExp('^[0-9]{18,18}$'), 
-                                        message: (kategori === "Umum") ? 'Harap masukkan 16 digit angka NIK!':
+                                        pattern:(kategori === "Mahasiswa") ? new RegExp('^[0-9]{9,9}$') :  
+                                                (kategori === "Staf/Dosen") ? new RegExp('^[0-9]{18,18}$') :
+                                                new RegExp('^[0-9]{16,16}$'),
+                                                  
+                                        message: 
                                                  (kategori === "Mahasiswa") ? 'Harap masukkan 9 digit angka NIM!' :
-                                                 'Harap masukkan 18 digit angka NIP!',
+                                                 (kategori === "Staf/Dosen") ? 'Harap masukkan 18 digit angka NIP!':
+                                                 'Harap masukkan 16 digit angka NIK!',
                                     },
                                 ]}
                             >
                                     <Input className="input-form secondary" 
-                                    disabled={props.location.state}
+                                    disabled={(role === 3)}
                                     placeholder="Masukkan nomor identitas"/>
                             </Form.Item>  
 

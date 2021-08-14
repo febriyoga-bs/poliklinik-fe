@@ -214,8 +214,28 @@ const PanggilAntrean = (props) => {
                   </Col>
                   <Col>
                     <Speech 
-                        text={`Nomor Antrian ${record.nomor} harap memasuki ruang pemeriksaan`} 
-                        voice="Google UK English Female" />
+                        styles={{
+                            play: {
+                              hover: {
+                                backgroundColor: 'black',
+                                color:'white'
+                              },
+                              button: {
+                                padding:'4',
+                                fontFamily: 'Helvetica',
+                                fontSize: '1.0em',
+                                cursor: 'pointer',
+                                pointerEvents: 'none',
+                                outline: 'none',
+                                backgroundColor: 'inherit',
+                                border: 'none'
+                              },
+                            }
+                        }}
+                        displayText="Panggil" 
+                        text={`Nomor Antrian ${record.no_antrean} dengan nama ${record.nama} harap memasuki ruang pemeriksaan`} 
+                        lang="id-ID"
+                        voice="Andika" />
                     {/* <Button 
                         onClick={(rec) => {
                             

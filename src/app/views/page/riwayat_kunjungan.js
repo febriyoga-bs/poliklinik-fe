@@ -35,7 +35,7 @@ const RiwayatKunjungan = () => {
 
     const getRiwayatKunjungan = (tanggal, current, limit) => {
         setLoading(true);
-        let id_pasien = JSON.parse(localStorage.getItem('id_pasien'))
+        let id_pasien = JSON.parse(localStorage.getItem('id_pasien')) ? JSON.parse(localStorage.getItem('id_pasien')) : ""
         APIServices.getRiwayatKunjungan(id_pasien, tanggal, current, limit).then(res => {
                 if(res.data){
                     let _data = Object.values(res.data.data)

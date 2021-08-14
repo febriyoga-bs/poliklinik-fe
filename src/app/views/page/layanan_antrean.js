@@ -76,10 +76,10 @@ const Antrean = () => {
             authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
             broadcaster: 'pusher',
             key: "anyKey",
-            //wsHost: "25.70.2.196",
-            //wssHost: "25.70.2.196",
-            wsHost: "http://api.kota101.studio",
-            wssHost: "https://api.kota101.studio",
+            wsHost: "25.70.2.196",
+            wssHost: "25.70.2.196",
+            // wsHost: "http://api.kota101.studio",
+            // wssHost: "https://api.kota101.studio",
             wsPort: 6001,
             wssPort: 6001,
             disableStats: true,
@@ -195,12 +195,12 @@ const Antrean = () => {
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content-new">
                 <Row style={{color:"#FFF"}}>
-                    <Col span={20}>
+                    <Col span={20} xs={16}>
                         <marquee direction="" onmouseover="this.stop();" onmouseout="this.start();">
                             Layanan Ambil Nomor Antrean hanya dapat dilakukan pukul 08.00 s.d. 11.00
                         </marquee>
                     </Col>
-                    <Col offset={1} span={3}>
+                    <Col offset={1} span={3} xs={8}>
                         {currentTime}
                     </Col>
                 </Row>
