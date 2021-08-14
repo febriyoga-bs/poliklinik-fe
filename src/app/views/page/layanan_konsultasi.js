@@ -99,10 +99,11 @@ const Konsultasi = () => {
                         }
 
                         let id_pasien = JSON.parse(localStorage.getItem('id_pasien'))
+                        let id_dokter = JSON.parse(localStorage.getItem('id_dokter'))
                         if((role === 3 && val.pengirim === "pasien") || (!!id_pasien && val.pengirim === "pasien")){
                             messageBox.position =  'right'
                             messageBox.status = 'sent'
-                        } else if(role === 2 && val.pengirim === "dokter"){
+                        } else if((role === 2 && val.pengirim === "dokter") || (!!id_dokter && val.pengirim === "dokter")){
                             messageBox.position = 'right'
                             messageBox.status = 'sent'
                         } else {

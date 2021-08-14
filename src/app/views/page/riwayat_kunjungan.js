@@ -166,6 +166,7 @@ const RiwayatKunjungan = () => {
                         <DatePicker format='DD/MM/YYYY' 
                             placeholder="Cari berdasarkan Tanggal" 
                             style={{ width: 300, height: 40, maxWidth:"90%", marginLeft: 20, marginBottom: 20, borderRadius: 10}}         
+                            onChange={(e) => {setSearchKey(moment(e).format('DD/MM/YYYY')); console.log(moment(e).format('DD/MM/YYYY'))}}
                         />
                     </Col>
                 </Row>

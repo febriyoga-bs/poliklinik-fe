@@ -364,7 +364,7 @@ const KelolaPasien = () => {
                             bordered={false}
                             loading={loading}
                             dataSource={dataPasien}
-                            pagination={pagination}
+                            pagination={{...pagination, showSizeChanger: true}}
                             onChange={handleTableChange}
                             scroll={{ x: 500 }}
                         />

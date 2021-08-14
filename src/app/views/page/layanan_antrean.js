@@ -195,12 +195,12 @@ const Antrean = () => {
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content-new">
                 <Row style={{color:"#FFF"}}>
-                    <Col span={20} xs={16}>
+                    <Col span={20} lg={20} xs={16}>
                         <marquee direction="" onmouseover="this.stop();" onmouseout="this.start();">
                             Layanan Ambil Nomor Antrean hanya dapat dilakukan pukul 08.00 s.d. 11.00
                         </marquee>
                     </Col>
-                    <Col offset={1} span={3} xs={8}>
+                    <Col offset={1} span={3} lg={3} xs={7}>
                         {currentTime}
                     </Col>
                 </Row>
