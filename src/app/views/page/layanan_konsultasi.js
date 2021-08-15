@@ -45,6 +45,8 @@ const Konsultasi = () => {
         echo.channel('konsultasi')
             .listen('CreateKonsultasi', (e) => {
                 console.log(e);
+                console.log(e['konsultasi'].original.data[0]);
+                handleKonsultasi(e['konsultasi'].original.data[0], dataDokter)
             })
 
             .listen('CreatePesan', (e) => {
@@ -91,43 +93,8 @@ const Konsultasi = () => {
         setLoadingKonsultasi(true);
         APIServices.getKonsultasi({id_dokter: id_dokter, id_pasien: id_pasien}).then(res => {
                 if(res.data){
-                    let _role = JSON.parse(localStorage.getItem('role'));
-                    let login_time = JSON.parse(localStorage.getItem('login'));
-                    
-                    if(_role/login_time === 2){
-                        let arr = []
-                        res.data.data.forEach((val) => {
-                            arr.push(val.pasien)
-                        })
-                        
-                        console.log("arr1: ", arr)
-                        getPesan(res.data.data[0].id_konsultasi, 0)
-                        setDataKonsultasi(res.data.data);
-                        setDataPasien(arr)
-                    } else if (_role/login_time === 3){
-                        
-                        let arr = []
-
-                        list_dokter.forEach((val_dokter) => {
-                            let match = 0;
-                            res.data.data.forEach((val_konsul => {
-                                if(val_konsul.id_dokter === val_dokter.id_dokter){
-                                    arr.push(val_konsul);
-                                    match = 1;
-                                } 
-                            }))
-
-                            if(match ===0){
-                                arr.push([])
-                            }
-                        })
-                        
-                        console.log("arr2: ", arr)
-                        getPesan(arr[0].id_konsultasi, 0)
-                        setDataKonsultasi(arr);
-                    }
-                    
-                    console.log(res.data.data)
+                   
+                    handleKonsultasi(res.data.data, list_dokter)
                     setLoadingKonsultasi(false)
                 }
             }).catch(err => {
@@ -155,6 +122,44 @@ const Konsultasi = () => {
             })
         }
     
+    const handleKonsultasi = (data, list_dokter) => {
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        
+        if(_role/login_time === 2){
+            let arr = []
+            data.forEach((val) => {
+                arr.push(val.pasien)
+            })
+            
+            console.log("arr1: ", arr)
+            getPesan(data[0].id_konsultasi, 0)
+            setDataKonsultasi(data);
+            setDataPasien(arr)
+        } else if (_role/login_time === 3){
+            
+            let arr = []
+
+            list_dokter.forEach((val_dokter) => {
+                let match = 0;
+                data.forEach((val_konsul => {
+                    if(val_konsul.id_dokter === val_dokter.id_dokter){
+                        arr.push(val_konsul);
+                        match = 1;
+                    } 
+                }))
+
+                if(match ===0){
+                    arr.push([])
+                }
+            })
+            
+            console.log("arr2: ", arr)
+            getPesan(arr[0].id_konsultasi, 0)
+            setDataKonsultasi(arr);
+        }
+    }
+
     const handlePesan = (data, key) => {
         let _dataPesan = [];
         data.pesan.forEach((val) => {
@@ -222,16 +227,14 @@ const Konsultasi = () => {
         setLoadingCreateKonsultasi(true)
         APIServices.postKonsultasi(body).then(res => {
             setLoadingCreateKonsultasi(false)
-            getKonsultasi(id_dokter, JSON.parse(localStorage.getItem('id_pasien')))
+            //getKonsultasi("", JSON.parse(localStorage.getItem('id_pasien')), dataDokter)
             if(res.data){
-                console.log("Inisiasi konsultasi berhasil")
+                console.log("Berhasil Memulai Konsultasi")
             }
           }).catch(err => {
             setLoadingCreateKonsultasi(false)
             if(err){
-                // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
-                //     console.log(err);
-                // })
+                message.error("Gagal Memulai Konsultasi")
             }
           })
     }
@@ -399,7 +402,8 @@ const Konsultasi = () => {
                                                     <Image
                                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
                                                         alt={"avatar"}
-                                                        src={CONFIG.BASE_URL+"/"+res.avatar}
+                                                        //src={CONFIG.BASE_URL+"/"+res.avatar}
+                                                        src={UserImage}
                                                         preview={false}
                                                     />
                                                     <Text style={{color:"#EB3D00"}}>{res.spesialisasi==="Umum" ? "dr. " : "drg. "} {res.nama}</Text>
@@ -421,7 +425,8 @@ const Konsultasi = () => {
                                     <Image
                                         style={{marginTop:5, marginRight:10, width: 30, height: 30, borderRadius: 90}}
                                         alt={"avatar"}
-                                        src={CONFIG.BASE_URL+"/"+dataDokter[menukey].avatar}
+                                        //src={CONFIG.BASE_URL+"/"+res.avatar}
+                                        src={UserImage}
                                     />
                                     <Text style={{color:"#EB3D00", marginTop:5}}>{dataDokter[menukey].spesialisasi==="Umum" ? "dr. " : "drg. "} {dataDokter[menukey].nama}</Text>
                                 </Row>
