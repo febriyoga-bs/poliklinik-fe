@@ -27,10 +27,8 @@ const PanggilAntrean = (props) => {
             key: "anyKey",
             wsHost: "25.70.2.196",
             wsPort: 6001,
-            wssHost: "25.70.2.196",
-            wssPort: 6001,
             disableStats: true,
-            forceTLS: true // Critical if you want to use a non-secure WebSocket connection
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
         });
 
         console.log("Tes: ", window.Echo);

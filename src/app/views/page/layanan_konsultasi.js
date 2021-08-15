@@ -18,7 +18,7 @@ const { Text } = Typography;
 const Konsultasi = () => {
     const [dataDokter, setDataDokter] = useState(null)
     const [dataPasien, setDataPasien] = useState(null)
-    const [dataKonsultasi, setDataKonsultasi] = useState([])
+    const [dataKonsultasi, setDataKonsultasi] = useState([ [] ])
     const [dataPesan, setDataPesan] = useState([ [] ])
     const [pesanType, setPesanType] = useState("text")
     const [formPesanInput] = Form.useForm();
@@ -36,25 +36,22 @@ const Konsultasi = () => {
             broadcaster: 'pusher',
             key: "anyKey",
             wsHost: "25.70.2.196",
-            wssHost: "25.70.2.196",
-            // wsHost: "http://api.kota101.studio",
-            // wssHost: "https://api.kota101.studio",
             wsPort: 6001,
-            wssPort: 6001,
             disableStats: true,
-            forceTLS: true // Critical if you want to use a non-secure WebSocket connection
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
         });
 
-        // let echo = window.Echo;
-        // echo.channel('antre')
-        //     .listen('AntreanSentUmum', (e) => {
-                
-        //         console.log(e);
-        //     })
-        //     .listen('AntreanUpdateUmum', (e) => {
-        //         console.log(e);
-                
-        //     })
+        let echo = window.Echo;
+        echo.channel('konsultasi')
+            .listen('CreateKonsultasi', (e) => {
+                console.log(e);
+            })
+
+            .listen('CreatePesan', (e) => {
+                console.log(e);
+                console.log(e['pesan'].original.data[0]);
+                handlePesan(e['pesan'].original.data[0], menukey)
+            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -135,7 +132,6 @@ const Konsultasi = () => {
                 }
             }).catch(err => {
                 if(err){
-                    //setDataDokter(Dummy.dataDokter);
                     message.info("Data Konsultasi tidak ditemukan")
                     console.log(err.response)
                     setLoadingKonsultasi(false)
@@ -147,51 +143,7 @@ const Konsultasi = () => {
         setLoadingPesan(true);
         APIServices.getPesan(id_konsultasi).then(res => {
                 if(res.data){
-                    let _dataPesan = [];
-                    res.data.data[0].pesan.forEach((val) => {
-                        
-                        let messageBox = {
-                            type: val.type,
-                        }
-
-                        if(val.type ==="text"){
-                            messageBox.text = val.pesan
-                        } else {
-                            messageBox.data = {
-                                uri: CONFIG.BASE_URL+"/"+val.pesan,
-                            }
-                        }
-
-                        let a = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss')
-                        console.log(a)
-                        let b = moment().startOf('day');
-
-                        console.log(b)
-                        console.log(moment.duration(a.diff(b)).asDays())
-                        if( (moment.duration(a.diff(b)).asDays() >= 0)){
-                            messageBox.dateString = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm')
-                        } else {
-                            messageBox.dateString = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm')
-                        }
-
-                        let id_pasien = JSON.parse(localStorage.getItem('id_pasien'))
-                        let id_dokter = JSON.parse(localStorage.getItem('id_dokter'))
-                        if((role === 3 && val.pengirim === "pasien") || (!!id_pasien && val.pengirim === "pasien")){
-                            messageBox.position =  'right'
-                            messageBox.status = 'sent'
-                        } else if((role === 2 && val.pengirim === "dokter") || (!!id_dokter && val.pengirim === "dokter")){
-                            messageBox.position = 'right'
-                            messageBox.status = 'sent'
-                        } else {
-                            messageBox.position = 'left'
-                        }
-
-                        _dataPesan.push(messageBox)
-                    })
-                    let arr = dataPesan
-                    arr[key] = _dataPesan
-                    console.log("arr: ", arr)
-                    setDataPesan(arr);
+                    handlePesan(res.data.data[0], key)
                     setLoadingPesan(false)
                 }
             }).catch(err => {
@@ -203,6 +155,51 @@ const Konsultasi = () => {
             })
         }
     
+    const handlePesan = (data, key) => {
+        let _dataPesan = [];
+        data.pesan.forEach((val) => {
+            
+            let messageBox = {
+                type: val.type,
+            }
+
+            if(val.type ==="text"){
+                messageBox.text = val.pesan
+            } else {
+                messageBox.data = {
+                    uri: CONFIG.BASE_URL+"/"+val.pesan,
+                }
+            }
+
+            let a = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss')
+            let b = moment().startOf('day');
+
+            if( (moment.duration(a.diff(b)).asDays() >= 0)){
+                messageBox.dateString = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm')
+            } else {
+                messageBox.dateString = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm')
+            }
+
+            let id_pasien = JSON.parse(localStorage.getItem('id_pasien'))
+            let id_dokter = JSON.parse(localStorage.getItem('id_dokter'))
+            if((role === 3 && val.pengirim === "pasien") || (!!id_pasien && val.pengirim === "pasien")){
+                messageBox.position =  'right'
+                messageBox.status = 'sent'
+            } else if((role === 2 && val.pengirim === "dokter") || (!!id_dokter && val.pengirim === "dokter")){
+                messageBox.position = 'right'
+                messageBox.status = 'sent'
+            } else {
+                messageBox.position = 'left'
+            }
+
+            _dataPesan.push(messageBox)
+        })
+        let arr = [...dataPesan];
+        arr[key] = _dataPesan
+        console.log("arr: ", arr)
+        setDataPesan(arr);
+    }
+
     const handleGantiRuangKonsultasi = (key, data) => {
         setMenuKey(key); 
         

@@ -38,13 +38,12 @@ const AmbilAntrean = (props) => {
             forceTLS: false // Critical if you want to use a non-secure WebSocket connection
         });
 
-        console.log("Tes: ", window.Echo);
         let echo = window.Echo;
 
         if(props.location.state.poli === "umum"){
             echo.channel('antre')
                 .listen('AntreanSentUmum', (e) => {
-                    console.log(e);
+                    console.log("log event: ", e);
                     getAntreanUmum()
                     getNewAntrean(1)
                     getLastAntreanUmum()
