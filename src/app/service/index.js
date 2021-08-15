@@ -42,6 +42,17 @@ const APIServices = {
         )
     },
 
+    postImage(data){
+        return client.request(
+            {
+                method: "post",
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/upload/postUploadImage`,
+                data: data
+            },
+            { crossdomain: true }
+        )
+    },
+
     // login(data){
     //     return client.request(
     //         {

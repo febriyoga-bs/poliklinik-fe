@@ -45,16 +45,16 @@ const Konsultasi = () => {
             forceTLS: true // Critical if you want to use a non-secure WebSocket connection
         });
 
-        let echo = window.Echo;
-        echo.channel('antre')
-            .listen('AntreanSentUmum', (e) => {
+        // let echo = window.Echo;
+        // echo.channel('antre')
+        //     .listen('AntreanSentUmum', (e) => {
                 
-                console.log(e);
-            })
-            .listen('AntreanUpdateUmum', (e) => {
-                console.log(e);
+        //         console.log(e);
+        //     })
+        //     .listen('AntreanUpdateUmum', (e) => {
+        //         console.log(e);
                 
-            })
+        //     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -152,8 +152,14 @@ const Konsultasi = () => {
                         
                         let messageBox = {
                             type: val.type,
-                            text: val.pesan,
-                            // date: moment(val.created_at, 'YYYY-MM-DD HH:mm:ss').toDate(),
+                        }
+
+                        if(val.type ==="text"){
+                            messageBox.text = val.pesan
+                        } else {
+                            messageBox.data = {
+                                uri: CONFIG.BASE_URL+"/"+val.pesan,
+                            }
                         }
 
                         let a = moment(val.created_at, 'YYYY-MM-DD HH:mm:ss')
@@ -242,7 +248,7 @@ const Konsultasi = () => {
                         position: 'right',
                         type: 'text',
                         text: values.pesan,
-                        date: new Date(),
+                        dateString: "Baru saja",
                         status: "waiting"
                     }
                 )
@@ -308,11 +314,12 @@ const Konsultasi = () => {
     const handleUpload = () => {
         const formData = new FormData();
         fileList.forEach(file => {
-          formData.append('files[]', file);
+          formData.append('image', file);
+          console.log("file: ", file)
         });
 
         console.log(formData)
-    
+        console.log(fileList[0])
         setUploading(true)
 
         let _dataPesan = [...dataPesan];
@@ -320,53 +327,42 @@ const Konsultasi = () => {
             {
                 position: 'right',
                 type:'photo',
-                text:fileList.name,
                 data: {
-                    uri: 'https://facebook.github.io/react/img/logo.svg',
-                    status: {
-                        click: false,
-                        loading: 0,
-                    }
+                    uri: fileList[0].name,
                 },
-                date: new Date(),
+                dateString: "Baru saja",
                 status: "waiting"
             }
         )
         setDataPesan(_dataPesan)
-    
+        setFileList([])
+        setPesanType("text")
         // POST IMAGE
-        APIServices.postPesan().then(res => {
+        APIServices.postImage(formData).then(res => {
             if(res.data){
-                console.log("Pesan berhasil dikirim!");
-                getPesan(dataKonsultasi[menukey].id_konsultasi, menukey)
+                console.log(res.data)
+
+                let body = {
+                    id_konsultasi: dataKonsultasi[menukey].id_konsultasi,
+                    pesan: res.data.url,
+                    type: "photo"
+                }
+                APIServices.postPesan(body).then(res => {
+                    if(res.data){
+                        console.log("Berhasil Mengirim Pesan!");
+                        getPesan(dataKonsultasi[menukey].id_konsultasi, menukey)
+                    }
+                }).catch(err => {
+                    if(err){
+                        message.error("Gagal Mengirim Pesan!")
+                    }
+                })
             }
           }).catch(err => {
             if(err){
                 message.error("Gagal Mengirim Pesan!")
-                // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
-                //     console.log(err);
-                // })
             }
           })
-        // reqwest({
-        //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        //   method: 'post',
-        //   processData: false,
-        //   data: formData,
-        //   success: () => {
-        //     this.setState({
-        //       fileList: [],
-        //       uploading: false,
-        //     });
-        //     message.success('upload successfully.');
-        //   },
-        //   error: () => {
-        //     this.setState({
-        //       uploading: false,
-        //     });
-        //     message.error('upload failed.');
-        //   },
-        // });
       };
 
     return(
@@ -637,7 +633,7 @@ const Konsultasi = () => {
                                                 <MessageList
                                                     className='message-list'
                                                     lockable={false}
-                                                    toBottomHeight={'100%'}
+                                                    // toBottomHeight={'100%'}
                                                     dataSource={dataPesan[menukey]} 
                                                     style={{width:500}}
                                                     />
