@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { withRouter } from 'react-router-dom';
 import 'react-chat-elements/dist/main.css';
 import { MessageList } from 'react-chat-elements'
@@ -41,18 +41,25 @@ const Konsultasi = () => {
             forceTLS: false // Critical if you want to use a non-secure WebSocket connection
         });
 
+        
         let echo = window.Echo;
+        console.log(echo)
         echo.channel('konsultasi')
             .listen('CreateKonsultasi', (e) => {
                 console.log(e);
                 console.log(e['konsultasi'].original.data[0]);
-                handleKonsultasi(e['konsultasi'].original.data[0], dataDokter)
+                // let _dataDokter = JSON.parse(localStorage.getItem('dataDokter'))
+                // console.log(_dataDokter)
+                // handleKonsultasi(e['konsultasi'].original.data[0], _dataDokter)
+                getDataDokter();
             })
 
             .listen('CreatePesan', (e) => {
                 console.log(e);
                 console.log(e['pesan'].original.data[0]);
-                handlePesan(e['pesan'].original.data[0], menukey)
+                let _key = JSON.parse(localStorage.getItem('menukey'))
+                console.log(_key)
+                handlePesan(e['pesan'].original.data[0], _key)
             })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -77,6 +84,7 @@ const Konsultasi = () => {
         APIServices.getAllDokter().then(res => {
                 if(res.data){
                     setDataDokter(res.data.data);
+                    localStorage.setItem('dataDokter', res.data.data)
                     getKonsultasi("", JSON.parse(localStorage.getItem('id_pasien')), res.data.data);
                     console.log(res.data.data)
                     setLoading(false)
@@ -100,7 +108,7 @@ const Konsultasi = () => {
             }).catch(err => {
                 if(err){
                     message.info("Data Konsultasi tidak ditemukan")
-                    console.log(err.response)
+                    console.log(err)
                     setLoadingKonsultasi(false)
                 }
             })
@@ -123,6 +131,11 @@ const Konsultasi = () => {
         }
     
     const handleKonsultasi = (data, list_dokter) => {
+        console.log(menukey)
+        console.log(dataPesan)
+        console.log(dataKonsultasi)
+        console.log(dataDokter)
+
         let _role = JSON.parse(localStorage.getItem('role'));
         let login_time = JSON.parse(localStorage.getItem('login'));
         
@@ -161,6 +174,10 @@ const Konsultasi = () => {
     }
 
     const handlePesan = (data, key) => {
+        console.log(menukey)
+        console.log(dataPesan)
+        console.log(dataKonsultasi)
+        console.log(dataDokter)
         let _dataPesan = [];
         data.pesan.forEach((val) => {
             
@@ -201,12 +218,13 @@ const Konsultasi = () => {
         })
         let arr = [...dataPesan];
         arr[key] = _dataPesan
-        console.log("arr: ", arr)
+        console.log("datapesan: ", arr)
         setDataPesan(arr);
     }
 
     const handleGantiRuangKonsultasi = (key, data) => {
         setMenuKey(key); 
+        localStorage.setItem('menukey', key)
         
         if((dataKonsultasi[key].id_konsultasi !== undefined) && (dataPesan[key] === undefined)){
             console.log("get pesan")
@@ -506,11 +524,19 @@ const Konsultasi = () => {
                                                             </Button>
                                                         </Upload>
                                                         
-                                                        <Button type="text" htmlType="submit" >
-                                                            <Text>
-                                                                <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
-                                                            </Text>
-                                                        </Button>
+                                                        {pesanType==="text" ?
+                                                            <Button type="text" htmlType="submit" >
+                                                                <Text>
+                                                                    <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                                </Text>
+                                                            </Button>
+                                                            :
+                                                            <Button type="text" onClick={()=> {handleUpload()}} >
+                                                                <Text>
+                                                                    <SendOutlined style={{fontSize:25, color: "#EB3D00"}}/>
+                                                                </Text>
+                                                            </Button>
+                                                        }
                                                     </Row>
                                                 </Col>
                                             </Row>
