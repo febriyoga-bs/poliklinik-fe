@@ -12,7 +12,7 @@ const { Option } = Select;
 
 const FormDataStaf = (props) => {
     const history = useHistory();
-    const [form] = Form.useForm();
+    const [formDataStaf] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [uploadInfo, setUploadInfo] = useState("");
 
@@ -38,14 +38,14 @@ const FormDataStaf = (props) => {
     useEffect(()=>{
         console.log(props.location)
         if(props.location.state){
-          form.setFieldsValue(props.location.state);
+            formDataStaf.setFieldsValue(props.location.state);
         }else{
-          form.resetFields()
+            formDataStaf.resetFields()
         }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.location]);
 
-    const onFinish= (values) => {
+    const onFinishDataStaf= (values) => {
         setLoading(true);
 
         let _role = 0;
@@ -186,7 +186,7 @@ const FormDataStaf = (props) => {
                             }
                         </Text>
                     </Row>
-                <Form form={form} initialValues={props.location.state} name="control-hooks" onFinish={onFinish}>
+                <Form form={formDataStaf} initialValues={props.location.state} name="control-hooks" onFinish={onFinishDataStaf}>
                     <Row justify="center">
                         <Col span={24}>
                                 {props.location.state &&
@@ -281,8 +281,8 @@ const FormDataStaf = (props) => {
                                 >
                                     <Upload {...UploadProps}>
                                         <Button>
-                                            <UploadOutlined /> {(!!form.getFieldValue(['avatar']) || props.location.state) ? "Ubah Foto" : "Unggah Foto"}
-                                            {(!!form.getFieldValue(['avatar']) || props.location.state) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
+                                            <UploadOutlined /> {(!!formDataStaf.getFieldValue(['avatar']) || props.location.state) ? "Ubah Foto" : "Unggah Foto"}
+                                            {(!!formDataStaf.getFieldValue(['avatar']) || props.location.state) && <CheckCircleFilled style={{ color: '#27ae60', marginLeft: '1em'}}/>}
                                         </Button>
                                     </Upload>
                                 </Form.Item>
