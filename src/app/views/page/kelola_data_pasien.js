@@ -5,6 +5,7 @@ import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-d
 import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
+import FilterEkspor from '../modal/filter_ekspor'
 import moment from 'moment';
 
 //import Dummy from '../../dummy/dummy'
@@ -20,6 +21,7 @@ const KelolaPasien = () => {
     const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
+    const [visibleModalEkspor, setVisibleModalEkspor] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
     const [filterKey, setFilterKey] = useState("");
@@ -37,6 +39,10 @@ const KelolaPasien = () => {
 
     const handleModal = () => {
         setVisibleModal(!visibleModal);
+    };
+
+    const handleModalEkspor = () => {
+        setVisibleModalEkspor(!visibleModalEkspor);
     };
 
     useEffect(()=>{
@@ -87,28 +93,6 @@ const KelolaPasien = () => {
                 }
             })
         }
-
-    const eksporDataPasien = () => {
-        setLoadingEkspor(true);
-        APIServices.getExportDataPasien().then(res => {
-                if(res.data){
-                    const url = window.URL.createObjectURL(new Blob([res.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Pasien_Poliklinik(${tanggal}).xlsx`); //or any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                    setLoadingEkspor(false)
-                }
-            }).catch(err => {
-                if(err){
-                    //setDataPasien(Dummy.dataPasien);
-                    console.log(err.response)
-                    setLoadingEkspor(false)
-                }
-            })
-        }
     
     const handleTableChange = (_pagination) =>{
         getDataPasien(searchKey, filterKey, _pagination.current, _pagination.pageSize)
@@ -116,12 +100,12 @@ const KelolaPasien = () => {
 
     const columnsPasien = [
         {
-            title: "ID Pasien",
-            dataIndex: 'id_pasien',
-            key: 'id_pasien',
+            title: "Kode Pasien",
+            dataIndex: 'kode_pasien',
+            key: 'kode_pasien',
             width: '20',
             align: 'center',
-            sorter: (a, b) => a.id_pasien - b.id_pasien,
+            sorter: (a, b) => a.kode_pasien - b.kode_pasien,
         },
         {
             title: "Nama Pasien",
@@ -310,7 +294,13 @@ const KelolaPasien = () => {
                     visible={visibleModal}
                 />
 
-                <Row>
+                <FilterEkspor
+                    title="Data Pasien"
+                    buttonCancel={handleModalEkspor}
+                    visible={visibleModalEkspor}
+                />
+
+                <Row style={{width:"100%"}}>
                     <Col>
                         <Search 
                             allowClear
@@ -345,7 +335,7 @@ const KelolaPasien = () => {
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
                                 loading={loadingEkspor}
                                 onClick={() => {
-                                    eksporDataPasien();
+                                    handleModalEkspor();
                                 }}
                             >
                                 Ekspor Data Pasien

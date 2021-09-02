@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
 import Speech from 'react-speech';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Spin } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
@@ -19,6 +20,14 @@ const PanggilAntrean = (props) => {
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
     const [jamMasuk, setJamMasuk] = useState(null);
+    const { speak, cancel, speaking, supported, voices} = useSpeechSynthesis();
+    const SpeechSynthesisVoice = [{
+        default: false,
+        lang: "id-ID",
+        localService: true,
+        name: "Karen",
+        voiceURI: "Karen",
+    }]
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -64,6 +73,7 @@ const PanggilAntrean = (props) => {
 
     /* RENDER WHEN PAGE OPEN */
     useEffect(()=>{
+        console.log("voices: ", voices);
         if(props.location.state.poli === "umum"){
             getAntreanUmum()
             getLastAntreanUmum()
@@ -197,6 +207,7 @@ const PanggilAntrean = (props) => {
             align: 'center',
             render: (record) => {
                 return (
+                <>
                 <Row justify="center" gutter={[20,0]}>
                   <Col>
                     <Button
@@ -211,7 +222,7 @@ const PanggilAntrean = (props) => {
                     </Button>
                   </Col>
                   <Col>
-                    <Speech 
+                    {/* <Speech 
                         styles={{
                             play: {
                               hover: {
@@ -233,16 +244,23 @@ const PanggilAntrean = (props) => {
                         displayText="Panggil" 
                         text={`Nomor Antrian ${record.no_antrean} dengan nama ${record.nama} harap memasuki ruang pemeriksaan`} 
                         lang="id-ID"
-                        voice="Andika" />
-                    {/* <Button 
-                        onClick={(rec) => {
-                            
+                        voice="Andika" /> */}
+                    <Button 
+                        onClick={() => {
+                            speak({ 
+                                text: `Nomor Antrean ${record.no_antrean} harap memasuki ruang pemeriksaan`,
+                                voice: voices[8],
+                                lang: "id-ID",
+                                rate: 0.9,
+                                pitch: 1
+                            })
+                            console.log("voices: ", voices);
                         }}
                     >
                         <Text style={{color: "#000"}}>
                             Panggil
                         </Text>
-                    </Button> */}
+                    </Button>
                   </Col>
                   <Col>
                     <Button 
@@ -257,6 +275,7 @@ const PanggilAntrean = (props) => {
                     </Button>
                   </Col>
                 </Row>
+                </>
                 );
             },
         },

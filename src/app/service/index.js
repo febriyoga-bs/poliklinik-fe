@@ -367,12 +367,12 @@ const APIServices = {
         )
     },
 
-    getExportDataPasien(){
+    getExportDataPasien(data){
         return client.request(
             {
                 method: "get",
                 responseType: 'blob',
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getExportPasien`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getExportPasien?year=${data.tahun}&month=${data.bulan}`,
             },
         )    
     },
@@ -408,12 +408,12 @@ const APIServices = {
         )
     },
 
-    getExportRiwayatKunjungan(){
+    getExportRiwayatKunjungan(data){
         return client.request(
             {
                 method: "get",
                 responseType: 'blob',
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getExportPelayanan`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getExportKunjungan?year=${data.tahun}&month=${data.bulan}`,
             },
         )    
     },

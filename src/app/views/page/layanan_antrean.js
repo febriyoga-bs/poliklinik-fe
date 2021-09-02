@@ -17,6 +17,8 @@ const Antrean = () => {
     const [loading, setLoading] = useState(false);
     const [dataAntreanUmum, setDataAntreanUmum] = useState([]);
     const [dataAntreanGigi, setDataAntreanGigi] = useState([]);
+    const [lastAntreanUmum, setLastAntreanUmum] = useState("--");
+    const [lastAntreanGigi, setLastAntreanGigi] = useState("--");
     const [currentTime, setCurrentTime] = useState(moment().format("DD/MM/YYYY HH:mm:ss"));
     
     useEffect(()=>{
@@ -114,8 +116,10 @@ const Antrean = () => {
         let login_time = JSON.parse(localStorage.getItem('login'));
         setRole(_role/login_time)
 
-        getAntreanUmum()
-        getAntreanGigi()
+        getAntreanUmum();
+        getAntreanGigi();
+        getLastAntreanUmum();
+        getLastAntreanGigi();
     }, []);
 
     const getAntreanUmum = () => {
@@ -134,12 +138,48 @@ const Antrean = () => {
             })
         }
 
+    const getLastAntreanUmum = () => {
+        setLoading(true);
+        APIServices.getLastAntreanUmum().then(res => {
+                console.log("LA: ", res)
+                if(res.data){
+                    if(res.data.data.data.length > 0){
+                        setLastAntreanUmum(res.data.data.data[0].no_antrean)
+                    }
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
     const getAntreanGigi = () => {
         setLoading(true);
         APIServices.getAntreanGigi().then(res => {
                 console.log("AG: ", res.data.data.data)
                 setDataAntreanGigi(res.data.data.data);
                 if(res.data){
+                    setLoading(false)
+                }
+            }).catch(err => {
+                if(err){
+                    console.log(err)
+                    setLoading(false)
+                }
+            })
+        }
+
+    const getLastAntreanGigi = () => {
+        setLoading(true);
+        APIServices.getLastAntreanGigi().then(res => {
+                console.log("LG: ", res)
+                if(res.data){
+                    if(res.data.data.data.length > 0){
+                        setLastAntreanGigi(res.data.data.data[0].no_antrean)
+                    }
                     setLoading(false)
                 }
             }).catch(err => {
@@ -222,7 +262,7 @@ const Antrean = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DILAYANI: --
+                                    SEDANG DILAYANI: {lastAntreanUmum}
                                 </Text>
                             </Row>
                             <Table
@@ -231,6 +271,7 @@ const Antrean = () => {
                                 bordered={false}
                                 loading={loading}
                                 dataSource={dataAntreanUmum}
+                                style={{height:300}}
                                 // onChange={handleTableChange}
                             />
                             <Row justify="center" gutter={10}>
@@ -267,7 +308,7 @@ const Antrean = () => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    SEDANG DILAYANI: --
+                                    SEDANG DILAYANI: {lastAntreanGigi}
                                 </Text>
                             </Row>
                             <Table
@@ -276,6 +317,7 @@ const Antrean = () => {
                                 bordered={false}
                                 loading={loading}
                                 dataSource={dataAntreanGigi}
+                                style={{height:300}}
                                 // onChange={handleTableChange}
                             />
                             <Row justify="center" gutter={10}>

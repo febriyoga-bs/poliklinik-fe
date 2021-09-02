@@ -5,6 +5,7 @@ import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-d
 import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
+import FilterEkspor from '../modal/filter_ekspor'
 import moment from 'moment';
 
 //import Dummy from '../../dummy/dummy'
@@ -20,12 +21,17 @@ const RiwayatKunjungan = () => {
     const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
+    const [visibleModalEkspor, setVisibleModalEkspor] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const handleModal = () => {
         setVisibleModal(!visibleModal);
+    };
+
+    const handleModalEkspor = () => {
+        setVisibleModalEkspor(!visibleModalEkspor);
     };
 
     useEffect(()=>{
@@ -53,29 +59,10 @@ const RiwayatKunjungan = () => {
                 if(err){
                     //setDataPasien(Dummy.dataPasien);
                     console.log(err.response)
+                    if(err.response){
+                        setDataPelayanan([]);
+                    }
                     setLoading(false)
-                }
-            })
-        }
-
-    const eksporRiwayatKunjungan = () => {
-        setLoadingEkspor(true);
-        APIServices.getExportRiwayatKunjungan().then(res => {
-                if(res.data){
-                    const url = window.URL.createObjectURL(new Blob([res.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Riwayat_Kunjungan(${tanggal}).xlsx`); //or any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                    setLoadingEkspor(false)
-                }
-            }).catch(err => {
-                if(err){
-                    //setDataPasien(Dummy.dataPasien);
-                    console.log(err.response)
-                    setLoadingEkspor(false)
                 }
             })
         }
@@ -161,12 +148,25 @@ const RiwayatKunjungan = () => {
                     visible={visibleModal}
                 />
 
+                <FilterEkspor
+                    title="Data Riwayat Kunjungan"
+                    buttonCancel={handleModalEkspor}
+                    visible={visibleModalEkspor}
+                />
+
                 <Row>
                     <Col>
                         <DatePicker format='DD/MM/YYYY' 
                             placeholder="Cari berdasarkan Tanggal" 
                             style={{ width: 300, height: 40, maxWidth:"90%", marginLeft: 20, marginBottom: 20, borderRadius: 10}}         
-                            onChange={(e) => {setSearchKey(moment(e).format('DD/MM/YYYY')); console.log(moment(e).format('DD/MM/YYYY'))}}
+                            onChange={(e) => {
+                                console.log(e)
+                                if(e !== null){
+                                    setSearchKey(moment(e).format('YYYY-MM-DD') + " 00:00:00"); 
+                                } else {
+                                    setSearchKey("")
+                                }
+                            }}
                         />
                     </Col>
                 </Row>
@@ -182,7 +182,8 @@ const RiwayatKunjungan = () => {
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
                                 loading={loadingEkspor}
                                 onClick={() => {
-                                    eksporRiwayatKunjungan();
+                                    //eksporRiwayatKunjungan();
+                                    handleModalEkspor();
                                 }}
                             >
                                 Ekspor Riwayat Kunjungan

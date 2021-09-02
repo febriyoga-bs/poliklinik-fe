@@ -282,13 +282,13 @@ const UbahDataPasien = (props) => {
                                     },
                                     {
                                         pattern:(kategori === "Mahasiswa") ? new RegExp('^[0-9]{9,9}$') :  
-                                                (kategori === "Staf/Dosen") ? new RegExp('^[0-9]{18,18}$') :
+                                                (kategori === "Staf/Dosen") ? new RegExp('^[0-9]{1,18}$') :
                                                 new RegExp('^[0-9]{16,16}$'),
                                                   
                                         message: 
-                                                 (kategori === "Mahasiswa") ? 'Harap masukkan 9 digit angka NIM!' :
-                                                 (kategori === "Staf/Dosen") ? 'Harap masukkan 18 digit angka NIP!':
-                                                 'Harap masukkan 16 digit angka NIK!',
+                                                 (kategori === "Mahasiswa") ? 'Harap masukkan 9 digit angka Nomor Induk Mahasiswa!' :
+                                                 (kategori === "Staf/Dosen") ? 'Harap masukkan 18 digit angka Nomor Induk Pegawai atau Nomor Induk Kepegawaian Polban!':
+                                                 'Harap masukkan 16 digit angka Nomor Induk Kependudukan!',
                                     },
                                 ]}
                             >
