@@ -171,16 +171,28 @@ const PanggilAntrean = (props) => {
                     getAntreanGigi()
                     getLastAntreanGigi()
                 }
-                dialog({icon: "success", title:"Panggil Nomor Antrean Berhasil!"}).then(()=>{
-                    console.log("Berhasil");
-                })
+                if(data.status === 1){
+                    dialog({icon: "success", title:"Panggil Nomor Antrean Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                } else {
+                    dialog({icon: "success", title:"Lewat Nomor Antrean Berhasil!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
             }
         }).catch(err => {
             setLoading(false);
             if(err){
-                dialog({icon: "error", title:"Panggil Nomor Antrean Gagal!"}).then(()=>{
-                    console.log("Gagal");
-                })
+                if(data.status === 1){
+                    dialog({icon: "error", title:"Panggil Nomor Antrean Gagal!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                } else {
+                    dialog({icon: "error", title:"Lewat Nomor Antrean Gagal!"}).then(()=>{
+                        console.log("Berhasil");
+                    })
+                }
             }
         })
     }
