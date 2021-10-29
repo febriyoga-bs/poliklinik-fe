@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select, DatePicker, message} from 'antd';
-import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
-import { dialog, deleteDialog } from '../../component/alert'
-import { APIServices }  from '../../service';
+import { withRouter, NavLink } from 'react-router-dom';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Button} from 'antd';
+import { HomeOutlined, InfoOutlined } from '@ant-design/icons';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
 
-import Dummy from '../../dummy/dummy'
-
 const { Content } = Layout;
 const { Text } = Typography;
-const {Title } = Typography;
 
 const RekamMedis = (props) => {
-    const history = useHistory();
-    const [loading, setLoading] = useState(false);
     const [dataRekamMedis, setDataRekamMedis] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
-    const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     const [path, setPath] = useState("");
     const [role, setRole] = useState(5);
@@ -51,12 +43,6 @@ const RekamMedis = (props) => {
         console.log(props)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey]);
-
-    
-    const handleTableChange = (_pagination) =>{
-        //getDataPasien(searchKey, _pagination.current, _pagination.pageSize)
-    }
-
     
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>

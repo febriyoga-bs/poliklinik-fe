@@ -53,17 +53,6 @@ const APIServices = {
         )
     },
 
-    // login(data){
-    //     return client.request(
-    //         {
-    //             method: "post",
-    //             url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/akun/login`,
-    //             data: data
-    //         },
-    //         { crossdomain: true }
-    //     )
-    // },
-
     getJurusan(){
         return client.request(
             {
@@ -235,16 +224,6 @@ const APIServices = {
             {
                 method: "get", 
                 url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien?nama=${nama}&kategori=${kategori}&page=${current}&limit=${limit}`,
-            },
-            {crossdomain: true }
-        )
-    },
-
-    getAllPasien(){
-        return client.request(
-            {
-                method: "get", 
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getAllPasien?paginate=false`,
             },
             {crossdomain: true }
         )

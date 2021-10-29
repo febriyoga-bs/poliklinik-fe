@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select} from 'antd';
+import { Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select} from 'antd';
 import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
 import { dialog, deleteDialog } from '../../component/alert'
 import { APIServices }  from '../../service';
@@ -8,9 +8,7 @@ import DetailPasien from '../modal/detail_pasien'
 import FilterEkspor from '../modal/filter_ekspor'
 import moment from 'moment';
 
-//import Dummy from '../../dummy/dummy'
 
-const { Content } = Layout;
 const { Text } = Typography;
 const { Search } = Input;
 const { Option } = Select;
@@ -18,7 +16,6 @@ const { Option } = Select;
 const KelolaPasien = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPasien, setDataPasien] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [visibleModalEkspor, setVisibleModalEkspor] = useState(false);
@@ -62,6 +59,9 @@ const KelolaPasien = () => {
                         pageSize: _meta.pagination.per_page,
                         total: _meta.pagination.total
                     })
+                    _data.forEach((item, idx) => {
+                        _data[idx].no = ((current-1)*limit) + (idx+1);
+                    })
                     setDataPasien(_data);
                     setLoading(false)
                 }
@@ -99,6 +99,14 @@ const KelolaPasien = () => {
     }
 
     const columnsPasien = [
+        {
+            title: "No.",
+            dataIndex: 'no',
+            key: 'no',
+            width: '20',
+            align: 'center',
+            sorter: (a, b) => a.no - b.no,
+        },
         {
             title: "Kode Pasien",
             dataIndex: 'kode_pasien',
@@ -264,30 +272,6 @@ const KelolaPasien = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
-                {/* <Row style={{marginLeft:40}}>
-                    <Col>
-                        <NavLink to="/kelola-data-pengguna/pasien" className="text-heading" activeStyle={{color: '#EB3D00'}}>
-                            <Title level={1} style={{color: '#EB3D00'}}>
-                                DATA PASIEN
-                            </Title>
-                        </NavLink>
-                    </Col>
-                    <Col style={{marginLeft:48}}>
-                        <NavLink to="/kelola-data-pengguna/dokter" className="text-heading">
-                            <Title level={1} style={{color: '#FFF'}}>
-                                DATA DOKTER 
-                            </Title>
-                        </NavLink>
-                    </Col>
-                    <Col style={{marginLeft:48}}>
-                        <NavLink to="/kelola-data-pengguna/staf" className="text-heading">
-                            <Title level={1} style={{color: '#FFF'}}>
-                                DATA STAF
-                            </Title>
-                        </NavLink>
-                    </Col>
-                </Row> */}
-
                 <DetailPasien
                     dataPasien={record}
                     buttonCancel={handleModal}
@@ -333,7 +317,6 @@ const KelolaPasien = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
-                                loading={loadingEkspor}
                                 onClick={() => {
                                     handleModalEkspor();
                                 }}

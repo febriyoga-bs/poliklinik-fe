@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { withRouter } from 'react-router-dom';
 import 'react-chat-elements/dist/main.css';
 import { MessageList } from 'react-chat-elements'

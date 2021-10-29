@@ -181,7 +181,8 @@
     overflow: hidden;
     background-color: #EB3D00;
     transition: 0.4s;
-    position: relative;
+    position: sticky!important;
+    left:0!important;
     z-index: 99;
   }
 
@@ -307,6 +308,18 @@
   font-size: 1.2em;
   letter-spacing: 0px;
   text-align: center;
+}
+
+@media screen and (min-width: 600px) {
+  .poli-image-mobile{
+      display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .poli-image-desktop{
+      display: none;
+  }
 }
 
 @media screen and (min-width: 990px) {
@@ -444,6 +457,15 @@
   border-radius: 16px;
 }
 
+.landing-page-card{
+  min-height: 200px;
+  position: relative;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.06);
+  border-width: 5px;
+  border-radius: 16px;
+  background-color: #F0F0F0;
+}
+
 .informasi-card{
   min-height: 200px;
   margin-left: 20px;
@@ -531,6 +553,10 @@
   height: auto;
   transition: .3s;
   border-radius: 10px;
+}
+
+.red {
+  background-color: #F00!important;
 }
 
 .app-btn.primary:not([disabled]){
@@ -671,3 +697,39 @@
   -webkit-margin-after: 0em;
 }
 /* END OF BUBBLE CHAT ELEMENT */
+
+.mapouter{
+  position:relative;
+  text-align:right;
+  height:100%;
+  width:100%;
+}
+.iframe_layout{
+  height:100%;
+  width:100%;
+}
+.gmap_canvas {
+  overflow:hidden;
+  background:none!important;
+  height:500px;
+  width:100%;
+}
+/* 
+@media screen and (max-width: 576px) {
+  .mapouter{
+    position:relative;
+    text-align:right;
+    height:300px;
+    width:350px;
+  }
+  .iframe_layout{
+    height:300px;
+    width:350px;
+  }
+  .gmap_canvas {
+    overflow:hidden;
+    background:none!important;
+    height:300px;
+    width:350px;
+  }
+} */

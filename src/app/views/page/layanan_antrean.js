@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, NavLink } from 'react-router-dom';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, message } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
@@ -232,6 +232,7 @@ const Antrean = () => {
             <Content className="layout-content-new">
                 <Row style={{color:"#FFF"}}>
                     <Col span={20} lg={20} xs={16}>
+                        {/* eslint-disable-next-line jsx-a11y/no-distracting-elements */}
                         <marquee direction="" onmouseover="this.stop();" onmouseout="this.start();">
                             Layanan Ambil Nomor Antrean hanya dapat dilakukan pukul 08.00 s.d. 11.00
                         </marquee>
@@ -241,15 +242,19 @@ const Antrean = () => {
                     </Col>
                 </Row>
                 <Breadcrumb style={{marginTop: 10, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
-                    <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/antrian-poliklinik">
-                        <Text className="title">
-                            <span>Antrean Poliklinik</span>
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/antrean-poliklinik">  
+                            <Text className="title">
+                                <span>Antrean Poliklinik</span>
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">

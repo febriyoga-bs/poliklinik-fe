@@ -487,6 +487,7 @@ const Informasi = () => {
                             bordered
                             loading={loading}
                             dataSource={dataPelayanan}
+                            pagination={{position: ["topLeft", "bottomRight"]}}
                             scroll={{ x: 550 }}
                             // onChange={handleTableChange}
                         />

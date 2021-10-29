@@ -29,7 +29,7 @@ const FormProfilPoliklinik = (props) => {
     const onFinish= (values) => {
         setLoading(true);
         let body = {
-            gambar : uploadInfo.response && uploadInfo.response.url,
+            gambar : uploadInfo.response ? uploadInfo.response.url : values.gambar,
             deskripsi : values.deskripsi
         }
         console.log("body: ", body)

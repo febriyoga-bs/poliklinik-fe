@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from 'react-router-dom';
-import Speech from 'react-speech';
+import { withRouter, NavLink } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import { Layout, Row, Col, Breadcrumb, Typography, Card, Table, Button, Spin } from 'antd';
 import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -19,15 +18,14 @@ const PanggilAntrean = (props) => {
     const [loading, setLoading] = useState(false);
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
-    const [jamMasuk, setJamMasuk] = useState(null);
-    const { speak, cancel, speaking, supported, voices} = useSpeechSynthesis();
-    const SpeechSynthesisVoice = [{
-        default: false,
-        lang: "id-ID",
-        localService: true,
-        name: "Karen",
-        voiceURI: "Karen",
-    }]
+    const { speak, voices} = useSpeechSynthesis();
+    // const SpeechSynthesisVoice = [{
+    //     default: false,
+    //     lang: "id-ID",
+    //     localService: true,
+    //     name: "Karen",
+    //     voiceURI: "Karen",
+    // }]
 
     useEffect(()=>{
         window.Echo = new Echo({
@@ -81,6 +79,7 @@ const PanggilAntrean = (props) => {
             getAntreanGigi()
             getLastAntreanGigi()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getAntreanUmum = () => {
@@ -298,19 +297,25 @@ const PanggilAntrean = (props) => {
             <Content className="layout-content-new">
                 <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
-                        </Text>
+                        <NavLink to="/"> 
+                            <Text className="title">
+                                <HomeOutlined />
+                            </Text>
+                        </NavLink>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item >
+                        <NavLink to="/antrean-poliklinik">  
+                            <Text className="title">
+                                <span>Antrean Poliklinik</span>
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/antrean-poliklinik">
-                        <Text className="title">
-                            <span>Antrean Poliklinik</span>
-                        </Text>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/antrean-poliklinik">
-                        <Text className="title">
-                            {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
-                        </Text>
+                        <NavLink to="/antrean-poliklinik"> 
+                            <Text className="title">
+                                {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">

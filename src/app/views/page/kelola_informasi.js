@@ -415,8 +415,7 @@ const KelolaInformasi = (props) => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row style={{marginBottom:20, marginRight:20}}>
-                    <Col lg={12}>
-                    <Card className="informasi-card" style={{minHeight:450}}>
+                    <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Profil Poliklinik
@@ -433,10 +432,9 @@ const KelolaInformasi = (props) => {
                             // onChange={handleTableChange}
                         />
                     </Card>
-                    </Col>
-
-                    <Col lg={12}>
-                    <Card className="informasi-card" style={{minHeight:450}}>
+                </Row>
+                <Row style={{marginBottom:20, marginRight:20}}>
+                    <Card className="informasi-card" style={{width:"100%"}}>
                         <Row style={{marginBottom:20}}>
                             <Text className="title-tabel">
                                 Jadwal Pelayanan Poliklinik
@@ -453,7 +451,6 @@ const KelolaInformasi = (props) => {
                             // onChange={handleTableChange}
                         />
                     </Card>
-                    </Col>
                 </Row>
                 <Row style={{marginBottom:20, marginRight:20}}>
                     <Card className="informasi-card" style={{width:"100%"}}>

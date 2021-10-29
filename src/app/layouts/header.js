@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Layout, Typography, Row, Col, Button, Image, Dropdown, Menu, message} from "antd";
 import { UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { withRouter, NavLink, useHistory } from "react-router-dom";

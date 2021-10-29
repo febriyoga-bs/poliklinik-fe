@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, DatePicker, Input, Select, Button} from 'antd';
-import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
-import { dialog, deleteDialog } from '../../component/alert'
+import { withRouter, NavLink } from 'react-router-dom';
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, DatePicker, Button} from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import FilterEkspor from '../modal/filter_ekspor'
 import moment from 'moment';
 
-//import Dummy from '../../dummy/dummy'
-
 const { Content } = Layout;
 const { Text } = Typography;
-const { Search } = Input;
-const { Option } = Select;
 
 const RiwayatKunjungan = () => {
-    const history = useHistory();
     const [loading, setLoading] = useState(false);
-    const [loadingEkspor, setLoadingEkspor] = useState(false);
     const [dataPelayanan, setDataPelayanan] = useState([]);
     const [visibleModal, setVisibleModal] = useState(false);
     const [visibleModalEkspor, setVisibleModalEkspor] = useState(false);
@@ -180,7 +173,6 @@ const RiwayatKunjungan = () => {
                         </Row>
                         <Row justify="end">
                             <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
-                                loading={loadingEkspor}
                                 onClick={() => {
                                     //eksporRiwayatKunjungan();
                                     handleModalEkspor();

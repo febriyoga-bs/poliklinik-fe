@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import { useHistory } from 'react-router-dom';
-import { Row, Typography, Modal, Form, Select, Button, message } from 'antd';
-import { NumberOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Row, Typography, Modal, Form, Select, Button} from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
-import Auth from '../../service/auth'
 import moment from 'moment';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const FilterEkspor = (props) => {
-    const history = useHistory();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [rangeYear, setRangeYear] = useState([]);

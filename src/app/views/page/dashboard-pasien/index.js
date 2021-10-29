@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-dom';
-import { Layout, Row, Col, Button, Menu, message} from 'antd';
+import { Layout, Row, Col, Button, Menu } from 'antd';
 import { PieChartOutlined,  ContainerOutlined,
     MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
+import { logoutDialog } from '../../../component/alert'
 import Auth from '../../../service/auth'
 import ProfilPasien from "./profil-pasien";
 import FormDataPasien from "../form_data_pasien";
@@ -66,7 +67,14 @@ const DashboardPasien = () => {
                         <Menu.Item key="2" onClick={gotoRiwayatKunjungan} icon={<ContainerOutlined />}>
                             Riwayat Kunjungan 
                         </Menu.Item>
-                        <Menu.Item key="3" onClick={Auth.logout} icon={<PoweroffOutlined />}
+                        <Menu.Item key="3" 
+                            onClick={() =>{
+                                logoutDialog({icon: "info", title:"Konfirmasi Logout", text: "Apakah Anda yakin ingin logout?"})
+                                .then(()=>{
+                                    Auth.logout()
+                                })
+                            }} 
+                            icon={<PoweroffOutlined />}
                             style={{color:"#FF0000"}}
                         >
                             Logout

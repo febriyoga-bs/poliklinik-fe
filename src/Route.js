@@ -81,8 +81,6 @@ import Template from "./app/views/page/template";
   }
   
   function PrivateRouteDokter({ component: Component, path, ...rest }) {
-    let role = JSON.parse(localStorage.getItem('role'));
-    let login_time = JSON.parse(localStorage.getItem('login'));
     return (
       <Route
         path={path}

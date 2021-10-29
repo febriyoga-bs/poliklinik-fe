@@ -1,13 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
-import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select, DatePicker, message} from 'antd';
-import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
-import { dialog, deleteDialog } from '../../component/alert'
+import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, DatePicker} from 'antd';
+import { HomeOutlined, InfoOutlined } from '@ant-design/icons';
+import { dialog } from '../../component/alert'
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
-
-import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -19,7 +18,6 @@ const KelolaKunjungan = (props) => {
     const [id, setId] = useState("");
     const [rmExist, setRMExist] = useState(false);
     const [visibleModal, setVisibleModal] = useState(false);
-    const [record, setRecord] = useState([]);
     const [searchKey, setSearchKey] = useState("");
     const [pagination, setPagination] = useState({current:1, pageSize:10, total:10});
 
@@ -191,9 +189,9 @@ const KelolaKunjungan = (props) => {
                         <Button
                             onClick={() => {
                                 console.log(record);
-                            record.dataPasien = props.location.state;
-                            gotoRekamMedis(record);
-                        }}
+                                record.dataPasien = props.location.state;
+                                gotoRekamMedis(record);
+                            }}
                         >
                             <Text style={{color: "#000"}}>
                                 <InfoOutlined style={{fontSize:20}}/>

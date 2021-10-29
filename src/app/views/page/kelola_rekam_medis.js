@@ -1,13 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink, useHistory } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, Button, Input, Select} from 'antd';
-import { HomeOutlined, EditOutlined, DeleteOutlined, InfoOutlined } from '@ant-design/icons';
-import { dialog, deleteDialog } from '../../component/alert'
+import { HomeOutlined, EditOutlined, InfoOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
 import DetailPasien from '../modal/detail_pasien'
 import moment from 'moment';
-
-//import Dummy from '../../dummy/dummy'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -41,7 +40,6 @@ const KelolaRekamMedis = (props) => {
             setPath("/dashboard-perawat");
         }
         console.log(props)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const gotoKelolaDataKunjungan = (data) => {
@@ -57,7 +55,6 @@ const KelolaRekamMedis = (props) => {
 
     useEffect(()=>{
         getDataPasien(searchKey, filterKey, pagination.current,  pagination.pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKey, filterKey]);
 
     const getDataPasien = (nama, kategori, current, limit) => {
@@ -72,12 +69,14 @@ const KelolaRekamMedis = (props) => {
                         pageSize: _meta.pagination.per_page,
                         total: _meta.pagination.total
                     })
+                    _data.forEach((item, idx) => {
+                        _data[idx].no = ((current-1)*limit) + (idx+1);
+                    })
                     setDataPasien(_data);
                     setLoading(false)
                 }
             }).catch(err => {
                 if(err){
-                    //setDataPasien(Dummy.dataPasien);
                     console.log(err.response)
                     setLoading(false)
                 }
@@ -90,12 +89,20 @@ const KelolaRekamMedis = (props) => {
 
     const columnsPasien = [
         {
-            title: "ID Pasien",
-            dataIndex: 'id_pasien',
-            key: 'id_pasien',
+            title: "No.",
+            dataIndex: 'no',
+            key: 'no',
             width: '20',
             align: 'center',
-            sorter: (a, b) => a.id_pasien - b.id_pasien,
+            sorter: (a, b) => a.no - b.no,
+        },
+        {
+            title: "Kode Pasien",
+            dataIndex: 'kode_pasien',
+            key: 'kode_pasien',
+            width: '20',
+            align: 'center',
+            sorter: (a, b) => a.kode_pasien - b.kode_pasien,
         },
         {
             title: "Nama Pasien",

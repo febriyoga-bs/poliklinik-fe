@@ -300,10 +300,12 @@ const AmbilAntrean = (props) => {
                             </Text>
                         </NavLink>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/antrean-poliklinik">
-                        <Text className="title">
-                            {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
-                        </Text>
+                    <Breadcrumb.Item>
+                        <NavLink to="/antrean-poliklinik"> 
+                            <Text className="title">
+                                {props.location.state.poli === "umum" ? "Poli Umum" : "Poli Gigi"}
+                            </Text>
+                        </NavLink>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Row gutter={10} style={{minHeight:600, marginRight:40}} justify="space-between">

@@ -3,6 +3,7 @@ import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-do
 import { Layout, Row, Col, Button, Menu} from 'antd';
 import { UserOutlined, DesktopOutlined, ContainerOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
+import { logoutDialog } from '../../../component/alert'
 import ProfilStaf from "./profil-staf";
 import RiwayatKunjungan from "../riwayat_kunjungan";
 import KelolaDataKunjungan from "../kelola_data_kunjungan";
@@ -176,7 +177,14 @@ const DashboardStaf = (props) => {
                         <Menu.Item key={`${path}/riwayat-kunjungan`} onClick={gotoRiwayatKunjungan} icon={<DesktopOutlined />}>
                             Riwayat Kunjungan Pasien
                         </Menu.Item>
-                        <Menu.Item key="7" onClick={Auth.logout} icon={<PoweroffOutlined />}
+                        <Menu.Item key="7" 
+                            onClick={() =>{
+                                logoutDialog({icon: "info", title:"Konfirmasi Logout", text: "Apakah Anda yakin ingin logout?"})
+                                .then(()=>{
+                                    Auth.logout()
+                                })
+                            }} 
+                            icon={<PoweroffOutlined />}
                             style={{color:"#FF0000"}}
                         >
                             Logout

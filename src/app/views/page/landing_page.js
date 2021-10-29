@@ -1,11 +1,13 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useState } from "react";
 import { withRouter } from 'react-router-dom';
-import { Layout, Row, Col, Image, Typography, Spin, message } from 'antd';
+import { Layout, Row, Col, Image, Card, Typography, Spin, message } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Fade from 'react-reveal/Fade';
 import poli from "../../../assets/poli.jpg"
+import poli2 from "../../../assets/poli2.jpg"
 import { APIServices }  from '../../service';
-//import dummy from "../../dummy/dummy";
+import useWindowDimensions from '../../component/size-window'
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -14,9 +16,11 @@ const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 const LandingPage = () => {
     const [dataProfil, setDataProfil] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { height, width } = useWindowDimensions();
 
     useEffect(()=>{
         getDataProfil()
+        console.log(height, width)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -38,16 +42,20 @@ const LandingPage = () => {
     return(
         <Layout>
             <Content className="layout-home">
-                <Image src={poli} style={{position:"fixed", width:"100%", minHeight:"100vh"}} preview={false}>
+                <Image 
+                    src={width>550 ? poli : poli2} 
+                    style={{position:"fixed", width:"100%", minHeight:"100vh"}} 
+                    preview={false}
+                >
                 </Image>
-                
+            
                 {loading ?
                     <Row justify="center" align="middle" style={{minHeight:600}}>
                         <Spin indicator={antIcon} /> 
                     </Row>
                     :
-                    <Row style={{marginLeft:20, marginTop:100, minHeight:600}}>
-                        <Col offset={10} xs={12} md={12} lg={12}>
+                    <Row style={{marginLeft:20, marginRight:20, marginTop:100, minHeight:(width>600 ? 600 : 1000)}}>
+                        <Col offset={(width>600) ? 10 : 0} xs={24} s={24} md={12} lg={12}>
                             <Fade>
                                 <Row style={{marginBottom:20}}>
                                     <Text className="title bold" style={{fontSize:"2em"}}>
@@ -59,6 +67,29 @@ const LandingPage = () => {
                                         {dataProfil.deskripsi} 
                                     </Text>
                                 </Row>
+                                <Row>
+                                    <Text className="title bold" style={{marginTop:20}}>
+                                        Lokasi Poliklinik POLBAN :
+                                    </Text>
+                                </Row>
+                                <Row>
+                                    <Card className="landing-page-card" style={{width:"100%", marginBottom:20, minHeight: 500}}>
+                                        
+                                        <Row justify="center">
+                                            <div class="mapouter">
+                                                <div class="gmap_canvas">
+                                                    <iframe 
+                                                        className="iframe_layout" 
+                                                        id="gmap_canvas" 
+                                                        src="https://maps.google.com/maps?q=UPT%20Layanan%20Kesehatan%20Polban&t=&z=17&ie=UTF8&iwloc=&output=embed" 
+                                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                                    </iframe>
+                                                </div>
+                                            </div>
+                                        </Row>
+                                    </Card>
+                                </Row>
+                                
                             </Fade>
                         </Col>
                     </Row>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Drawer, Button, Row, Typography, Dropdown, message, Menu } from 'antd'
+import { Drawer, Button, Row, Typography, message, Menu } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import Auth from '../../service/auth';
 
@@ -9,29 +9,6 @@ const {SubMenu} = Menu;
 
 const MenuDrawer = props => {
     console.log(props)
-
-    const menuLayanan = (
-        <Menu style={{marginTop:20, backgroundColor:"#EB3D00"}}>
-            <Menu.Item >
-                <NavLink to="/antrean-poliklinik">  
-                    <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
-                        Antrean Poliklinik
-                    </Text>
-                </NavLink>
-            </Menu.Item>
-            <Menu.Item >
-                {/* <NavLink to="/konsultasi-online">  
-                    <Text className="title-navmenu">
-                        Konsultasi Online
-                    </Text>
-                </NavLink> */}
-                <Text onClick={()=>message.info("Laman Konsultasi Online belum tersedia")} 
-                    className="title-home-mobile" style={{fontWeight:"normal"}}>
-                    Konsultasi Online
-                </Text>
-            </Menu.Item>
-        </Menu>
-      );
 
     return(
         <Drawer
@@ -70,7 +47,7 @@ const MenuDrawer = props => {
                 >
                 <SubMenu className="drawer-menu-layanan" key="sub1" title="LAYANAN" style={{paddingLeft:0}}>
                     <Menu.Item style={{backgroundColor:"transparent"}}>
-                        <NavLink to="/antrean-poliklinik" >  
+                        <NavLink to="/antrean-poliklinik" onClick={props.buttonCancel} >  
                             <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
                                 Antrean Poliklinik
                             </Text>
@@ -79,14 +56,19 @@ const MenuDrawer = props => {
                     <Menu.Item style={{backgroundColor:"transparent"}}>
                         {props.role === 2 || props.role === 3 ? 
                             
-                            <NavLink to="/konsultasi-online">  
+                            <NavLink to="/konsultasi-online" onClick={props.buttonCancel}>  
                                 <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
                                     Konsultasi Online
                                 </Text>
                             </NavLink>
                         :
-                            <Text onClick={()=>message.info("Anda perlu login sebagai pasien atau dokter untuk mengakses laman konsultasi!")} 
-                                className="title-home-mobile" style={{fontWeight:"normal"}}>
+                            <Text 
+                                onClick={()=> {
+                                    props.buttonCancel()
+                                    message.info("Anda perlu login sebagai pasien atau dokter untuk mengakses laman konsultasi!")
+                                }} 
+                                className="title-home-mobile" style={{fontWeight:"normal"}}
+                            >
                                 Konsultasi Online
                             </Text>
                         }
