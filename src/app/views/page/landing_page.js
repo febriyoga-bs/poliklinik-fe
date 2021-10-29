@@ -8,6 +8,7 @@ import poli from "../../../assets/poli.jpg"
 import poli2 from "../../../assets/poli2.jpg"
 import { APIServices }  from '../../service';
 import useWindowDimensions from '../../component/size-window'
+import moment from 'moment';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -17,6 +18,14 @@ const LandingPage = () => {
     const [dataProfil, setDataProfil] = useState([]);
     const [loading, setLoading] = useState(false);
     const { height, width } = useWindowDimensions();
+    const [currentTime, setCurrentTime] = useState(moment().format("DD/MM/YYYY HH:mm:ss"));
+    
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            setCurrentTime(moment().format("DD/MM/YYYY HH:mm:ss"))
+          }, 1000);
+          return () => clearInterval(interval);
+    }, [])
 
     useEffect(()=>{
         getDataProfil()
@@ -44,11 +53,22 @@ const LandingPage = () => {
             <Content className="layout-home">
                 <Image 
                     src={width>550 ? poli : poli2} 
-                    style={{position:"fixed", width:"100%", minHeight:"100vh"}} 
+                    style={{position:"fixed", width:"100vw"}} 
                     preview={false}
                 >
                 </Image>
             
+                <Row 
+                    justify="center"
+                    align="middle"
+                    style={{position:"fixed", marginTop: 60, width:160, height:80, backgroundColor: "#EB3D00", borderRadius:"0px 0px 10px 0px"}}
+                >
+                    <Text style={{fontSize:"1em", textAlign:"center", color:"#FFF"}}>
+                        {currentTime} <br></br>
+                        <b>Poliklinik Buka</b> <br></br>
+                        (09.00 - 12.00)
+                    </Text>
+                </Row>
                 {loading ?
                     <Row justify="center" align="middle" style={{minHeight:600}}>
                         <Spin indicator={antIcon} /> 
