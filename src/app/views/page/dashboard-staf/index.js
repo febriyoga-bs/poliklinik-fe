@@ -20,12 +20,14 @@ import FormDataDokter from "../form_data_dokter";
 import FormDataStaf from "../form_data_staf";
 import FormDataKunjungan from "../form_data_kunjungan";
 import RekamMedis from "../rekam_medis";
-import Auth from '../../../service/auth'
+import Auth from '../../../service/auth';
+import useWindowDimensions from '../../../component/size-window';
 
 const {SubMenu} = Menu;
 
 const DashboardStaf = (props) => {
     const history = useHistory();
+    const { height, width } = useWindowDimensions();
     const [path, setPath] = useState("");
     const [role, setRole] = useState(4);
 
@@ -81,7 +83,7 @@ const DashboardStaf = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const [collumnProp, setCollumnProp] = useState({span: 20, offset: 4});
     const [padding, setPadding] = useState(260)
-    const [width, setWidth] = useState(250)
+    const [widthMenu, setWidth] = useState(250)
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
         if(collapsed){
@@ -141,7 +143,7 @@ const DashboardStaf = (props) => {
                         mode="inline"
                         theme="dark"
                         inlineCollapsed={collapsed}
-                        style={{minWidth:width, maxWidth:width, height:"100vh", paddingTop: 85, position:"fixed", zIndex:1}}
+                        style={{minWidth:widthMenu, maxWidth:widthMenu, height:"100vh", paddingTop: 85, position:"fixed", zIndex:1}}
                     >
                         <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 5 }}>
                             {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
@@ -192,6 +194,7 @@ const DashboardStaf = (props) => {
                     </Menu>
                 </Col>
 
+                {!(width < 600 && !collapsed) &&
                 <Col span={24} style={{paddingLeft:padding}}
                 // offset={collumnProp.offset} span={collumnProp.span} 
                 >
@@ -225,6 +228,7 @@ const DashboardStaf = (props) => {
                         </Switch>
                     </Row>
                 </Col>
+                }
             </Row>
         </Layout>
     );

@@ -14,6 +14,7 @@ import AmbilAntrean from "./app/views/page/layanan_ambil_antrean";
 import PanggilAntrean from "./app/views/page/layanan_panggil_antrean";
 import Konsultasi from "./app/views/page/layanan_konsultasi";
 import Informasi from "./app/views/page/informasi";
+import Bantuan from "./app/views/page/bantuan";
 import DashboardPasien from "./app/views/page/dashboard-pasien";
 import DashboardDokter from "./app/views/page/dashboard-dokter";
 import DashboardStaf from "./app/views/page/dashboard-staf";
@@ -119,7 +120,7 @@ import Template from "./app/views/page/template";
             
             <PrivateRoute exact path="/konsultasi-online" component={Konsultasi} />
             <Route exact path="/informasi" component={Informasi} />
-            <Route exact path="/bantuan" component={Template} />
+            <Route exact path="/bantuan" component={Bantuan} />
             <PrivateRoute exact path="/dashboard-pasien" component={DashboardPasien} />
             <PrivateRouteDokter exact path="/dashboard-dokter" component={DashboardDokter} />
             <PrivateRouteAdmin exact path="/dashboard-admin" component={DashboardStaf} />

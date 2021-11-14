@@ -30,7 +30,7 @@ function App() {
 const App = () => {
 
   return (
-    <Layout className="app-layout">
+    <Layout>
       <Routes/>
     </Layout>
   )

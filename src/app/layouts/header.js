@@ -1,22 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { Layout, Typography, Row, Col, Button, Image, Dropdown, Menu, message} from "antd";
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
+import { UserOutlined, MenuOutlined, BellFilled, BellOutlined } from '@ant-design/icons';
 import { withRouter, NavLink, useHistory } from "react-router-dom";
 import Auth from "../service/auth"
 import Logo from "../../assets/logo.jpg";
 import NavbarMenu from '../views/drawer/menu';
+import Notifikasi from '../views/drawer/notifikasi';
 
 const { Text } = Typography;
 
 const HeaderLayout = (props) => {
     const history = useHistory();
     const [visibleMenu, setVisibleMenu] = useState(false);
+    const [visibleNotifikasi, setVisibleNotifikasi] = useState(false);
+    const [listNotifikasi, setListNotifikasi] = useState([])
 
     const handleDrawerMenu = () => {
         setVisibleMenu(!visibleMenu);
     };
 
+    const handleDrawerNotifikasi = () => {
+        setVisibleNotifikasi(!visibleNotifikasi);
+    };
 
     let _role = JSON.parse(localStorage.getItem('role'));
     let login_time = JSON.parse(localStorage.getItem('login'));
@@ -110,16 +116,29 @@ const HeaderLayout = (props) => {
                         </NavLink>
                     </Menu.Item>
                     <Menu.Item key="4">
-                        {/* <NavLink to="/bantuan" className="title-navmenu" activeStyle={{color: '#fff279'}}>
+                        <NavLink to="/bantuan" className="title-navmenu">
                             BANTUAN
-                        </NavLink> */}
-                        <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-navmenu">
+                        </NavLink>
+                        {/* <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-navmenu">
                             BANTUAN
-                        </Text>
+                        </Text> */}
                     </Menu.Item>
-                    <Menu.Item key="5">
+                    {Auth.isLogin() &&
+                        <Menu.Item key="5">
+                            <Button className="title-navmenu" type="text" onClick={handleDrawerNotifikasi}>
+                                <Text className="title-navmenu">
+                                    {(listNotifikasi.length > 0) ? 
+                                        <BellFilled style={{fontSize:20, margin:0}}/> 
+                                    :
+                                        <BellOutlined style={{fontSize:20, margin:0}}/> 
+                                    }  
+                                </Text>
+                            </Button>
+                        </Menu.Item>
+                    }
+                    <Menu.Item key="6">
                         <div className="login-button">
-                        {Auth.isLogin()? 
+                        {Auth.isLogin() ? 
                             <Button type='primary' className="app-btn primary" onClick={gotoDashboard}>
                                 <UserOutlined style={{fontSize:20}}/> DASHBOARD
                             </Button>
@@ -133,7 +152,19 @@ const HeaderLayout = (props) => {
                     
                     </Menu>
                 </Col>
+                
                 <Col className="title-navmenu-mobile">
+                    {Auth.isLogin() &&
+                        <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerNotifikasi}>
+                            <Text className="title-navmenu-mobile">
+                                {(listNotifikasi.length > 0) ? 
+                                    <BellFilled style={{fontSize:30, margin:0}}/> 
+                                :
+                                    <BellOutlined style={{fontSize:30, margin:0}}/> 
+                                }  
+                            </Text>
+                        </Button>
+                    }
                     <Button className="title-navmenu-mobile" type="text" onClick={handleDrawerMenu} >
                         <Text>
                             <MenuOutlined className="title-navmenu-mobile" style={{fontSize:30, color: "#FFF"}}/>
@@ -146,6 +177,11 @@ const HeaderLayout = (props) => {
                 visible={visibleMenu}
                 handleDashboard={() => {handleDrawerMenu(); gotoDashboard()}}
                 handleLogin={() => {handleDrawerMenu(); gotoLogin()}}
+                role={role}
+            />
+            <Notifikasi
+                buttonCancel={handleDrawerNotifikasi}
+                visible={visibleNotifikasi}
                 role={role}
             />
         </Layout>

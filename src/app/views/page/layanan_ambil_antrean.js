@@ -5,6 +5,7 @@ import { HomeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { APIServices } from '../../service'
 import Auth from "../../service/auth";
 import { dialog } from '../../component/alert'
+import TabelPasien from '../modal/tabel_pasien'
 import moment from 'moment';
 
 import Echo from 'laravel-echo';
@@ -18,57 +19,57 @@ const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
 const AmbilAntrean = (props) => {
     const [loadingButton, setLoadingButton] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [dataPasien, setDataPasien] = useState([]);
+    const [showPilihPasien, setShowPilihPasien] = useState(false);
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
     const [newAntrean, setNewAntrean] = useState("-");
-    const [idPasien, setIDPasien] = useState(null);
+    const [selectedPasien, setSelectedPasien] = useState(null);
     const [antreanExist, setAntreanExist] = useState(false)
     const [noAntrean, setNoAntrean] = useState(null)
     const [sisaAntrean, setSisaAntrean] = useState(null)
 
     useEffect(()=>{
-        window.Echo = new Echo({
-            authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-            broadcaster: 'pusher',
-            key: "anyKey",
-            wsHost: "25.70.2.196",
-            wsPort: 6001,
-            disableStats: true,
-            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-        });
+        // window.Echo = new Echo({
+        //     // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+        //     broadcaster: 'pusher',
+        //     key: "anyKey",
+        //     wsHost: "kota101.studio",
+        //     wsPort: 6001,
+        //     disableStats: true,
+        //     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        // });
 
-        let echo = window.Echo;
+        // let echo = window.Echo;
 
-        if(props.location.state.poli === "umum"){
-            echo.channel('antre')
-                .listen('AntreanSentUmum', (e) => {
-                    console.log("log event: ", e);
-                    getAntreanUmum()
-                    getNewAntrean(1)
-                    getLastAntreanUmum()
-                })
-                .listen('AntreanUpdateUmum', (e) => {
-                    console.log(e);
-                    getAntreanUmum()
-                    getNewAntrean(1)
-                    getLastAntreanUmum()
-                })
-        } else {
-            echo.channel('antre')
-                .listen('AntreanSentGigi', (e) => {
-                    console.log(e);
-                    getAntreanGigi()
-                    getNewAntrean(2)
-                    getLastAntreanGigi()
-                })
-                .listen('AntreanUpdateGigi', (e) => {
-                    console.log(e);
-                    getAntreanGigi()
-                    getNewAntrean(2)
-                    getLastAntreanGigi()
-                })
-        }
+        // if(props.location.state.poli === "umum"){
+        //     echo.channel('antre')
+        //         .listen('AntreanSentUmum', (e) => {
+        //             console.log("log event: ", e);
+        //             getAntreanUmum()
+        //             getNewAntrean(1)
+        //             getLastAntreanUmum()
+        //         })
+        //         .listen('AntreanUpdateUmum', (e) => {
+        //             console.log(e);
+        //             getAntreanUmum()
+        //             getNewAntrean(1)
+        //             getLastAntreanUmum()
+        //         })
+        // } else {
+        //     echo.channel('antre')
+        //         .listen('AntreanSentGigi', (e) => {
+        //             console.log(e);
+        //             getAntreanGigi()
+        //             getNewAntrean(2)
+        //             getLastAntreanGigi()
+        //         })
+        //         .listen('AntreanUpdateGigi', (e) => {
+        //             console.log(e);
+        //             getAntreanGigi()
+        //             getNewAntrean(2)
+        //             getLastAntreanGigi()
+        //         })
+        // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -88,30 +89,8 @@ const AmbilAntrean = (props) => {
             getAntreanGigi()
             getNewAntrean(2);
         }
-        getDataPasien()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const getDataPasien = (nama, kategori, current, limit) => {
-        setLoading(true);
-        APIServices.getAllPasien().then(res => {
-            console.log(res)
-                if(res.data){
-                    let _data = Object.values(res.data.data)
-                    let _meta = _data.pop()
-                    console.log("Pagination: ", _meta)
-                    
-                    setDataPasien(_data);
-                    setLoading(false)
-                }
-            }).catch(err => {
-                if(err){
-                    //setDataPasien(Dummy.dataPasien);
-                    setDataPasien([]);
-                    console.log(err.response)
-                    setLoading(false)
-                }
-            })
-        }
 
     const getNewAntrean = (id_poli) => {
         setLoading(true);
@@ -221,11 +200,12 @@ const AmbilAntrean = (props) => {
         }
 
     const ambilAntrean = (data) => {
-                           
         let body = {
             id_poli: props.location.state.poli === "umum" ? 1 : 2,
             id_pasien: (role === 1 || role === 2 || role === 4 || role === 5) ? 
-                idPasien : JSON.parse(localStorage.getItem('id_pasien')),
+                (selectedPasien ? selectedPasien.id_pasien : "") 
+                : 
+                JSON.parse(localStorage.getItem('id_pasien')),
         }
         setLoadingButton(true);
 
@@ -238,30 +218,38 @@ const AmbilAntrean = (props) => {
         //     setLoading(false);
         // })
 
-        APIServices.postAntrean(body).then(res => {
+        let isExist = dataAntrean.some(item => item.id_pasien === body.id_pasien)
+        if(!isExist){
+            APIServices.postAntrean(body).then(res => {
+                setLoadingButton(false);
+                if(res.data){
+                    dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+                        if(props.location.state.poli === "umum"){
+                            getLastAntreanUmum()
+                            getAntreanUmum()
+                            getNewAntrean(1);
+                        } else {
+                            getLastAntreanGigi()
+                            getAntreanGigi()
+                            getNewAntrean(2);
+                        }
+                        console.log("Berhasil");
+                    })
+                }
+            }).catch(err => {
+                setLoadingButton(false);
+                if(err){
+                    dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
+                        console.log("Gagal");
+                    })
+                }
+            })
+        } else {
+            dialog({icon: "error", title:"Pasien sudah berada dalam Antrean!"}).then(()=>{
+                console.log("Gagal");
+            })
             setLoadingButton(false);
-            if(res.data){
-                dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
-                    if(props.location.state.poli === "umum"){
-                        getLastAntreanUmum()
-                        getAntreanUmum()
-                        getNewAntrean(1);
-                    } else {
-                        getLastAntreanGigi()
-                        getAntreanGigi()
-                        getNewAntrean(2);
-                    }
-                    console.log("Berhasil");
-                })
-            }
-        }).catch(err => {
-            setLoadingButton(false);
-            if(err){
-                dialog({icon: "error", title:"Ambil Nomor Antrean Gagal!"}).then(()=>{
-                    console.log("Gagal");
-                })
-            }
-        })
+        }
     }
 
     const columnsAntrean = [
@@ -335,20 +323,32 @@ const AmbilAntrean = (props) => {
                             
                             {Auth.isLogin() && (role === 1 || role === 2 || role === 4 || role === 5) &&
                                 <>
-                                <Row justify="center" style={{marginTop:20}}>
-                                    <Text className="title-label">Pilih Pasien</Text>
-                                </Row>
                                 <Row justify="center">
-                                    <Select className="input-form secondary" allowClear
-                                        style={{width:"80%"}}
-                                        onChange={(val) => setIDPasien(val)}
-                                    >
-                                        {dataPasien.map(item => (
-                                            <Option key={item.id_pasien} value={item.id_pasien}>
-                                                {item.kode_pasien+"-"+item.nama}
-                                            </Option>
-                                        ))}
-                                    </Select>
+                                    {selectedPasien ? 
+                                        <>
+                                        <Text ellipsis style={{color:"#EB3D00", fontWeight:"bold", marginTop: 20}}>
+                                            {selectedPasien.kode_pasien+" | "+selectedPasien.nama}
+                                        </Text>
+                                        <Button type='text' info style={{color: "#072A6F"}} 
+                                            loading={loadingButton}
+                                            onClick={() => {
+                                                setShowPilihPasien(true)
+                                            }}
+                                        >
+                                            Ganti Pasien
+                                        </Button>
+                                        </>
+                                    :
+                                        <Button type='text' info style={{marginTop: 20, color: "#072A6F"}} 
+                                            loading={loadingButton}
+                                            onClick={() => {
+                                                setShowPilihPasien(true)
+                                            }}
+                                        >
+                                            Pilih Pasien
+                                        </Button>
+                                    }
+                                    
                                 </Row>
                                 </>
                             }
@@ -453,6 +453,12 @@ const AmbilAntrean = (props) => {
                         </Card>
                     </Col>
                 </Row>
+                <TabelPasien
+                    visible={showPilihPasien}
+                    buttonCancel={()=> {setShowPilihPasien(false)}}
+                    setSelectedPasien={setSelectedPasien}
+                    selectedPasien={selectedPasien}
+                />
             </Content>
         </Layout>
     );

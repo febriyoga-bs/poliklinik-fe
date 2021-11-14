@@ -48,7 +48,7 @@ const MenuDrawer = props => {
                 <SubMenu className="drawer-menu-layanan" key="sub1" title="LAYANAN" style={{paddingLeft:0}}>
                     <Menu.Item style={{backgroundColor:"transparent"}}>
                         <NavLink to="/antrean-poliklinik" onClick={props.buttonCancel} >  
-                            <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                            <Text className="title-home-mobile" style={{fontWeight:"normal", textAlign:"center", marginLeft:20}}>
                                 Antrean Poliklinik
                             </Text>
                         </NavLink>
@@ -57,7 +57,7 @@ const MenuDrawer = props => {
                         {props.role === 2 || props.role === 3 ? 
                             
                             <NavLink to="/konsultasi-online" onClick={props.buttonCancel}>  
-                                <Text className="title-home-mobile" style={{fontWeight:"normal"}}>
+                                <Text className="title-home-mobile" style={{fontWeight:"normal", textAlign:"center", marginLeft:20}}>
                                     Konsultasi Online
                                 </Text>
                             </NavLink>
@@ -67,7 +67,7 @@ const MenuDrawer = props => {
                                     props.buttonCancel()
                                     message.info("Anda perlu login sebagai pasien atau dokter untuk mengakses laman konsultasi!")
                                 }} 
-                                className="title-home-mobile" style={{fontWeight:"normal"}}
+                                className="title-home-mobile" style={{fontWeight:"normal", textAlign:"center", marginLeft:20}}
                             >
                                 Konsultasi Online
                             </Text>
@@ -90,12 +90,12 @@ const MenuDrawer = props => {
             
 
             <Row justify="center" style={{marginTop:20}}>
-                {/* <NavLink to="/bantuan" className="title-home-mobile" onClick={props.buttonCancel}>
+                <NavLink to="/bantuan" className="title-home-mobile" onClick={props.buttonCancel}>
                     BANTUAN
-                </NavLink> */}
-                <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-home-mobile">
+                </NavLink>
+                {/* <Text onClick={()=>message.info("Laman Bantuan belum tersedia")} className="title-home-mobile">
                     BANTUAN
-                </Text>
+                </Text> */}
             </Row>
                
         </Drawer>

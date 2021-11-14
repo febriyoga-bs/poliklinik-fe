@@ -50,10 +50,10 @@ const LandingPage = () => {
 
     return(
         <Layout>
-            <Content className="layout-home">
+            <Content className="layout-home" style={{}}>
                 <Image 
                     src={width>550 ? poli : poli2} 
-                    style={{position:"fixed", width:"100vw"}} 
+                    style={{position:"fixed", width:"100%", height:"100%", marginTop:(width>600 ? 0 : 40), backgroundColor: "#F0F0F0"}} 
                     preview={false}
                 >
                 </Image>
@@ -61,7 +61,7 @@ const LandingPage = () => {
                 <Row 
                     justify="center"
                     align="middle"
-                    style={{position:"fixed", marginTop: 60, width:160, height:80, backgroundColor: "#EB3D00", borderRadius:"0px 0px 10px 0px"}}
+                    style={{position:"fixed", marginTop: 60, width:160, height:80, backgroundColor: "#EB3D00", borderRadius:"0px 0px 10px 0px", zIndex: 10}}
                 >
                     <Text style={{fontSize:"1em", textAlign:"center", color:"#FFF"}}>
                         {currentTime} <br></br>
@@ -74,7 +74,7 @@ const LandingPage = () => {
                         <Spin indicator={antIcon} /> 
                     </Row>
                     :
-                    <Row style={{marginLeft:20, marginRight:20, marginTop:100, minHeight:(width>600 ? 600 : 1000)}}>
+                    <Row style={{marginLeft:20, marginRight:20, marginTop:(width>600 ? 100 : 150), minHeight:(width>600 ? 600 : 1000)}}>
                         <Col offset={(width>600) ? 10 : 0} xs={24} s={24} md={12} lg={12}>
                             <Fade>
                                 <Row style={{marginBottom:20}}>

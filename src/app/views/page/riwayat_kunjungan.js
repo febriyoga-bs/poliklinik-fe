@@ -27,6 +27,13 @@ const RiwayatKunjungan = () => {
         setVisibleModalEkspor(!visibleModalEkspor);
     };
 
+    const [role, setRole] = useState(0)
+    useEffect(()=> {
+        let _role = JSON.parse(localStorage.getItem('role'));
+        let login_time = JSON.parse(localStorage.getItem('login'));
+        setRole(_role/login_time)
+    }, [])
+
     useEffect(()=>{
         getRiwayatKunjungan(searchKey, pagination.current,  pagination.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -171,16 +178,18 @@ const RiwayatKunjungan = () => {
                                 Data Riwayat Kunjungan
                             </Text>
                         </Row>
-                        <Row justify="end">
-                            <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
-                                onClick={() => {
-                                    //eksporRiwayatKunjungan();
-                                    handleModalEkspor();
-                                }}
-                            >
-                                Ekspor Riwayat Kunjungan
-                            </Button>
-                        </Row>
+                        {(role !== 3) &&
+                            <Row justify="end">
+                                <Button type='primary' className="app-btn secondary" info style={{marginTop: 10, marginRight: 10, backgroundColor:"#008000"}} 
+                                    onClick={() => {
+                                        //eksporRiwayatKunjungan();
+                                        handleModalEkspor();
+                                    }}
+                                >
+                                    Ekspor Riwayat Kunjungan
+                                </Button>
+                            </Row>
+                        }
                         <Table
                             columns={columnsPelayanan}
                             size="middle"

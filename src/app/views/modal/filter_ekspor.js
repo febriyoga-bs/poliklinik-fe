@@ -14,10 +14,13 @@ const FilterEkspor = (props) => {
     const currentYear = moment().format('YYYY')
 
     const eksporRiwayatKunjungan = (values) => {
-        let body = {
-            bulan: values.bulan ? values.bulan : "",
-            tahun: values.tahun ? Number(values.tahun) : ""
+        let body = {}
+
+        if(values.bulan && values.bulan!==0){
+            body.bulan = values.bulan
         }
+        body.tahun= values.tahun && Number(values.tahun)
+
         console.log("body: ", body)
         setLoading(true);
 
@@ -98,7 +101,7 @@ const FilterEkspor = (props) => {
                     style={{marginBottom:30}}
                     >
                     <Select defaultValue="Semua" className="input-form">
-                        <Option value="">Semua</Option>
+                        <Option value={0}>Semua</Option>
                         <Option value={1}>Januari</Option>
                         <Option value={2}>Februari</Option>
                         <Option value={3}>Maret</Option>
@@ -118,9 +121,10 @@ const FilterEkspor = (props) => {
                     name="tahun"
                     required
                     style={{marginBottom:30}}
+                    initialValue={currentYear}
                     >
-                    <Select defaultValue="Semua" className="input-form">
-                        <Option value="">Semua</Option>
+                    <Select defaultValue={currentYear} className="input-form">
+                        {/* <Option value="">Semua</Option> */}
                         {rangeYear.map(res => {
                             return <Option value={res.tahun}>{res.tahun}</Option>
                         })}
