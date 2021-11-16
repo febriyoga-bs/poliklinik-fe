@@ -323,12 +323,16 @@ const AmbilAntrean = (props) => {
                             
                             {Auth.isLogin() && (role === 1 || role === 2 || role === 4 || role === 5) &&
                                 <>
+                                {selectedPasien &&
+                                    <Row justify="center">
+                                        <Text ellipsis style={{color:"#EB3D00", fontWeight:"bold", marginTop: 20}}>
+                                                {selectedPasien.kode_pasien+" | "+selectedPasien.nama}
+                                        </Text>
+                                    </Row>
+                                }
                                 <Row justify="center">
                                     {selectedPasien ? 
                                         <>
-                                        <Text ellipsis style={{color:"#EB3D00", fontWeight:"bold", marginTop: 20}}>
-                                            {selectedPasien.kode_pasien+" | "+selectedPasien.nama}
-                                        </Text>
                                         <Button type='text' info style={{color: "#072A6F"}} 
                                             loading={loadingButton}
                                             onClick={() => {

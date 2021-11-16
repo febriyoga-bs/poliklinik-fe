@@ -15,9 +15,11 @@ const TabelPasien = (props) => {
     const [pagination, setPagination] = useState({current:1, pageSize:5, total:10});
 
     useEffect(()=>{
-        getDataPasien(searchKey, filterKey, pagination.current,  pagination.pageSize);
+        if(props.visible){
+            getDataPasien(searchKey, filterKey, pagination.current,  pagination.pageSize);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchKey, filterKey]);
+    }, [searchKey, filterKey, props.visible]);
 
     const getDataPasien = (nama, kategori, current, limit) => {
         setLoading(true);

@@ -12,6 +12,7 @@ import KelolaDataKunjungan from "../kelola_data_kunjungan";
 import FormDataKunjungan from "../form_data_kunjungan";
 import RekamMedis from "../rekam_medis";
 import Auth from '../../../service/auth'
+import useWindowDimensions from '../../../component/size-window';
 
 const {SubMenu} = Menu
 
@@ -39,6 +40,7 @@ const DashboardDokter = () => {
         history.push(loc);
     }
 
+    const { height, width } = useWindowDimensions();
     const [collapsed, setCollapsed] = useState(false);
     const [padding, setPadding] = useState(260)
     const toggleCollapsed = () => {
@@ -106,6 +108,7 @@ const DashboardDokter = () => {
                     </Menu>
                 </Col>
 
+                {!(width < 600 && !collapsed) &&
                 <Col span={24} style={{paddingLeft:padding}}>
                     <Row justify="center" style={{marginTop: 20}}>
                         <Switch>
@@ -119,6 +122,7 @@ const DashboardDokter = () => {
                         </Switch>
                     </Row>
                 </Col>
+                }
             </Row>
         </Layout>
     );

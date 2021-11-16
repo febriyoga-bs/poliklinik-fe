@@ -8,6 +8,7 @@ import Auth from '../../../service/auth'
 import ProfilPasien from "./profil-pasien";
 import FormDataPasien from "../form_data_pasien";
 import RiwayatKunjungan from "../riwayat_kunjungan";
+import useWindowDimensions from '../../../component/size-window';
 //import Dummy from '../../../dummy/dummy'
 
 const DashboardPasien = () => {
@@ -23,7 +24,8 @@ const DashboardPasien = () => {
         const loc = '/dashboard-pasien/riwayat-kunjungan';
         history.push(loc);
     }
-
+    
+    const { height, width } = useWindowDimensions();
     const [collapsed, setCollapsed] = useState(false);
     const [padding, setPadding] = useState(260)
     const toggleCollapsed = () => {
@@ -82,6 +84,7 @@ const DashboardPasien = () => {
                     </Menu>
                 </Col>
 
+                {!(width < 600 && !collapsed) &&
                 <Col span={24} style={{paddingLeft:padding, marginTop:20}}>
                     <Row justify="center">
                         <Switch>
@@ -92,6 +95,7 @@ const DashboardPasien = () => {
                         </Switch>
                     </Row>
                 </Col>
+                }
             </Row>
         </Layout>
     );

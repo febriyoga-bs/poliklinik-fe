@@ -53,7 +53,7 @@ const LandingPage = () => {
             <Content className="layout-home" style={{}}>
                 <Image 
                     src={width>550 ? poli : poli2} 
-                    style={{position:"fixed", width:"100%", height:"100%", marginTop:(width>600 ? 0 : 40), backgroundColor: "#F0F0F0"}} 
+                    style={{position:"fixed", width:"100%", height:(width<600 && "100%"), marginTop:(width>600 ? 0 : 40), backgroundColor: "#F0F0F0"}} 
                     preview={false}
                 >
                 </Image>
