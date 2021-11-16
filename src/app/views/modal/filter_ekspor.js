@@ -31,7 +31,11 @@ const FilterEkspor = (props) => {
                     const link = document.createElement('a');
                     link.href = url;
                     //let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Pasien(${body.bulan}-${body.tahun}).xlsx`); //or any other extension
+                    if(body.bulan){
+                        link.setAttribute('download', `Data_Pasien(${body.bulan}-${body.tahun}).xlsx`);
+                    } else {
+                        link.setAttribute('download', `Data_Pasien(${body.tahun}).xlsx`);
+                    }
                     document.body.appendChild(link);
                     link.click();
                     setLoading(false)
@@ -49,8 +53,12 @@ const FilterEkspor = (props) => {
                     const link = document.createElement('a');
                     link.href = url;
                     // let tanggal = moment().format('DD-MM-YYYY')
-                    link.setAttribute('download', `Data_Riwayat_Kunjungan(${body.bulan}-${body.tahun}).xlsx`); //or any other extension
-                    document.body.appendChild(link);
+                    if(body.bulan){
+                        link.setAttribute('download', `Data_Riwayat_Kunjungan(${body.bulan}-${body.tahun}).xlsx`); 
+                    } else {
+                        link.setAttribute('download', `Data_Riwayat_Kunjungan(${body.tahun}).xlsx`);
+                    }
+                     document.body.appendChild(link);
                     link.click();
                     setLoading(false)
                 }

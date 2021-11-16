@@ -347,11 +347,19 @@ const APIServices = {
     },
 
     getExportDataPasien(data){
+        let path = ""
+        if(data.tahun && data.bulan){
+            path =`year=${data.tahun}&month=${data.bulan}`
+        } else if(data.tahun){
+            path =`year=${data.tahun}`
+        } else {
+            return console.log("Export Gagal")
+        }
         return client.request(
             {
                 method: "get",
                 responseType: 'blob',
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getExportPasien?year=${data.tahun}&month=${data.bulan}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/pasien/getExportPasien?${path}`,
             },
         )    
     },
@@ -388,11 +396,19 @@ const APIServices = {
     },
 
     getExportRiwayatKunjungan(data){
+        let path = ""
+        if(data.tahun && data.bulan){
+            path =`year=${data.tahun}&month=${data.bulan}`
+        } else if(data.tahun){
+            path =`year=${data.tahun}`
+        } else {
+            return console.log("Export Gagal")
+        }
         return client.request(
             {
                 method: "get",
                 responseType: 'blob',
-                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getExportKunjungan?year=${data.tahun}&month=${data.bulan}`,
+                url: `${CONFIG_INITIAL_STATE.BASE_URL}/api/rekam_medis/getExportKunjungan?${path}`,
             },
         )    
     },
