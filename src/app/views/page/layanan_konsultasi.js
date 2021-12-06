@@ -35,36 +35,36 @@ const Konsultasi = () => {
 
     /* RENDER WHEN EVENT PUSH */
     useEffect(()=>{
-        // window.Echo = new Echo({
-        //     // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-        //     broadcaster: 'pusher',
-        //     key: "anyKey",
-        //     wsHost: "kota101.studio",
-        //     wsPort: 6001,
-        //     disableStats: true,
-        //     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-        // });
+        window.Echo = new Echo({
+            // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "api.kota101.studio",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
 
         
-        // let echo = window.Echo;
-        // console.log(echo)
-        // echo.channel('konsultasi')
-        //     .listen('CreateKonsultasi', (e) => {
-        //         console.log(e);
-        //         console.log(e['konsultasi'].original.data[0]);
-        //         // let _dataDokter = JSON.parse(localStorage.getItem('dataDokter'))
-        //         // console.log(_dataDokter)
-        //         // handleKonsultasi(e['konsultasi'].original.data[0], _dataDokter)
-        //         getDataDokter();
-        //     })
+        let echo = window.Echo;
+        console.log(echo)
+        echo.channel('konsultasi')
+            .listen('CreateKonsultasi', (e) => {
+                console.log(e);
+                console.log(e['konsultasi'].original.data[0]);
+                // let _dataDokter = JSON.parse(localStorage.getItem('dataDokter'))
+                // console.log(_dataDokter)
+                // handleKonsultasi(e['konsultasi'].original.data[0], _dataDokter)
+                getDataDokter();
+            })
 
-        //     .listen('CreatePesan', (e) => {
-        //         console.log(e);
-        //         console.log(e['pesan'].original.data[0]);
-        //         let _key = JSON.parse(localStorage.getItem('menukey'))
-        //         console.log(_key)
-        //         handlePesan(e['pesan'].original.data[0], _key)
-        //     })
+            .listen('CreatePesan', (e) => {
+                console.log(e);
+                console.log(e['pesan'].original.data[0]);
+                let _key = JSON.parse(localStorage.getItem('menukey'))
+                console.log(_key)
+                handlePesan(e['pesan'].original.data[0], _key)
+            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -74,37 +74,37 @@ const Antrean = () => {
 
     /* RENDER WHEN EVENT PUSH */
     useEffect(()=>{
-        // window.Echo = new Echo({
-        //     // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-        //     broadcaster: 'pusher',
-        //     key: "anyKey",
-        //     wsHost: "kota101.studio",
-        //     wsPort: 6001,
-        //     disableStats: true,
-        //     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-        // });
+        window.Echo = new Echo({
+            // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "api.kota101.studio",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
 
-        // console.log("Tes: ", window.Echo);
-        // let echo = window.Echo;
-        // echo.channel('antre')
-        //     .listen('AntreanSentUmum', (e) => {
-        //         getAntreanUmum()
-        //         console.log(e);
-        //     })
-        //     .listen('AntreanUpdateUmum', (e) => {
-        //         console.log(e);
-        //         getAntreanUmum()
-        //     })
+        console.log("Tes: ", window.Echo);
+        let echo = window.Echo;
+        echo.channel('antre')
+            .listen('AntreanSentUmum', (e) => {
+                getAntreanUmum()
+                console.log(e);
+            })
+            .listen('AntreanUpdateUmum', (e) => {
+                console.log(e);
+                getAntreanUmum()
+            })
 
-        // echo.channel('antre')
-        //     .listen('AntreanSentGigi', (e) => {
-        //         getAntreanGigi()
-        //         console.log(e);
-        //     })
-        //     .listen('AntreanUpdateGigi', (e) => {
-        //         console.log(e);
-        //         getAntreanGigi()
-        //     })
+        echo.channel('antre')
+            .listen('AntreanSentGigi', (e) => {
+                getAntreanGigi()
+                console.log(e);
+            })
+            .listen('AntreanUpdateGigi', (e) => {
+                console.log(e);
+                getAntreanGigi()
+            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

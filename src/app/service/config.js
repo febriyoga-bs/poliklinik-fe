@@ -12,7 +12,7 @@ const isProd = true
 
 export default  {
     isServer: isProd ? 'Production' : 'Development',
-    BASE_URL: isProd ? "https://kota101.studio" : BASE_URL_BE,
+    BASE_URL: isProd ? "https://api.kota101.studio" : BASE_URL_BE,
     COPYRIGHT: 'KOTA 101',
     VERSION: '1.0.1',
     TIMEOUT: 6000,

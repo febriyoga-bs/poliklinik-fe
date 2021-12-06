@@ -29,47 +29,47 @@ const AmbilAntrean = (props) => {
     const [sisaAntrean, setSisaAntrean] = useState(null)
 
     useEffect(()=>{
-        // window.Echo = new Echo({
-        //     // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-        //     broadcaster: 'pusher',
-        //     key: "anyKey",
-        //     wsHost: "kota101.studio",
-        //     wsPort: 6001,
-        //     disableStats: true,
-        //     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-        // });
+        window.Echo = new Echo({
+            // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "api.kota101.studio",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
 
-        // let echo = window.Echo;
+        let echo = window.Echo;
 
-        // if(props.location.state.poli === "umum"){
-        //     echo.channel('antre')
-        //         .listen('AntreanSentUmum', (e) => {
-        //             console.log("log event: ", e);
-        //             getAntreanUmum()
-        //             getNewAntrean(1)
-        //             getLastAntreanUmum()
-        //         })
-        //         .listen('AntreanUpdateUmum', (e) => {
-        //             console.log(e);
-        //             getAntreanUmum()
-        //             getNewAntrean(1)
-        //             getLastAntreanUmum()
-        //         })
-        // } else {
-        //     echo.channel('antre')
-        //         .listen('AntreanSentGigi', (e) => {
-        //             console.log(e);
-        //             getAntreanGigi()
-        //             getNewAntrean(2)
-        //             getLastAntreanGigi()
-        //         })
-        //         .listen('AntreanUpdateGigi', (e) => {
-        //             console.log(e);
-        //             getAntreanGigi()
-        //             getNewAntrean(2)
-        //             getLastAntreanGigi()
-        //         })
-        // }
+        if(props.location.state.poli === "umum"){
+            echo.channel('antre')
+                .listen('AntreanSentUmum', (e) => {
+                    console.log("log event: ", e);
+                    getAntreanUmum()
+                    getNewAntrean(1)
+                    getLastAntreanUmum()
+                })
+                .listen('AntreanUpdateUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getNewAntrean(1)
+                    getLastAntreanUmum()
+                })
+        } else {
+            echo.channel('antre')
+                .listen('AntreanSentGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getNewAntrean(2)
+                    getLastAntreanGigi()
+                })
+                .listen('AntreanUpdateGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getNewAntrean(2)
+                    getLastAntreanGigi()
+                })
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -224,6 +224,7 @@ const AmbilAntrean = (props) => {
                 setLoadingButton(false);
                 if(res.data){
                     dialog({icon: "success", title:"Ambil Nomor Antrean Berhasil!"}).then(()=>{
+                        setSelectedPasien(null)
                         if(props.location.state.poli === "umum"){
                             getLastAntreanUmum()
                             getAntreanUmum()

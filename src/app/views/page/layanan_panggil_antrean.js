@@ -19,53 +19,53 @@ const PanggilAntrean = (props) => {
     const [dataAntrean, setDataAntrean] = useState([]);
     const [lastAntrean, setLastAntrean] = useState([]);
     const { speak, voices} = useSpeechSynthesis();
-    // const SpeechSynthesisVoice = [{
-    //     default: false,
-    //     lang: "id-ID",
-    //     localService: true,
-    //     name: "Karen",
-    //     voiceURI: "Karen",
-    // }]
+    const SpeechSynthesisVoice = [{
+        default: false,
+        lang: "id-ID",
+        localService: true,
+        name: "Karen",
+        voiceURI: "Karen",
+    }]
 
     useEffect(()=>{
-        // window.Echo = new Echo({
-        //     // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
-        //     broadcaster: 'pusher',
-        //     key: "anyKey",
-        //     wsHost: "kota101.studio",
-        //     wsPort: 6001,
-        //     disableStats: true,
-        //     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-        // });
+        window.Echo = new Echo({
+            // authEndpoint: "http://25.70.2.196:8000/laravel-websockets/auth",
+            broadcaster: 'pusher',
+            key: "anyKey",
+            wsHost: "kota101.studio",
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false // Critical if you want to use a non-secure WebSocket connection
+        });
 
-        // console.log("Tes: ", window.Echo);
-        // let echo = window.Echo;
+        console.log("Tes: ", window.Echo);
+        let echo = window.Echo;
 
-        // if(props.location.state.poli === "umum"){
-        //     echo.channel('antre')
-        //         .listen('AntreanSentUmum', (e) => {
-        //             console.log(e);
-        //             getAntreanUmum()
-        //             getLastAntreanUmum()
-        //         })
-        //         .listen('AntreanUpdateUmum', (e) => {
-        //             console.log(e);
-        //             getAntreanUmum()
-        //             getLastAntreanUmum()
-        //         })
-        // } else {
-        //     echo.channel('antre')
-        //         .listen('AntreanSentGigi', (e) => {
-        //             console.log(e);
-        //             getAntreanGigi()
-        //             getLastAntreanGigi()
-        //         })
-        //         .listen('AntreanUpdateGigi', (e) => {
-        //             console.log(e);
-        //             getAntreanGigi()
-        //             getLastAntreanGigi()
-        //         })
-        // }
+        if(props.location.state.poli === "umum"){
+            echo.channel('antre')
+                .listen('AntreanSentUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+                .listen('AntreanUpdateUmum', (e) => {
+                    console.log(e);
+                    getAntreanUmum()
+                    getLastAntreanUmum()
+                })
+        } else {
+            echo.channel('antre')
+                .listen('AntreanSentGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+                .listen('AntreanUpdateGigi', (e) => {
+                    console.log(e);
+                    getAntreanGigi()
+                    getLastAntreanGigi()
+                })
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -233,11 +233,34 @@ const PanggilAntrean = (props) => {
                     </Button>
                   </Col>
                   <Col>
+                  {/* <Speech 
+                        styles={{
+                            play: {
+                              hover: {
+                                backgroundColor: 'black',
+                                color:'white'
+                              },
+                              button: {
+                                padding:'4',
+                                fontFamily: 'Helvetica',
+                                fontSize: '1.0em',
+                                cursor: 'pointer',
+                                pointerEvents: 'none',
+                                outline: 'none',
+                                backgroundColor: 'inherit',
+                                border: 'none'
+                              },
+                            }
+                        }}
+                        displayText="Panggil" 
+                        text={`Nomor Antrian ${record.no_antrean} dengan nama ${record.nama} harap memasuki ruang pemeriksaan`} 
+                        lang="id-ID"
+                        voice="Andika" /> */}
                     <Button 
                         onClick={() => {
                             speak({ 
                                 text: `Nomor Antrean ${record.no_antrean} harap memasuki ruang pemeriksaan`,
-                                voice: voices[8],
+                                voice: voices[10],
                                 lang: "id-ID",
                                 rate: 0.9,
                                 pitch: 1
