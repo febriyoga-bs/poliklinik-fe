@@ -350,7 +350,7 @@ const Register = () => {
     return(
         <Layout style={{backgroundColor: "#072A6F"}}>
             <Content className="layout-content">
-                <Row justify="center" align="middle" style={{minHeight: 540}}>
+                <Row justify="center" align="middle" style={{minHeight: 540, marginTop:40}}>
                     <Col md={14} lg={14}>
                         <Row justify="center">
                             <Text className="title-welcome">

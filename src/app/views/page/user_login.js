@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { withRouter, useHistory } from 'react-router-dom';
-import { Layout, Row, Col, Typography, Card, Form, Input, Button, message } from 'antd';
+import { Layout, Row, Col, Typography, Card, Form, Input, Image, Button, message } from 'antd';
 import { LockOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import VerifikasiAkun from '../modal/verifikasi_akun'
 import Auth from '../../service/auth'
 import moment from 'moment';
+import poli from "../../../assets/poli.jpg"
+import poli2 from "../../../assets/poli2.jpg"
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -118,8 +120,16 @@ const LoginUser = () => {
                     buttonCancel={handleModal}
                     visible={visibleModal}
                 />
-                <Row justify="center" align="middle" style={{minHeight: 540}}>
+                <Row justify="center" align="middle" style={{minHeight: 540, marginTop:40}}>
                     <Col md={14} lg={14}>
+                        {/* <Row justify="center">
+                            <Image 
+                                src={poli} 
+                                style={{width:300, backgroundColor: "#F0F0F0", borderRadius:10}} 
+                                preview={false}
+                            >
+                            </Image>
+                        </Row> */}
                         <Row justify="center">
                             <Text className="title-welcome">
                                 Selamat datang di Website <br></br>

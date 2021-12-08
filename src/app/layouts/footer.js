@@ -14,8 +14,8 @@ const FooterLayout = (props) => {
     // }
 
     return(
-        <Layout className="footer" style={{width:width}}>
-            <Row align='middle' justify="center" style={{minHeight:'100%', padding:15}}>
+        <Layout className="footer" style={{width:"100%"}}>
+            <Row align='middle' justify="center" style={{minHeight:'100%', paddingBottom:15, paddingTop:15}}>
                 <Col>
                     <Row justify="center">
                         <Text className="title-footer">
