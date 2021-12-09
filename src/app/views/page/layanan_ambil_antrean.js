@@ -433,7 +433,7 @@ const AmbilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    dr. Eva Dianita
+                                    {props.location.state.poli === "umum" ? "dr. Eva Dianita" : "drg. Weni Fitriani"} 
                                 </Text>
                             </Row>
                         </>

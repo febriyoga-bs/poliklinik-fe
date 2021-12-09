@@ -260,7 +260,7 @@ const PanggilAntrean = (props) => {
                         onClick={() => {
                             speak({ 
                                 text: `Nomor Antrean ${record.no_antrean} harap memasuki ruang pemeriksaan`,
-                                voice: voices[10],
+                                voice: voices[11],
                                 lang: "id-ID",
                                 rate: 0.9,
                                 pitch: 1
@@ -357,7 +357,7 @@ const PanggilAntrean = (props) => {
                             </Row>
                             <Row justify="center">
                                 <Text style={{color:"#EB3D00", fontWeight:"bold"}}>
-                                    dr. Eva Dianita
+                                    {props.location.state.poli === "umum" ? "dr. Eva Dianita" : "drg. Weni Fitriani"} 
                                 </Text>
                             </Row>
                         </>
