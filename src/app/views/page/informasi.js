@@ -441,12 +441,12 @@ const Informasi = () => {
     ]
 
     return(
-        <Layout style={{backgroundColor: "#072A6F", minWidth: 700}}>
+        <Layout style={{backgroundColor: "#072A6F", overflowX: "auto"}}>
             <Content className="layout-content">
                 <Breadcrumb style={{marginTop: 20, marginLeft:40, marginBottom:20, color:"#FFF"}} separator=">">
                     <Breadcrumb.Item href="/">
-                        <Text className="title">
-                            <HomeOutlined />
+                        <Text className="title">, 
+                            <HomeOutlined />,
                         </Text>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href="/informasi">

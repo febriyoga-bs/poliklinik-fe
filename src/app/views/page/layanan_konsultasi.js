@@ -288,7 +288,7 @@ const Konsultasi = () => {
                         type: 'text',
                         text: values.pesan,
                         dateString: "Baru saja",
-                        // status: "waiting"
+                        status: "waiting"
                     }
                 )
             setDataPesan(_dataPesan)
@@ -306,7 +306,7 @@ const Konsultasi = () => {
                 }
               }).catch(err => {
                 if(err){
-                    // message.error("Gagal Mengirim Pesan!")
+                    message.error("Gagal Mengirim Pesan!")
                     // dialog({icon: "error", title:"Gagal Mengirim Pesan!"}).then(()=>{
                     //     console.log(err);
                     // })
