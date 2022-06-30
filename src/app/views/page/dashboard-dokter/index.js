@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter, useHistory, Route, Redirect, Switch } from 'react-router-dom';
 import { Layout, Row, Col, Button, Menu} from 'antd';
-import { UserOutlined, DesktopOutlined, ContainerOutlined,
+import { UserOutlined, DesktopOutlined, ContainerOutlined, MedicineBoxOutlined,
          MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import { logoutDialog } from '../../../component/alert'
 import ProfilDokter from "./profil-dokter";
@@ -10,6 +10,7 @@ import FormDataDokter from "../form_data_dokter";
 import KelolaRekamMedis from "../kelola_rekam_medis";
 import KelolaDataKunjungan from "../kelola_data_kunjungan";
 import FormDataKunjungan from "../form_data_kunjungan";
+import DataObat from "../data-obat";
 import RekamMedis from "../rekam_medis";
 import Auth from '../../../service/auth'
 import useWindowDimensions from '../../../component/size-window';
@@ -30,13 +31,17 @@ const DashboardDokter = () => {
     }
 
     const gotoKonsultasiOnline = () => {
-        //message.info("Laman Konsultasi Online belum Tersedia");
         const loc = '/konsultasi-online';
         history.push(loc);
     }
 
     const gotoRiwayatKunjungan = () => {
         const loc = '/dashboard-dokter/riwayat-kunjungan';
+        history.push(loc);
+    }
+
+    const gotoDataObat = () => {
+        const loc = '/dashboard-dokter/data-obat';
         history.push(loc);
     }
 
@@ -87,6 +92,9 @@ const DashboardDokter = () => {
                             <Menu.Item key="/dashboard-dokter/kelola-rekam-medis/gigi" 
                                 onClick={() => gotoKelolaRekamMedis("gigi")}>Rekam Medis Gigi</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="/dashboard-dokter/data-obat" onClick={gotoDataObat} icon={<MedicineBoxOutlined />}>
+                            Data Obat
+                        </Menu.Item>
                         <Menu.Item key="3" onClick={gotoKonsultasiOnline} icon={<DesktopOutlined />}>
                             Konsultasi Online
                         </Menu.Item>
@@ -114,6 +122,7 @@ const DashboardDokter = () => {
                         <Switch>
                             <PrivateRouteDokter exact path="/dashboard-dokter" component={ProfilDokter} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/edit-profil" component={FormDataDokter} />
+                            <PrivateRouteDokter exact path="/dashboard-dokter/data-obat" component={DataObat} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli" component={KelolaRekamMedis} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien" component={KelolaDataKunjungan} />
                             <PrivateRouteDokter exact path="/dashboard-dokter/kelola-rekam-medis/:poli/data-kunjungan/:id_pasien/catat-kunjungan" component={FormDataKunjungan} />

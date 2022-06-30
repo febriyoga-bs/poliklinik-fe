@@ -19,6 +19,15 @@ client.interceptors.request.use(
     }
 );
 
+const tokenApoteker = "$2y$10$6f9Ny.79nNNQ7CTkX.exyuSMz1Q7BiUuaysg7.cqbXbxv1FOOW6EC";
+const dataObatInstance = axios.create({
+      baseUrl: "https://api.obat-poliklinik-polban.com/",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tokenApoteker,
+      },
+    });
+
 const APIServices = {
     // User //
     register(data){
@@ -557,6 +566,17 @@ const APIServices = {
             { crossdomain: true }
         )
     },
+
+    getDataObat(){
+        return dataObatInstance.request(
+            {
+                method: "get",
+                url: "https://api.obat-poliklinik-polban.com/api/obat/indexObat",
+                params: ""
+            },
+            { crossdomain: true }
+        )
+    }
 }
 
 export { APIServices }
