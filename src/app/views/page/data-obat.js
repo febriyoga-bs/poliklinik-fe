@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, NavLink } from 'react-router-dom';
 import { Layout, Breadcrumb, Row, Col, Card, Typography, Table, DatePicker, Button} from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, InfoOutlined } from '@ant-design/icons';
 import { APIServices }  from '../../service';
-import DetailPasien from '../modal/detail_pasien'
+import DetailObat from '../modal/detail_obat'
 import FilterEkspor from '../modal/filter_ekspor'
 import moment from 'moment';
 
@@ -75,7 +75,7 @@ const DataObat = () => {
             title: "ID Obat",
             dataIndex: 'idObat',
             key: 'id_obat',
-            width: '20%',
+            width: '10%',
             align: 'center',
             sorter: (a, b) => a.idObat - b.idObat,
         },
@@ -107,9 +107,9 @@ const DataObat = () => {
             title: "Tanggal Masuk",
             dataIndex: 'tanggalMasuk',
             key: 'tanggalMasuk',
-            width: '20%',
+            width: '15%',
             align: 'center',
-            sorter: (a, b) => a.tanggalMasuk - b.tanggalMasuk,
+            sorter: (a, b) => parseInt(a.tanggalMasuk.split("-").join()) - parseInt(b.tanggalMasuk.split("-").join()),
             render: (value) => {
                 let tanggal = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
 
@@ -122,14 +122,34 @@ const DataObat = () => {
             title: "Tanggal Kadaluarsa",
             dataIndex: 'tanggalKadaluarsa',
             key: 'tanggalKadaluarsa',
-            width: '20%',
+            width: '15%',
             align: 'center',
-            sorter: (a, b) => a.tanggalKadaluarsa - b.tanggalKadaluarsa,
+            sorter: (a, b) => parseInt(a.tanggalKadaluarsa.split("-").join()) - parseInt(b.tanggalKadaluarsa.split("-").join()),
             render: (value) => {
                 let tanggal = moment(value, 'YYYY-MM-DD').format('DD-MM-YYYY');
 
                 return (
                     <Text>{tanggal}</Text>
+                )
+            }
+        },
+        {
+            title: "Detail",
+            align: 'center',
+            render: (record) => {
+                return (
+                    <Row justify="center">
+                        <Button
+                            onClick={() => {
+                                setRecord(record)
+                                handleModal();
+                            }}
+                        >
+                            <Text style={{color: "#000"}}>
+                                <InfoOutlined style={{fontSize:20}}/>
+                            </Text>
+                        </Button>
+                    </Row>
                 )
             }
         },
@@ -162,8 +182,8 @@ const DataObat = () => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <DetailPasien
-                    dataPasien={record}
+                <DetailObat
+                    dataObat={record}
                     buttonCancel={handleModal}
                     visible={visibleModal}
                 />
